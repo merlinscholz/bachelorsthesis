@@ -1,0 +1,88 @@
+\documentclass[a4paper,twocolumn,abstract,DIV=16]{scrartcl}
+
+\usepackage[ngerman]{babel}
+\usepackage{csquotes}
+\usepackage{hyperref}
+\bibliographystyle{abbrv}
+
+
+\addtokomafont{disposition}{\rmfamily}
+\setkomafont{title}{\normalfont\bfseries\itshape}
+\makeatletter
+\patchcmd{\@maketitle}{\huge}{\large}{}{}
+\makeatother
+\setkomafont{author}{\normalsize}
+\addtokomafont{section}{\center\normalsize\MakeUppercase}
+\renewcommand{\thesection}{\Roman{section}} 
+
+
+\title{\uppercase{Kategorisieren von Bildern der Marsoberfläche durch Unsupervised Learning by Backpropagation}}
+\author{Merlin Scholz\\\small\href{mailto:merlin.scholz@tu-dortmund.de}{merlin.scholz@tu-dortmund.de}}
+\date{}
+
+\begin{document}
+
+
+
+
+\twocolumn[
+	\begin{@twocolumnfalse}
+		\vspace{-1.5cm}
+		\maketitle
+		\vspace{-1.5cm}
+		\begin{abstract}
+			\itshape
+			Um neuronale Netze zur Bildsegmentierung verwenden zu können, benötigt es einen Trainingsdatensatz, welcher zuvor von Hand kategorisiert werden muss. Da dies relativ zeitaufwändig ist, wird hier eine andere Methode vorgestellt, Neuronale Netze ohne vorherige Ground Truth zur Segmentierung zu verwenden. Dies geschieht dadurch, dass die jeweils generierte Segmentierung unter Anderem durch einen Superpixel-Algorithmus wie SLIC dazu lernt, und die so entstehenden Bilder als Zieldatensatz für die nächste Generation des Netzwerkes dient. Angewandt wird dieses Verfahren auf Bilder der Marsoberfläche. Das Hautziel dieser Arbeit ist eine Methode zur Segmentierung der CTX-Streifen der MRO Context Camera.
+		\end{abstract}
+		\vspace{0.5cm}
+	\end{@twocolumnfalse}
+]
+
+\section{Motivation}
+
+Neuronale Netzwerke werden in den letzten Jahren häufig zur Bildsegmentierung genutzt. Ein weit bekanntes Anwendungsbeispiel findet sich in der Entwicklung des autonomen Fahrens, bei welcher das Bild in verschiedenen Klassen (z.B. Fahrbahn, Ampel) segmentiert wird. Dies geschieht unter der Voraussetzung einer Ground Truth, aus der das Netzwerk lernen kann, wie es die jeweiligen Klassen erkennen kann.
+
+In einigen Anwendungsgebieten dieser Netzwerke existiert allerdings keine Ground Truth, zum Beispiel bei der Analyse der Marsoberfläche. Aufgrund der schlichten Größe des Datensatzes, und der Notwendigkeit von Experten in diesem Fachgebiet, ist es hier nicht leicht oder zeiteffizient möglich, manuell eine Ground Truth als Trainingsdatensatz zu erstellen.
+
+Dieses Problem lässt sich dadurch lösen, dass die anfängliche Klassifizierung durch einen Segmentierungsalgorithmus optimiert wird. Dies wird in \autoref{sect:Vorgehensweise} genauer beschrieben.
+
+\section{Verwandte Arbeiten}
+
+Zu dem hier vorgestellten Ansatz wurden bereits einige verwandte Arbeiten veröffentlicht. Die Idee und der grundlegende Ansatz für diese Arbeit basiert auf \cite{kanezaki2018_unsupervised_segmentation}.
+
+Es besteht auch verwandte Arbeit in der Analyse der Marsoberfläche durch neuronale Netze\cite{2016arXiv160100978C}. Dies geschah allerdings mit Bildern der Erdoberfläche oder bereits klassifizierten Bildern der Marsoberfläche als Trainigsdatensatz, während der hier vorgestellte Ansatz seine Trainingsdaten selbst zur Laufzeit generiert.
+
+Eine Alternative zu grundlegenden CNNs und FCNs besteht aus Deep Neural Networks (DNN), wie AlexNet\cite{NIPS2012_4824}, welches in der Vergangenheit bereits zur Klassifizierung der Marsoberfläche genutzt wurde \cite{Wagstaff2018DeepMC}. Es existiert zudem Vorarbeit zu unbeaufsichtigtem Lernen über Segmentierungsalgorithmen durch DNNs: In \cite{pmlr-v48-xieb16} werden DNNs dazu genutzt, die Vorgehensweise von Clusteringalgorithmen zu erlernen und gegebenenfalls zu verbessern.
+
+Des Weiteren könnte das Ersetzen des SLIC Algorithmus aus \cite{kanezaki2018_unsupervised_segmentation} durch einen alternativen Clusteringalgorithmus wie k-Means Clustering oder Mean-Shift Clustering zu besseren Ergebnissen führen. K-Means Clustering wurde bereits in Verbindung mit CNNs ohne annotierte Daten genutzt\cite{2019arXiv190603359A}. Außerdem besteht auch die Möglichkeit, Segmentierungsalgorithmen wie Normalized Cuts\cite{shi2000normalized} oder das Gaussian Mixture Model\cite{8360143} zu nutzen.
+
+\section{Vorgehensweise}
+\label{sect:Vorgehensweise}
+
+Der erste Schritt dieser Arbeit besteht aus der Programmierung eines Algorithmus ähnlich zu \cite{kanezaki2018_unsupervised_segmentation}. Dieser funktioniert, indem er wiederholt folgenden Prozess ausführt:
+\begin{enumerate}
+	\item Eingabebild durchläuft ein Neuronales Netz mit Argmax Klassifizierung zur Feature Extraktion
+	\item Eingabebild durchläuft einen Clusteringalgorithmus wie SLIC\cite{slic}
+	\item In 2. bestimmte Cluster werden jeweils der Klasse aus 1. zugewiesen, welche als häufigstes in diesem Cluster auftritt
+	\item Der Verlust des Neuronalen Netzwerk berechnet sich als Softmax-Loss aus den Ergebnissen aus Schritt 1. und Schritt 3.
+	\item Durch Backpropagation wird das Neuronale Netz optimiert um den in der nächsten Generation entstehenden Verlust zu minimieren
+\end{enumerate}
+
+Somit wird in einem Vorwärts-Durchlauf das Bild segmentiert, während im Rückwärts-Durchlauf die Parameter des Netzwerkes optimiert werden.
+
+Dieser Algorithmus wird dementsprechend so angepasst, dass er vergleichsweise große Eingabedateien verarbeiten kann: Dies geschieht über das Sliding-Window-Verfahren. 
+
+Diese Grundlage wird durch einige Veränderungen erweitert; eine dieser Veränderungen ist, wie auch in \cite{kanezaki2018_unsupervised_segmentation} erwähnt, das Benutzen von größeren und spezialisierteren neuronalen Netzen, wie Fully Convolutional Networks (FCN)\cite{long_shelhamer_fcn} für die Segmentierung. 
+
+Als Metrik zur Auswertung des Algorithmus wird dieser auf bereits segmentierte Datensätze wie \textit{Common Objects In Context}\cite{LMBHPRDZ:ECCV:2014} oder das \textit{Cityscapes Dataset}\cite{Cordts2016Cityscapes} angewandt. Das Resultat der entwickelten Vorgehensweise wird anschließend mit den jeweils zugehörigen, manuell erstellten Segmentierungen aus den Datensätzen verglichen, also mit deren Ground Truths. Mögliche Metriken bestehen hierbei aus Objektbasierten Metriken wie F-Measure oder Intersection-over-Union oder Partitionsbasierten Metriken wie unter Anderem den Rand Index\cite{randindex} oder Variation of Information\cite{meila2003comparing}.
+
+Um die so ermittelten Metriken zu optimieren, werden einzelne Teile des Algorithmus ersetzt: So kann das CNN wie bereits erwähnt durch ein FCN ersetzt werden, während der Segmentierungsalgorithmus SLIC durch k-Means Clustering oder den Mean-Shift Algorithmus ersetzt werden kann.\cite{2019arXiv190603359A} Alternativen hierzu bestehen aus Normalized Cuts\cite{shi2000normalized} oder dem Gaussian Mixture Model\cite{8360143}.
+
+Bei der Abänderung des neuronalen Netzwerkes gilt zu beachten, dass die Initialisierung unter einzelnen Netzwerken immer identisch ist (manuelle Seed-Vorgabe), da die Ergebnisse sonst durch die Zufallswerte verfälscht werden können.
+
+Ultimativ dient diese Vorgehensweise dem Ziel, die Bilder der MRO Context Camera der NASA\cite{doi:10.1029/2006JE002808}, auch genannt CRX-Streifen, segmentieren und somit analysieren zu können.
+
+\renewcommand\refname{Referenzen}
+\bibliography{document}
+
+\end{document}
