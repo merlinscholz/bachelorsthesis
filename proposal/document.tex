@@ -3,6 +3,9 @@
 \usepackage[ngerman]{babel}
 \usepackage{csquotes}
 \usepackage{hyperref}
+\usepackage{float}
+\usepackage{graphics}
+\usepackage{tikz}
 \bibliographystyle{abbrv}
 
 
@@ -32,7 +35,7 @@
 		\vspace{-1.5cm}
 		\begin{abstract}
 			\itshape
-			Um neuronale Netze zur Bildsegmentierung verwenden zu können, benötigt es einen Trainingsdatensatz, welcher zuvor von Hand kategorisiert werden muss. Da dies relativ zeitaufwändig ist, wird hier eine andere Methode vorgestellt, Neuronale Netze ohne vorherige Ground Truth zur Segmentierung zu verwenden. Dies geschieht dadurch, dass die jeweils generierte Segmentierung unter Anderem durch einen Superpixel-Algorithmus wie SLIC dazu lernt, und die so entstehenden Bilder als Zieldatensatz für die nächste Generation des Netzwerkes dient. Angewandt wird dieses Verfahren auf Bilder der Marsoberfläche. Das Hautziel dieser Arbeit ist eine Methode zur Segmentierung der CTX-Streifen der MRO Context Camera.
+			Um neuronale Netze zur Bildsegmentierung verwenden zu können, benötigt es einen Trainingsdatensatz, welcher zuvor von Hand kategorisiert werden muss. Da dies relativ zeitaufwändig ist, wird hier eine andere Methode vorgestellt, Neuronale Netze ohne vorherige Ground Truth zur Segmentierung zu verwenden. Dies geschieht dadurch, dass die jeweils generierte Segmentierung unter Anderem durch einen Superpixel-Algorithmus wie SLIC dazu lernt, und die so entstehenden Bilder als Ground Truth für die nächste Generation des Netzwerkes dient. Angewandt wird dieses Verfahren auf Bilder der Marsoberfläche. Das Hauptziel dieser Arbeit ist eine Methode zur Segmentierung der CTX-Streifen der MRO Context Camera.
 		\end{abstract}
 		\vspace{0.5cm}
 	\end{@twocolumnfalse}
@@ -50,9 +53,9 @@ Dieses Problem lässt sich dadurch lösen, dass die anfängliche Klassifizierung
 
 Zu dem hier vorgestellten Ansatz wurden bereits einige verwandte Arbeiten veröffentlicht. Die Idee und der grundlegende Ansatz für diese Arbeit basiert auf \cite{kanezaki2018_unsupervised_segmentation}.
 
-Es besteht auch verwandte Arbeit in der Analyse der Marsoberfläche durch neuronale Netze\cite{2016arXiv160100978C}. Dies geschah allerdings mit Bildern der Erdoberfläche oder bereits klassifizierten Bildern der Marsoberfläche als Trainigsdatensatz, während der hier vorgestellte Ansatz seine Trainingsdaten selbst zur Laufzeit generiert.
+Es existiert ebenfalls eine verwandte Arbeit über die Analyse der Marsoberfläche durch neuronale Netze\cite{2016arXiv160100978C}. Dies geschah allerdings mit Bildern der Erdoberfläche oder Bildern der Marsoberfläche, die bereits von Experten manuell klassifiziert wurden, als Trainigsdatensatz. Der hier vorgestellte Ansatz hingegen generiert seine Trainingsdaten selbst zur Laufzeit.
 
-Eine Alternative zu grundlegenden CNNs und FCNs besteht aus Deep Neural Networks (DNN), wie AlexNet\cite{NIPS2012_4824}, welches in der Vergangenheit bereits zur Klassifizierung der Marsoberfläche genutzt wurde \cite{Wagstaff2018DeepMC}. Es existiert zudem Vorarbeit zu unbeaufsichtigtem Lernen über Segmentierungsalgorithmen durch DNNs: In \cite{pmlr-v48-xieb16} werden DNNs dazu genutzt, die Vorgehensweise von Clusteringalgorithmen zu erlernen und gegebenenfalls zu verbessern.
+Eine Alternative zu grundlegenden CNNs und FCNs besteht aus Deep Neural Networks (DNN), wie AlexNet\cite{NIPS2012_4824}, welches in der Vergangenheit bereits zur Klassifizierung der Marsoberfläche genutzt wurde \cite{Wagstaff2018DeepMC}. Es existiert zudem Vorarbeit zu unüberwachtem Lernen über Segmentierungsalgorithmen durch DNNs: In \cite{pmlr-v48-xieb16} werden DNNs dazu genutzt, die Vorgehensweise von Clusteringalgorithmen zu erlernen und gegebenenfalls zu verbessern.
 
 Des Weiteren könnte das Ersetzen des SLIC Algorithmus aus \cite{kanezaki2018_unsupervised_segmentation} durch einen alternativen Clusteringalgorithmus wie k-Means Clustering oder Mean-Shift Clustering zu besseren Ergebnissen führen. K-Means Clustering wurde bereits in Verbindung mit CNNs ohne annotierte Daten genutzt\cite{2019arXiv190603359A}. Außerdem besteht auch die Möglichkeit, Segmentierungsalgorithmen wie Normalized Cuts\cite{shi2000normalized} oder das Gaussian Mixture Model\cite{8360143} zu nutzen.
 
@@ -60,15 +63,39 @@ Des Weiteren könnte das Ersetzen des SLIC Algorithmus aus \cite{kanezaki2018_un
 \label{sect:Vorgehensweise}
 
 Der erste Schritt dieser Arbeit besteht aus der Programmierung eines Algorithmus ähnlich zu \cite{kanezaki2018_unsupervised_segmentation}. Dieser funktioniert, indem er wiederholt folgenden Prozess ausführt:
-\begin{enumerate}
-	\item Eingabebild durchläuft ein Neuronales Netz mit Argmax Klassifizierung zur Feature Extraktion
-	\item Eingabebild durchläuft einen Clusteringalgorithmus wie SLIC\cite{slic}
-	\item In 2. bestimmte Cluster werden jeweils der Klasse aus 1. zugewiesen, welche als häufigstes in diesem Cluster auftritt
-	\item Der Verlust des Neuronalen Netzwerk berechnet sich als Softmax-Loss aus den Ergebnissen aus Schritt 1. und Schritt 3.
-	\item Durch Backpropagation wird das Neuronale Netz optimiert um den in der nächsten Generation entstehenden Verlust zu minimieren
-\end{enumerate}
 
-Somit wird in einem Vorwärts-Durchlauf das Bild segmentiert, während im Rückwärts-Durchlauf die Parameter des Netzwerkes optimiert werden.
+\begin{figure}[H]
+\resizebox{.9\columnwidth}{!}{%
+\begin{tikzpicture}
+\draw  [draw, text width=7cm, align=center] (0,0) rectangle  node{Eingabebild} (7,-1);
+\path [->,>=stealth] (1.5,-1) edge (1.5,-1.5);
+\path [->,>=stealth] (5.5,-1) edge (5.5,-1.5);
+\draw  [draw, text width = 2.5cm, align=center] (0,-1.5) rectangle node{Neuronales Netzwerk mit Argmax Klassifizierung} (3,-4);
+\path [->,>=stealth] (1.5,-4) edge (1.5,-4.5);
+\draw  [draw, text width = 2.5cm, align=center] (0,-4.5) rectangle node{Feature Extraktion} (3,-5.5);
+\path [->,>=stealth] (1.5,-5.5) edge (1.5,-6);
+\draw  [draw, text width = 2.5cm, align=center] (4,-1.5) rectangle node{Clustering-algorithmus (bspw. SLIC)} (7,-5.5);
+\path [->,>=stealth] (5.5,-5.5) edge (5.5,-6);
+\draw  [dashed, text width = 3.5cm, align=center] (0,-6) rectangle node{Klasse jedes Pixels} (3.5,-6.5);
+\draw  [dashed, text width = 3.5cm, align=center] (3.5,-6) rectangle node{Pixelcluster} (7,-6.5);
+\draw (0,-6.5) -- (0,-8) -- (7,-8) -- (7,-6.5);
+\node [text width=6.5cm, align=center] at (3.5,-7.25) {Jedem Pixelcluster die in ihm häufigste Klasse zuweisen};
+\path [->,>=stealth] (3.5,-8) edge (3.5,-8.5);
+\draw  [draw, text width = 6.5cm, align=center] (0,-8.5) rectangle node{Softmax-Loss berechnen} (7,-9.5);
+
+\path [-] (0,-5) edge (-0.5,-5);
+\path [-] (-0.5,-5) edge (-0.5,-9);
+\path [->,>=stealth] (-0.5,-9) edge (0,-9);
+
+\path [-] (3.5,-9.5) edge (3.5,-10);
+\path [-] (3.5,-10) edge (-1,-10);
+\path [-] (-1,-10) edge (-1,-2.75);
+\node [text width=6.5cm, align=center,rotate=90] at (-1.25,-6.5) {Optimiert durch Backpropagation};
+\path [->,>=stealth] (-1,-2.75) edge (0,-2.75);
+\end{tikzpicture}}
+\end{figure}
+
+Somit wird in einem Vorwärts-Durchlauf das Bild segmentiert, während im Rückwärts-Durchlauf die Parameter des Netzwerkes optimiert werden (vgl. \enquote{Optimiert durch Backpropagation}).
 
 Dieser Algorithmus wird dementsprechend so angepasst, dass er vergleichsweise große Eingabedateien verarbeiten kann: Dies geschieht über das Sliding-Window-Verfahren. 
 
