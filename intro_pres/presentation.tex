@@ -1,0 +1,56 @@
+\documentclass[aspectratio=169]{beamer}
+\usepackage[ngerman]{babel}
+\definecolor{tudo}{HTML}{74B618}
+
+\usetheme[sectionpage=none,titleformat frame=regular]{metropolis}
+\usepackage{sourcesanspro}
+\setsansfont{Source Sans Pro}
+\setbeamerfont{title}{series=\mdseries}
+\setbeamerfont{frametitle}{series=\mdseries}
+\setbeamercolor{background canvas}{bg=white}
+\setbeamercolor{frametitle}{bg=tudo, fg=white}
+\setbeamercolor{alerted text}{fg=tudo}
+\setbeamercolor{progress bar}{fg=tudo}
+
+
+\makeatletter
+\setbeamertemplate{frametitle}{
+	\nointerlineskip
+	\begin{beamercolorbox}[wd=\paperwidth,sep=0pt,leftskip=\metropolis@frametitle@padding,rightskip=\metropolis@frametitle@padding,]{frametitle}
+		\metropolis@frametitlestrut@start
+		\insertframetitle
+		\nolinebreak
+		\hfill
+		$\mid$
+		\hspace{\metropolis@frametitle@padding}
+		\raisebox{-0.25mm}{\includegraphics[height=2ex,keepaspectratio]{tud_logo_negativ.png}}
+		\metropolis@frametitlestrut@end
+	\end{beamercolorbox}
+}
+\setbeamertemplate{footline}{
+	\begin{beamercolorbox}[wd=\paperwidth,sep=0pt,leftskip=\metropolis@frametitle@padding,rightskip=\metropolis@frametitle@padding,]{footline}
+		\parbox{0.33\linewidth}{\vspace*{-8pt}\insertshorttitle}
+		\hfill
+		\parbox{0.33\linewidth}{\vspace*{-8pt}\centering\insertshortauthor}
+		\hfill
+		\parbox{0.33\linewidth}{\vspace*{-8pt}\hfill\insertshortdate\hspace*{10pt}\insertframenumber}
+	\end{beamercolorbox}
+}
+\makeatother
+
+\title[Analyse der Marsoberfläche durch Unsupervised Learning]{Kategorisieren der Marsoberfläche durch Unsupervised Learning by Backpropagation}
+\author[Merlin Scholz]{Merlin Scholz}
+\institute{TU Dortmund}
+\date[20.11.2019]{20. November 2019}
+
+
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}{Title}
+	content...
+\end{frame}
+	
+\end{document}
