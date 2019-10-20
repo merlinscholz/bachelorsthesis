@@ -1,9 +1,12 @@
 \documentclass[aspectratio=169]{beamer}
 \usepackage[ngerman]{babel}
+\usepackage{float} 
+\usepackage{hyperref}
+\usepackage{sourcesanspro}
+\usepackage[font=scriptsize]{caption}
 \definecolor{tudo}{HTML}{74B618}
 
 \usetheme[sectionpage=none,titleformat frame=regular]{metropolis}
-\usepackage{sourcesanspro}
 \setsansfont{Source Sans Pro}
 \setbeamerfont{title}{series=\mdseries}
 \setbeamerfont{frametitle}{series=\mdseries}
@@ -11,7 +14,7 @@
 \setbeamercolor{frametitle}{bg=tudo, fg=white}
 \setbeamercolor{alerted text}{fg=tudo}
 \setbeamercolor{progress bar}{fg=tudo}
-
+\setbeamertemplate{bibliography item}{\insertbiblabel}
 
 \makeatletter
 \setbeamertemplate{frametitle}{
@@ -29,17 +32,17 @@
 }
 \setbeamertemplate{footline}{
 	\begin{beamercolorbox}[wd=\paperwidth,sep=0pt,leftskip=\metropolis@frametitle@padding,rightskip=\metropolis@frametitle@padding,]{footline}
-		\parbox{0.33\linewidth}{\vspace*{-8pt}\insertshorttitle}
+		\parbox{0.33\linewidth}{\vspace*{-10pt}\insertshorttitle}
 		\hfill
-		\parbox{0.33\linewidth}{\vspace*{-8pt}\centering\insertshortauthor}
+		\parbox{0.33\linewidth}{\vspace*{-10pt}\centering\insertshortauthor}
 		\hfill
-		\parbox{0.33\linewidth}{\vspace*{-8pt}\hfill\insertshortdate\hspace*{10pt}\insertframenumber}
+		\parbox{0.33\linewidth}{\vspace*{-10pt}\hfill\insertshortdate\hspace*{10pt}\insertframenumber}
 	\end{beamercolorbox}
 }
 \makeatother
 
 \title[Analyse der Marsoberfläche durch Unsupervised Learning]{Kategorisieren der Marsoberfläche durch Unsupervised Learning by Backpropagation}
-\author[Merlin Scholz]{Merlin Scholz}
+\author[Merlin Scholz]{Merlin Scholz\\\small\href{mailto:merlin.scholz@tu-dortmund.de}{merlin.scholz@tu-dortmund.de}}
 \institute{TU Dortmund}
 \date[20.11.2019]{20. November 2019}
 
@@ -49,8 +52,75 @@
 
 \frame{\titlepage}
 
-\begin{frame}{Title}
-	content...
+\begin{frame}{Inhalt}
+	\tableofcontents
 \end{frame}
+
+\section{Motivation}
+
+\begin{frame}{Motivation: Neuronale Netze zur Bildsegmentierung}
+\begin{columns}
+	\begin{column}{.5\textwidth}
+		\begin{itemize}
+			\item Neuronale Netzwerke werden oft zur Bildsegmentierung genutzt
+			\item Voraussetzung: Manuell erstellte Ground Truth um das Netzwerk zu trainieren
+			\end{itemize}
+	\end{column}
+	\begin{column}{.5\textwidth}
+		\begin{figure}[H]
+			\includegraphics[width=\textwidth,keepaspectratio]{koeln00.png}
+			\caption{Beispiel: CityScapes Dataset\cite{Cordts_2016_CVPR}}
+		\end{figure}
+	\end{column}
+\end{columns}
+
+
+\end{frame}
+
+\begin{frame}{Motivation: (Fehlende) Ground Truths}
+Ground Truth nicht immer vorhanden: Beispiel Marsoberfläche
+\begin{itemize}
+	\item Zu großer Datensatz
+	\item Notwendigkeit von Experten
+	\item[$\Rightarrow$] Manuelle Erstellung nicht kostengünstig oder zeiteffizient möglich
+\end{itemize}
+\medskip
+Lösungsansatz:
+\begin{itemize}
+	\item Anfangs zufällige Klassifizierung durch Segmentierungsalgorithmus weiter optimieren
+\end{itemize}
+\end{frame}
+
+\section{Verwandte Arbeiten}
+
+\begin{frame}{Verwandte Arbeiten: Segmentierung nach Kanezaki\cite{kanezaki2018_unsupervised_segmentation}}
+Asako Kanezaki; Unsupervised Image Segmentation by Backpropagation\cite{kanezaki2018_unsupervised_segmentation}:
+\begin{columns}
+	\begin{column}{.5\textwidth}
+		\begin{itemize}
+			\item Unüberwachtes Lernen der Segmentierung
+			\item Anfangs zufällige Ergebnisse werden mit Clusteringalgorithmus vereint
+			\item Zielfunktion: Softmax-Loss zwischen Ergebnis des NN und des optimierten Ergebnisses
+			\item NN wird auf diese Zielfunktion hin optimiert (Backpropagation)
+		\end{itemize}
+	\end{column}
+	\begin{column}{.5\textwidth}
+		\begin{figure}
+			\includegraphics[width=\textwidth,keepaspectratio]{kanezaki.png}
+			\caption{Vorgehensweise nach Kanezaki\cite{kanezaki2018_unsupervised_segmentation}}
+		\end{figure}
+	\end{column}
+\end{columns}
+\end{frame}
+
+\section{Vorgehensweise}
+
+\section{Referenzen}
+
+\begin{frame}[shrink=30]{Referenzen}
+	\bibliographystyle{abbrv}
+	\bibliography{presentation}
+\end{frame}
+
 	
 \end{document}
