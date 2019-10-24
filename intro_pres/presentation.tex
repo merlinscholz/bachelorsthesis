@@ -1,56 +1,68 @@
-\documentclass[aspectratio=169]{beamer}
+\documentclass[9pt]{beamer}
+\usetheme{TUDOplain}
+% workaround: provide commands not defiend by all bibtex styles
+\providecommand{\btxandlong}{und}
+\providecommand{\newblock}{}
+% german
 \usepackage[ngerman]{babel}
-\usepackage{float} 
-\usepackage{hyperref}
-\usepackage{FiraSans}
-\usepackage[font=scriptsize]{caption}
-\definecolor{tudo}{HTML}{74B618}
+\usepackage{ngerman}
+\usepackage{bibgerm}
 
-\usetheme[sectionpage=none,titleformat frame=regular]{metropolis}
-\setsansfont{Fira Sans Book}
-\setbeamerfont{title}{series=\mdseries}
-\setbeamerfont{frametitle}{series=\mdseries}
-\setbeamercolor{background canvas}{bg=white}
-\setbeamercolor{frametitle}{bg=tudo, fg=white}
-\setbeamercolor{alerted text}{fg=tudo}
-\setbeamercolor{progress bar}{fg=tudo}
-\setbeamertemplate{bibliography item}{\insertbiblabel}
-
+% bibliographic magic 
+\usepackage{bibentry}
+% reformat footnotes very plain
 \makeatletter
-\setbeamertemplate{frametitle}{
-	\nointerlineskip
-	\begin{beamercolorbox}[wd=\paperwidth,sep=0pt,leftskip=\metropolis@frametitle@padding,rightskip=\metropolis@frametitle@padding,]{frametitle}
-		\metropolis@frametitlestrut@start
-		\insertframetitle
-		\nolinebreak
-		\hfill
-		$\mid$
-		\hspace{\metropolis@frametitle@padding}
-		\raisebox{-0.25mm}{\includegraphics[height=2ex,keepaspectratio]{tud_logo_negativ.png}}
-		\metropolis@frametitlestrut@end
-	\end{beamercolorbox}
-}
-\setbeamertemplate{footline}{
-	\begin{beamercolorbox}[wd=\paperwidth,sep=0pt,leftskip=\metropolis@frametitle@padding,rightskip=\metropolis@frametitle@padding,]{footline}
-		\parbox{0.33\linewidth}{\vspace*{-10pt}\insertshorttitle}
-		\hfill
-		\parbox{0.33\linewidth}{\vspace*{-10pt}\centering\insertshortauthor}
-		\hfill
-		\parbox{0.33\linewidth}{\vspace*{-10pt}\hfill\insertshortdate\hspace*{10pt}\insertframenumber}
-	\end{beamercolorbox}
-}
+\renewcommand\@makefnmark{%
+	[\@thefnmark]}
+\renewcommand\@makefntext[1]{%
+	\noindent\tiny [\@thefnmark] #1}
 \makeatother
+% command for citing
+\providecommand{\fcite}[1]{\footnote{\bibentry{#1}}}
+%
 
-\title[Analyse der Marsoberfläche durch Unsupervised Learning]{Kategorisieren der Marsoberfläche durch Unsupervised Learning by Backpropagation}
+% basic utils
+\usepackage[utf8]{inputenc}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{ifthen}
+\usepackage{calc}
+\usepackage{amsmath,amsfonts,amssymb} 
+\setbeamertemplate{navigation symbols}{}
+%\setbeamertemplate{footline}{}
+%\setbeamertemplate{footline}[frame number]{}
+\setbeamertemplate{footline}{\small \vspace{-1ex} \vbox{ \insertframenumber /\inserttotalframenumber}}
+%\setbeamertemplate{footline}{\fontsize{7pt}{7pt}\selectfont \vspace{-1ex} \vbox{ \insertframenumber /\inserttotalframenumber}}
+
 \author{Merlin Scholz}
-\institute{TU Dortmund}
+\title[Analyse der Marsoberfläche durch Unsupervised Learning]{Kategorisieren der Marsoberfläche durch Unsupervised Learning by Backpropagation}
 \date[20.11.2019]{20. November 2019}
-
-
+\institute[TU Dortmund]{Mustererkennung,\\ Informatik XII, Technische Universität Dortmund}
+%
+% frame command
+\newenvironment{myframe}[1][]{%
+	\begin{frame}%
+		\frametitle{#1}
+		% start footnote numbers with 1
+		\setcounter{footnote}{0}
+		
+		
+	}{%
+	\end{frame}%
+}
 
 \begin{document}
-
-\frame{\titlepage}
+\begin{frame}
+	
+	\titlepage
+	
+	% bst modified by A.Plinge to have consistent given family name order
+	% feel free to use others if required
+	\bibliographystyle{gerabbrv3}
+	%  put all .bib files here
+	\nobibliography{plinge}
+	
+\end{frame}
 
 \begin{frame}{Inhalt}
 	\tableofcontents
@@ -58,7 +70,7 @@
 
 \section{Motivation}
 
-\begin{frame}{Motivation: Neuronale Netze zur Bildsegmentierung}
+\begin{myframe}[Motivation: Neuronale Netze zur Bildsegmentierung]
 \begin{columns}
 	\begin{column}{.5\textwidth}
 		\begin{itemize}
@@ -73,11 +85,9 @@
 		\end{figure}
 	\end{column}
 \end{columns}
+\end{myframe}
 
-
-\end{frame}
-
-\begin{frame}{Motivation: (Fehlende) Ground Truths}
+\begin{myframe}[Motivation: (Fehlende) Ground Truths]
 Ground Truth nicht immer vorhanden: Beispiel Marsoberfläche
 \begin{itemize}
 	\item Zu großer Datensatz
@@ -89,11 +99,11 @@ Lösungsansatz:
 \begin{itemize}
 	\item Anfangs zufällige Klassifizierung durch Segmentierungsalgorithmus weiter optimieren
 \end{itemize}
-\end{frame}
+\end{myframe}
 
 \section{Verwandte Arbeiten}
 
-\begin{frame}{Verwandte Arbeiten: Segmentierung nach Kanezaki\cite{kanezaki2018_unsupervised_segmentation}}
+\begin{myframe}[Verwandte Arbeiten: Segmentierung nach Kanezaki\cite{kanezaki2018_unsupervised_segmentation}]
 Asako Kanezaki; Unsupervised Image Segmentation by Backpropagation\cite{kanezaki2018_unsupervised_segmentation}:
 \begin{columns}
 	\begin{column}{.5\textwidth}
@@ -111,20 +121,20 @@ Asako Kanezaki; Unsupervised Image Segmentation by Backpropagation\cite{kanezaki
 		\end{figure}
 	\end{column}
 \end{columns}
-\end{frame}
+\end{myframe}
 
-\begin{frame}{Verwandte Arbeiten: \textit{Crater Detection via CNNs}\cite{2016arXiv160100978C}}
+\begin{myframe}[Verwandte Arbeiten: \textit{Crater Detection via CNNs}\cite{2016arXiv160100978C}]
 	
-\end{frame}
+\end{myframe}
 
 \section{Vorgehensweise}
 
 \section{Referenzen}
 
-\begin{frame}[shrink=30]{Referenzen}
+\begin{myframe}[Referenzen]
 	\bibliographystyle{abbrv}
 	\bibliography{presentation}
-\end{frame}
+\end{myframe}
 
 	
 \end{document}

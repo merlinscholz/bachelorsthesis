@@ -1,0 +1,462 @@
+%
+% beamertheme University of Dortmund
+%
+% Author:	Thomas Plötz, Mon Jul  3 10:53:57 2006
+% Time-stamp:	<2009/01/29 14:30:47 Thomas Ploetz>
+%
+% descr.:	spartanic version of a common beamer style
+%		for talks and presentations 
+%
+
+%
+% TODO
+%
+% * distances between items in itemize, enumerate are still broken :(
+% * documentation
+%
+% \hyperlink{ein_frame_label}{\beamerreturnbutton{Zurück}}
+
+%
+% standard includes and definitions (not beamer related)
+%
+%\usepackage[german]{babel}
+%\usepackage[latin1]{inputenc}
+\usepackage{graphicx}
+\usepackage{epsfig}
+\usepackage{xmpmulti,multimedia,xspace}
+\usepackage{color}
+\usepackage{hyperref}
+
+
+%
+% set some colors
+%
+
+% define CI-conforme color of TU Dortmund
+\definecolor{tugreen1}{rgb}{.52,.72,.10}	% 84b819
+\newcommand{\tugreen}[1]{{\color{tugreen1}{#1}}}
+
+% define some icons
+\def\savesymbol#1{%
+  \expandafter\let\expandafter\origsym\expandafter=\csname#1\endcsname
+  \expandafter\let\csname orig#1\endcsname=\origsym
+  \expandafter\let\csname#1\endcsname=\relax }
+
+% Restore a previously saved symbol, and rename the current one.
+\def\restoresymbol#1#2{%
+  \expandafter\let\expandafter\newsym\expandafter=\csname#2\endcsname
+  \expandafter\global\expandafter\let\csname#1#2\endcsname=\newsym
+  \expandafter\let\expandafter\origsym\expandafter=\csname orig#2\endcsname
+  \expandafter\global\expandafter\let\csname#2\endcsname=\origsym
+}
+
+\savesymbol{Rightarrow}
+\RequirePackage{marvosym}[2000/05/01]  % Major rewrite at this version.
+
+\usepackage{amssymb}    % fuer \checkmark
+\newcommand{\Positiv}{\textcolor{tugreen1}{\checkmark}}
+\newcommand{\Negativ}{\textcolor{red}{\Lightning}}
+\newcommand{\Stop}{\textcolor{red}{\Stopsign}}
+
+\restoresymbol{marv}{Rightarrow}
+
+
+%
+% options
+%
+\DeclareOptionBeamer{FIlogo}{%
+  \def\addlogo{beamer/fbi_logo_de}%
+  \def\addlogolink{http://www.cs.tu-dortmund.de}%
+}%
+\DeclareOptionBeamer{FIlogo_EN}{%
+  \def\addlogo{beamer/fbi_logo_en}%
+  \def\addlogolink{http://www.cs.tu-dortmund.de}%
+}%
+\DeclareOptionBeamer{IRFlogo}{%
+  \def\addlogo{beamer/irf_logo}%
+  \def\addlogolink{http://www.is.irf.de}%
+}%
+\DeclareOptionBeamer{IRFlogo_EN}{%
+  \def\addlogo{beamer/irf_logo_en}%
+  \def\addlogolink{http://www.is.irf.de}%
+}%
+\DeclareOptionBeamer{ZIMlogo}{%
+  \def\addlogo{beamer/zim_logo}%
+  \def\addlogolink{}%
+}%
+\def\addlogooffsetX{-0.25cm}
+\DeclareOptionBeamer{AddLogoOffset_X}{%
+  \def\addlogooffsetX{#1}%
+}%
+\def\addlogooffsetY{0.25cm}
+\DeclareOptionBeamer{AddLogoOffset_Y}{%
+  \def\addlogooffsetY{#1}%
+}%
+\def\tudologooffsetX{0.25cm}
+\DeclareOptionBeamer{TuDoLogoOffset_X}{%
+  \def\tudologooffsetX{#1}%
+}%
+\def\tudologooffsetY{0.25cm}
+\DeclareOptionBeamer{TuDoLogoOffset_Y}{%
+  \def\tudologooffsetY{#1}%
+}%
+
+\DeclareOptionBeamer{BIlogo}{%
+  \def\addlogo{beamer/bi_logo}%
+  \def\addlogolink{http://www.boehringer-ingelheim.de}%
+}%
+
+\def\addlogowidth{1.2cm}
+\DeclareOptionBeamer{addlogowidth}{%
+  \def\addlogowidth{#1}%
+}%
+
+\DeclareOptionBeamer{nonavigation}{%
+  \def\nonavi{1}%
+}%
+
+\def\unilogowidth{4cm}
+\DeclareOptionBeamer{UdoLogoWidth}{%
+  \def\unilogowidth{#1}%
+}%
+
+\def\footlinetitlewidth{0.35\textwidth}
+\DeclareOptionBeamer{foottitlewidth}{%
+  \def\footlinetitlewidth{#1}%
+}%
+
+\def\footlinenaviwidth{0.45\textwidth}
+\DeclareOptionBeamer{footnaviwidth}{%
+  \def\footlinenaviwidth{#1}%
+}%
+
+\DeclareOptionBeamer{framestepper}{%
+  \def\showframestepper{}%
+}%
+
+\DeclareOptionBeamer{framenavi}{%
+  \def\showframenavi{}%
+}%
+
+\ProcessOptionsBeamer
+
+
+% all following adjustments are valid for all modes but article
+% (cf. beamer userguide)
+\mode<presentation>
+
+
+% 
+% beamer related settings and definitions
+%
+
+% definitions of includes for multilayered images
+\newcommand{\multiincludex}[2]{%
+  \setbeamercovered{invisible}\multiinclude%
+  [<+->][graphics={#1},format={pdf}]{#2}\setbeamercovered{transparent}}
+\newcommand{\multiincludet}[2]{%
+  \setbeamercovered{invisible}\multiinclude%
+  [<+->][pause=,graphics={width=#1\textwidth},format={pdf}]{#2}\setbeamercovered{transparent}}
+\newcommand{\multiincludev}[3]{%
+  \setbeamercovered{invisible}\multiinclude%
+  [<+->][pause=\pause,graphics={width=1\textwidth},format={pdf}]{#3}\setbeamercovered{transparent}%
+  \only<#1>{\raisebox{1.25em}[0em][0em]{\pdflaunchimage{#2}{\includegraphics{bilder/video}}}}}
+\newcommand{\multiincludevv}[5]{%
+  \setbeamercovered{invisible}\multiinclude%
+  [<+->][pause=\pause,graphics={width=1\textwidth},format={pdf}]{#5}\setbeamercovered{transparent}%
+  \only<#1>{\raisebox{1.25em}[0em][0em]{\pdflaunchimage{#2}{\includegraphics{bilder/video}}}}%
+  \only<#3>{\raisebox{1.25em}[0em][0em]{\pdflaunchimage{#4}{\includegraphics{bilder/video}}}}}
+
+% new commando for local tableofcontents for convenience
+\newcommand{\localtoc}{%
+\begin{frame}%
+\frametitle{Overview}%
+\tableofcontents[currentsection,hideothersubsections]%
+\end{frame}%
+}
+
+% adjust standard font (no serifes)
+\renewcommand{\familydefault}{\sfdefault}
+
+% turn on navigation bar (in general)
+\setbeamertemplate{navigation symbols}{}
+
+% define transparency effect
+\setbeamercovered{transparent}
+
+% define margins
+\setbeamersize{text margin left=7.5mm}
+\setbeamersize{text margin right=7.5mm}
+
+% define fonts
+\setbeamerfont{frametitle}{size=\large}
+
+% adjust base color theme
+\usecolortheme{orchid}
+
+% adjust distances
+% \setlength\itemsep{5em plus 0.5em minus 0.5em}
+%\setlength\subitemsep{0.5em plus 0.25em minus 0.25em}
+
+
+% set all related colors to tugreen1
+\setbeamercolor*{itemize item}{fg=tugreen1}
+\setbeamercolor*{enumerate item}{fg=tugreen1}
+\setbeamercolor*{description item}{fg=tugreen1}
+\setbeamercolor*{itemize subitem}{fg=tugreen1}
+\setbeamercolor*{itemize subsubitem}{fg=tugreen1}
+\setbeamercolor*{enumerate subitem}{fg=tugreen1}
+\setbeamercolor*{enumerate subsubitem}{fg=tugreen1}
+\setbeamercolor*{description subitem}{fg=tugreen1}
+\setbeamercolor*{description subsubitem}{fg=tugreen1}
+\setbeamercolor*{structure}{fg=tugreen1}
+\setbeamercolor*{section in toc}{fg=black}
+
+% highlighted section in navigation bar will be tugreen1
+\setbeamercolor*{section in head/foot}{fg=tugreen1}
+
+% no separate background color for headline
+\setbeamercolor*{titlelike}{bg=white}
+
+% macro for hyperlinks (both external and internal)
+\newcommand{\hlink}[2]{%
+[\tugreen{\hyperlink{#1}{$\nearrow$ #2}}]%
+}
+
+%
+% define standard logo-stuff
+%
+
+% general uni-logo
+\def\tudologo{tud_logo_rgb}
+\def\TUtu{tud_logo_small_rgb}
+
+% resize logos and fonts for beamer slides
+\newlength{\tudologobeamerunit}\setlength{\tudologobeamerunit}{1.0mm}
+\newcommand{\tudologoabeamerfontsize}{\fontsize{3.5pt}{4pt}}
+\newlength{\tudologowidth}\setlength{\tudologowidth}{\unilogowidth}
+\newlength{\lenaddlogooffsetX}\setlength{\lenaddlogooffsetX}{\addlogooffsetX}
+\newlength{\lenaddlogooffsetY}\setlength{\lenaddlogooffsetY}{\addlogooffsetY}
+\newlength{\lentudologooffsetX}\setlength{\lentudologooffsetX}{\tudologooffsetX}
+\newlength{\lentudologooffsetY}\setlength{\lentudologooffsetY}{\tudologooffsetY}
+
+
+%
+% general additional definitions
+%
+\newcommand{\Section}[3]{%
+	\section[#1]{%
+		#2%
+		#3%
+		}%
+		\addtocontents{toc}{\protect\addvspace{0.5em}}}
+\newcommand{\SubSection}[3]{%
+	\subsection[#1]{%
+		#2%
+		#3}%
+		\addtocontents{toc}{\protect\addvspace{0.2em}}}
+
+%
+% own modifications of certain templates
+%
+
+% frametitle
+\defbeamertemplate*{frametitle}{}{%
+  \leavevmode
+  %\vspace*{-1cm}
+  \centerline{\bf\insertframetitle}
+}
+
+% sidebar right 
+\defbeamertemplate*{sidebar right}{}{}  % i.e. empty
+
+% title page
+\defbeamertemplate*{title page}{}{%
+  \thispagestyle{empty}
+  \vspace*{-\headheight}
+  \beamer@typesetheadorfoot{headline}%	
+  \begin{minipage}[t][\textheight]{\textwidth}
+    \begin{minipage}[t][0.8\textheight]{\textwidth}
+	\ifx\titletopskip\undefined
+	      \vspace*{1em}
+	\else
+	     \vspace*{\titletopskip}
+	\fi
+      \begin{center}
+	{\bf\large
+	  \inserttitle\\[0.5em]
+	  \ifx\insertsubtitle\empty
+	  	%	no subtitle
+	  \else
+	  	{\small --- \insertsubtitle\ ---}
+	  \fi
+	}
+	
+	\vspace*{0.3cm}
+	\insertauthor\\[0.5em]
+	\insertinstitute
+	
+	\insertdate
+	
+	\vspace*{1cm}
+	\ifx\overview\undefined
+	%
+	\else
+	\overview
+	\fi
+      \end{center}
+  \end{minipage}
+\end{minipage}
+  \setcounter{framenumber}{0}
+}
+
+% headline (for all frames including title page)
+\defbeamertemplate*{headline}{}{%
+  \begin{minipage}[t]{\tudologowidth}
+    \par\vspace*{\lentudologooffsetY}\hspace*{\lentudologooffsetX}%
+    \href{http://www.uni-dortmund.de}{\includegraphics[width=\tudologowidth]{\tudologo}}
+  \end{minipage}
+  \hfill
+  \begin{minipage}[t]{\addlogowidth}
+    \par\vspace*{\lenaddlogooffsetY}\hspace*{\lenaddlogooffsetX}%
+    \ifx\addlogo\undefined
+    %
+    \else
+	\href{\addlogolink}{\includegraphics[width=\addlogowidth]{\addlogo}}
+    \fi
+  \end{minipage}
+  \newline
+}
+
+% footline
+\defbeamertemplate*{footline}{navigation in footline}{%
+  \leavevmode%
+  \vspace{1em}
+%  \Acrobatmenu{GoBack}{\includegraphics[width=1cm]{\TUtu}}
+%  \Acrobatmenu{GoBack}{\begin{minipage}[b]{1cm}\mbox{~}\end{minipage}}
+  \Acrobatmenu{GoBack}{\begin{minipage}[b]{0.1cm}\mbox{~}\end{minipage}}
+  \begin{minipage}[b]{\footlinetitlewidth}
+    \textit{\insertshortauthor}\\
+    \insertshorttitle 
+  \end{minipage}
+  \hfill
+  \ifx\nonavi\undefined
+  \begin{minipage}[b]{\footlinenaviwidth}
+    \ifx\showframenavi\undefined
+    %
+    \else
+		\hyperlinkframeendprev{\tugreen{\Rewind}}
+%        \raisebox{-0.4pt}{\hyperlinkframeendprev{\tugreen{\raisebox{0.5pt}{\rotatebox[origin=c]{-270}{$\blacktriangle$}}}}}
+        \hyperlinkframestartnext{\tugreen{\Forward}}
+%        \hyperlinkframestartnext{\tugreen{\raisebox{0.5pt}{\rotatebox[origin=c]{-90}{$\blacktriangle$}}}}
+    \fi
+    \ifx\showframestepper\undefined
+    %
+    \else
+	\hyperlinkframestart{\tugreen{\MoveUp}}
+	\hyperlinkframeend{\tugreen{\MoveDown}} 
+	\hspace*{-1em} 
+    \fi
+    \insertsectionnavigationhorizontal{0.7\textwidth}{}{}
+  \end{minipage}
+  \hfill
+  \fi
+  \Acrobatmenu{LastPage}{\insertframenumber}~~
+}
+
+% redefinition of tableofcontents
+\def\sectionintoc{}
+\def\beamer@sectionintoc#1#2#3#4#5{%
+  \ifnum\c@tocdepth>0%
+  \ifnum#4=\beamer@showpartnumber%
+  {
+  \beamer@saveanother%
+  \gdef\beamer@todo{}%
+  \beamer@slideinframe=#1\relax%
+  \expandafter\only\beamer@tocsections{\gdef\beamer@todo{%
+      \beamer@tempcount=#5\relax%
+      \advance\beamer@tempcount by\beamer@sectionadjust%
+      \edef\inserttocsectionnumber{\the\beamer@tempcount}%
+      \def\inserttocsection{{\footnotesize\tugreen{$\blacktriangleright$\,\,}}\hyperlink{Navigation#3}{#2}}%
+      \beamer@tocifnothide{\ifnum\c@section=#1\beamer@toc@cs\else\beamer@toc@os\fi}%
+      {
+        \ifbeamer@pausesections\pause\fi%
+        \ifx\beamer@toc@ooss\beamer@hidetext
+          \vskip1.5em
+        \else
+          \vfill
+        \fi
+        {%
+          \hbox{\vbox{%
+              \def\beamer@breakhere{\\}%
+              \beamer@tocact{\ifnum\c@section=#1\beamer@toc@cs\else\beamer@toc@os\fi}{section in toc}}}%
+         \par%
+        }%
+      }%
+    }
+  }%
+  \beamer@restoreanother%
+  }
+  \beamer@todo%
+  \fi\fi%
+}
+
+\def\subsectionintoc{}
+\long\def\beamer@subsectionintoc#1#2#3#4#5#6{%
+  \ifnum\c@tocdepth>1%
+  \ifnum#5=\beamer@showpartnumber%
+  {
+    \beamer@saveanother%
+    \gdef\beamer@todo{}%
+    \beamer@slideinframe=#1\relax%
+    \expandafter\only\beamer@tocsections{\gdef\beamer@todo{%
+      \ifbeamer@pausesubsections\pause\fi%
+      \beamer@tempcount=#6%
+      \advance\beamer@tempcount by\beamer@sectionadjust%
+      \edef\inserttocsectionnumber{\the\beamer@tempcount}%
+      \def\inserttocsubsectionnumber{#2}%
+      \def\inserttocsubsection{{\footnotesize\tugreen{$\blacktriangleright$\,\,}}\hyperlink{Navigation#4}{#3}}%
+      \beamer@tocifnothide{\ifnum\c@section=#1\beamer@toc@oss\else\beamer@toc@ooss\fi}%
+      {%
+        \def\beamer@breakhere{\\}%              
+        \beamer@tocact{\ifnum\c@section=#1\ifnum\c@subsection=#2\beamer@toc@css\else\beamer@toc@oss\fi\else\beamer@toc@ooss\fi}
+        {subsection in toc}%
+      }%
+    }}%
+    \beamer@restoreanother%
+  }
+  \beamer@todo%
+  \fi\fi%
+}
+
+\def\subsubsectionintoc{}
+\long\def\beamer@subsubsectionintoc#1#2#3#4#5#6#7{%
+  \ifnum\c@tocdepth>2%
+  \ifnum#1=\beamer@showpartnumber%
+  {
+    \beamer@saveanother%
+    \gdef\beamer@todo{}%
+    \beamer@slideinframe=#2\relax%
+    \expandafter\only\beamer@tocsections{\gdef\beamer@todo{%
+      \ifbeamer@pausesubsections\pause\fi%
+      \beamer@tempcount=#6%
+      \advance\beamer@tempcount by\beamer@sectionadjust%
+      \edef\inserttocsectionnumber{\the\beamer@tempcount}%
+      \def\inserttocsubsectionnumber{#3}%
+      \def\inserttocsubsubsectionnumber{#4}%
+      \def\inserttocsubsubsection{{\footnotesize\tugreen{$\blacktriangleright$\,\,}}\hyperlink{Navigation#5}{#7}}%
+      \beamer@tocifnothide{\ifnum\c@section=#2\beamer@toc@oss\else\beamer@toc@ooss\fi}%
+      {%
+        \def\beamer@breakhere{\\}%              
+        \beamer@tocact{\ifnum\c@section=#2\ifnum\c@subsection=#3\beamer@toc@css\else\beamer@toc@oss\fi\else\beamer@toc@ooss\fi}
+        {subsubsection in toc}%
+      }%
+    }}%
+    \beamer@restoreanother%
+  }
+  \beamer@todo%
+  \fi\fi%
+}
+
+\mode<all>
+
