@@ -64,15 +64,13 @@ Des Weiteren könnte das Ersetzen des SLIC Algorithmus aus \cite{kanezaki2018_un
 
 Der erste Schritt dieser Arbeit besteht aus der Programmierung eines Algorithmus ähnlich zu \cite{kanezaki2018_unsupervised_segmentation}. Dieser funktioniert, indem er wiederholt folgenden Prozess ausführt:
 
-\begin{figure}[H]
+\begin{figure}[H] % TODO Feature Extraction vereinen!
 \resizebox{.9\columnwidth}{!}{%
 \begin{tikzpicture}
 \draw  [draw, text width=7cm, align=center] (0,0) rectangle  node{Eingabebild} (7,-1);
 \path [->,>=stealth] (1.5,-1) edge (1.5,-1.5);
 \path [->,>=stealth] (5.5,-1) edge (5.5,-1.5);
-\draw  [draw, text width = 2.5cm, align=center] (0,-1.5) rectangle node{Neuronales Netzwerk mit Argmax Klassifizierung} (3,-4);
-\path [->,>=stealth] (1.5,-4) edge (1.5,-4.5);
-\draw  [draw, text width = 2.5cm, align=center] (0,-4.5) rectangle node{Feature Extraktion} (3,-5.5);
+\draw  [draw, text width = 2.5cm, align=center] (0,-1.5) rectangle node{Neuronales Netzwerk mit Argmax Klassifizierung und Feature Extraction} (3,-5.5);
 \path [->,>=stealth] (1.5,-5.5) edge (1.5,-6);
 \draw  [draw, text width = 2.5cm, align=center] (4,-1.5) rectangle node{Clustering-algorithmus (bspw. SLIC)} (7,-5.5);
 \path [->,>=stealth] (5.5,-5.5) edge (5.5,-6);
