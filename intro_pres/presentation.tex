@@ -81,9 +81,48 @@ Asako Kanezaki; Unsupervised Image Segmentation by Backpropagation\cite{kanezaki
 
 \section{Vorgehensweise}
 
+\begin{frame}{Vorgehensweise: Implementierung}
+\begin{itemize}
+	\item Grundlegende Idee ähnlich zu Kanezaki\cite{kanezaki2018_unsupervised_segmentation}, basierend auf PyTorch
+	\item Benutzung von Python Bibliotheken nicht immer möglich (zu große Eingabedaten, bspw. bei SLIC\cite{slic})
+	\item[$\Rightarrow$] Speichereffizienter neu implementieren, ggf. über Sliding-Window-Verfahren
+	\item Für bessere Performance wird oft auf Cython\cite{behnel2010cython} zurück gegriffen
+\end{itemize}	
+\end{frame}
+
+\begin{frame}{Vorgehensweise: Erweiterung}
+Zur Optimierung der Ergebnisse werden einzelne Teile des Algorithmus ersetzt:
+\begin{itemize}
+	\item Ersetzen des relativ einfachen Neuronalen Netzes durch größere, bspw. ImageNet, Faster R-CNNs, YOLOv3, etc.
+	\item Ersetzen des SLIC Clusteringalgorithmus durch bspw. k-Means Clustering oder Mean-Shift Clustering
+\end{itemize}	
+\end{frame}
+
+\begin{frame}{Vorgehensweise: Evaluierung}
+Um die Alternativen evaluieren zu können, wird der Algorithmus auf Datensätze mit vorhandenen Ground Truths angewandt:
+\medskip
+\begin{itemize}
+	\item \textit{Common Objects In Context}\cite{LMBHPRDZ:ECCV:2014} oder das \textit{Cityscapes Dataset}\cite{Cordts2016Cityscapes}
+	\item[$\Rightarrow$] Weit verbreitete Datensätze zur Bildsegmentierung
+	\medskip
+	\item \textit{The Prague Texture Segmentation Datagenerator and Benchmark}\cite{mikevs2015benchmarking}
+	\item[$\Rightarrow$] Den zu analysierenden Daten sehr ähnlich, also realitätsnaher
+\end{itemize}
+
+Die generierten Resultate werden mit den jeweils zugehörigen Ground Truths verglichen.
+\pause
+\begin{block}{Hinweis}
+	Metriken, die auf Clusterlabels basieren sind nur eingeschränkt nutzbar
+\end{block}
+\pause
+\begin{block}{Hinweis}
+	Zum Vergleich müssen die jeweiligen NNs den selben Seed nutzen
+\end{block}
+\end{frame}
+
 \section{Referenzen}
 
-\begin{frame}[shrink=30]{Referenzen}
+\begin{frame}{Referenzen}
 	\bibliographystyle{gerabbrv3}
 	\bibliography{presentation}
 \end{frame}
