@@ -1,10 +1,11 @@
 \documentclass[9pt]{beamer}
-\usepackage[ngerman]{babel}
+\usepackage[ngerman,english]{babel}
 \usepackage{bibgerm}
 
 \usetheme{TUDOplain}
 \setbeamertemplate{navigation symbols}{}
 \setbeamertemplate{footline}{\small \vspace{-1ex} \vbox{ \insertframenumber /\inserttotalframenumber}}
+\setbeamercovered{invisible}
 
 \author[Merlin Scholz]{Merlin Scholz\\\href{mailto:merlin.scholz@tu-dortmund.de}{merlin.scholz@tu-dortmund.de}}
 \title[Analyse der Marsoberfläche durch Unsupervised Learning]{Kategorisieren der Marsoberfläche mithilfe von Unsupervised Learning durch Backpropagation}
@@ -55,8 +56,7 @@ Lösungsansatz:
 
 \section{Verwandte Arbeiten}
 
-\begin{frame}{Verwandte Arbeiten: Segmentierung nach} Kanezaki\cite{kanezaki2018_unsupervised_segmentation}]
-Asako Kanezaki; Unsupervised Image Segmentation by Backpropagation\cite{kanezaki2018_unsupervised_segmentation}:
+\begin{frame}{Verwandte Arbeiten: Segmentierung nach Kanezaki\cite{kanezaki2018_unsupervised_segmentation}}
 \begin{columns}
 	\begin{column}{.5\textwidth}
 		\begin{itemize}
@@ -75,8 +75,36 @@ Asako Kanezaki; Unsupervised Image Segmentation by Backpropagation\cite{kanezaki
 \end{columns}
 \end{frame}
 
+\begin{frame}{Detection of craters [...] using shape and texture features nach Bandeira\cite{Bandeira2012}}
+\begin{columns}
+	\begin{column}{.5\textwidth}
+		\begin{enumerate}
+		\item Vorsortierung basierend auf Urbach \& Stepinskis Algorithmus\cite{urbach2009automatic} zur Kratererkennung
+		\begin{itemize}
+			\item Effiziente Methode zur Krater-Erkennung
+			\item 70\% Erkennungsrate
+			\item Funktionsweise über Schatten und Highlights
+		\end{itemize}
+		\item Überlagerung von 9 Bitmasken (in versch. Positionen) und Prüfung auf Übereinstimmungen
+		\item Anwendung eines angepassten AdaBoost Algorithmus
+		\item Post-Processing: Eliminierung von ungewöhnlich geformten Kratern
+		\end{enumerate}
+	\end{column}
+	\begin{column}{.5\textwidth}
+		\begin{figure}[H]
+			\includegraphics[width=\textwidth, keepaspectratio]{bandeira_detected.png}
+			\caption{Erkannte Krater nach Bandeira\cite{Bandeira2012}}
+		\end{figure}
+	\end{column}
+\end{columns}
+\bigskip
+Hierauf basierend: Der Krater-Datensatz der University of Massachusetts\cite{umass_craters}
+\end{frame}
+
 \begin{frame}{Verwandte Arbeiten: \textit{Crater Detection via CNNs}\cite{2016arXiv160100978C}}
-	
+\begin{itemize}
+	\item Erforscht Neuronale Netze statt manuell erstellten Gabor-/ Sobel-Filtern
+\end{itemize}
 \end{frame}
 
 \section{Vorgehensweise}
@@ -120,9 +148,16 @@ Die generierten Resultate werden mit den jeweils zugehörigen Ground Truths verg
 \end{block}
 \end{frame}
 
+\begin{frame}{Vorgehensweise: Optimierungen}
+	\begin{itemize}
+		\item Eingabebilder in Graustufen: Optimierung des Clusterings und des NNs
+		\item Parallelisierung entweder pro Bild oder mehrere Bilder parallel
+	\end{itemize}
+\end{frame}
+
 \section{Referenzen}
 
-\begin{frame}{Referenzen}
+\begin{frame}[shrink=25]{Referenzen}
 	\bibliographystyle{gerabbrv3}
 	\bibliography{presentation}
 \end{frame}
