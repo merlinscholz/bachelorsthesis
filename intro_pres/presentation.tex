@@ -126,17 +126,22 @@ Zur Optimierung der Ergebnisse werden einzelne Teile des Algorithmus ersetzt:
 \end{itemize}	
 \end{frame}
 
-\begin{frame}{Vorgehensweise: Evaluierung}
+\begin{frame}{Vorgehensweise: Evaluierung (1)}
 Um die Alternativen evaluieren zu können, wird der Algorithmus auf Datensätze mit vorhandenen Ground Truths angewandt:
 \medskip
 \begin{itemize}
-	\item \textit{Common Objects In Context}\cite{LMBHPRDZ:ECCV:2014} oder das \textit{Cityscapes Dataset}\cite{Cordts2016Cityscapes}
+	\item \textit{Common Objects In Context}\cite{LMBHPRDZ:ECCV:2014}
+	\item \textit{Cityscapes Dataset}\cite{Cordts2016Cityscapes}
 	\item[$\Rightarrow$] Weit verbreitete Datensätze zur Bildsegmentierung
 	\medskip
+	\item \textit{Crater Dataset} des UMass Boston
 	\item \textit{The Prague Texture Segmentation Datagenerator and Benchmark}\cite{mikevs2015benchmarking}
+	 KDLab\cite{umass_craters}
 	\item[$\Rightarrow$] Den zu analysierenden Daten sehr ähnlich, also realitätsnaher
 \end{itemize}
 
+\end{frame}
+\begin{frame}{Vorgehensweise: Evaluierung (2)}
 Die generierten Resultate werden mit den jeweils zugehörigen Ground Truths verglichen.
 \pause
 \begin{block}{Hinweis}
