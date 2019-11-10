@@ -1,6 +1,7 @@
 \documentclass[9pt]{beamer}
 \usepackage[ngerman,english]{babel}
 \usepackage{bibgerm}
+\usepackage[autostyle]{csquotes}
 
 \usetheme{TUDOplain}
 \setbeamertemplate{navigation symbols}{}
@@ -98,16 +99,25 @@ Lösungsansatz:
 	\end{column}
 \end{columns}
 \bigskip
-Hierauf basierend: Der Krater-Datensatz der University of Massachusetts\cite{umass_craters}
+\begin{center}Hierauf basierend: Der Krater-Datensatz der University of Massachusetts\cite{umass_craters} (vergleichbar mit unserem Ziel)
+\end{center}
 \end{frame}
 
 \begin{frame}{Verwandte Arbeiten: \textit{Crater Detection via CNNs}\cite{2016arXiv160100978C}}
 \begin{itemize}
 	\item Erforscht Neuronale Netze statt manuell erstellten Gabor-/ Sobel-Filtern
+	\item \enquote{Klassischer} Ansatz über neuronale Netze
+	\item Lernt auf Bandeira-Datensatz der UMass\cite{umass_craters}
+	\item Nutzt F1-Score und Cross Validation zur Evaluierung
+	\item Gute Ergebnisse, F1-Score zwischen $88\%$ und $91\%$ (vgl. Bandeira $79\%-86\%$)
 \end{itemize}
 \end{frame}
 
 \section{Vorgehensweise}
+
+\begin{frame}{Vorgehensweise: Datensatz}
+		
+\end{frame}
 
 \begin{frame}{Vorgehensweise: Implementierung}
 \begin{itemize}
@@ -126,7 +136,7 @@ Zur Optimierung der Ergebnisse werden einzelne Teile des Algorithmus ersetzt:
 \end{itemize}	
 \end{frame}
 
-\begin{frame}{Vorgehensweise: Evaluierung}
+\begin{frame}{Vorgehensweise: Evaluierung (1)}
 Um die Alternativen evaluieren zu können, wird der Algorithmus auf Datensätze mit vorhandenen Ground Truths angewandt:
 \medskip
 \begin{itemize}
@@ -136,8 +146,10 @@ Um die Alternativen evaluieren zu können, wird der Algorithmus auf Datensätze 
 	\item \textit{The Prague Texture Segmentation Datagenerator and Benchmark}\cite{mikevs2015benchmarking}
 	\item[$\Rightarrow$] Den zu analysierenden Daten sehr ähnlich, also realitätsnaher
 \end{itemize}
+\end{frame}
 
-Die generierten Resultate werden mit den jeweils zugehörigen Ground Truths verglichen.
+\begin{frame}{Vorgehensweise: Evaluierung (2)}
+Die generierten Resultate werden mit den jeweils zugehörigen Ground Truths verglichen, bspw. über F1-Score
 \pause
 \begin{block}{Hinweis}
 	Metriken, die auf Clusterlabels basieren sind nur eingeschränkt nutzbar
@@ -152,6 +164,8 @@ Die generierten Resultate werden mit den jeweils zugehörigen Ground Truths verg
 	\begin{itemize}
 		\item Eingabebilder in Graustufen: Optimierung des Clusterings und des NNs
 		\item Parallelisierung entweder pro Bild oder mehrere Bilder parallel
+		\item Wahl des am besten geeigneten Clustering-Algorithmus
+		\item Wahl des am besten geeigneten Aufbaus des NNs
 	\end{itemize}
 \end{frame}
 
