@@ -2,11 +2,19 @@
 \usepackage[ngerman,english]{babel}
 \usepackage{bibgerm}
 \usepackage[autostyle]{csquotes}
+\usepackage{siunitx}
+\sisetup{
+	locale = DE ,
+	per-mode = fraction,
+	binary-units = true 
+}
 
 \usetheme{TUDOplain}
 \setbeamertemplate{navigation symbols}{}
 \setbeamertemplate{footline}{\small \vspace{-1ex} \vbox{ \insertframenumber /\inserttotalframenumber}}
 \setbeamercovered{invisible}
+\setbeamertemplate{bibliography item}{\insertbiblabel}
+\DeclareSIUnit\pixel{px}
 
 \author[Merlin Scholz]{Merlin Scholz\\\href{mailto:merlin.scholz@tu-dortmund.de}{merlin.scholz@tu-dortmund.de}}
 \title[Analyse der Marsoberfläche durch Unsupervised Learning]{Kategorisieren der Marsoberfläche mithilfe von Unsupervised Learning durch Backpropagation}
@@ -76,14 +84,29 @@ Lösungsansatz:
 \end{columns}
 \end{frame}
 
-\begin{frame}{Detection of craters [...] using shape and texture features nach Bandeira\cite{Bandeira2012}}
+\begin{frame}{Verwandte Arbeiten: \textit{Deep Embedded Clustering[...]}}
+	\begin{columns}
+		\begin{column}{.5\textwidth}
+			\begin{itemize}
+				\item TODO
+			\end{itemize}
+		\end{column}
+		\begin{column}{.5\textwidth}
+			\begin{figure}
+				
+			\end{figure}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{\textit{Detection of craters [...] using shape and texture features} nach Bandeira\cite{Bandeira2012}}
 \begin{columns}
 	\begin{column}{.5\textwidth}
 		\begin{enumerate}
 		\item Vorsortierung basierend auf Urbach \& Stepinskis Algorithmus\cite{urbach2009automatic} zur Kratererkennung
 		\begin{itemize}
 			\item Effiziente Methode zur Krater-Erkennung
-			\item 70\% Erkennungsrate
+			\item $\SI{70}{\percent}$ Erkennungsrate
 			\item Funktionsweise über Schatten und Highlights
 		\end{itemize}
 		\item Überlagerung von 9 Bitmasken (in versch. Positionen) und Prüfung auf Übereinstimmungen
@@ -105,19 +128,63 @@ Lösungsansatz:
 
 \begin{frame}{Verwandte Arbeiten: \textit{Crater Detection via CNNs}\cite{2016arXiv160100978C}}
 \begin{itemize}
-	\item Erforscht Neuronale Netze statt manuell erstellten Gabor-/ Sobel-Filtern
+	\item Erforscht Neuronale Netze statt manuell erstellten Filtern
 	\item \enquote{Klassischer} Ansatz über neuronale Netze
 	\item Lernt auf Bandeira-Datensatz der UMass\cite{umass_craters}
 	\item Nutzt F1-Score und Cross Validation zur Evaluierung
-	\item Gute Ergebnisse, F1-Score zwischen $88\%$ und $91\%$ (vgl. Bandeira $79\%-86\%$)
+	\item Gute Ergebnisse, F1-Score zwischen $\SI{88}{\percent}$ und $\SI{91}{\percent}$ (vgl. Bandeira $\SI{79}{\percent}-\SI{86}{\percent}$)
 \end{itemize}
 \end{frame}
 
-\section{Vorgehensweise}
+\section{Problemstellung}
 
-\begin{frame}{Vorgehensweise: Datensatz}
-		
+\begin{frame}{Problemstellung: Datensatz}
+	\begin{columns}
+		\begin{column}{.7\textwidth}
+			\begin{itemize}
+				\item Eingabedaten sind Bilder der Kameras des Mars Reconnaissance Orbiters
+				\begin{itemize}
+					\item \alert{Context-Camera (CTX-Kamera) für allgemeine Terrain-Übersicht $\SI{6}{\meter\per\pixel}$}
+					\item \textit{High Resolution Imaging Experiment} (HiRISE) für genauere Detailaufnahmen
+				\end{itemize}
+				\item CTX-Streifen jeweils $\sim\SI{150}{\mebi\byte}$ groß, Auflösung bis zu $\SI{10000}{px}*\SI{30000}{px}$
+				\item Insgesamt etwa $\SI{13}{\tebi\byte}$ an Daten
+				\begin{itemize}
+					\item[$\Rightarrow$] Manuelle Segmentierung nicht möglich
+					\item[$\Rightarrow$] Algorithmus sollte effizient sein
+					\item[$\Rightarrow$] Algorithmus sollte minimal menschliche Überwachung benötigen
+				\end{itemize}
+			\end{itemize}
+		\end{column}
+		\begin{column}{.3\textwidth}
+			\begin{figure}[H]
+				\includegraphics[height=.8\textheight, keepaspectratio]{P03-2.jpg}
+				\caption{Beispiel für einen \enquote{CTX-Streifen}\cite{doi:10.1029/2006JE002808}}
+			\end{figure}
+		\end{column}
+	\end{columns}	
 \end{frame}
+
+\begin{frame}{Problemstellung: Ziel}
+\begin{columns}
+	\begin{column}{.5\textwidth}
+		Ziel ist eine möglichst genaue Segmentierung der Marsoberfläche
+		\begin{itemize}
+			\item Unterscheidung zwischen verschiedenen \enquote{Features} wie Krater, helle/dunkle Dünen, Berge, $\ldots$
+			\item Keine manuelle Definition dieser Features
+			\item Möglichst effizient, ohne menschliche Überwachung
+		\end{itemize}
+	\end{column}
+	\begin{column}{.5\textwidth}
+		\begin{figure}[H]
+			\includegraphics[width=\textwidth, keepaspectratio]{surface.png}
+			\caption{Anomalien der Marsoberfläche, aus \cite{sheriff_2019}}
+		\end{figure}
+	\end{column}
+\end{columns}	
+\end{frame}
+
+\section{Vorgehensweise}
 
 \begin{frame}{Vorgehensweise: Implementierung}
 \begin{itemize}
@@ -144,37 +211,45 @@ Um die Alternativen evaluieren zu können, wird der Algorithmus auf Datensätze 
 	\item \textit{Cityscapes Dataset}\cite{Cordts2016Cityscapes}
 	\item[$\Rightarrow$] Weit verbreitete Datensätze zur Bildsegmentierung
 	\medskip
-	\item \textit{Crater Dataset} des UMass Boston
 	\item \textit{The Prague Texture Segmentation Datagenerator and Benchmark}\cite{mikevs2015benchmarking}
+	\item[$\Rightarrow$] Zufällig generierte Datensätze zur Clusteringanalyse
+	\medskip
+	\item \textit{Crater Dataset} der UMass Boston
 	 KDLab\cite{umass_craters}
 	\item[$\Rightarrow$] Den zu analysierenden Daten sehr ähnlich, also realitätsnaher
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Vorgehensweise: Evaluierung (2)}
-Die generierten Resultate werden mit den jeweils zugehörigen Ground Truths verglichen, bspw. über F1-Score
+Die generierten Resultate werden mit den jeweils zugehörigen Ground Truths verglichen, bspw. über F1-Score:
+$$F_1 = 2*\frac{\text{presicion}*\text{recall}}{\text{presicion}+\text{recall}}$$
+Es existieren noch weitere Evaluierungsmethoden, wie z.B. Intersection over Union
 \pause
+\bigskip
 \begin{block}{Hinweis}
 	Metriken, die auf Clusterlabels basieren sind nur eingeschränkt nutzbar
 \end{block}
 \pause
+\bigskip
 \begin{block}{Hinweis}
-	Zum Vergleich müssen die jeweiligen NNs den selben Seed nutzen
+	Zum Vergleich von NNs müssen diese jeweils den selben Seed nutzen
 \end{block}
 \end{frame}
 
 \begin{frame}{Vorgehensweise: Optimierungen}
 	\begin{itemize}
 		\item Eingabebilder in Graustufen: Optimierung des Clusterings und des NNs
+		\item Ggf. Verkleinerung der Eingabebilder wenn dies keine starke Degradierung der Analyse ergibt
 		\item Parallelisierung entweder pro Bild oder mehrere Bilder parallel
 		\item Wahl des am besten geeigneten Clustering-Algorithmus
 		\item Wahl des am besten geeigneten Aufbaus des NNs
+		\item Image Preprocession, bspw. zum zuschneiden der Streifen
 	\end{itemize}
 \end{frame}
 
 \section{Referenzen}
 
-\begin{frame}[shrink=25]{Referenzen}
+\begin{frame}[plain,shrink=40]{Referenzen}
 	\bibliographystyle{gerabbrv3}
 	\bibliography{presentation}
 \end{frame}
