@@ -1,28 +1,20 @@
 \documentclass[9pt]{beamer}
-\usepackage[ngerman,english]{babel}
+\usepackage[ngerman]{babel}
 \usepackage{bibgerm}
+\usepackage{bibentry}
 \usepackage[autostyle]{csquotes}
 \usepackage{siunitx}
 
 \usetheme{TUDOplain}
 \setbeamertemplate{navigation symbols}{}
-\setbeamertemplate{footline}{\small \vspace{-1ex} \vbox{ \insertframenumber /\inserttotalframenumber}}
 \setbeamercovered{invisible}
-
-
-
-% bibliographic magic 
-\usepackage{bibentry}
-% reformat footnotes very plain
 \makeatletter
 \renewcommand\@makefnmark{%
 	[\@thefnmark]}
 \renewcommand\@makefntext[1]{%
 	\noindent\tiny [\@thefnmark] #1}
 \makeatother
-% command for citing
-\providecommand{\fcite}[1]{\footnote{\bibentry{#1}}}
-
+\setbeamertemplate{footline}{\small \vspace{-1ex} \vbox{ \insertframenumber /\inserttotalframenumber}}
 
 \sisetup{
 	locale = DE ,
@@ -34,16 +26,15 @@
 \author[Merlin Scholz]{Merlin Scholz\\\href{mailto:merlin.scholz@tu-dortmund.de}{merlin.scholz@tu-dortmund.de}}
 \title[Analyse der Marsoberfläche durch Unsupervised Learning]{Kategorisieren der Marsoberfläche mithilfe von Unsupervised Learning durch Backpropagation}
 \date[20.11.2019]{20. November 2019}
-\institute[TU Dortmund]{Mustererkennung,\\ Informatik XII, Technische Universität Dortmund}
+\institute[TU Dortmund]{Mustererkennung,\\Informatik XII, Technische Universität Dortmund}
 
 \begin{document}
 
-\bibliographystyle{gerabbrv3}
-%  put all .bib files here
-\nobibliography{presentation}
-
 \begin{frame}
-	\titlepage
+\titlepage
+
+\bibliographystyle{gerabbrv3}
+\nobibliography{presentation.bib}
 \end{frame}
 
 \begin{frame}{Inhalt}
@@ -226,7 +217,7 @@ Lösungsansatz:
 \begin{frame}{Vorgehensweise: Implementierung}
 \begin{itemize}
 	\item Grundlegende Idee ähnlich zu Kanezaki, basierend auf PyTorch
-	\item Benutzung von Python Bibliotheken nicht immer möglich (zu große Eingabedaten, bspw. bei SLIC\fcite{slic})
+	\item Benutzung von Python Bibliotheken nicht immer möglich (zu große Eingabedaten, bspw. bei SLIC)
 	\item[$\Rightarrow$] Speichereffizienter neu implementieren, ggf. über Sliding-Window-Verfahren
 	\item Für bessere Performance wird oft auf Cython\footnotemark[1] zurück gegriffen
 \end{itemize}
@@ -299,5 +290,4 @@ Es existieren noch weitere Evaluierungsmethoden, wie z.B. Intersection over Unio
 		\item Image Preprocessing, bspw. zum Zuschneiden der Streifen
 	\end{itemize}
 \end{frame}
-\nobibliography{presentation}
 \end{document}
