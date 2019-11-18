@@ -65,23 +65,27 @@ Lösungsansatz:
 
 \section{Verwandte Arbeiten}
 
-\begin{frame}{Verwandte Arbeiten: Segmentierung nach Kanezaki\cite{kanezaki2018_unsupervised_segmentation}}
-\begin{columns}
-	\begin{column}{.5\textwidth}
-		\begin{itemize}
-			\item Unüberwachtes Lernen der Segmentierung
-			\item Anfangs zufällige Ergebnisse werden mit Clusteringalgorithmus vereint
-			\item Zielfunktion: Softmax-Loss zwischen Ergebnis des NN und des optimierten Ergebnisses
-			\item NN wird auf diese Zielfunktion hin optimiert (Backpropagation)
-		\end{itemize}
-	\end{column}
-	\begin{column}{.5\textwidth}
-		\begin{figure}
-			\includegraphics[width=\textwidth,keepaspectratio]{kanezaki.png}
-			\caption{Vorgehensweise nach Kanezaki\cite{kanezaki2018_unsupervised_segmentation}}
-		\end{figure}
-	\end{column}
-\end{columns}
+\begin{frame}{Verwandte Arbeiten: Segmentierung nach Kanezaki\cite{kanezaki2018_unsupervised_segmentation} (1)}
+\begin{itemize}
+	\item Unüberwachtes Lernen der Segmentierung
+	\item Anfangs zufällige Ergebnisse werden mit Clusteringalgorithmus vereint
+	\item Zielfunktion: Softmax-Loss zwischen Ergebnis des NN und des optimierten Ergebnisses
+	\item NN wird auf diese Zielfunktion hin optimiert (Backpropagation)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Verwandte Arbeiten: Segmentierung nach Kanezaki\cite{kanezaki2018_unsupervised_segmentation} (2)}
+\begin{figure}
+	\includegraphics[width=\textwidth,keepaspectratio]{kanezaki.png}
+	\caption{Vorgehensweise nach Kanezaki\cite{kanezaki2018_unsupervised_segmentation}}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Verwandte Arbeiten: Segmentierung nach Kanezaki\cite{kanezaki2018_unsupervised_segmentation} (3)}
+\begin{figure}
+	\includegraphics[width=\textwidth,keepaspectratio]{kanezaki.png}
+	\caption{Vergleich zwischen klassichem SLIC-Algorithmus und Ansatz von Kanezaki}
+\end{figure}
 \end{frame}
 
 \begin{frame}{Verwandte Arbeiten: \textit{Deep Embedded Clustering[...]}}
@@ -221,8 +225,15 @@ Um die Alternativen evaluieren zu können, wird der Algorithmus auf Datensätze 
 \end{frame}
 
 \begin{frame}{Vorgehensweise: Evaluierung (2)}
-Die generierten Resultate werden mit den jeweils zugehörigen Ground Truths verglichen, bspw. über F1-Score:
-$$F_1 = 2*\frac{\text{presicion}*\text{recall}}{\text{presicion}+\text{recall}}$$
+Die generierten Resultate werden mit den jeweils zugehörigen Ground Truths verglichen, bspw. über den Rand Index:
+$$R = \frac{a+b}{\binom{n}{2}}$$
+mit
+\begin{itemize}
+	\item{$a=$} Anzahl Paare die in beiden Segmentierungen in gleichen Clustern liegen
+	\item{$b=$} Anzahl Paaren die in beiden Segmentierungen in unterschiedlichen Clustern liegen
+	\item{$n=$} Anzahl Elemente
+\end{itemize}
+\bigskip
 Es existieren noch weitere Evaluierungsmethoden, wie z.B. Intersection over Union
 \pause
 \bigskip
@@ -241,9 +252,9 @@ Es existieren noch weitere Evaluierungsmethoden, wie z.B. Intersection over Unio
 		\item Eingabebilder in Graustufen: Optimierung des Clusterings und des NNs
 		\item Ggf. Verkleinerung der Eingabebilder wenn dies keine starke Degradierung der Analyse ergibt
 		\item Parallelisierung entweder pro Bild oder mehrere Bilder parallel
-		\item Wahl des am besten geeigneten Clustering-Algorithmus
+		\item Wahl eines geeigneten Clustering-Algorithmus
 		\item Wahl des am besten geeigneten Aufbaus des NNs
-		\item Image Preprocession, bspw. zum zuschneiden der Streifen
+		\item Image Preprocessing, bspw. zum Zuschneiden der Streifen
 	\end{itemize}
 \end{frame}
 
