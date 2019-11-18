@@ -13,7 +13,20 @@
 \setbeamertemplate{navigation symbols}{}
 \setbeamertemplate{footline}{\small \vspace{-1ex} \vbox{ \insertframenumber /\inserttotalframenumber}}
 \setbeamercovered{invisible}
-\setbeamertemplate{bibliography item}{\insertbiblabel}
+% bibliographic magic 
+\usepackage{bibentry}
+% reformat footnotes very plain
+\makeatletter
+\renewcommand\@makefnmark{%
+	[\@thefnmark]}
+\renewcommand\@makefntext[1]{%
+	\noindent\tiny [\@thefnmark] #1}
+\makeatother
+% command for citing
+\providecommand{\fcite}[1]{\footnote{\bibentry{#1}}}
+\bibliographystyle{gerabbrv3}
+%  put all .bib files here
+
 \DeclareSIUnit\pixel{px}
 
 \author[Merlin Scholz]{Merlin Scholz\\\href{mailto:merlin.scholz@tu-dortmund.de}{merlin.scholz@tu-dortmund.de}}
@@ -22,6 +35,7 @@
 \institute[TU Dortmund]{Mustererkennung,\\ Informatik XII, Technische Universität Dortmund}
 
 \begin{document}
+
 \begin{frame}
 	\titlepage
 \end{frame}
@@ -43,7 +57,7 @@
 	\begin{column}{.5\textwidth}
 		\begin{figure}[H]
 			\includegraphics[width=\textwidth,keepaspectratio]{koeln00.png}
-			\caption{Beispiel: CityScapes Dataset\cite{Cordts_2016_CVPR}}
+			\caption{Beispiel: CityScapes Dataset\fcite{Cordts_2016_CVPR}}
 		\end{figure}
 	\end{column}
 \end{columns}
@@ -65,7 +79,7 @@ Lösungsansatz:
 
 \section{Verwandte Arbeiten}
 
-\begin{frame}{Verwandte Arbeiten: Segmentierung nach Kanezaki\cite{kanezaki2018_unsupervised_segmentation} (1)}
+\begin{frame}{Verwandte Arbeiten: Segmentierung nach Kanezaki\fcite{kanezaki2018_unsupervised_segmentation} (1)}
 \begin{itemize}
 	\item Unüberwachtes Lernen der Segmentierung
 	\item Anfangs zufällige Ergebnisse werden mit Clusteringalgorithmus vereint
@@ -74,14 +88,14 @@ Lösungsansatz:
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Verwandte Arbeiten: Segmentierung nach Kanezaki\cite{kanezaki2018_unsupervised_segmentation} (2)}
+\begin{frame}{Verwandte Arbeiten: Segmentierung nach Kanezaki\fcite{kanezaki2018_unsupervised_segmentation} (2)}
 \begin{figure}
 	\includegraphics[width=\textwidth,keepaspectratio]{kanezaki.png}
-	\caption{Vorgehensweise nach Kanezaki\cite{kanezaki2018_unsupervised_segmentation}}
+	\caption{Vorgehensweise nach Kanezaki\fcite{kanezaki2018_unsupervised_segmentation}}
 \end{figure}
 \end{frame}
 
-\begin{frame}{Verwandte Arbeiten: Segmentierung nach Kanezaki\cite{kanezaki2018_unsupervised_segmentation} (3)}
+\begin{frame}{Verwandte Arbeiten: Segmentierung nach Kanezaki\fcite{kanezaki2018_unsupervised_segmentation} (3)}
 \begin{figure}
 	\includegraphics[width=\textwidth,keepaspectratio]{kanezaki.png}
 	\caption{Vergleich zwischen klassichem SLIC-Algorithmus und Ansatz von Kanezaki}
@@ -103,11 +117,11 @@ Lösungsansatz:
 	\end{columns}
 \end{frame}
 
-\begin{frame}{\textit{Detection of craters [...] using shape and texture features} nach Bandeira\cite{Bandeira2012}}
+\begin{frame}{\textit{Detection of craters [...] using shape and texture features} nach Bandeira\fcite{Bandeira2012}}
 \begin{columns}
 	\begin{column}{.5\textwidth}
 		\begin{enumerate}
-		\item Vorsortierung basierend auf Urbach \& Stepinskis Algorithmus\cite{urbach2009automatic} zur Kratererkennung
+		\item Vorsortierung basierend auf Urbach \& Stepinskis Algorithmus\fcite{urbach2009automatic} zur Kratererkennung
 		\begin{itemize}
 			\item Effiziente Methode zur Krater-Erkennung
 			\item $\SI{70}{\percent}$ Erkennungsrate
@@ -121,20 +135,20 @@ Lösungsansatz:
 	\begin{column}{.5\textwidth}
 		\begin{figure}[H]
 			\includegraphics[width=\textwidth, keepaspectratio]{bandeira_detected.png}
-			\caption{Erkannte Krater nach Bandeira\cite{Bandeira2012}}
+			\caption{Erkannte Krater nach Bandeira\fcite{Bandeira2012}}
 		\end{figure}
 	\end{column}
 \end{columns}
 \bigskip
-\begin{center}Hierauf basierend: Der Krater-Datensatz der University of Massachusetts\cite{umass_craters} (vergleichbar mit unserem Ziel)
+\begin{center}Hierauf basierend: Der Krater-Datensatz der University of Massachusetts\fcite{umass_craters} (vergleichbar mit unserem Ziel)
 \end{center}
 \end{frame}
 
-\begin{frame}{Verwandte Arbeiten: \textit{Crater Detection via CNNs}\cite{2016arXiv160100978C}}
+\begin{frame}{Verwandte Arbeiten: \textit{Crater Detection via CNNs}\fcite{2016arXiv160100978C}}
 \begin{itemize}
 	\item Erforscht Neuronale Netze statt manuell erstellten Filtern
 	\item \enquote{Klassischer} Ansatz über neuronale Netze
-	\item Lernt auf Bandeira-Datensatz der UMass\cite{umass_craters}
+	\item Lernt auf Bandeira-Datensatz der UMass\fcite{umass_craters}
 	\item Nutzt F1-Score und Cross Validation zur Evaluierung
 	\item Gute Ergebnisse, F1-Score zwischen $\SI{88}{\percent}$ und $\SI{91}{\percent}$ (vgl. Bandeira $\SI{79}{\percent}-\SI{86}{\percent}$)
 \end{itemize}
@@ -163,7 +177,7 @@ Lösungsansatz:
 		\begin{column}{.3\textwidth}
 			\begin{figure}[H]
 				\includegraphics[height=.8\textheight, keepaspectratio]{P03-2.jpg}
-				\caption{Beispiel für einen \enquote{CTX-Streifen}\cite{doi:10.1029/2006JE002808}}
+				\caption{Beispiel für einen \enquote{CTX-Streifen}\fcite{doi:10.1029/2006JE002808}}
 			\end{figure}
 		\end{column}
 	\end{columns}	
@@ -182,7 +196,7 @@ Lösungsansatz:
 	\begin{column}{.5\textwidth}
 		\begin{figure}[H]
 			\includegraphics[width=\textwidth, keepaspectratio]{surface.png}
-			\caption{Anomalien der Marsoberfläche, aus \cite{sheriff_2019}}
+			\caption{Anomalien der Marsoberfläche, aus \fcite{sheriff_2019}}
 		\end{figure}
 	\end{column}
 \end{columns}	
@@ -192,18 +206,18 @@ Lösungsansatz:
 
 \begin{frame}{Vorgehensweise: Implementierung}
 \begin{itemize}
-	\item Grundlegende Idee ähnlich zu Kanezaki\cite{kanezaki2018_unsupervised_segmentation}, basierend auf PyTorch
-	\item Benutzung von Python Bibliotheken nicht immer möglich (zu große Eingabedaten, bspw. bei SLIC\cite{slic})
+	\item Grundlegende Idee ähnlich zu Kanezaki\fcite{kanezaki2018_unsupervised_segmentation}, basierend auf PyTorch
+	\item Benutzung von Python Bibliotheken nicht immer möglich (zu große Eingabedaten, bspw. bei SLIC\fcite{slic})
 	\item[$\Rightarrow$] Speichereffizienter neu implementieren, ggf. über Sliding-Window-Verfahren
-	\item Für bessere Performance wird oft auf Cython\cite{behnel2010cython} zurück gegriffen
+	\item Für bessere Performance wird oft auf Cython\fcite{behnel2010cython} zurück gegriffen
 \end{itemize}	
 \end{frame}
 
 \begin{frame}{Vorgehensweise: Erweiterung}
 Zur Optimierung der Ergebnisse werden einzelne Teile des Algorithmus ersetzt:
 \begin{itemize}
-	\item Ersetzen des relativ einfachen Neuronalen Netzes durch größere, bspw. ImageNet, Faster R-CNNs, YOLOv3, etc.
-	\item Ersetzen des SLIC Clusteringalgorithmus durch bspw. k-Means Clustering oder Mean-Shift Clustering
+	\item Ersetzen des relativ einfachen Neuronalen Netzes durch größere, bspw. FCNs, SegNet, DeepLabv3, etc.
+	\item Ersetzen des SLIC Clusteringalgorithmus durch klassische Clusteringalgorithmen wie k-Means Clustering oder Mean-Shift Clustering
 \end{itemize}	
 \end{frame}
 
@@ -211,22 +225,22 @@ Zur Optimierung der Ergebnisse werden einzelne Teile des Algorithmus ersetzt:
 Um die Alternativen evaluieren zu können, wird der Algorithmus auf Datensätze mit vorhandenen Ground Truths angewandt:
 \medskip
 \begin{itemize}
-	\item \textit{Common Objects In Context}\cite{LMBHPRDZ:ECCV:2014}
-	\item \textit{Cityscapes Dataset}\cite{Cordts2016Cityscapes}
+	\item \textit{Common Objects In Context}\fcite{LMBHPRDZ:ECCV:2014}
+	\item \textit{Cityscapes Dataset}\fcite{Cordts2016Cityscapes}
 	\item[$\Rightarrow$] Weit verbreitete Datensätze zur Bildsegmentierung
 	\medskip
-	\item \textit{The Prague Texture Segmentation Datagenerator and Benchmark}\cite{mikevs2015benchmarking}
+	\item \textit{The Prague Texture Segmentation Datagenerator and Benchmark}\fcite{mikevs2015benchmarking}
 	\item[$\Rightarrow$] Zufällig generierte Datensätze zur Clusteringanalyse
 	\medskip
 	\item \textit{Crater Dataset} der UMass Boston
-	 KDLab\cite{umass_craters}
+	 KDLab\fcite{umass_craters}
 	\item[$\Rightarrow$] Den zu analysierenden Daten sehr ähnlich, also realitätsnaher
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Vorgehensweise: Evaluierung (2)}
 Die generierten Resultate werden mit den jeweils zugehörigen Ground Truths verglichen, bspw. über den Rand Index:
-$$R = \frac{a+b}{\binom{n}{2}}$$
+\[R = \frac{a+b}{\binom{n}{2}}\]
 mit
 \begin{itemize}
 	\item{$a=$} Anzahl Paare die in beiden Segmentierungen in gleichen Clustern liegen
@@ -257,13 +271,5 @@ Es existieren noch weitere Evaluierungsmethoden, wie z.B. Intersection over Unio
 		\item Image Preprocessing, bspw. zum Zuschneiden der Streifen
 	\end{itemize}
 \end{frame}
-
-\section{Referenzen}
-
-\begin{frame}[plain,shrink=40]{Referenzen}
-	\bibliographystyle{gerabbrv3}
-	\bibliography{presentation}
-\end{frame}
-
-	
+\nobibliography{presentation}
 \end{document}
