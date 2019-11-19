@@ -250,6 +250,32 @@
 \footnotetext[1]{\bibentry{sheriff_2019}}
 \end{frame}
 
+\section{Fully Convolutional Neural Networks zur Bildsegmentierung}
+
+\begin{frame}{Fully Convolutional Neural Networks zur Bildsegmentierung}
+\begin{itemize}
+	\item Basis ist ein \enquote{normales} CNN, wie zur Objekterkennung
+	\item Letzte Fully Connected Layer wird durch große Convolutional Layer ersetzt
+	\item Diese hilft, einen genaueren Ort des erkannten Objektes zu erkennen
+\end{itemize}
+\bigskip
+\begin{columns}
+	\begin{column}{.5\textwidth}
+		\begin{figure}[H]
+			\includegraphics[width=\textwidth, keepaspectratio]{fcn.png}
+			\caption{Aufbau eines FCNs zur Segmentierung, aus \footnotemark[1]}
+		\end{figure}
+	\end{column}
+	\begin{column}{.5\textwidth}
+		\begin{figure}[H]
+			\includegraphics[width=\textwidth, keepaspectratio]{fcn2.jpg}
+			\caption{Vergleich CNN FCN, aus \footnotemark[1]}
+		\end{figure}
+	\end{column}
+\end{columns}	
+\footnotetext[1]{\bibentry{santos_2017}}
+\end{frame}
+
 \section{Vorgehensweise}
 
 \begin{frame}{Vorgehensweise: Implementierung}
