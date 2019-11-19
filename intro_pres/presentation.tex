@@ -29,12 +29,14 @@
 \institute[TU Dortmund]{Mustererkennung,\\Informatik XII, Technische Universität Dortmund}
 
 \begin{document}
-
+	
 \begin{frame}
-\titlepage
-
-\bibliographystyle{gerabbrv3}
-\nobibliography{presentation.bib}
+	
+	\titlepage
+	
+	\bibliographystyle{gerabbrv3}
+	\nobibliography{presentation}
+	
 \end{frame}
 
 \begin{frame}{Inhalt}
@@ -97,10 +99,30 @@ Lösungsansatz:
 \end{frame}
 
 \begin{frame}{Verwandte Arbeiten: Segmentierung nach Kanezaki\footnotemark[1] (3)}
-\begin{figure}
-	\includegraphics[width=\textwidth,keepaspectratio]{kanezaki.png}
-	\caption{Vergleich zwischen klassichem SLIC-Algorithmus und Ansatz von Kanezaki}
-\end{figure}
+\begin{center}
+	Vergleich zwischen klassischem SLIC-Algorithmus und Ansatz von Kanezaki
+\end{center}
+\begin{columns}
+	\begin{column}{.33\textwidth}
+		\begin{figure}
+			\includegraphics[width=\textwidth,keepaspectratio]{196062.jpg}
+			\caption{Eingabebild}
+		\end{figure}
+	\end{column}
+	\begin{column}{.33\textwidth}
+		\begin{figure}
+			\includegraphics[width=\textwidth,keepaspectratio]{slic.png}
+			\caption{SLIC}
+		\end{figure}
+	\end{column}
+	\begin{column}{.33\textwidth}
+		\begin{figure}
+			\includegraphics[width=\textwidth,keepaspectratio]{kanezaki_out.png}
+			\caption{Kanezaki}
+		\end{figure}
+	\end{column}
+\end{columns}
+
 \footnotetext[1]{\bibentry{kanezaki2018_unsupervised_segmentation}}
 \end{frame}
 
@@ -237,7 +259,12 @@ Um die Alternativen evaluieren zu können, wird der Algorithmus auf Datensätze 
 \medskip
 \begin{itemize}
 	\item \textit{Common Objects In Context}\footnotemark[1]
+	
 	\item \textit{Cityscapes Dataset}\footnotemark[2]
+	\begin{figure}[H]
+		\includegraphics[width=\textwidth,keepaspectratio]{koeln00.png}
+		\caption{Beispiel: CityScapes Dataset\footnotemark[1] }
+	\end{figure}
 	\item[$\Rightarrow$] Weit verbreitete Datensätze zur Bildsegmentierung
 	\medskip
 	\item \textit{The Prague Texture Segmentation Datagenerator and Benchmark}\footnotemark[3]
@@ -290,4 +317,6 @@ Es existieren noch weitere Evaluierungsmethoden, wie z.B. Intersection over Unio
 		\item Image Preprocessing, bspw. zum Zuschneiden der Streifen
 	\end{itemize}
 \end{frame}
+
+
 \end{document}
