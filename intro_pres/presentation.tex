@@ -130,7 +130,7 @@ Lösungsansatz:
 	\begin{columns}
 		\begin{column}{.5\textwidth}
 			\begin{itemize}
-				\item TODO
+				\item erlernung von Clustering über NNs
 			\end{itemize}
 		\end{column}
 		\begin{column}{.5\textwidth}
@@ -142,8 +142,11 @@ Lösungsansatz:
 \end{frame}
 
 \begin{frame}{\textit{Detection of craters [...] using shape and texture features} nach Bandeira\footnotemark[1]}
+\begin{center}
+	\alert{Nur Krater-Erkennung}
+\end{center}
 \begin{columns}
-	\begin{column}{.5\textwidth}
+	\begin{column}{.6\textwidth}
 		\begin{enumerate}
 		\item Vorsortierung basierend auf Urbach \& Stepinskis Algorithmus\footnotemark[2] zur Kratererkennung
 		\begin{itemize}
@@ -156,21 +159,15 @@ Lösungsansatz:
 		\item Post-Processing: Eliminierung von ungewöhnlich geformten Kratern
 		\end{enumerate}
 	\end{column}
-	\begin{column}{.5\textwidth}
+	\begin{column}{.4\textwidth}
 		\begin{figure}[H]
 			\includegraphics[width=\textwidth, keepaspectratio]{bandeira_detected.png}
 			\caption{Erkannte Krater nach Bandeira}
 		\end{figure}
 	\end{column}
 \end{columns}
-\bigskip
-\begin{center}Hierauf basierend: Der Krater-Datensatz der University of Massachusetts\footnotemark[3]\\
-	(vergleichbar mit unserem Ziel)
-\end{center}
-
 \footnotetext[1]{\bibentry{Bandeira2012}}
 \footnotetext[2]{\bibentry{urbach2009automatic}}
-\footnotetext[3]{\bibentry{umass_craters}}
 \end{frame}
 
 \begin{frame}{Verwandte Arbeiten: \textit{Crater Detection via CNNs}\footnotemark[1]}
@@ -196,6 +193,7 @@ Lösungsansatz:
 				\item \textit{High Resolution Imaging Experiment} (HiRISE) für genauere Detailaufnahmen
 			\end{itemize}
 			\item CTX-Streifen jeweils $\sim\SI{150}{\mebi\byte}$ groß, Auflösung bis zu $\SI{10000}{px}*\SI{30000}{px}$
+			\item Müssen vorher entsprechend konvertiert werden
 			\item Insgesamt etwa $\SI{13}{\tebi\byte}$ an Daten
 			\begin{itemize}
 				\item[$\Rightarrow$] Manuelle Segmentierung nicht möglich
@@ -278,7 +276,7 @@ Um die Alternativen evaluieren zu können, wird der Algorithmus auf Datensätze 
 \end{frame}
 \begin{frame}{Vorgehensweise: Evaluierung (3)}
 \begin{itemize}
-	\item \textit{Crater Dataset} der UMass Boston
+	\item \textit{Crater Dataset} der UMass Boston (basierend auf dem Algorithmus nach Bandeira)
 	 KDLab\footnotemark[1]
 	 \begin{figure}[H]
 	 	\includegraphics[width=.7\textwidth,keepaspectratio]{bandeira_detected.png}
