@@ -258,33 +258,37 @@ Zur Optimierung der Ergebnisse werden einzelne Teile des Algorithmus ersetzt:
 Um die Alternativen evaluieren zu können, wird der Algorithmus auf Datensätze mit vorhandenen Ground Truths angewandt:
 \medskip
 \begin{itemize}
-	\item \textit{Common Objects In Context}\footnotemark[1]
-	
-	\item \textit{Cityscapes Dataset}\footnotemark[2]
+	\item \textit{Cityscapes Dataset}\footnotemark[1]
 	\begin{figure}[H]
-		\includegraphics[width=\textwidth,keepaspectratio]{koeln00.png}
-		\caption{Beispiel: CityScapes Dataset\footnotemark[1] }
+		\includegraphics[width=.7\textwidth,keepaspectratio]{koeln00.png}
 	\end{figure}
-	\item[$\Rightarrow$] Weit verbreitete Datensätze zur Bildsegmentierung
-	\medskip
-	\item \textit{The Prague Texture Segmentation Datagenerator and Benchmark}\footnotemark[3]
+	\item[$\Rightarrow$] Weit verbreiteter Datensatz zur Bildsegmentierung
+\end{itemize}
+\footnotetext[1]{\bibentry{Cordts2016Cityscapes}}	
+\end{frame}
+\begin{frame}{Vorgehensweise: Evaluierung (2)}
+\begin{itemize}
+	\item \textit{The Prague Texture Segmentation Datagenerator and Benchmark}\footnotemark[1]
+	\begin{figure}[H]
+		\includegraphics[width=.4\textwidth,keepaspectratio]{prague.png}
+	\end{figure}
 	\item[$\Rightarrow$] Zufällig generierte Datensätze zur Clusteringanalyse
-	\medskip
+\end{itemize}
+\footnotetext[1]{\bibentry{mikevs2015benchmarking}}	
+\end{frame}
+\begin{frame}{Vorgehensweise: Evaluierung (3)}
+\begin{itemize}
 	\item \textit{Crater Dataset} der UMass Boston
-	 KDLab\footnotemark[4]
+	 KDLab\footnotemark[1]
+	 \begin{figure}[H]
+	 	\includegraphics[width=.7\textwidth,keepaspectratio]{bandeira_detected.png}
+	 \end{figure}
 	\item[$\Rightarrow$] Den zu analysierenden Daten sehr ähnlich, also realitätsnaher
 \end{itemize}
-\footnotetext[1]{\bibentry{LMBHPRDZ:ECCV:2014}}	
-\footnotetext[2]{\bibentry{Cordts2016Cityscapes}}	
-\footnotetext[3]{\bibentry{mikevs2015benchmarking}}	
-\footnotetext[4]{\bibentry{umass_craters}}	
+\footnotetext[1]{\bibentry{umass_craters}}	
 \end{frame}
 
-\begin{frame}{Vorgehensweise: Evaluierung (2)}
-	TODO
-\end{frame}
-
-\begin{frame}{Vorgehensweise: Evaluierung (3)}
+\begin{frame}{Vorgehensweise: Evaluierung (4)}
 Die generierten Resultate werden mit den jeweils zugehörigen Ground Truths verglichen, bspw. über den Rand Index:
 \[R = \frac{a+b}{\binom{n}{2}}\]
 mit
