@@ -3,8 +3,12 @@
 
 \section{Motivation}
 
-Neuronale Netzwerke werden in den letzten Jahren häufig zur Objekterkennung und Bildsegmentierung genutzt. Ein weit bekanntes Anwendungsbeispiel findet sich in der Entwicklung des autonomen Fahrens, bei welcher das Bild in verschiedene Klassen wie \zB Fahrbahn, Ampel oder Passanten segmentiert wird. Dies geschieht alles unter der Voraussetzung einer Ground Truth, aus der das Netzwerk lernen kann, wie es die jeweiligen Klassen erkennen kann.
+Neuronale Netzwerke werden in den letzten Jahren häufig zur Objekterkennung und Bildsegmentierung genutzt. Ein weit bekanntes Anwendungsbeispiel findet sich in der Entwicklung des autonomen Fahrens, bei welcher das Bild in verschiedene Klassen wie \zB Fahrbahn, Ampel oder Passanten segmentiert wird. Dies geschieht für gewöhnlich durch überwachtes Lernen, also unter der Voraussetzung von Trainingsdaten, auch Ground Truths genannt, aus denen das Netzwerk lernen kann, wie es die jeweiligen Klassen erkennen kann.
 
 Diese Ground Truths werden meist von Hand erschaffen. So können diese im Straßenverkehr von jedermann erstellt werden, während in spezifischeren Anwendungsgebieten meist Domänenexperten dazu benötigt werden. Dies ist auch der Fall bei der Analyse der Marsoberfläche. Aufgrund der schlichten Größe des Datensatzes, und der Notwendigkeit von Experten in diesem Fachgebiet, ist es hier weder leicht, noch zeiteffizient oder kostengünstig möglich, manuell eine Ground Truth zu entwickeln.
 
+Entgegen des überwachten Lernens existiert auch das unüberwachte Lernen. Hier existiert keine Ground Truth, stattdessen muss dem Algorithmus eine andere Methode übermittelt werden, anhand welcher er erkennen kann, wie korrekt ein Ergebnis ist. Dies geschieht \zB über einen \enquote{klassischen} Algorithmus, der das Problem zwar ohne neuronale Netze löst, allerdings keine so hohe Genauigkeit besitzt.
+
 \section{Rahmen der Arbeit}
+
+In dieser Arbeit wird versucht, das Problem der Segmentierung der Marsoberfläche durch unüberwachtes Lernen zu lösen.
