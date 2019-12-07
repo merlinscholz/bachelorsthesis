@@ -13,9 +13,13 @@
 
 Um ein Eingabebild, wie \zB eine Aufnahme der Marsoberfläche, in verschiedene Bereiche aufteilen zu können, bedarf es eines Algorithmus zur Bildsegmentierung. Wie in \cite{bildsegmentierung} aufgeführt, beschreibt der Überbegriff der Bildsegmentierung oftmals den Ablauf des Pre-Processing eines Eingabebildes, gefolgt von der eigentlichen \textquote{Segmentierung der Bilder in Regionen, Objekte mit geschlossenen Konturen oder Liniensegmente} und, je nach Anwendungsfall, der anschließenden Einordnung der einzelnen Segmente.
 
-In dem hier beschriebenen Anwendungsbereich besteht das Pre-Processing aus dem Herunterladen der Eingabedaten von der Website des \textit{Planetary Data System} der NASA, insbesondere deren \textit{Imaging Node} (\hyperlink{https://pds-imaging.jpl.nasa.gov/}{https://pds-imaging.jpl.nasa.gov/}). Die dort gehosteten Aufnahmen der MRO Context Camera sind unverarbeitet und befinden sich in einem speziell für diesen Zweck erstellten Dateiformat, % TODO Zitieren
-sodass diese erst konvertiert, und anschließend so verarbeitet werden müssen, dass normale Bilder des Mars entstehen.
-Diese Verarbeitung besteht aus dem Laden der Metadaten der einzelnen Aufnahmen, gefolgt von deren Kalibrierung, der Entfernung der Even/Odd Detector Stripes, und der Konvertierung in das GeoTIFF format. Dieses kann von dem eigentlichen Analyse-Algorithmus eingelesen und weiter verarbeitet werden.
+\section{Pre-Processing}
+\label{sec:preprocessing}
+
+In dem hier beschriebenen Anwendungsbereich besteht das Pre-Processing aus dem Herunterladen der Eingabedaten von der Website des \textit{Planetary Data System} der NASA, insbesondere deren \textit{Imaging Node}\cite{pds}. Die dort gehosteten Aufnahmen der MRO Context Camera sind größtenteils unverarbeitet und befinden sich in einem speziell für diesen Zweck erstellten Dateiformat\footnote{\url{https://pds-imaging.jpl.nasa.gov/data/mro/mars\_reconnaissance\_orbiter/ctx/mrox\_0001/document/ctxsis.pdf}}\footnote{\url{https://pds-imaging.jpl.nasa.gov/data/mro/mars\_reconnaissance\_orbiter/ctx/mrox\_0001/document/archsis.pdf}}, sodass diese erst konvertiert und anschließend so verarbeitet werden müssen, dass für diesen Zweck besser geeignete Bilddateien entstehen.
+Diese Verarbeitung besteht aus dem Herunterladen der Metadaten der einzelnen Aufnahmen, gefolgt von deren Kalibrierung, der Entfernung der Even/Odd Detector Stripes, und der Konvertierung in das GeoTIFF format. Dieses kann von dem eigentlichen Analyse-Algorithmus eingelesen und weiter verarbeitet werden.
+
+Zur eigentlichen Verarbeitung wird das ISIS Image Processing Software Package\cite{isis} in Kombination mit GNU Parallel\cite{gnuparallel} genutzt.
 
 \section{Neuronale Netze}
 \label{sec:neuronalenetze}
