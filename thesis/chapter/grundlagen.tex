@@ -25,3 +25,9 @@ Zur eigentlichen Verarbeitung wird das ISIS Image Processing Software Package\ci
 \label{sec:neuronalenetze}
 
 Obwohl einfache Versionen neuronaler Netze schon seit vielen Jahrzehnten in der Informatik genutzt werden, wurden in den letzten Jahren durch Deep Neural Networks neue Durchbrüche in verschiedensten Bereichen erzielt. Dieser Umschwung ist darauf zurückzuführen, dass mit dem Fortschritt der Technik nun auch große Netzwerke effizient ausgeführt werden können.
+
+Vereinfacht gesagt lernen Neuronale Netze wie sie eine vorgegebene Aufgabe lösen können\cite{mitnews_nn}, benötigen als Eingabe allerdings Beispiele von ähnlichen, bereits gelösten Problemen. Diese Problematik des überwachten Lernens ist in Abschnitt \ref{sec:motivation} näher beschrieben. Ihre Funktionsweise ist dabei an die des (menschlichen) Gehirns angelehnt: Ein neuronales Netz besteht meistens aus mehreren Schichten mit jeweils einer sehr großen Anzahl an vergleichsweise leicht berechenbaren Knoten, welche auch als Neuronen bezeichnet werden. Jedes Neuron ist mit mehreren Neuronen aus der Schicht vor und nach ihm vernetzt.\cite{schmidhuber2015deep} Während das Netzwerk trainiert wird, passen die einzelnen Knoten jeweils zwei Werte an: Wie sehr sie die Ausgabe der jeweils vorherigen Schicht aus Knoten gewichten, und die Mindestgrenze anhand welcher sie bestimmen, ob sie überhaupt einen Wert an die nächste Schicht ausgeben´. Diese Gewichtungen sind anfangs zufällig bestimmt.\cite{mitnews_nn, schmidhuber2015deep}
+
+\section{Convolutional Neural Networks}
+\label{sec:cnn}
+% TODO https://arxiv.org/pdf/1404.7828.pdf
