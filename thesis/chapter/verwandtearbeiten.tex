@@ -1,7 +1,7 @@
 \chapter{Verwandte Arbeiten}
 \label{chap:verwarbeiten}
 
-\section{Unsupervised Image Segmentation by Backpropagation}
+\section{Unbeaufsichtigte Bildsegmentierung durch Backpropagation}
 \label{sec:kanezaki}
 In seinem Paper \cite{kanezaki} stellt Asako Kanezaki einen Ansatz vor, Convolutional Neural Networks zur Bildsegmentierung zu nutzen. Die Besonderheit an diesem Ansatz ist allerdings, dass er nicht wie frühere Versuche CNNs zur Bildsegmentierung zu nutzen auf überwachtem Lernen basiert, sondern unüberwachtes Lernen nutzt.
 
@@ -17,14 +17,22 @@ Erreicht wird dieses Ziel durch einen iterativen Prozess, in welchem ein anfangs
 	\label{fig:kanezaki_flowchart}
 \end{figure}
 
-\section{Unsupervised Deep Embedding for Clustering Analysis}
-\label{sec:unsupervised_dec}
-\cite{unsupervised_dec}
+%\section{Unsupervised Deep Embedding for Clustering Analysis}
+%\label{sec:unsupervised_dec}
+%\cite{unsupervised_dec}
 
-\section{Detection of sub-kilometer craters in high resolution planetary images using shape and texture features}
+\section{Automatisierte Kratererkennung}
 \label{sec:bandeira}
-\cite{bandeira}
+In dem Paper \enquote{Automatic Detection of Sub-km Craters Using Shape and Texture Information}\cite{bandeira} wird ein neuer Ansatz zur Kratererkennung vorgestellt. Zuvor wurden diese meist manuell katalogisiert, dies resultierte darin, dass nur die größten Krater dokumentiert wurden, oder darin, dass nur vergleichsweise kleine Bereiche innerhalb eines akzeptablen Zeitraums verarbeitet werden konnten. Daher konzentrieren sich die Autoren insbesondere auf die Erkennung von kleineren Kratern.
 
-\section{Crater Detection via Convolutional Neural Networks}
+Die erarbeitete Vorgehensweise beginnt damit, dass über den Algorithmus von Urbach \& Stepinski\cite{urbach2009automatic} eine grobe Vorsortierung berechnet wird. Dieser Algorithmus ist zwar relativ effizient, hat aber nur eine Erkennungsrate von etwa 70\%. Er basiert auf der Tatsache, dass Krater meistens durch nebeneinander liegende Highlights und Schatten erkennbar sind.
+
+Nach dieser Vorsortierung werden in \cite{bandeira} 9 Bitmasken in verschiedenen Positionen, Größen und Ausrichtungen über die Kandidaten gelegt. Die Wahrscheinlichkeit, dass der Kandidat ein Krater ist, berechnet sich aus der Übereinstimmung zwischen den Bitmasken und dem eigentlichen Kandidatenbild. Abschließend werden die Ergebnisse mithilfe eines angepassten AdaBoost Algorithmus optimiert. Das Post-Processing besteht aus der Eliminierung von ungewöhnlich geformten Kratern.
+
+Mit dieser Methode als Basis hat die \textit{University of Massachusetts Boston} einen Datensatz\cite{umass} erstellt, in dem eine Aufnahme des Mars von der HRSC\cite{neukum2004hrsc} auf Krater hin analysiert wird.
+
+
+
+\section{Crater Detection über Neuronale Netze}
 \label{sec:crater_cnn}
 \cite{crater_cnn}
