@@ -1,3 +1,4 @@
+% Encoding: UTF-8
 @article{randindex,
 	title={Natural scales in geographical patterns},
 	author={Menezes, Telmo and Roth, Camille},
@@ -7,7 +8,7 @@
 	year={2017},
 	publisher={Nature Publishing Group}
 },
-@inproceedings{kanezaki,
+@inproceedings{kanezaki_18,
 	title={Unsupervised Image Segmentation by Backpropagation},
 	author={Asako Kanezaki},
 	booktitle={Proceedings of IEEE International Conference on Acoustics, Speech, and Signal Processing (ICASSP)},
@@ -29,20 +30,22 @@
 	pages={478--487},
 	year={2016}
 },
-@article{bandeira,
-	title = "Detection of sub-kilometer craters in high resolution planetary images using shape and texture features",
-	journal = "Advances in Space Research",
-	volume = "49",
-	number = "1",
-	pages = "64 - 74",
-	year = "2012",
-	issn = "0273-1177",
-	doi = "https://doi.org/10.1016/j.asr.2011.08.021",
-	url = "http://www.sciencedirect.com/science/article/pii/S027311771100617X",
-	author = "Lourenço Bandeira and Wei Ding and Tomasz F. Stepinski",
-	keywords = "Automatic crater detection, Pattern recognition, Craters, Mars",
-	abstract = "Counting craters is a paramount tool of planetary analysis because it provides relative dating of planetary surfaces. Dating surfaces with high spatial resolution requires counting a very large number of small, sub-kilometer size craters. Exhaustive manual surveys of such craters over extensive regions are impractical, sparking interest in designing crater detection algorithms (CDAs). As a part of our effort to design a CDA, which is robust and practical for planetary research analysis, we propose a crater detection approach that utilizes both shape and texture features to identify efficiently sub-kilometer craters in high resolution panchromatic images. First, a mathematical morphology-based shape analysis is used to identify regions in an image that may contain craters; only those regions – crater candidates – are the subject of further processing. Second, image texture features in combination with the boosting ensemble supervised learning algorithm are used to accurately classify previously identified candidates into craters and non-craters. The design of the proposed CDA is described and its performance is evaluated using a high resolution image of Mars for which sub-kilometer craters have been manually identified. The overall detection rate of the proposed CDA is 81%, the branching factor is 0.14, and the overall quality factor is 72%. This performance is a significant improvement over the previous CDA based exclusively on the shape features. The combination of performance level and computational efficiency offered by this CDA makes it attractive for practical application."
-},
+
+@Article{bandeira_12,
+  author   = {Lourenço Bandeira and Wei Ding and Tomasz F. Stepinski},
+  title    = {Detection of sub-kilometer craters in high resolution planetary images using shape and texture features},
+  journal  = {Advances in Space Research},
+  year     = {2012},
+  volume   = {49},
+  number   = {1},
+  pages    = {64 - 74},
+  issn     = {0273-1177},
+  abstract = {Counting craters is a paramount tool of planetary analysis because it provides relative dating of planetary surfaces. Dating surfaces with high spatial resolution requires counting a very large number of small, sub-kilometer size craters. Exhaustive manual surveys of such craters over extensive regions are impractical, sparking interest in designing crater detection algorithms (CDAs). As a part of our effort to design a CDA, which is robust and practical for planetary research analysis, we propose a crater detection approach that utilizes both shape and texture features to identify efficiently sub-kilometer craters in high resolution panchromatic images. First, a mathematical morphology-based shape analysis is used to identify regions in an image that may contain craters; only those regions – crater candidates – are the subject of further processing. Second, image texture features in combination with the boosting ensemble supervised learning algorithm are used to accurately classify previously identified candidates into craters and non-craters. The design of the proposed CDA is described and its performance is evaluated using a high resolution image of Mars for which sub-kilometer craters have been manually identified. The overall detection rate of the proposed CDA is 81%, the branching factor is 0.14, and the overall quality factor is 72%. This performance is a significant improvement over the previous CDA based exclusively on the shape features. The combination of performance level and computational efficiency offered by this CDA makes it attractive for practical application.},
+  doi      = {https://doi.org/10.1016/j.asr.2011.08.021},
+  keywords = {Automatic crater detection, Pattern recognition, Craters, Mars},
+  url      = {http://www.sciencedirect.com/science/article/pii/S027311771100617X},
+}
+,
 @misc{crater_cnn,
 	title={Crater Detection via Convolutional Neural Networks},
 	author={Joseph Paul Cohen and Henry Z. Lo and Tingting Lu and Wei Ding},
@@ -108,7 +111,7 @@
 	year={2015},
 	publisher={Elsevier}
 }
-@article{urbach2009automatic,
+@article{urbach_stepinski_2009,
 	title={Automatic detection of sub-km craters in high resolution planetary images},
 	author={Urbach, Erik R and Stepinski, Tomasz F},
 	journal={Planetary and Space Science},
@@ -118,20 +121,22 @@
 	year={2009},
 	publisher={Elsevier}
 }
-@inproceedings{neukum2004hrsc,
-	title={HRSC: The high resolution stereo camera of Mars Express},
-	author={Neukum, Gerhard and Jaumann, Ralf},
-	booktitle={Mars Express: The Scientific Payload},
-	volume={1240},
-	pages={17--35},
-	year={2004}
+
+@InBook{hrsc,
+  pages   = {15-74},
+  title   = {HRSC: High resolution stereo camera},
+  year    = {2009},
+  author  = {Neukum, G. and Jaumann, R. and Basilevsky, Alexander and Dumke, A. and Gasselt, Stephan and Giese, B. and Hauber, E. and Head, James and Heipke, C. and Hoekzema, N. and Hoffmann, Harald and Greeley, R. and Gwinner, K. and Kirk, R.L. and Markiewicz, W. and Mccord, Thomas and Michael, G. and Muller, J.-P and Murray, J.B. and Associates, HRSC},
+  month   = {06},
+  isbn    = {978-92-9221-975-8},
+  journal = {European Space Agency, (Special Publication) ESA SP},
 }
 @article{umass,
 	title= {Crater Dataset},
 	journal= {},
 	author= {UMass Boston KDLab},
 	year= {2013},
-	url= {http://kdl.cs.umb.edu/w/datasets/craters/},
+	url= {https://web.archive.org/web/20170907065100/http://kdl.cs.umb.edu/w/datasets/craters/},
 	abstract= {Dataset Objective:
 	Determine if the instance is a crater or not a crater. 1=Crater, 0=Not Crater
 	
@@ -145,3 +150,46 @@
 	keywords= {},
 	terms= {}
 }
+@InProceedings{bandeira_10,
+  author    = {{Bandeira}, L. and {Ding}, W. and {Stepinski}, T.~F.},
+  title     = {{Automatic Detection of Sub-km Craters Using Shape and Texture Information}},
+  booktitle = {Lunar and Planetary Science Conference},
+  year      = {2010},
+  series    = {Lunar and Planetary Science Conference},
+  pages     = {1144},
+  month     = {Mar},
+  adsnote   = {Provided by the SAO/NASA Astrophysics Data System},
+  adsurl    = {https://ui.adsabs.harvard.edu/abs/2010LPI....41.1144B},
+}
+
+@Article{bandeira_07,
+  author   = {L. {Bandeira} and J. {Saraiva} and P. {Pina}},
+  title    = {Impact Crater Recognition on Mars Based on a Probability Volume Created by Template Matching},
+  journal  = {IEEE Transactions on Geoscience and Remote Sensing},
+  year     = {2007},
+  volume   = {45},
+  number   = {12},
+  pages    = {4008-4015},
+  month    = {Dec},
+  issn     = {1558-0644},
+  abstract = {This paper presents a methodology that brings together a number of techniques in the fields of image processing and pattern recognition with the purpose of achieving the automated detection of impact craters on images of planetary surfaces. The modular approach adopted for its development includes a phase of candidate selection, followed by template matching, in which the probability associated to each detection is established, and finally, by the analysis of the probability volume, in which the identification of craters on the image is achieved. It is tested on a set of images from four different regions of the surface of the planet Mars, all obtained by the same sensor in the last decade. The recognition rates for craters with radii that are larger than five pixels are very good, both globally and for each of the individual areas. The performance of the algorithm in the face of the variation of some of its parameters is analyzed and discussed in detail. We believe that this is a tool that is suitable for a general application in any area of a planet or satellite captured in an image, whatever the geomorphological setting, the optical sensor, and the conditions of illumination are.},
+  doi      = {10.1109/TGRS.2007.904948},
+  keywords = {image matching;Mars;meteorite craters;pattern recognition;planetary remote sensing;planetary surfaces;impact crater recognition;Mars;probability volume;template matching;image processing;pattern recognition;planetary surface;optical sensor;illumination;Mars;Planets;Image processing;Pattern recognition;Phase detection;Image analysis;Testing;Image sensors;Performance analysis;Algorithm design and analysis;Circular feature recognition;impact craters;Mars;template matching},
+}
+
+@Article{salamuniccar_10,
+  author   = {G. {Salamuniccar} and S. {Loncaric}},
+  title    = {Method for Crater Detection From Martian Digital Topography Data Using Gradient Value/Orientation, Morphometry, Vote Analysis, Slip Tuning, and Calibration},
+  journal  = {IEEE Transactions on Geoscience and Remote Sensing},
+  year     = {2010},
+  volume   = {48},
+  number   = {5},
+  pages    = {2317-2329},
+  month    = {May},
+  issn     = {1558-0644},
+  abstract = {Recently, all the craters from the major currently available manually assembled catalogs have been merged into the catalog with 57 633 known Martian impact craters. This paper presents a new crater detection algorithm (CDA) for the search of still uncataloged impact craters. The CDA is based on fuzzy edge detectors and Radon/Hough transform and utilizes digital topography data instead of image data. The critical parts of the method providing increased accuracy are as follows: (1) gradient-value/orientation-based techniques; (2) automated morphometry measurements of depth/diameter ratio, circularity, topographic cross-profile, rim, central peak, and radial range where the crater is preserved; (3) circularity analysis of votes in parameter space; (4) slip tuning of detected craters' parameters; and (5) calibration which partially compensates differences in morphology between small and large craters. Using the framework for the evaluation of CDAs, in comparison with prior work, the proposed detector shows the following: (1) significantly larger area under the free-response receiver operating characteristics (AUROC) and (2) significantly larger number of correct detections. Using the Mars Orbiter Laser Altimeter data as input, the CDA proposed numerous candidates for GT-57633 catalog extension. After the manual survey of all proposed craters and rejection of false detections, 57 592 impact craters were confirmed as correct detections. The accompanying result to the CDA is a new GT-115225 catalog.},
+  doi      = {10.1109/TGRS.2009.2037750},
+  keywords = {astronomical photometry;astronomical techniques;astronomy computing;Mars;meteorite craters;planetary remote sensing;planetary surfaces;Radon transforms;crater detection method;Martian digital topography data;gradient value;gradient orientation;morphometry;vote analysis;slip tuning;calibration;manually assembled catalogs;Martian impact craters;crater detection algorithm;uncataloged impact craters;fuzzy edge detectors;Radon transform;Hough transform;digital topography data;gradient-value technique;orientation-based technique;automated morphometry measurements;topographic cross-profile;circularity analysis;parameter space;free-response receiver operating characteristics;Mars Orbiter Laser Altimeter data;Surfaces;Voting;Calibration;Catalogs;Laser tuning;Image edge detection;Detectors;Extraterrestrial measurements;Assembly;Detection algorithms;Crater detection algorithms (CDAs);image edge analysis;Mars;object detection;Radon/Hough (RH) transform},
+}
+
+@Comment{jabref-meta: databaseType:bibtex;}

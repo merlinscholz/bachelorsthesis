@@ -10,7 +10,7 @@
 \documentclass[ twoside,openright,titlepage,fleqn,pointlessnumbers,headinclude, 
                 11pt,a4paper,footinclude,cleardoubleempty,abstractoff 
                 ]{scrreprt}
-
+                
 \include{preambel}
 
 % Personal information
@@ -47,6 +47,20 @@
 \newcommand{\og}{o.\nolinebreak[4]\hspace{0.125em}\nolinebreak[4]g.\@\xspace}
 \newcommand{\oBdA}{o.\nolinebreak[4]\hspace{0.125em}\nolinebreak[4]B.\nolinebreak[4]\hspace{0.125em}d.\nolinebreak[4]\hspace{0.125em}A.\@\xspace}
 \newcommand{\OBdA}{O.\nolinebreak[4]\hspace{0.125em}\nolinebreak[4]B.\nolinebreak[4]\hspace{0.125em}d.\nolinebreak[4]\hspace{0.125em}A.\@\xspace}
+
+
+
+% -------------------------------------------------------------------
+% SI Unit setup %
+
+\sisetup{
+	locale = DE ,
+	per-mode = fraction,
+	binary-units = true 
+}
+\DeclareSIUnit\pixel{px}
+
+
 
 % ----------------------------------------------------------------------
 % Development Stuff

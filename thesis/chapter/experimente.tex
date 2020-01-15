@@ -11,9 +11,29 @@ Zur Evaluierung und zum Vergleich der einzelnen Ansätze werden Metriken benöti
 % TODO Herleiten
 \[R=\frac{a+b}{\binom{n}{2}}\]
 
+Der F1-Score wird lediglich dazu genutzt, um eine berechnete Segmentierung, in der manuell die entsprechenden Label, die Krater darstellen, mit anderen Methoden zur Kratererkennung zu vergleichen. (\vgl Unterabschnitt~\ref{ssec:f1_crater})
 
 \section{Resultate}
 \label{sec:resultate}
 
 \section{Vergleich}
 \label{sec:vergleich}
+
+\subsection{F1-Score zur Kratererkennung}
+\label{ssec:f1_crater}
+
+In \tablename~\ref{tab:comparision} werden die in Abschnitt~\ref{sec:craterdetection} vorgestellten Methoden zur Kratererkennung verglichen.
+Die F1-Scores für Urbach '09 und Bandeira '10 wurden aus den in \cite{bandeira_10} angegebenen \textit{True Positive}, \textit{False Positive} und \textit{False Negative} berechnet. Für Bandeira '12 konnte kein F1-Score berechnet werden, da dort die benötigten Werte nicht veröffentlicht wurden.
+
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{l | s s s}
+		Region & Urbach '09 & Bandeira '10 & Cohen '16\\
+		\hline
+		Westen & 67,95\% & 85,33\% & 88,78\% \\
+		Mitte  & 69,63\% & 79,35\% & 88,81\% \\
+		Osten  & 78,30\% & 86,09\% & 90,29\% \\
+	\end{tabular}
+	\caption{Die F1-Scores der vorgestellten Methoden}
+	\label{tab:comparision}
+\end{table}
