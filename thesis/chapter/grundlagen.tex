@@ -1,33 +1,47 @@
 \chapter{Grundlagen}
 \label{chap:grundlagen}
 
-\section{Analyse der Marsoberfl"ache}
-\label{sec:analysedermarsoberflache}
+% TODO Fortsetzen
+%\section{Analyse der Marsoberfläche}
+%\label{sec:analysedermarsoberflache}
 
+\section{Aufnahmen der Marsoberfläche}
+\label{sec:mars_images}
 
-\section{Contex Camera des Mars Reconnaisance Orbiters}
-\label{sec:mroctx}
+Von der Marsoberfläche existieren verschiedenste Arten von Aufnahmen für unterschiedliche Analysen. Dabei kommt es auf gewisse Parameter, wie \zB die aufgenommene Wellenlänge, den Winkel zur Oberfläche, die Auflösung, Brennweite, Ort der Aufnahme und viele weitere an, ob ein Bild zur Analyse einer gewissen Eigenschaft geeignet ist.
+
+Für die hier genutzten Anwendungsfälle eignen sich Instrumente am besten, die sichtbares Licht aufnehmen. Diese sollten in Graustufen, in diesem Einsatzbereich also panchromatisch, aufgenommen sein, da die Farbe der Oberfläche deren Analyse hier wenig beeinflusst. Der Vorteil von Graustufenaufnahmen besteht darin, dass nur ein drittel des Speichers bei den Berechnungen benötigt wird.
+
+Des weiteren sollten die Bilder eine vergleichsweise hohe Auflösung haben, damit auch kleinere Merkmale gut erkannt werden können, es sollten aber auch weite Aufnahmen sein, damit mit einem Datensatz ein Großteil der Oberfläche analysiert werden kann.
+
+Außerdem eignen sich Fotos gut, die senkrecht zur Oberfläche entstanden sind, so dass diese nicht verzerrt erscheint.
+
+Unter Berücksichtigung dieser Faktoren ergeben sich \ua zwei geeignete Instrumente:
+Die \textit{Context Camera (CTX)} des \textit{Mars Reconnaissance Orbiters} der NASA \cite{malin_07} und die \textit{High Resolution Stereo Camera (HRSC)} des \textit{Mars Express Orbiters} der ESA \cite{hrsc}. Für die eigentlichen Analysen werden Aufnahmen der CTX genutzt, da sie einen Großteil der Oberfläche abdecken, während die panchromatischen Bilder der HRSC zur Evaluierung genutzt wurden, da mit ihnen schon mehrere andere Algorithmen getestet wurden.
 
 \section{Bildsegmentierung}
 \label{sec:segmentierung}
 
-Um ein Eingabebild, wie \zB eine Aufnahme der Marsoberfläche, in verschiedene Bereiche aufteilen zu können, bedarf es eines Algorithmus zur Bildsegmentierung. Wie in \cite{bildsegmentierung} aufgeführt, beschreibt der Überbegriff der Bildsegmentierung oftmals den Ablauf des Pre-Processing eines Eingabebildes, gefolgt von der eigentlichen \textquote{Segmentierung der Bilder in Regionen, Objekte mit geschlossenen Konturen oder Liniensegmente} und, je nach Anwendungsfall, der anschließenden Einordnung der einzelnen Segmente.
+Um in einem Eingabebild, wie \zB einer Aufnahme der Marsoberfläche, verschiedene Oberflächenstrukturen erkennen zu können, bedarf es eines Algorithmus zur Bildsegmentierung. Wie in \cite{bildsegmentierung_14} aufgeführt, beschreibt der Überbegriff der Bildsegmentierung oftmals den Ablauf des Pre-Processing eines Eingabebildes, gefolgt von der eigentlichen \textquote{Segmentierung der Bilder in Regionen, Objekte mit geschlossenen Konturen oder Liniensegmente} und, je nach Anwendungsfall, der anschließenden Einordnung der einzelnen Segmente.
 
 \section{Pre-Processing}
 \label{sec:preprocessing}
 
-In dem hier beschriebenen Anwendungsbereich besteht das Pre-Processing aus dem Herunterladen der Eingabedaten von der Website des \textit{Planetary Data System} der NASA, insbesondere deren \textit{Imaging Node} \cite{pds}. Die dort gehosteten Aufnahmen der MRO Context Camera sind größtenteils unverarbeitet und befinden sich in einem speziell für diesen Zweck erstellten Dateiformat\footnote{\url{https://pds-imaging.jpl.nasa.gov/data/mro/mars\_reconnaissance\_orbiter/ctx/mrox\_0001/document/ctxsis.pdf}}\footnote{\url{https://pds-imaging.jpl.nasa.gov/data/mro/mars\_reconnaissance\_orbiter/ctx/mrox\_0001/document/archsis.pdf}}, sodass diese erst konvertiert und anschließend so verarbeitet werden müssen, dass für diesen Zweck besser geeignete Bilddateien entstehen.
-Diese Verarbeitung besteht aus dem Herunterladen der Metadaten der einzelnen Aufnahmen, gefolgt von deren Kalibrierung, der Entfernung der Even/Odd Detector Stripes, und der Konvertierung in das GeoTIFF format. Dieses kann von dem eigentlichen Analyse-Algorithmus eingelesen und weiter verarbeitet werden.
+In dem hier beschriebenen Anwendungsbereich besteht das Pre-Processing aus dem Herunterladen der Eingabedaten von der Website des \textit{Planetary Data System} der NASA \cite{pds}, \bzw dem \textit{Planetary Science Archive} der ESA \cite{psa}. insbesondere deren \textit{Imaging Node}. Die dort gehosteten Aufnahmen der jeweiligen Instumente sind größtenteils unverarbeitet und befinden sich in einem speziell für diesen Zweck erstellten Dateiformat, sodass diese erst konvertiert und anschließend so verarbeitet werden müssen, dass für diesen Zweck besser geeignete Bilddateien entstehen.
+Diese Verarbeitung besteht bei den Aufnahmen der CTX aus dem Herunterladen der Metadaten der einzelnen Aufnahmen, gefolgt von deren Kalibrierung, der Entfernung der Even/Odd Detector Stripes, und der Konvertierung in ein adäquates Bildformat. Dieses kann von dem eigentlichen Analyse-Algorithmus eingelesen und weiter verarbeitet werden. Bei den Aufnahmen der HRSC ist keine Kalibrierung notwendig, diese müssen nur entsprechend konvertiert werden.
 
-Zur eigentlichen Verarbeitung wird das ISIS Image Processing Software Package\cite{isis} in Kombination mit GNU Parallel\cite{gnuparallel} genutzt.
+Zur eigentlichen Verarbeitung/Konvertierung wird das ISIS Image Processing Software Package \cite{isis} in Kombination mit GNU Parallel \cite{gnuparallel} genutzt.
 
 \section{Neuronale Netze}
 \label{sec:neuronalenetze}
 
 Obwohl einfache Versionen neuronaler Netze schon seit vielen Jahrzehnten in der Informatik genutzt werden, wurden in den letzten Jahren durch Deep Neural Networks neue Durchbrüche in verschiedensten Bereichen erzielt. Dieser Umschwung ist darauf zurückzuführen, dass mit dem Fortschritt der Technik nun auch große Netzwerke effizient ausgeführt werden können.
 
-Vereinfacht gesagt lernen Neuronale Netze wie sie eine vorgegebene Aufgabe lösen können\cite{mitnews_nn}, benötigen als Eingabe allerdings Beispiele von ähnlichen, bereits gelösten Problemen. Diese Problematik des überwachten Lernens ist in Abschnitt \ref{sec:motivation} näher beschrieben. Ihre Funktionsweise ist dabei an die des (menschlichen) Gehirns angelehnt: Ein neuronales Netz besteht meistens aus mehreren Schichten mit jeweils einer sehr großen Anzahl an vergleichsweise leicht berechenbaren Knoten, welche auch als Neuronen bezeichnet werden. Jedes Neuron ist mit mehreren Neuronen aus der Schicht vor und nach ihm vernetzt.\cite{schmidhuber2015deep} Während das Netzwerk trainiert wird, passen die einzelnen Knoten jeweils zwei Werte an: Wie sehr sie die Ausgabe der jeweils vorherigen Schicht aus Knoten gewichten, und die Mindestgrenze anhand welcher sie bestimmen, ob sie überhaupt einen Wert an die nächste Schicht ausgeben´. Diese Gewichtungen sind anfangs zufällig bestimmt.\cite{mitnews_nn, schmidhuber2015deep}
+Vereinfacht gesagt lernen Neuronale Netze wie sie eine vorgegebene Aufgabe lösen können \cite{hardesty_17}, benötigen als Eingabe allerdings Beispiele von ähnlichen, bereits gelösten Problemen. Diese Problematik des überwachten Lernens ist in Abschnitt \ref{sec:motivation} näher beschrieben. Ihre Funktionsweise ist dabei an die des (menschlichen) Gehirns angelehnt: Ein neuronales Netz besteht meistens aus mehreren Schichten mit jeweils einer sehr großen Anzahl an vergleichsweise leicht berechenbaren Knoten, welche auch als Neuronen bezeichnet werden. Jedes Neuron ist mit mehreren Neuronen aus der Schicht vor und nach ihm vernetzt.\cite{schmidhuber_15} Während das Netzwerk trainiert wird, passen die einzelnen Knoten jeweils zwei Werte an: Wie sehr sie die Ausgabe der jeweils vorherigen Schicht aus Knoten gewichten, und die Mindestgrenze anhand welcher sie bestimmen, ob sie überhaupt einen Wert an die nächste Schicht ausgeben´. Diese Gewichtungen sind anfangs zufällig bestimmt.\cite{hardesty_17, schmidhuber_15}
 
 \section{Convolutional Neural Networks}
 \label{sec:cnn}
-% TODO https://arxiv.org/pdf/1404.7828.pdf
+
+Ein Convolutional Neural Network beschreibt ein Neuronales Netzwerk, welches eine Convolutional Layer enthält. Eine Convolutional Layer enthält ihre Eingaben von mehreren Datenpunkten der vorherigen Schicht: Das (meist rechteckige) Fenster der Eingabedaten dieser Schicht gleitet somit schrittweise über die Ausgabe der vorherigen Schicht. \cite{schmidhuber_15} Dies hat den Vorteil, dass die Größe der darauf folgenden Schicht verringert wird (was zu einer besseren Performance führt). Ein weiterer Pluspunkt besteht darin, dass insbesondere bei der Bildanalyse gleiche Objekte an verschiedenen Positionen und in verschiedenen Größen besser erkannt werden können. \cite{szegedy_15}
+
+Aus diesen Gründen erfreuen sich Convolutional Neural Networks insbesondere in der Bildanalyse (wie \zB bei der Objekterkennung) großer Beliebtheit.

@@ -8,28 +8,34 @@
 	year={2017},
 	publisher={Nature Publishing Group}
 },
-@inproceedings{kanezaki_18,
-	title={Unsupervised Image Segmentation by Backpropagation},
-	author={Asako Kanezaki},
-	booktitle={Proceedings of IEEE International Conference on Acoustics, Speech, and Signal Processing (ICASSP)},
-	year={2018}
-},
-@article{slic,
-	title = {SLIC Superpixels},
-	author = {Achanta, Radhakrishna and Shaji, Appu and Smith, Kevin and  Lucchi, Aurélien and Fua, Pascal and Süsstrunk, Sabine},
-	address = {EPFL},
-	pages = {15},
-	year = {2010},
-	abstract = {Superpixels are becoming increasingly popular for use in  computer vision applications. However, there are few  algorithms that output a desired number of regular, compact  superpixels with a low computational overhead. We introduce  a novel algorithm that clusters pixels in the combined  five-dimensional color and image plane space to efficiently  generate compact, nearly uniform superpixels. The  simplicity of our approach makes it extremely easy to use  -- a lone parameter specifies the number of superpixels --  and the efficiency of the algorithm makes it very  practical. Experiments show that our approach produces  superpixels at a lower computational cost while achieving a  segmentation quality equal to or greater than four  state-of-the-art methods, as measured by boundary recall  and under-segmentation error. We also demonstrate the  benefits of our superpixel approach in contrast to existing  methods for two tasks in which superpixels have already  been shown to increase performance over pixel-based  methods.},
-	url = {http://infoscience.epfl.ch/record/149300},
-},
-@inproceedings{unsupervised_dec,
-	title={Unsupervised deep embedding for clustering analysis},
-	author={Xie, Junyuan and Girshick, Ross and Farhadi, Ali},
-	booktitle={International conference on machine learning},
-	pages={478--487},
-	year={2016}
-},
+
+@InProceedings{kanezaki_18,
+  author    = {Asako Kanezaki},
+  title     = {Unsupervised Image Segmentation by Backpropagation},
+  booktitle = {Proceedings of IEEE International Conference on Acoustics, Speech, and Signal Processing (ICASSP)},
+  year      = {2018},
+}
+,
+
+@Article{achanta_10,
+  author   = {Achanta, Radhakrishna and Shaji, Appu and Smith, Kevin and Lucchi, Aurélien and Fua, Pascal and Süsstrunk, Sabine},
+  title    = {SLIC superpixels},
+  journal  = {Technical report, EPFL},
+  year     = {2010},
+  pages    = {15},
+  month    = {06},
+  abstract = {Superpixels are becoming increasingly popular for use in  computer vision applications. However, there are few  algorithms that output a desired number of regular, compact  superpixels with a low computational overhead. We introduce  a novel algorithm that clusters pixels in the combined  five-dimensional color and image plane space to efficiently  generate compact, nearly uniform superpixels. The  simplicity of our approach makes it extremely easy to use  -- a lone parameter specifies the number of superpixels --  and the efficiency of the algorithm makes it very  practical. Experiments show that our approach produces  superpixels at a lower computational cost while achieving a  segmentation quality equal to or greater than four  state-of-the-art methods, as measured by boundary recall  and under-segmentation error. We also demonstrate the  benefits of our superpixel approach in contrast to existing  methods for two tasks in which superpixels have already  been shown to increase performance over pixel-based  methods.},
+}
+,
+
+@InProceedings{junyuan_16,
+  author    = {Xie, Junyuan and Girshick, Ross and Farhadi, Ali},
+  title     = {Unsupervised deep embedding for clustering analysis},
+  booktitle = {International conference on machine learning},
+  year      = {2016},
+  pages     = {478--487},
+}
+,
 
 @Article{bandeira_12,
   author   = {Lourenço Bandeira and Wei Ding and Tomasz F. Stepinski},
@@ -46,36 +52,40 @@
   url      = {http://www.sciencedirect.com/science/article/pii/S027311771100617X},
 }
 ,
-@misc{crater_cnn,
-	title={Crater Detection via Convolutional Neural Networks},
-	author={Joseph Paul Cohen and Henry Z. Lo and Tingting Lu and Wei Ding},
-	year={2016},
-	eprint={1601.00978},
-	archivePrefix={arXiv},
-	primaryClass={cs.CV}
-},
-@Inbook{bildsegmentierung,
-	author="S{\"u}{\ss}e, Herbert
-	and Rodner, Erik",
-	title="Bildsegmentierung",
-	bookTitle="Bildverarbeitung und Objekterkennung: Computer Vision in Industrie und Medizin",
-	year="2014",
-	publisher="Springer Fachmedien Wiesbaden",
-	address="Wiesbaden",
-	pages="211--240",
-	abstract="Die Bildsegmentierung ist wohl eines der wichtigsten Gebiete der Bildverarbeitung. Wenn Bilder analysiert bzw. Szenen klassifiziert werden, setzt das in der Regel eine korrekte Segmentierung voraus. Klassische Bildverarbeitungsalgorithmen laufen oft in folgenden Schritten ab: a)Daten- oder Bildeingabe,b)Vorverarbeitung der Bilder mit Bildverbesserungsalgorithmen, z. B. diverse Filter zur Rauschunterdr{\"u}ckung, Filter zur Beleuchtungskorrektur, Verst{\"a}rkung gewisser Eigenschaften, Detektion von „interessierenden`` Pixeln und vieles mehr,c)Segmentierung der Bilder in Regionen, Objekte mit geschlossenen Konturen oder Liniensegmente.d)Klassifikation und/oder Analyse der segmentierten Regionen, Objekte oder Liniensegmente.e)„Ausgabe`` der Analyseergebnisse.Die Trennung der Segmentierung (Punkt c) von der anschlie{\ss}enden Klassifikation (Punkt d) ist genaugenommen so streng gar nicht m{\"o}glich. Bei der Segmentierung klassifiziert man gew{\"o}hnlich schon etwas, ohne sich dessen bewusst zu sein.",
-	isbn="978-3-8348-2606-0",
-	doi="10.1007/978-3-8348-2606-0_10",
-	url="https://doi.org/10.1007/978-3-8348-2606-0_10"
-},
-@misc{pds,
-	title={MRO Imaging Node Mission Page},
-	url={https://pds-imaging.jpl.nasa.gov/portal/mro_mission.html},
-	journal={NASA},
-	publisher={NASA},
-	year={2019},
-	month={Jul}
-},
+
+@Misc{cohen_16,
+  author        = {Joseph Paul Cohen and Henry Z. Lo and Tingting Lu and Wei Ding},
+  title         = {Crater Detection via Convolutional Neural Networks},
+  year          = {2016},
+  archiveprefix = {arXiv},
+  eprint        = {1601.00978},
+  primaryclass  = {cs.CV},
+}
+,
+
+@InBook{bildsegmentierung_14,
+  chapter   = {Bildsegmentierung},
+  pages     = {211--240},
+  title     = {Bildverarbeitung und Objekterkennung},
+  publisher = {Springer Fachmedien Wiesbaden},
+  year      = {2014},
+  author    = {S{\"u}{\ss}e, Herbert and Rodner, Erik},
+  address   = {Wiesbaden},
+  isbn      = {9783834826060},
+  abstract  = {Die Bildsegmentierung ist wohl eines der wichtigsten Gebiete der Bildverarbeitung. Wenn Bilder analysiert bzw. Szenen klassifiziert werden, setzt das in der Regel eine korrekte Segmentierung voraus. Klassische Bildverarbeitungsalgorithmen laufen oft in folgenden Schritten ab: a)Daten- oder Bildeingabe,b)Vorverarbeitung der Bilder mit Bildverbesserungsalgorithmen, z. B. diverse Filter zur Rauschunterdr{\"u}ckung, Filter zur Beleuchtungskorrektur, Verst{\"a}rkung gewisser Eigenschaften, Detektion von „interessierenden`` Pixeln und vieles mehr,c)Segmentierung der Bilder in Regionen, Objekte mit geschlossenen Konturen oder Liniensegmente.d)Klassifikation und/oder Analyse der segmentierten Regionen, Objekte oder Liniensegmente.e)„Ausgabe`` der Analyseergebnisse.Die Trennung der Segmentierung (Punkt c) von der anschlie{\ss}enden Klassifikation (Punkt d) ist genaugenommen so streng gar nicht m{\"o}glich. Bei der Segmentierung klassifiziert man gew{\"o}hnlich schon etwas, ohne sich dessen bewusst zu sein.},
+  booktitle = {Bildverarbeitung und Objekterkennung: Computer Vision in Industrie und Medizin},
+  doi       = {10.1007/978-3-8348-2606-0_10},
+  url       = {https://doi.org/10.1007/978-3-8348-2606-0_10},
+}
+,
+
+@Misc{psa,
+  title     = {Planetary Science Archive},
+  journal   = {ESA},
+  publisher = {ESA},
+  url       = {https://archives.esac.esa.int/psa/},
+}
+,
 @misc{isis,
 	title={USGS Isis: Planetary Image Processing Software},
 	url={https://isis.astrogeology.usgs.gov/index.html},
@@ -94,22 +104,26 @@
 	doi          = {10.5281/zenodo.1146014},
 	url          = {https://doi.org/10.5281/zenodo.1146014}
 },
-@misc{mitnews_nn,
-	title={Explained: Neural networks}, url={http://news.mit.edu/2017/explained-neural-networks-deep-learning-0414},
-	journal={MIT News},
-	publisher={Massachusetts Institute of Technology},
-	author={Hardesty, Larry},
-	year={2017},
-	month={Apr}
-},
-@article{schmidhuber2015deep,
-	title={Deep learning in neural networks: An overview},
-	author={Schmidhuber, J{\"u}rgen},
-	journal={Neural networks},
-	volume={61},
-	pages={85--117},
-	year={2015},
-	publisher={Elsevier}
+
+@Misc{hardesty_17,
+  author    = {Hardesty, Larry},
+  title     = {Explained: Neural networks},
+  month     = {Apr},
+  year      = {2017},
+  journal   = {MIT News},
+  publisher = {Massachusetts Institute of Technology},
+  url       = {http://news.mit.edu/2017/explained-neural-networks-deep-learning-0414},
+}
+,
+
+@Article{schmidhuber_15,
+  author    = {Schmidhuber, J{\"u}rgen},
+  title     = {Deep learning in neural networks: An overview},
+  journal   = {Neural networks},
+  year      = {2015},
+  volume    = {61},
+  pages     = {85--117},
+  publisher = {Elsevier},
 }
 @article{urbach_stepinski_2009,
 	title={Automatic detection of sub-km craters in high resolution planetary images},
@@ -130,25 +144,6 @@
   month   = {06},
   isbn    = {978-92-9221-975-8},
   journal = {European Space Agency, (Special Publication) ESA SP},
-}
-@article{umass,
-	title= {Crater Dataset},
-	journal= {},
-	author= {UMass Boston KDLab},
-	year= {2013},
-	url= {https://web.archive.org/web/20170907065100/http://kdl.cs.umb.edu/w/datasets/craters/},
-	abstract= {Dataset Objective:
-	Determine if the instance is a crater or not a crater. 1=Crater, 0=Not Crater
-	
-	Data Set Information:
-	This dataset was generated using HRSC nadir panchromatic image h0905_0000 taken by the Mars Express spacecraft. The images is located in the Xanthe Terra, centered on Nanedi Vallis and covers mostly Noachian terrain on Mars. The image had a resolution of 12.5 meters/pixel.
-	
-	Data Set Generation:
-	
-	Using the technique described by L. Bandeira (Bandeira, Ding, Stepinski. 2010.Automatic Detection of Sub-km Craters Using Shape and Texture Information) we identify crater candidates in the image using the pipeline depicted in the figure below. Each crater candidate image block is normalized to a standard scale of 48 pixels. Each of the nine kinds of image masks probes the normalized image block in four different scales of 12 pixels, 24 pixels, 36 pixels, and 48 pixels, with a step of a third of the mask size (meaning 2/3 overlap). We totally extract 1,090 Haar-like attributes using nine types of masks as the attribute vectors to represent each crater candidate.
-	The dataset was converted to the Weka ARFF format by Joseph Paul Cohen in 2012.},
-	keywords= {},
-	terms= {}
 }
 @InProceedings{bandeira_10,
   author    = {{Bandeira}, L. and {Ding}, W. and {Stepinski}, T.~F.},
@@ -190,6 +185,39 @@
   abstract = {Recently, all the craters from the major currently available manually assembled catalogs have been merged into the catalog with 57 633 known Martian impact craters. This paper presents a new crater detection algorithm (CDA) for the search of still uncataloged impact craters. The CDA is based on fuzzy edge detectors and Radon/Hough transform and utilizes digital topography data instead of image data. The critical parts of the method providing increased accuracy are as follows: (1) gradient-value/orientation-based techniques; (2) automated morphometry measurements of depth/diameter ratio, circularity, topographic cross-profile, rim, central peak, and radial range where the crater is preserved; (3) circularity analysis of votes in parameter space; (4) slip tuning of detected craters' parameters; and (5) calibration which partially compensates differences in morphology between small and large craters. Using the framework for the evaluation of CDAs, in comparison with prior work, the proposed detector shows the following: (1) significantly larger area under the free-response receiver operating characteristics (AUROC) and (2) significantly larger number of correct detections. Using the Mars Orbiter Laser Altimeter data as input, the CDA proposed numerous candidates for GT-57633 catalog extension. After the manual survey of all proposed craters and rejection of false detections, 57 592 impact craters were confirmed as correct detections. The accompanying result to the CDA is a new GT-115225 catalog.},
   doi      = {10.1109/TGRS.2009.2037750},
   keywords = {astronomical photometry;astronomical techniques;astronomy computing;Mars;meteorite craters;planetary remote sensing;planetary surfaces;Radon transforms;crater detection method;Martian digital topography data;gradient value;gradient orientation;morphometry;vote analysis;slip tuning;calibration;manually assembled catalogs;Martian impact craters;crater detection algorithm;uncataloged impact craters;fuzzy edge detectors;Radon transform;Hough transform;digital topography data;gradient-value technique;orientation-based technique;automated morphometry measurements;topographic cross-profile;circularity analysis;parameter space;free-response receiver operating characteristics;Mars Orbiter Laser Altimeter data;Surfaces;Voting;Calibration;Catalogs;Laser tuning;Image edge detection;Detectors;Extraterrestrial measurements;Assembly;Detection algorithms;Crater detection algorithms (CDAs);image edge analysis;Mars;object detection;Radon/Hough (RH) transform},
+}
+
+@Article{malin_07,
+  author   = {Malin, Michael C. and Bell III, James F. and Cantor, Bruce A. and Caplinger, Michael A. and Calvin, Wendy M. and Clancy, R. Todd and Edgett, Kenneth S. and Edwards, Lawrence and Haberle, Robert M. and James, Philip B. and Lee, Steven W. and Ravine, Michael A. and Thomas, Peter C. and Wolff, Michael J.},
+  title    = {Context Camera Investigation on board the Mars Reconnaissance Orbiter},
+  journal  = {Journal of Geophysical Research: Planets},
+  year     = {2007},
+  volume   = {112},
+  number   = {E5},
+  abstract = {The Context Camera (CTX) on the Mars Reconnaissance Orbiter (MRO) is a Facility Instrument (i.e., government-furnished equipment operated by a science team not responsible for design and fabrication) designed, built, and operated by Malin Space Science Systems and the MRO Mars Color Imager team (MARCI). CTX will (1) provide context images for data acquired by other MRO instruments, (2) observe features of interest to NASA's Mars Exploration Program (e.g., candidate landing sites), and (3) conduct a scientific investigation, led by the MARCI team, of geologic, geomorphic, and meteorological processes on Mars. CTX consists of a digital electronics assembly; a 350 mm f/3.25 Schmidt-type telescope of catadioptric optical design with a 5.7° field of view, providing a ∼30-km-wide swath from ∼290 km altitude; and a 5000-element CCD with a band pass of 500–700 nm and 7 μm pixels, giving ∼6 m/pixel spatial resolution from MRO's nearly circular, nearly polar mapping orbit. Raw data are transferred to the MRO spacecraft flight computer for processing (e.g., data compression) before transmission to Earth. The ground data system and operations are based on 9 years of Mars Global Surveyor Mars Orbiter Camera on-orbit experience. CTX has been allocated 12\% of the total MRO data return, or about ≥3 terabits for the nominal mission. This data volume would cover ∼9\% of Mars at 6 m/pixel, but overlapping images (for stereo, mosaics, and observation of changes and meteorological events) will reduce this area. CTX acquired its first (instrument checkout) images of Mars on 24 March 2006.},
+  doi      = {10.1029/2006JE002808},
+  eprint   = {https://agupubs.onlinelibrary.wiley.com/doi/pdf/10.1029/2006JE002808},
+  keywords = {Mars, spaceflight instruments, Mars Reconnaissance Orbiter},
+  url      = {https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/2006JE002808},
+}
+
+@Misc{pds,
+  title     = {MRO Imaging Node Mission Page},
+  month     = {Jul},
+  year      = {2019},
+  journal   = {NASA},
+  publisher = {NASA},
+  url       = {https://pds-imaging.jpl.nasa.gov/portal/mro_mission.html},
+}
+
+@InProceedings{szegedy_15,
+  author  = {Szegedy, Christian and Liu, Wei and Jia, Yangqing and Sermanet, Pierre and Reed, Scott and Anguelov, Dragomir and Erhan, Dumitru and Vanhoucke, Vincent and Rabinovich, Andrew},
+  title   = {Going deeper with convolutions},
+  year    = {2015},
+  pages   = {1-9},
+  month   = {06},
+  doi     = {10.1109/CVPR.2015.7298594},
+  journal = {The IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
 }
 
 @Comment{jabref-meta: databaseType:bibtex;}
