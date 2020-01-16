@@ -4,6 +4,11 @@
 \section{Datens"atze}
 \label{sec:datensätze}
 
+Die in diesen Experimente genutzten Datensätze stammen von der Website des \textit{Planetary Data System} der NASA \cite{pds}, \bzw dem \textit{Planetary Science Archive} der ESA \cite{psa}. Die dort gehosteten Aufnahmen der jeweiligen Instumente sind größtenteils unverarbeitet und befinden sich in einem speziell für diesen Zweck erstellten Dateiformat, sodass diese erst konvertiert und anschließend so verarbeitet werden müssen, dass für diesen Zweck besser geeignete Bilddateien entstehen.
+Diese Verarbeitung besteht bei den Aufnahmen der CTX aus dem Herunterladen der Metadaten der einzelnen Aufnahmen, gefolgt von deren Kalibrierung, der Entfernung der Even/Odd Detector Stripes, und der Konvertierung in ein adäquates Bildformat. Dieses kann von dem eigentlichen Analyse-Algorithmus eingelesen und weiter verarbeitet werden. Bei den Aufnahmen der HRSC ist keine Kalibrierung notwendig, diese müssen nur entsprechend konvertiert werden.
+
+Zur eigentlichen Verarbeitung/Konvertierung wird das ISIS Image Processing Software Package \cite{isis} in Kombination mit GNU Parallel \cite{gnuparallel} genutzt.
+
 \section{Evaluierung}
 \label{sec:evaluierung}
 
@@ -25,10 +30,10 @@ Der F1-Score wird lediglich dazu genutzt, um eine berechnete Segmentierung, in d
 In \tablename~\ref{tab:comparision} werden die in Abschnitt~\ref{sec:craterdetection} vorgestellten Methoden zur Kratererkennung verglichen.
 Die F1-Scores für Urbach '09 und Bandeira '10 wurden aus den in \cite{bandeira_10} angegebenen \textit{True Positive}, \textit{False Positive} und \textit{False Negative} berechnet. Für Bandeira '12 konnte kein F1-Score berechnet werden, da dort die benötigten Werte nicht veröffentlicht wurden.
 
-\begin{table}[h!]
+\begin{table}[h]
 	\centering
 	\begin{tabular}{l | s s s}
-		Region & Urbach '09 & Bandeira '10 & Cohen '16\\
+		Region & \text{Urbach '09} & \text{Bandeira '10} & \text{Cohen '16}\\
 		\hline
 		Westen & 67,95\% & 85,33\% & 88,78\% \\
 		Mitte  & 69,63\% & 79,35\% & 88,81\% \\

@@ -8,6 +8,8 @@ Neuronale Netzwerke werden in den letzten Jahren häufig zur Objekterkennung und
 
 Diese Ground Truths werden meist von Hand erschaffen. So können diese im Straßenverkehr von jedermann erstellt werden, während in spezifischeren Anwendungsgebieten meist Domänenexperten dazu benötigt werden. Dies ist auch der Fall bei der Analyse der Marsoberfläche. Aufgrund der schlichten Größe des Datensatzes, und der Notwendigkeit von Experten in diesem Fachgebiet, ist es hier weder leicht, noch zeiteffizient oder kostengünstig möglich, manuell eine Ground Truth zu entwickeln.
 
+Es besteht zwar die Möglichkeit, bereits vorhandene Ground Truths zu nutzen, dies wirft allerdings neue Probleme auf: Bei \bspw sich stark verändernden Lichtverhältnissen, Aufnahmewinkeln, \oa kann ein vortrainiertes Neuronales Netz meistens keine optimalen Ergebnisse erzielen, eben weil es nicht auf diese neuen Rahmenbedingungen trainiert wurde.
+
 Entgegen des überwachten Lernens existiert auch das unüberwachte Lernen. Hier existiert keine Ground Truth, stattdessen muss dem Algorithmus eine andere Methode übermittelt werden, anhand welcher er erkennen kann, wie korrekt ein Ergebnis ist. Dies geschieht \zB über einen \enquote{klassischen} Algorithmus, der das Problem zwar ohne neuronale Netze löst, allerdings keine so hohe Genauigkeit besitzt.
 
 \section{Rahmen der Arbeit}
