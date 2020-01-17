@@ -98,7 +98,7 @@ In einem Großteil der Anwendungsfälle der Konvolution bestehen die Eingabefunk
 s(t) = (x*w)(t) = \int_{-\infty}^{\infty} x(a)w(t-a)da
 \end{equation}
 
-Unter der Annahme, dass die Eingabewerte nicht stetig sondern diskret sind (zeitliche/örtliche Messwerte in regelmäßigen Abständen) ergibt sich vereinfacht \cite[Kap.~9]{deeplearning_16}:
+Unter der Annahme, dass die Eingabewerte nicht stetig sondern diskret sind (\bspw zeitliche Messwerte in regelmäßigen Abständen) ergibt sich vereinfacht \cite[Kap.~9]{deeplearning_16}:
 
 \begin{equation}
 s(t) = (x*w)(t) = \sum_{a=-\infty}^{\infty}x(a)w(t-a)
@@ -123,11 +123,33 @@ S(i,j) = (I*K)(i,j) = \sum_{m}\sum_{n}\sum_{o}I(m,n,o)K(i-m,j-n,o)
 
 Es ist zu beachten, dass der Farbvektor immer komplett verarbeitet wird, und nicht nur ein Teilausschnitt wie bei Höhe und Breite.
 
+% TODO Hyperparameter
+
 \subsection{Convolutional Layer}
 \label{ssec:convlayer}
 
+Klassische Schichten von neuronalen Netzen nutzen Matrixmultiplikationen der kompletten Eingabe mit einer Parametermatrix um ihre Ausgaben zu berechnen, \dh jeder einzelne Ausgabewert entsteht aus einer Berechnung basierend auf jedem einzelnen Eingabewert. Obwohl diese Taktik in vielen Einsatzbereichen gut Funktioniert, stößt sie insbesondere bei der Bilddatenanalyse an ihre Grenzen, da sie nicht gut skaliert. \cite{cs231n} Ein weiterer Pluspunkt besteht daraus, dass durch Convolutional Layers bestimmte Merkmale von unterschiedlichen Stellen der Eingabe extrahiert werden können, wie später beschrieben.
+
+Eine konvolutionelle Schicht besteht aus einer Menge von Neuron, welche die Eingabe über den eben beschriebenen Konvolutionsoperator $S(i,j)$ auf genau ein Merkmal untersuchen. Daraus folgt, dass die Anzahl der Neuronen in eben dieser Schicht gleich der Größe der entstehenden Merkmalsdimension ist.
+
+Hierbei gilt es zu beachten, dass der Konvolutionsoperator für alle Werte $i$ und $j$ der Eingabedimensionen aufgerufen wird, so dass die Höhe und Breite der Ausgabe identisch zu denen der Eingabe ist.
+Des Weiteren ist der Kernel pro Neuron konstant. Dies hat \ua zur Folge, dass das gleiche Merkmal an verschiedenen Stelle in der Eingabe erkennen kann.
+
+Erhält eine konvolutionelle Schicht mit 12 Neuronen also \bspw ein RGB-Eingabebild der Größe $\SI{64}{\pixel}\times\SI{64}{\pixel}$, so erzeugt es mit einem Stride von $1$ als Ausgabe eine dreidimensionale Matrix der Größe $64\times64\times12$, jede der Schichten der dritten Dimensionen deutet auf das Vorhandensein eines speziellen Merkmals an einer gewissen Stelle im Eingabebild hin.
+
+Das Hinzufügen von konvolutionellen Schichten führt allerdings zu mehr Hyperparametern, die optimiert werden können \cite{cs231n}:
+\begin{itemize}
+	\item Die Dimensionen des Kernels $k_1$ und $k_2$ (obwohl dieser fast immer quadratisch ist)
+	\item Die Anzahl der Neuronen/der Merkmalsdimensionen
+	\item Die Größe der Strides, also wie weit der Kernel in jedem Schritt verschoben wird. Hier wird von einem Wert von $1$ ausgegangen, was die Größe der Ausgabe nicht verändert.
+	\item Das Padding, also wie sich die Konvolution an den Rändern der Eingabedaten verhält. Hier wird von Zero-Padding ausgegangen, dies hat zur Folge, dass es die Größe der Ausgabe unverändert lässt.
+\end{itemize}
+
 \subsection{Pooling Layer}
 \label{ssec:pooling}
+
+\subsection{Fully Connected Layer}
+\label{ssec:fcn}
 
 \subsection{Backpropagation}
 \label{ssec:backpropagation}
