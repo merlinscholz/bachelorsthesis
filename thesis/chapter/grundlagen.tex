@@ -112,8 +112,8 @@ S(i,j) = (I*K)(i,j) = \sum_{m}\sum_{n}I(m,n)K(i-m,j-n)
 
 Eine alternative Betrachtungsweise dieser Formel basiert auf dem Hadamard-Produkt. Angenommen, es existieren eine Matrix $I\in\mathbb{R}^{2}$ und eine Matrix $K\in\mathbb{R}^{m\times n}$.
 
-Sei Funktion $T(i,j)$ definiert als das Hadamard-Produt aus und $K$ und $I'=I_{x, y}$ mit $x\in[i-m,i]$ und $y\in[j-n,j]$.
-Dann gilt $T(i,j)=S(i,j)$
+Sei Matrix $H$ definiert als Hadamard-Produkt aus und $K$ und $I'=I_{x, y}$ mit $x\in[i-m,i]$ und $y\in[j-n,j]$.
+Dann gilt $S(i,j)=\sum_{h\in H}h$
 
 Diese Formel gilt allerdings nur für Eingabebilder mit nur einem Farbwert pro Pixel, also Graustufenbilder. Für ein Bild mit beliebig vielen Farbwertsdimensionen gilt:
 
