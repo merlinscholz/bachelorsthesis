@@ -110,6 +110,19 @@ Diese Funktion lässt sich für zweidimensionale Eingabedaten, wie \zB eine Bild
 S(i,j) = (I*K)(i,j) = \sum_{m}\sum_{n}I(m,n)K(i-m,j-n)
 \end{equation}
 
+Eine alternative Betrachtungsweise dieser Formel basiert auf dem Hadamard-Produkt. Angenommen, es existieren eine Matrix $I\in\mathbb{R}^{2}$ und eine Matrix $K\in\mathbb{R}^{m\times n}$.
+
+Sei Funktion $T(i,j)$ definiert als das Hadamard-Produt aus und $K$ und $I'=I_{x, y}$ mit $x\in[i-m,i]$ und $y\in[j-n,j]$.
+Dann gilt $T(i,j)=S(i,j)$
+
+Diese Formel gilt allerdings nur für Eingabebilder mit nur einem Farbwert pro Pixel, also Graustufenbilder. Für ein Bild mit beliebig vielen Farbwertsdimensionen gilt:
+
+\begin{equation}
+S(i,j) = (I*K)(i,j) = \sum_{m}\sum_{n}\sum_{o}I(m,n,o)K(i-m,j-n,o)
+\end{equation}
+
+Es ist zu beachten, dass der Farbvektor immer komplett verarbeitet wird, und nicht nur ein Teilausschnitt wie bei Höhe und Breite.
+
 \subsection{Convolutional Layer}
 \label{ssec:convlayer}
 
