@@ -128,7 +128,7 @@ Es ist zu beachten, dass der Farbvektor immer komplett verarbeitet wird, und nic
 \subsection{Convolutional Layer}
 \label{ssec:convlayer}
 
-Klassische Schichten von neuronalen Netzen nutzen Matrixmultiplikationen der kompletten Eingabe mit einer Parametermatrix um ihre Ausgaben zu berechnen, \dh jeder einzelne Ausgabewert entsteht aus einer Berechnung basierend auf jedem einzelnen Eingabewert. Obwohl diese Taktik in vielen Einsatzbereichen gut Funktioniert, stößt sie insbesondere bei der Bilddatenanalyse an ihre Grenzen, da sie nicht gut skaliert. \cite{cs231n} Ein weiterer Pluspunkt besteht daraus, dass durch Convolutional Layers bestimmte Merkmale von unterschiedlichen Stellen der Eingabe extrahiert werden können, wie später beschrieben.
+Klassische Schichten von neuronalen Netzen nutzen Matrixmultiplikationen der kompletten Eingabe mit einer Parametermatrix um ihre Ausgaben zu berechnen, \dh jeder einzelne Ausgabewert entsteht aus einer Berechnung basierend auf jedem einzelnen Eingabewert. Obwohl diese Taktik in vielen Einsatzbereichen gut Funktioniert, stößt sie insbesondere bei der Bilddatenanalyse an ihre Grenzen, da sie nicht gut skaliert. \cite{cs231n} So benötigt eine Convolutional Layer zum Erkennen eines Merkmals nur einen Kernel mit einer Anzahl von meistens unter $\SI{100}{\pixel}$. \cite{deeplearning_16} Ein weiterer Pluspunkt besteht daraus, dass durch Convolutional Layers bestimmte Merkmale von unterschiedlichen Stellen der Eingabe extrahiert werden können, wie später beschrieben.
 
 Eine konvolutionelle Schicht besteht aus einer Menge von Neuron, welche die Eingabe über den eben beschriebenen Konvolutionsoperator $S(i,j)$ auf genau ein Merkmal untersuchen. Daraus folgt, dass die Anzahl der Neuronen in eben dieser Schicht gleich der Größe der entstehenden Merkmalsdimension ist.
 
@@ -139,16 +139,26 @@ Erhält eine konvolutionelle Schicht mit 12 Neuronen also \bspw ein RGB-Eingabeb
 
 Das Hinzufügen von konvolutionellen Schichten führt allerdings zu mehr Hyperparametern, die optimiert werden können \cite{cs231n}:
 \begin{itemize}
-	\item Die Dimensionen des Kernels $k_1$ und $k_2$ (obwohl dieser fast immer quadratisch ist)
+	\item Die Dimensionen des Kernels $k_1$ und $k_2$ (obwohl dieser fast immer quadratisch ist, oftmals $3$)
 	\item Die Anzahl der Neuronen/der Merkmalsdimensionen
 	\item Die Größe der Strides, also wie weit der Kernel in jedem Schritt verschoben wird. Hier wird von einem Wert von $1$ ausgegangen, was die Größe der Ausgabe nicht verändert.
 	\item Das Padding, also wie sich die Konvolution an den Rändern der Eingabedaten verhält. Hier wird von Zero-Padding ausgegangen, dies hat zur Folge, dass es die Größe der Ausgabe unverändert lässt.
 \end{itemize}
 
+\subsection{Activation Layer}
+\label{ssec:activation}
+
+Auf eine konvolutionelle Schicht folgt fast immer eine Aktivierungsschicht. Diese werden dazu genutzt um eine gewisse Nicht-Linearität in den Verlauf des neuronalen Netzes einzuführen. Nicht-Linearität ist in vielen neuronalen Netzen notwendig, da die von ihnen zu lösenden Probleme keine Linearen sind. \cite[Kap.~6]{deeplearning_16}
+
+Selbst wenn nach der letzten Schicht eines mehrschichtigen neuronalen Netzes eine Aktivierungsschicht hinzugefügt werden würde, hätte dies zur Folge, dass die vorherigen Schichten wie eine einzige lineare Schicht agieren, was keine Vorteile gegenüber einer einzigen Schicht hat. Somit sollte jede einzelne Schicht von einer Aktivierungsschicht gefolgt sein, um verschiedenste, komplizierte Zusammenhänge zwischen Ein- und Ausgabedaten besser approximieren zu können.
+
 \subsection{Pooling Layer}
 \label{ssec:pooling}
 
 \subsection{Fully Connected Layer}
+\label{ssec:fcn}
+
+\subsection{Batch Normalization}
 \label{ssec:fcn}
 
 \subsection{Backpropagation}
