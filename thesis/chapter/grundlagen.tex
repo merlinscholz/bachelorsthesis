@@ -152,6 +152,60 @@ Auf eine konvolutionelle Schicht folgt fast immer eine Aktivierungsschicht. Dies
 
 Selbst wenn nach der letzten Schicht eines mehrschichtigen neuronalen Netzes eine Aktivierungsschicht hinzugefügt werden würde, hätte dies zur Folge, dass die vorherigen Schichten wie eine einzige lineare Schicht agieren, was keine Vorteile gegenüber einer einzigen Schicht hat. Somit sollte jede einzelne Schicht von einer Aktivierungsschicht gefolgt sein, um verschiedenste, komplizierte Zusammenhänge zwischen Ein- und Ausgabedaten besser approximieren zu können.
 
+In \figurename~\ref{fig:activations} sind drei der am meisten Verbreiteten Aktivierungsfunktionen zu sehen.
+% TODO Vertikale skalierung egal dank BK??
+
+\begin{figure}[h]
+	\captionsetup[subfigure]{labelformat=empty}
+	\begin{subfigure}{0.33\textwidth}
+		\centering
+		\subcaption{ReLU: $f(x)=\mathrm{max}\{0,x\}$}
+		\begin{tikzpicture}[scale=0.6]
+			\begin{axis}[
+				axis lines = middle,
+				xlabel = {$x$},
+				ylabel = {$f(x)$},
+				domain=-5:5,
+				]
+				\addplot[draw=blue,domain=-5:5,line width=1.5]{max(0,x)};
+				\addplot[draw opacity=0,domain=-5:5]{1.2*x};
+			\end{axis}
+		\end{tikzpicture}
+	\end{subfigure}
+	\begin{subfigure}{0.32\textwidth}
+		\centering
+		\subcaption{Sigmoid: $f(x)=\frac{1}{1+e^{-x}}$}
+		\begin{tikzpicture}[scale=0.6]
+			\begin{axis}[
+				axis lines = middle,
+				xlabel = {$x$},
+				ylabel = {$f(x)$},
+				domain=-5:5,
+				]
+				\addplot[draw=blue,domain=-5:5,line width=1.5]{1/(1+e^(-x))};
+				\addplot[draw opacity=0,domain=-5:5]{0.3*x};
+			\end{axis}
+		\end{tikzpicture}
+	\end{subfigure}
+	\begin{subfigure}{0.33\textwidth}
+		\centering
+		\subcaption{tanh: $f(x)=tanh(x)$}
+		\begin{tikzpicture}[scale=0.6]
+			\begin{axis}[
+				axis lines = middle,
+				xlabel = {$x$},
+				ylabel = {$f(x)$},
+				domain=-5:5,
+				]
+				\addplot[draw=blue,domain=-5:5,line width=1.5]{tanh(x)};
+				\addplot[draw opacity=0,domain=-5:5]{0.3*x};
+			\end{axis}
+		\end{tikzpicture}
+	\end{subfigure}
+	\caption{Drei Aktivierungsfunktionen}
+	\label{fig:activations}
+\end{figure}
+
 \subsection{Pooling Layer}
 \label{ssec:pooling}
 
