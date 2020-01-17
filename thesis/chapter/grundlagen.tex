@@ -18,6 +18,8 @@ Außerdem eignen sich Fotos gut, die senkrecht zur Oberfläche entstanden sind, 
 Unter Berücksichtigung dieser Faktoren ergeben sich \ua zwei geeignete Instrumente:
 Die \textit{Context Camera (CTX)} des \textit{Mars Reconnaissance Orbiters} der NASA \cite{malin_07} und die \textit{High Resolution Stereo Camera (HRSC)} des \textit{Mars Express Orbiters} der ESA \cite{hrsc}. Für die eigentlichen Analysen werden Aufnahmen der CTX genutzt, da sie einen Großteil der Oberfläche abdecken, während die panchromatischen Bilder der HRSC zur Evaluierung genutzt wurden, da mit ihnen schon mehrere andere Algorithmen getestet wurden.
 
+
+\iffalse
 \section{Clustering}
 \label{sec:clustering}
 
@@ -47,25 +49,72 @@ Für den Begriff der künstlichen Intelligenz existieren viele Definitionen. Mei
 
 Während man in der klassischen Programmierung zur Lösung eines Problems sowohl Eingabedaten als auch Bearbeitungsregeln benötigt, so ändert sich dies beim maschinellen Lernen, einem Unterbegriff der künstlichen Intelligenz. Hier werden die Bearbeitungsregeln durch schon bekannte Ergebnisse -- passend zu den Eingabedaten -- ersetzt. Durch diese Kombination von Ein- und Ausgabewerten leitet die Maschine in der ersten Phase, auch Training genannt, so selbst die Bearbeitungsregeln ab, und kann sie in der zweiten Phase auf neue, unbekannte Eingabewerte anwenden. Diese Bearbeitungsregeln bestehen aus generierten Formeln und beruhen auf rein statistischen Annahmen darüber, mit welcher Wahrscheinlichkeit eine gewisse Eingabe zu einer anderen gewissen Ausgabe führt. \cite{deeplearning_18} 
 
-Deep Learning -- meist synonym mit neuronalen Netzen genutzt -- wird oftmals als eine Weiterentwicklung oder Optimierung des maschinellen Lernens betrachtet: Statt einer Menge von Formeln, die das Resultat bestimmen sollen, setzt man hier auf mehrere Schichten, auch Layers genannt, von vergleichsweise einfachen linearen Funktionen, um zum gewünschten Ergebnis zu kommen. In diesem Kontext wird ein Knoten, also eine Funktion auch als Neuron bezeichnet. Die Aneinanderkettung dieser verschiedenen Schichten führt dazu, dass zwischen ihnen eine immer abstrahiertere Form der Eingabedaten entsteht, damit sind sie in ihrer Funktionsweise an die des menschlichen Gehirns angelehnt, welches sich auch aus einer Großzahl von hintereinandergeschalteten Neuronen zusammensetzt. Jedes Neuron ist mit mehreren Neuronen aus der Schicht vor und nach ihm vernetzt. \cite{schmidhuber_15} Während das Netzwerk trainiert wird, passen die einzelnen Knoten jeweils zwei Werte an: Wie sehr sie die Ausgabe der jeweils vorherigen Schicht aus Knoten gewichten, und die Mindestgrenze anhand welcher sie bestimmen, ob sie überhaupt einen Wert an die nächste Schicht ausgeben. Diese Gewichtungen sind anfangs zufällig bestimmt. \cite{hardesty_17, schmidhuber_15}
+
 
 Obwohl einfache Versionen neuronaler Netze schon seit vielen Jahrzehnten in der Informatik genutzt werden, wurden mit ihnen in den letzten Jahren neue Durchbrüche in verschiedensten Bereichen erzielt. Dieser Umschwung ist darauf zurückzuführen, dass mit dem Fortschritt der Technik nun auch große Netzwerke effizient ausgeführt werden können.
 
-
-
-
 \section{Convolutional Neural Networks}
 \label{sec:cnn}
+
+
 
 Ein Convolutional Neural Network beschreibt ein Neuronales Netzwerk, welches eine Convolutional Layer enthält. Eine Convolutional Layer enthält ihre Eingaben von mehreren Datenpunkten der vorherigen Schicht: Das (meist rechteckige) Fenster der Eingabedaten dieser Schicht gleitet somit schrittweise über die Ausgabe der vorherigen Schicht. \cite{schmidhuber_15} Dies hat den Vorteil, dass die Größe der darauf folgenden Schicht verringert wird (was zu einer besseren Performance führt). Ein weiterer Pluspunkt besteht darin, dass insbesondere bei der Bildanalyse gleiche Objekte an verschiedenen Positionen und in verschiedenen Größen besser erkannt werden können. \cite{szegedy_15}
 
 Aus diesen Gründen erfreuen sich Convolutional Neural Networks insbesondere in der Bildanalyse (wie \zB bei der Objekterkennung) großer Beliebtheit.
 
-\section{Convolutional Layer}
-\label{sec:conv}
+\fi
 
-\section{Pooling Layer}
-\label{sec:pooling}
+\section{Convolutional Neural Networks}
+\label{sec:cnn}
 
-\section{Backpropagation}
-\label{sec:backpropagation}¸
+Neuronale Netze -- meist synonym mit Deep Learning genutzt -- werden oftmals als eine Weiterentwicklung oder Optimierung des maschinellen Lernens betrachtet: Statt einer Menge von Formeln, die die Approximation einer Funtion erlernen sollen, setzt man hier auf mehrere Schichten, auch Layers genannt, von vergleichsweise einfachen linearen Funktionen, um zur gewünschten Approximation zu kommen. \cite{hardesty_17}
+
+In diesem Kontext wird ein Knoten, auch als Neuron bezeichnet. Ein typisches Neuron verarbeitet einen Eingabevektor indem es das Kreuzprodukt mit eben diesem Vektor und den verschiedenen Gewichtungen berechnet und anschließend einen Bias aufaddiert. Während das Netzwerk trainiert wird, passen die einzelnen Knoten diese zwei Vektoren, also die Gewichtungen und die Biasse an. Diese Gewichtungen sind anfangs zufällig bestimmt. \cite{hardesty_17, cs231n}
+
+Die Aneinanderkettung dieser verschiedenen Schichten führt dazu, dass zwischen ihnen eine immer abstrahiertere Form der Eingabedaten entsteht, damit sind sie in ihrer Funktionsweise an die des menschlichen Gehirns angelehnt, welches sich auch aus einer Großzahl von hintereinandergeschalteten Neuronen zusammensetzt. % TODO Cite
+
+Convolutional Neural Networks beschreiben eine Teilmenge der neuronalen Netze, in der die jeweilige Netzwerkarchitektur mindestens eine Convolutional Layer (auch Faltungsschicht genannt, \vgl Unterabschnitt~\ref{ssec:conv}) enthält. Die Nutzung dieser Convolutional Layer zieht fast immer die Nutzung einer Pooling Layer (Unterabschnitt~\ref{ssec:pooling}) mit sich. \cite{deeplearning_16}
+
+Obwohl Convolutional Neural Networks theoretisch dazu geeignet sind die meisten Daten mit einer gitterähnlichen Struktur zu verarbeiten, erfreuen sie sich im Bereich der Bilddatenanalyse der größten Beliebtheit. \cite[Kap.~9]{deeplearning_16} Eine wichtige Ursache für diese Beliebtheit liegt \bspw in dem Erfolg bei dem Bild-Klassifizierungs-Wettbewerb \textit{ImageNet}. Während dort im Jahr 2011 die Gewinnergruppe mit klassischen Klassifizierungsalgorithmen einen Top-5-Score von $74,3\%$ erzielt hat, wurden im Jahr 2012 mit einem CNN erstmals ein Wert von $83,6\%$ erreicht. Von diesem Punkt an wurde die Bestenliste der darauffolgenden Jahre durch Convolutional Neural Networks dominiert. \cite[Kap.~1]{deeplearning_18}
+
+% TODO Add Automonous Driving for segmentation problems
+
+% TODO Why are they useful? Smaller sized networks
+
+Da CNNs primär auf Bilddateien angewandt werden, wird von diesem Punkt an von einer Bilddatei als Eingabe ausgegangen. Hier beschreiben die ersten beiden Dimensionen die Breite und Höhe, während die dritte Dimension die Farbwerte für den jeweiligen Pixel angibt.
+
+\subsection{Konvolution}
+\label{ssec:conv}
+
+Die Konvolution ist eine mathematische Operation auf zwei Funktionen $f(x)$ und $g(y)$, die eine dritte Funktion, die Konvolution $s = f*g$ ergibt, welche beschreibt, wie sich die Verläufe der beiden Funktionen beeinflussen:
+
+\begin{equation}
+s(x) = (f*g)(x) = \int_{-\infty}^{\infty} f(y)g(x-y)dy
+\end{equation}
+
+In einem Großteil der Anwendungsfälle der Konvolution bestehen die Eingabefunktionen aus einer Eingabefunktion $x$ und einem Kernel $w$, die Ausgabe ist die Merkmalsdimension. In einer praktischen Anwendung wären dies \bspw Messwerte $x(t)$ in Abhängig von der Zeit und einer Gewichtungsfunktion $w(a)$ in Abhängigkeit des Alters der Messung. Für ungültige Zeiten (\bspw Zukunft) gilt $w=0$ \cite[Kap.~9]{deeplearning_16}:
+
+\begin{equation}
+s(t) = (x*w)(t) = \int_{-\infty}^{\infty} x(a)w(t-a)da
+\end{equation}
+
+Unter der Annahme, dass die Eingabewerte nicht stetig sondern diskret sind (zeitliche/örtliche Messwerte in regelmäßigen Abständen) ergibt sich vereinfacht \cite[Kap.~9]{deeplearning_16}:
+
+\begin{equation}
+s(t) = (x*w)(t) = \sum_{a=-\infty}^{\infty}x(a)w(t-a)
+\end{equation}
+
+Diese Funktion lässt sich für zweidimensionale Eingabedaten, wie \zB eine Bilddatei $I$ und einen zweidimensionalen Kernel $K$ erweitern \cite[Kap.~9]{deeplearning_16}:
+
+\begin{equation}
+S(i,j) = (I*K)(i,j) = \sum_{m}\sum_{n}I(m,n)K(i-m,j-n)
+\end{equation}
+
+\subsection{Convolutional Layer}
+\label{ssec:convlayer}
+
+\subsection{Pooling Layer}
+\label{ssec:pooling}
+
+\subsection{Backpropagation}
+\label{ssec:backpropagation}
