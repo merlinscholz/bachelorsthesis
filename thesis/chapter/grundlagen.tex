@@ -18,52 +18,6 @@ Außerdem eignen sich Fotos gut, die senkrecht zur Oberfläche entstanden sind, 
 Unter Berücksichtigung dieser Faktoren ergeben sich \ua zwei geeignete Instrumente:
 Die \textit{Context Camera (CTX)} des \textit{Mars Reconnaissance Orbiters} der NASA \cite{malin_07} und die \textit{High Resolution Stereo Camera (HRSC)} des \textit{Mars Express Orbiters} der ESA \cite{hrsc}. Für die eigentlichen Analysen werden Aufnahmen der CTX genutzt, da sie einen Großteil der Oberfläche abdecken, während die panchromatischen Bilder der HRSC zur Evaluierung genutzt wurden, da mit ihnen schon mehrere andere Algorithmen getestet wurden.
 
-
-\iffalse
-\section{Clustering}
-\label{sec:clustering}
-
-
-\section{Bildsegmentierung}
-\label{sec:segmentierung}
-
-Um in einem Eingabebild, wie \zB einer Aufnahme der Marsoberfläche, verschiedene Oberflächenstrukturen erkennen zu können, bedarf es eines Algorithmus zur Bildsegmentierung. Wie in \cite{bildsegmentierung_14} aufgeführt, beschreibt der Überbegriff der Bildsegmentierung oftmals den Ablauf des Pre-Processing eines Eingabebildes, gefolgt von der eigentlichen \textquote[\cite{bildsegmentierung_14}]{Segmentierung der Bilder in Regionen, Objekte mit geschlossenen Konturen oder Liniensegmente} und, je nach Anwendungsfall, der anschließenden Einordnung der einzelnen Segmente.
-
-\section{Künstliche Intelligenz, maschinelles Lernen und Deep Learning}
-
-\begin{wrapfigure}{r}{0.33\textwidth}
-\begin{tikzpicture}
-\draw (0,0) ellipse (3 and 2);
-\draw (0,-1.5) node[align=center]{\footnotesize Künstliche Intelligenz};
-\draw (0.25,0.4) ellipse (2.3 and 1.5);
-\draw (0.3,-0.5) node[align=center]{\footnotesize Maschinelles Lernen};
-\draw (0.5,0.8) ellipse (1 and 1);
-\draw (0.5,0.8) node[align=center]{\footnotesize Deep\\\footnotesize Learning};
-\end{tikzpicture}
-\captionsetup{format=plain}
-\caption{Relation zwischen künstlicher Intelligenz, maschinellem Lernen und Deep Learning, nach \cite[Kap.~1.1]{deeplearning_18}}
-\label{fig:ai_ml_dl}
-\end{wrapfigure}
-
-Für den Begriff der künstlichen Intelligenz existieren viele Definitionen. Meistens wird mit ihm der Versuch bezeichnet, Maschinen, wie \zB Computern, eine Intelligenz beizubringen, die der des Menschen möglichst nahe sein sollte. Die Definition der Intelligenz ist selbst allerdings auch sehr unterschiedlich, laut einer Definition beschreibt Intelligenz \textquote{\textelp{} das Merkmal, das einem Wesen ermöglicht, angemessen und vorausschauend in seiner Umgebung zu funktionieren.}\footnote{\textquote[\cite{thequest_09}]{\textelp{} and intelligence is that quality that enables an entity to function appropriately and with foresight in its environment.}}
-
-Während man in der klassischen Programmierung zur Lösung eines Problems sowohl Eingabedaten als auch Bearbeitungsregeln benötigt, so ändert sich dies beim maschinellen Lernen, einem Unterbegriff der künstlichen Intelligenz. Hier werden die Bearbeitungsregeln durch schon bekannte Ergebnisse -- passend zu den Eingabedaten -- ersetzt. Durch diese Kombination von Ein- und Ausgabewerten leitet die Maschine in der ersten Phase, auch Training genannt, so selbst die Bearbeitungsregeln ab, und kann sie in der zweiten Phase auf neue, unbekannte Eingabewerte anwenden. Diese Bearbeitungsregeln bestehen aus generierten Formeln und beruhen auf rein statistischen Annahmen darüber, mit welcher Wahrscheinlichkeit eine gewisse Eingabe zu einer anderen gewissen Ausgabe führt. \cite{deeplearning_18} 
-
-
-
-Obwohl einfache Versionen neuronaler Netze schon seit vielen Jahrzehnten in der Informatik genutzt werden, wurden mit ihnen in den letzten Jahren neue Durchbrüche in verschiedensten Bereichen erzielt. Dieser Umschwung ist darauf zurückzuführen, dass mit dem Fortschritt der Technik nun auch große Netzwerke effizient ausgeführt werden können.
-
-\section{Convolutional Neural Networks}
-\label{sec:cnn}
-
-
-
-Ein Convolutional Neural Network beschreibt ein Neuronales Netzwerk, welches eine Convolutional Layer enthält. Eine Convolutional Layer enthält ihre Eingaben von mehreren Datenpunkten der vorherigen Schicht: Das (meist rechteckige) Fenster der Eingabedaten dieser Schicht gleitet somit schrittweise über die Ausgabe der vorherigen Schicht. \cite{schmidhuber_15} Dies hat den Vorteil, dass die Größe der darauf folgenden Schicht verringert wird (was zu einer besseren Performance führt). Ein weiterer Pluspunkt besteht darin, dass insbesondere bei der Bildanalyse gleiche Objekte an verschiedenen Positionen und in verschiedenen Größen besser erkannt werden können. \cite{szegedy_15}
-
-Aus diesen Gründen erfreuen sich Convolutional Neural Networks insbesondere in der Bildanalyse (wie \zB bei der Objekterkennung) großer Beliebtheit.
-
-\fi
-
 \section{Convolutional Neural Networks}
 \label{sec:cnn}
 
@@ -130,9 +84,16 @@ Es ist zu beachten, dass der Farbvektor immer komplett verarbeitet wird, und nic
 
 Klassische Schichten von neuronalen Netzen nutzen Matrixmultiplikationen der kompletten Eingabe mit einer Parametermatrix um ihre Ausgaben zu berechnen, \dh jeder einzelne Ausgabewert entsteht aus einer Berechnung basierend auf jedem einzelnen Eingabewert. Obwohl diese Taktik in vielen Einsatzbereichen gut Funktioniert, stößt sie insbesondere bei der Bilddatenanalyse an ihre Grenzen, da sie nicht gut skaliert. \cite{cs231n} So benötigt eine Convolutional Layer zum Erkennen eines Merkmals nur einen Kernel mit einer Anzahl von meistens unter $\SI{100}{\pixel}$. \cite{deeplearning_16} Ein weiterer Pluspunkt besteht daraus, dass durch Convolutional Layers bestimmte Merkmale von unterschiedlichen Stellen der Eingabe extrahiert werden können, wie später beschrieben.
 
-Eine konvolutionelle Schicht besteht aus einer Menge von Neuron, welche die Eingabe über den eben beschriebenen Konvolutionsoperator $S(i,j)$ auf genau ein Merkmal untersuchen. Daraus folgt, dass die Anzahl der Neuronen in eben dieser Schicht gleich der Größe der entstehenden Merkmalsdimension ist.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.4\textwidth,keepaspectratio]{images/cs231n/convolutional.jpg}
+	\caption{Funktionsweise der Konvolutions-Schicht, aus \cite{cs231n}}
+	\label{fig:convolutional}
+\end{figure}
 
-Hierbei gilt es zu beachten, dass der Konvolutionsoperator für alle Werte $i$ und $j$ der Eingabedimensionen aufgerufen wird, so dass die Höhe und Breite der Ausgabe identisch zu denen der Eingabe ist.
+Eine konvolutionelle Schicht besteht aus einer Menge von Neuron, welche die Eingabe über den eben beschriebenen Konvolutionsoperator $S(i,j)$ auf genau ein Merkmal untersuchen. Daraus folgt, dass die Anzahl der Neuronen in eben dieser Schicht gleich der Größe der entstehenden Merkmalsdimension ist. (\vgl \figurename~\ref{fig:convolutional})
+
+Hierbei gilt es zu beachten, dass der Konvolutionsoperator für alle Werte $i$ und $j$ der Eingabedimensionen aufgerufen wird, so dass die Höhe und Breite der Ausgabe (bis auf einige Ausnahmen) identisch zu denen der Eingabe ist.
 Des Weiteren ist der Kernel pro Neuron konstant. Dies hat \ua zur Folge, dass das gleiche Merkmal an verschiedenen Stelle in der Eingabe erkennen kann.
 
 Erhält eine konvolutionelle Schicht mit 12 Neuronen also \bspw ein RGB-Eingabebild der Größe $\SI{64}{\pixel}\times\SI{64}{\pixel}$, so erzeugt es mit einem Stride von $1$ als Ausgabe eine dreidimensionale Matrix der Größe $64\times64\times12$, jede der Schichten der dritten Dimensionen deutet auf das Vorhandensein eines speziellen Merkmals an einer gewissen Stelle im Eingabebild hin.
@@ -141,7 +102,7 @@ Das Hinzufügen von konvolutionellen Schichten führt allerdings zu mehr Hyperpa
 \begin{itemize}
 	\item Die Dimensionen des Kernels $k_1$ und $k_2$ (obwohl dieser fast immer quadratisch ist, oftmals $3$)
 	\item Die Anzahl der Neuronen/der Merkmalsdimensionen
-	\item Die Größe der Strides, also wie weit der Kernel in jedem Schritt verschoben wird. Hier wird von einem Wert von $1$ ausgegangen, was die Größe der Ausgabe nicht verändert.
+	\item Die Größe der Strides (die Schrittweite). Hier wird von einem Wert von $1$ ausgegangen, was die Größe der Ausgabe nicht verändert.
 	\item Das Padding, also wie sich die Konvolution an den Rändern der Eingabedaten verhält. Hier wird von Zero-Padding ausgegangen, dies hat zur Folge, dass es die Größe der Ausgabe unverändert lässt.
 \end{itemize}
 
@@ -150,12 +111,11 @@ Das Hinzufügen von konvolutionellen Schichten führt allerdings zu mehr Hyperpa
 
 Auf eine konvolutionelle Schicht folgt fast immer eine Aktivierungsschicht. Diese werden dazu genutzt um eine gewisse Nicht-Linearität in den Verlauf des neuronalen Netzes einzuführen. Nicht-Linearität ist in vielen neuronalen Netzen notwendig, da die von ihnen zu lösenden Probleme keine Linearen sind. \cite[Kap.~6]{deeplearning_16}
 
-Selbst wenn nach der letzten Schicht eines mehrschichtigen neuronalen Netzes eine Aktivierungsschicht hinzugefügt werden würde, hätte dies zur Folge, dass die vorherigen Schichten wie eine einzige lineare Schicht agieren, was keine Vorteile gegenüber einer einzigen Schicht hat. Somit sollte jede einzelne Schicht von einer Aktivierungsschicht gefolgt sein, um verschiedenste, komplizierte Zusammenhänge zwischen Ein- und Ausgabedaten besser approximieren zu können.
+Selbst wenn nach der letzten Schicht eines mehrschichtigen neuronalen Netzes eine Aktivierungsschicht hinzugefügt werden würde, hätte dies zur Folge, dass die vorherigen Schichten wie eine einzige lineare Schicht agieren, was keine Vorteile gegenüber einer einzigen Schicht hat. Somit sollte jede einzelne Schicht von einer Aktivierungsschicht gefolgt sein, um verschiedenste, komplizierte Zusammenhänge zwischen Ein- und Ausgabedaten besser approximieren zu können. \cite[Kap.~3]{deeplearning_18}
 
 In \figurename~\ref{fig:activations} sind drei der am meisten Verbreiteten Aktivierungsfunktionen zu sehen.
-% TODO Vertikale skalierung egal dank BK??
 
-\begin{figure}[h]
+\begin{figure}[h!]
 	\captionsetup[subfigure]{labelformat=empty}
 	\begin{subfigure}{0.33\textwidth}
 		\centering
@@ -174,7 +134,7 @@ In \figurename~\ref{fig:activations} sind drei der am meisten Verbreiteten Aktiv
 	\end{subfigure}
 	\begin{subfigure}{0.32\textwidth}
 		\centering
-		\subcaption{Sigmoid: $f(x)=\frac{1}{1+e^{-x}}$}
+		\subcaption{Sigmoid: $f(x)={1}/{(1+e^{-x})}$}
 		\begin{tikzpicture}[scale=0.6]
 			\begin{axis}[
 				axis lines = middle,
@@ -209,11 +169,45 @@ In \figurename~\ref{fig:activations} sind drei der am meisten Verbreiteten Aktiv
 \subsection{Pooling Layer}
 \label{ssec:pooling}
 
+Konvolutionelle Schichten in neuronalen Netzen können die selben Merkmale von unterschiedlichen Stellen extrahieren. Die Position, an der diese Merkmale erkannt wurden, werden auch an die nächste Schicht weitergegeben, \dahe kleine Veränderungen an der Position eines Merkmals führen zu einer veränderten Merkmalsdimension. \cite{brownlee_19} Dies kann insbesondere beim Einsatz von mehreren konsekutiven Convolutional Layers zu einer erhöhten Störanfälligkeit führen, deshalb wird oftmals eine Pooling-Layer dazu eingesetzt, das resultierende Netzwerk invariant zu einzelnen Merkmalspositionen zu machen. \cite{deeplearning_16}
+
+Ein weiteres Problem des Einsatzes von ausschließlich konvolutionellen Schichten besteht daraus, dass sie schnell zu einem hohen Anstieg der Parameterzahl im Netzwerk führen können: Jede neue Schicht erzeugt einen weiteren Datenwürfel der Größe $H\times W\times F$, wobei $H$ und $W$ die Höhe und Breite des Eingabebildes, und $F$ die Größe der Merkmalsdimension ist. Alle diese Werte werden im Training des neuronalen Netzes optimiert, was zu Performanceeinbüßungen führt. \cite{cs231n}
+
+\begin{figure}[h]
+	\centering
+	\begin{subfigure}{0.38\textwidth}
+		\centering
+		\includegraphics[width=\textwidth,keepaspectratio]{images/cs231n/pool.jpg}
+		\caption{Funktionsweise der Pooling-Layer, aus \cite{cs231n}}
+		\label{fig:pooling}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}{0.55\textwidth}
+		\centering
+		\includegraphics[width=\textwidth,keepaspectratio]{images/cs231n/maxpool.jpg}
+		\caption{Max-Pooling anhand eines Beispiels, aus \cite{cs231n}}
+		\label{fig:maxpooling}
+	\end{subfigure}
+	\caption{}
+\end{figure}
+
+
+Die Pooling-Schicht verarbeitet alle Merkmalsdimensionen ihrer Eingabe unabhängig voneinander.
+
+Für jede Merkmalsdimension überlauft der rezeptive Bereich -- ähnlich zur Konvolutions-Schicht -- die jeweilige Schicht des Würfels in Höhe und Breite, und berechnet je nach Pooling-Art einen Wert, welcher als positionsabhängige Ausgabe weitergeleitet wird. Dieser Prozess ist in \figurename~\ref{fig:pooling} anschaulich dargestellt. Er besitzt zwei Hyperparameter: Die Stride (Schrittweite) $S$ und die eigentliche Größe $F_1\times F_2$. \cite{cs231n}
+
+Beim Max-Pooling übernimmt die Poolingoperation den maximalen Wert des von ihr überdeckten Eingabebereiches. (\vgl \figurename~\ref{fig:maxpooling})
+
 \subsection{Fully Connected Layer}
 \label{ssec:fcn}
 
 \subsection{Batch Normalization}
-\label{ssec:fcn}
+\label{ssec:bn}
+
+\subsection{Loss Function}
+\label{ssec:loss}
+
+Das Ziel eines neuronalen Netzes ist es, den Loss, also die Verlustfunktion, welche beschreibt wie weit die berechneten Werte von den im Training zu erzielenden Werten, in jeder Iteration weiter zu minimieren.
 
 \subsection{Backpropagation}
 \label{ssec:backpropagation}
