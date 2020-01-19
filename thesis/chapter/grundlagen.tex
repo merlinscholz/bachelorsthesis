@@ -169,32 +169,31 @@ In \figurename~\ref{fig:activations} sind drei der am meisten Verbreiteten Aktiv
 \subsection{Pooling Layer}
 \label{ssec:pooling}
 
+\begin{wrapfigure}{r}{0.38\textwidth}
+	\centering
+	\includegraphics[width=0.37\textwidth,keepaspectratio]{images/cs231n/pool.jpg}
+	\captionsetup{format=plain}
+	\caption{Funktionsweise der Pooling-Layer, aus \cite{cs231n}}
+	\label{fig:pooling}
+\end{wrapfigure}
+
 Konvolutionelle Schichten in neuronalen Netzen können die selben Merkmale von unterschiedlichen Stellen extrahieren. Die Position, an der diese Merkmale erkannt wurden, werden auch an die nächste Schicht weitergegeben, \dahe kleine Veränderungen an der Position eines Merkmals führen zu einer veränderten Merkmalsdimension. \cite{brownlee_19} Dies kann insbesondere beim Einsatz von mehreren konsekutiven Convolutional Layers zu einer erhöhten Störanfälligkeit führen, deshalb wird oftmals eine Pooling-Layer dazu eingesetzt, das resultierende Netzwerk invariant zu einzelnen Merkmalspositionen zu machen. \cite{deeplearning_16}
 
 Ein weiteres Problem des Einsatzes von ausschließlich konvolutionellen Schichten besteht daraus, dass sie schnell zu einem hohen Anstieg der Parameterzahl im Netzwerk führen können: Jede neue Schicht erzeugt einen weiteren Datenwürfel der Größe $H\times W\times F$, wobei $H$ und $W$ die Höhe und Breite des Eingabebildes, und $F$ die Größe der Merkmalsdimension ist. Alle diese Werte werden im Training des neuronalen Netzes optimiert, was zu Performanceeinbüßungen führt. \cite{cs231n}
 
-\begin{figure}[h]
-	\centering
-	\begin{subfigure}{0.38\textwidth}
-		\centering
-		\includegraphics[width=\textwidth,keepaspectratio]{images/cs231n/pool.jpg}
-		\caption{Funktionsweise der Pooling-Layer, aus \cite{cs231n}}
-		\label{fig:pooling}
-	\end{subfigure}
-	\hfill
-	\begin{subfigure}{0.55\textwidth}
-		\centering
-		\includegraphics[width=\textwidth,keepaspectratio]{images/cs231n/maxpool.jpg}
-		\caption{Max-Pooling anhand eines Beispiels, aus \cite{cs231n}}
-		\label{fig:maxpooling}
-	\end{subfigure}
-	\caption{}
-\end{figure}
-
-
 Die Pooling-Schicht verarbeitet alle Merkmalsdimensionen ihrer Eingabe unabhängig voneinander.
 
-Für jede Merkmalsdimension überlauft der rezeptive Bereich -- ähnlich zur Konvolutions-Schicht -- die jeweilige Schicht des Würfels in Höhe und Breite, und berechnet je nach Pooling-Art einen Wert, welcher als positionsabhängige Ausgabe weitergeleitet wird. Dieser Prozess ist in \figurename~\ref{fig:pooling} anschaulich dargestellt. Er besitzt zwei Hyperparameter: Die Stride (Schrittweite) $S$ und die eigentliche Größe $F_1\times F_2$. \cite{cs231n}
+Für jede Merkmalsdimension überlauft der rezeptive Bereich -- ähnlich zur Konvolutions-Schicht -- die jeweilige Schicht des Würfels in Höhe und Breite, und berechnet je nach Pooling-Art einen Wert, welcher als positionsabhängige Ausgabe weitergeleitet wird. Dieser Prozess ist in \figurename~\ref{fig:pooling} anschaulich dargestellt.
+
+Er besitzt zwei Hyperparameter: Die Stride (Schrittweite) $S$ und die eigentliche Größe $F_1\times F_2$. \cite{cs231n}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth,keepaspectratio]{images/cs231n/maxpool.jpg}
+	\captionsetup{format=plain}
+	\caption{Max-Pooling anhand eines Beispiels, aus \cite{cs231n}}
+	\label{fig:maxpooling}
+\end{figure}
 
 Beim Max-Pooling übernimmt die Poolingoperation den maximalen Wert des von ihr überdeckten Eingabebereiches. (\vgl \figurename~\ref{fig:maxpooling})
 
