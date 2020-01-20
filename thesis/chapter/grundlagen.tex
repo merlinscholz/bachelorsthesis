@@ -33,9 +33,15 @@ Obwohl Convolutional Neural Networks theoretisch dazu geeignet sind die meisten 
 
 % TODO Add Automonous Driving for segmentation problems
 
-% TODO Why are they useful? Smaller sized networks
+% TODO "Normal Network Architecture%
 
-Da CNNs primär auf Bilddateien angewandt werden, wird von diesem Punkt an von einer Bilddatei als Eingabe ausgegangen. Hier beschreiben die ersten beiden Dimensionen die Breite und Höhe, während die dritte Dimension die Farbwerte für den jeweiligen Pixel angibt.
+Die Architektur eines typischen, einfachen Convolutional Neural Networks ist wie folgt \cite{cs231n}:
+
+\begin{multline*}
+\mathrm{INPUT}\rightarrow\mathrm{CONVOLUTIONAL}\rightarrow\mathrm{ACTIVATION}\\\rightarrow\mathrm{POOLING}\rightarrow\mathrm{FULLYCONNECTED}
+\end{multline*}
+
+Da CNNs primär auf Bilddateien angewandt werden, wird von diesem Punkt an von einer Bilddatei als Eingabe (INPUT) ausgegangen. Hier beschreiben die ersten beiden Dimensionen die Breite und Höhe, während die dritte Dimension die Farbwerte für den jeweiligen Pixel angibt.
 
 \subsection{Konvolution}
 \label{ssec:conv}
@@ -76,8 +82,6 @@ S(i,j) = (I*K)(i,j) = \sum_{m}\sum_{n}\sum_{o}I(m,n,o)K(i-m,j-n,o)
 \end{equation}
 
 Es ist zu beachten, dass der Farbvektor immer komplett verarbeitet wird, und nicht nur ein Teilausschnitt wie bei Höhe und Breite.
-
-% TODO Hyperparameter
 
 \subsection{Convolutional Layer}
 \label{ssec:convlayer}
