@@ -4,7 +4,7 @@
 %\section{Analyse der Marsoberfläche}
 %\label{sec:analysedermarsoberflache}
 
-\section{Aufnahmen der Marsoberfläche}
+\section{Aufnahmen der Marsoberfl"ache}
 \label{sec:mars_images}
 
 Von der Marsoberfläche existieren verschiedenste Arten von Aufnahmen für unterschiedliche Analysen. Dabei kommt es auf gewisse Parameter, wie \zB die aufgenommene Wellenlänge, den Winkel zur Oberfläche, die Auflösung, Brennweite, Ort der Aufnahme und viele weitere an, ob ein Bild zur Analyse einer gewissen Eigenschaft geeignet ist.
@@ -120,7 +120,6 @@ Selbst wenn nach der letzten Schicht eines mehrschichtigen neuronalen Netzes ein
 In \figurename~\ref{fig:activations} sind drei der am meisten Verbreiteten Aktivierungsfunktionen zu sehen.
 
 \begin{figure}[h!]
-	\captionsetup[subfigure]{labelformat=empty}
 	\begin{subfigure}{0.33\textwidth}
 		\centering
 		\subcaption{ReLU: $f(x)=\mathrm{max}\{0,x\}$}
@@ -134,6 +133,7 @@ In \figurename~\ref{fig:activations} sind drei der am meisten Verbreiteten Aktiv
 				\addplot[draw=blue,domain=-5:5,line width=1.5]{max(0,x)};
 				\addplot[draw opacity=0,domain=-5:5]{1.2*x};
 			\end{axis}
+			\label{fig:relu}
 		\end{tikzpicture}
 	\end{subfigure}
 	\begin{subfigure}{0.32\textwidth}
@@ -150,6 +150,7 @@ In \figurename~\ref{fig:activations} sind drei der am meisten Verbreiteten Aktiv
 				\addplot[draw opacity=0,domain=-5:5]{0.3*x};
 			\end{axis}
 		\end{tikzpicture}
+		\label{fig:sigmoid}
 	\end{subfigure}
 	\begin{subfigure}{0.33\textwidth}
 		\centering
@@ -165,13 +166,26 @@ In \figurename~\ref{fig:activations} sind drei der am meisten Verbreiteten Aktiv
 				\addplot[draw opacity=0,domain=-5:5]{0.3*x};
 			\end{axis}
 		\end{tikzpicture}
+		\label{fig:tanh}
 	\end{subfigure}
 	\caption{Drei Aktivierungsfunktionen}
 	\label{fig:activations}
 \end{figure}
 
+Die intuitivste Aktivierungsfunktion, die Einheitssprungfunktion, wird in neuronalen Netzen nur für Binärklassifizierungsprobleme in der letzten Schicht genutzt. Dies rührt daher, dass sie keine Ableitung besitzt und daher nicht zum Lernen über Backpropagation (\vgl Unterabschnitt~\ref{ssec:backpropagation}) geeignet ist.
+
+Die ReLU-Aktivierungsfunktion (\vgl \figurename~\ref{fig:relu}) ist die wohl einfachste (nicht-lineare) Funktion, die als Aktivierungsfunktion geeignet ist. Diese Einfachheit führt zu einer vergleichsweise guten Performance, und deshalb großer Beliebheit in neuronalen Netzen mit vielen Schichten. Ihr Nachteil besteht darin, dass für Bereich $x<0$, praktisch gesehen kein Lernprozess stattfindet, da sie dort immer $0$ beträgt. \cite{kizrak_19}
+
+Die Sigmoid-Funktion eignet sich gut als Aktivierungsfunktion, da sie im Bereich nahe der y-Achse eine hohe Steigung aufweist, während die Veränderungen in anderen Bereichen relativ klein ausfallen. Damit eignet sie sich gut als zur Klassifizierung. \cite{kizrak_19}
+
+Die $tanh(x)$-Funktion ist in ihrer Rolle als Aktivierungsfunktion relativ ähnlich zur Sigmoid-Funktion, mit dem Unterschied dass sie im negativen x-Bereich auch ins negative geht, statt sich an $0$ anzunähern. Wie die Sigmoid-Funktion eignet sie sich gut zur Klassifizierung, je nach Anwendungsfall sogar besser, da ihre Ableitung nahe der y-Achse steiler ist. \cite{kizrak_19}
+
+Es existieren noch weitere Aktivierungsfunktionen, diese zu Analysieren ist allerdings außerhalb des Rahmens dieser Arbeit.
+
 \subsection{Pooling Layer}
 \label{ssec:pooling}
+
+Konvolutionelle Schichten in neuronalen Netzen können die selben Merkmale von unterschiedlichen Stellen extrahieren. Die Position, an der diese Merkmale erkannt wurden, werden auch an die nächste Schicht weitergegeben, \dahe kleine Veränderungen an der Position eines Merkmals führen zu einer veränderten Merkmalsdimension. \cite{brownlee_19} Dies kann insbesondere beim Einsatz von mehreren konsekutiven Convolutional Layers zu einer erhöhten Störanfälligkeit führen, deshalb wird oftmals eine Pooling-Layer dazu eingesetzt, das resultierende Netzwerk invariant zu einzelnen Merkmalspositionen zu machen. \cite{deeplearning_16}
 
 \begin{wrapfigure}{r}{0.38\textwidth}
 	\centering
@@ -180,8 +194,6 @@ In \figurename~\ref{fig:activations} sind drei der am meisten Verbreiteten Aktiv
 	\caption{Funktionsweise der Pooling-Layer, aus \cite{cs231n}}
 	\label{fig:pooling}
 \end{wrapfigure}
-
-Konvolutionelle Schichten in neuronalen Netzen können die selben Merkmale von unterschiedlichen Stellen extrahieren. Die Position, an der diese Merkmale erkannt wurden, werden auch an die nächste Schicht weitergegeben, \dahe kleine Veränderungen an der Position eines Merkmals führen zu einer veränderten Merkmalsdimension. \cite{brownlee_19} Dies kann insbesondere beim Einsatz von mehreren konsekutiven Convolutional Layers zu einer erhöhten Störanfälligkeit führen, deshalb wird oftmals eine Pooling-Layer dazu eingesetzt, das resultierende Netzwerk invariant zu einzelnen Merkmalspositionen zu machen. \cite{deeplearning_16}
 
 Ein weiteres Problem des Einsatzes von ausschließlich konvolutionellen Schichten besteht daraus, dass sie schnell zu einem hohen Anstieg der Parameterzahl im Netzwerk führen können: Jede neue Schicht erzeugt einen weiteren Datenwürfel der Größe $H\times W\times F$, wobei $H$ und $W$ die Höhe und Breite des Eingabebildes, und $F$ die Größe der Merkmalsdimension ist. Alle diese Werte werden im Training des neuronalen Netzes optimiert, was zu Performanceeinbüßungen führt. \cite{cs231n}
 
