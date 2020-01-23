@@ -56,7 +56,7 @@ In \figurename~\ref{fig:BDS12_02} sind die von AdaBoost ausgewählten, am stärk
 
 \subsection{Kratererkennung über Neuronale Netze}
 \label{ssec:crater_cnn}
-Auf der Basis des erwähnten, automatisch generierten Marskrater-Datensatz, wird in \cite{cohen_16} ein neuronales Netzwerk daraufhin trainiert, selbst unterscheiden zu können, ob ein Kraterkandidat auch wirklich ein Krater ist. Die Architektur des Netzwerkes ist in \figurename~\ref{fig:CLLD16_01} zu sehen. Zur Evaluierung der Ergebnisse wird hier das 10-fache Kreuzvalidierungsverfahren genutzt. Dies bedeutet, dass der Eingabedatensatz zehn-geteilt wird, und jeweils neun Teile zum trainieren und ein Teil zum Evaluieren genutzt wird. Das Ergebnis ist der Durchschnitt der jeweiligen F1-Scores.% Es werden somit Werte von $88,78\%$, $88,81\%$ und $90,29\%$ für die drei jeweiligen Bereiche Westen, Mitte und Osten angegeben.
+Auf der Basis des erwähnten, automatisch generierten Marskrater-Datensatz, wird in \cite{cohen_16} ein neuronales Netzwerk daraufhin trainiert, selbst unterscheiden zu können, ob ein Kraterkandidat auch wirklich ein Krater ist. Die Architektur des Netzwerkes ist in \figurename~\ref{fig:CLLD16_01} zu sehen. Zur Evaluierung der Ergebnisse wird hier das 10-fache Kreuzvalidierungsverfahren genutzt. Dies bedeutet, dass der Eingabedatensatz zehn-geteilt wird, und jeweils neun Teile zum trainieren und ein Teil zum Evaluieren genutzt wird. Das Ergebnis ist der Durchschnitt der jeweiligen F1-Scores.
 
 \begin{figure}[H]
 	\centering
@@ -69,7 +69,7 @@ Der Unterschied zwischen dieser Methode und dem hier vorgestellten Ansatz besteh
 
 \subsection{Vergleich der Methoden}
 
-Die drei genannten Algorithmen (Urbach '09 \cite{urbach_stepinski_2009}, Bandeira '10 \cite{bandeira_10} und Cohen '16 \cite{cohen_16}) wurden alle auf der selben Aufnahme der HRSC angewandt. Diese Aufnahme\footnote{HRSC nadir panchromatic image h0905\_0000: \url{ftp://psa.esac.esa.int/pub/mirror/MARS-EXPRESS/HRSC/MEX-M-HRSC-3-RDR-V3.0/DATA/0905/}} wurde zugeschnitten und in sechs Bereiche der Größe $\SI{1700}{\pixel}\times\SI{1700}{\pixel}$ eingeteilt, zu sehen in \figurename~\ref{fig:h0905_0000}\footnote{\url{https://cerena.ist.utl.pt/lpcbandeira/downloads.html}}.
+Die drei genannten Algorithmen (Urbach '09 \cite{urbach_stepinski_2009}, Bandeira '10 \cite{bandeira_10} und Cohen '16 \cite{cohen_16}) wurden alle auf der selben Aufnahme der HRSC angewandt. Diese Aufnahme\footnote{HRSC nadir panchromatic image h0905\_0000: \url{ftp://psa.esac.esa.int/pub/mirror/MARS-EXPRESS/HRSC/MEX-M-HRSC-3-RDR-V3.0/DATA/0905/}} wurde zugeschnitten und in sechs sich überlappende Bereiche der Größe $\SI{1700}{\pixel}\times\SI{1700}{\pixel}$ eingeteilt, zu sehen in \figurename~\ref{fig:h0905_0000}\footnote{\url{https://cerena.ist.utl.pt/lpcbandeira/downloads.html}}.
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}{0.3\textwidth}
@@ -102,7 +102,7 @@ Die drei genannten Algorithmen (Urbach '09 \cite{urbach_stepinski_2009}, Bandeir
 		\includegraphics[width=\textwidth,keepaspectratio]{images/h0905_0000/3_25.png}
 		\caption{3\_25}
 	\end{subfigure}
-	\caption{Die zur Evaluation genutzte Teilabschnitte}
+	\caption{Die zur Evaluation genutzten Teilabschnitte}
 	\label{fig:h0905_0000}
 \end{figure}
 

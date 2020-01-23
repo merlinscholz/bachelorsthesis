@@ -122,7 +122,7 @@ In \figurename~\ref{fig:activations} sind drei der am meisten Verbreiteten Aktiv
 \begin{figure}[h!]
 	\begin{subfigure}{0.33\textwidth}
 		\centering
-		\subcaption{ReLU: $f(x)=\mathrm{max}\{0,x\}$}
+		\subcaption{ReLU:\\$f(x)=\mathrm{max}\{0,x\}$}
 		\begin{tikzpicture}[scale=0.6]
 			\begin{axis}[
 				axis lines = middle,
@@ -138,7 +138,7 @@ In \figurename~\ref{fig:activations} sind drei der am meisten Verbreiteten Aktiv
 	\end{subfigure}
 	\begin{subfigure}{0.32\textwidth}
 		\centering
-		\subcaption{Sigmoid: $f(x)={1}/{(1+e^{-x})}$}
+		\subcaption{Sigmoid:\\$f(x)={1}/{(1+e^{-x})}$}
 		\begin{tikzpicture}[scale=0.6]
 			\begin{axis}[
 				axis lines = middle,
@@ -154,7 +154,7 @@ In \figurename~\ref{fig:activations} sind drei der am meisten Verbreiteten Aktiv
 	\end{subfigure}
 	\begin{subfigure}{0.33\textwidth}
 		\centering
-		\subcaption{tanh: $f(x)=tanh(x)$}
+		\subcaption{tanh:\\$f(x)=tanh(x)$}
 		\begin{tikzpicture}[scale=0.6]
 			\begin{axis}[
 				axis lines = middle,
@@ -216,7 +216,7 @@ Beim Max-Pooling übernimmt die Poolingoperation den maximalen Wert des von ihr 
 \subsection{Fully Connected Layer}
 \label{ssec:fcn}
 
-Manche Concolutional Neural Networks besitzen eine Fully Connected Layer. Das Ziel dieser besteht daraus, die Resultate der konvolutionellen und Pooling-Schichten zu klassifizieren, da diese nur die Wahrscheinlichkeiten zurückgeben, mit der ein gewisses merkmal an einer gewissen Pisition erkannt wird. Aus diesem Grund werden eine oder mehrere Fully Connected Layers am Ende eines ansonsten fertigen neuronalen Netzes eingesetzt. \cite{geva}
+Manche Concolutional Neural Networks besitzen eine Fully Connected Layer. Das Ziel dieser besteht daraus, die Resultate der konvolutionellen und Pooling-Schichten zu klassifizieren, da diese nur die Wahrscheinlichkeiten zurückgeben, mit der ein gewisses merkmal an einer gewissen Pisition erkannt wird. Aus diesem Grund werden oft eine oder mehrere Fully Connected Layers am Ende eines ansonsten fertigen neuronalen Netzes eingesetzt. \cite{geva}
 
 \subsection{Batch Normalization}
 \label{ssec:bn}
