@@ -4,7 +4,7 @@
 %\section{Analyse der Marsoberfläche}
 %\label{sec:analysedermarsoberflache}
 
-\section{Aufnahmen der Marsoberfläche}
+\section{Remote Sensing Instruments} % TODO ???
 \label{sec:mars_images}
 
 Von der Marsoberfläche existieren verschiedenste Arten von Aufnahmen für unterschiedliche Analysen. Dabei kommt es auf gewisse Parameter, wie \zB die aufgenommene Wellenlänge, den Winkel zur Oberfläche, die Auflösung, Brennweite, Ort der Aufnahme und viele weitere an, ob ein Bild zur Analyse einer gewissen Eigenschaft geeignet ist.
@@ -18,7 +18,7 @@ Außerdem eignen sich Fotos gut, die senkrecht zur Oberfläche entstanden sind, 
 Unter Berücksichtigung dieser Faktoren ergeben sich \ua zwei geeignete Instrumente:
 Die \textit{Context Camera (CTX)} des \textit{Mars Reconnaissance Orbiters} der NASA \cite{malin_07} und die \textit{High Resolution Stereo Camera (HRSC)} des \textit{Mars Express Orbiters} der ESA \cite{hrsc}. Für die eigentlichen Analysen werden Aufnahmen der CTX genutzt, da sie einen Großteil der Oberfläche abdecken, während die panchromatischen Bilder der HRSC zur Evaluierung genutzt wurden, da mit ihnen schon mehrere andere Algorithmen getestet wurden.
 
-\section{Convolutional Neural Networks}
+\section{Convolutional Neural Networks}	% TODO MLP
 \label{sec:cnn}
 
 Neuronale Netze -- meist synonym mit Deep Learning genutzt -- werden oftmals als eine Weiterentwicklung oder Optimierung des maschinellen Lernens betrachtet: Statt einer Menge von Formeln, die die Approximation einer Funtion erlernen sollen, setzt man hier auf mehrere Schichten, auch Layers genannt, von vergleichsweise einfachen linearen Funktionen, um zur gewünschten Approximation zu kommen. \cite{hardesty_17}
@@ -200,9 +200,6 @@ Er besitzt zwei Hyperparameter: Die Stride (Schrittweite) $S$ und die eigentlich
 \end{figure}
 
 Beim Max-Pooling übernimmt die Poolingoperation den maximalen Wert des von ihr überdeckten Eingabebereiches. (\vgl \figurename~\ref{fig:maxpooling})
-
-\subsection{Fully Connected Layer}
-\label{ssec:fcn}
 
 \subsection{Batch Normalization}
 \label{ssec:bn}
