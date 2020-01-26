@@ -21,19 +21,19 @@ Die \textit{Context Camera (CTX)} des \textit{Mars Reconnaissance Orbiters} der 
 \section{Convolutional Neural Networks}	% TODO MLP
 \label{sec:cnn}
 
-Neuronale Netze -- meist synonym mit Deep Learning genutzt -- werden oftmals als eine Weiterentwicklung oder Optimierung des maschinellen Lernens betrachtet: Statt einer Menge von Formeln, die die Approximation einer Funtion erlernen sollen, setzt man hier auf mehrere Schichten, auch Layers genannt, von vergleichsweise einfachen linearen Funktionen, um zur gewünschten Approximation zu kommen. \cite{hardesty_17}
+Neuronale Netze -- meist synonym mit Deep Learning genutzt -- werden oftmals als eine Weiterentwicklung oder Optimierung des maschinellen Lernens betrachtet: Statt einer Menge von Formeln, die die Approximation einer Funtion erlernen sollen, setzt man hier auf mehrere Schichten, auch Layers genannt, von vergleichsweise einfachen linearen Funktionen um zur gewünschten Approximation zu kommen. \cite{hardesty_17}
 
-In diesem Kontext wird ein Knoten, auch als Neuron bezeichnet. Ein typisches Neuron verarbeitet einen Eingabevektor indem es das Kreuzprodukt mit eben diesem Vektor und den verschiedenen Gewichtungen berechnet und anschließend einen Bias aufaddiert. Während das Netzwerk trainiert wird, passen die einzelnen Knoten diese zwei Vektoren, also die Gewichtungen und die Biasse an. Diese Gewichtungen sind anfangs zufällig bestimmt. \cite{hardesty_17, cs231n}
+Eine der einfachsten Formen eines neuronalen Netzes besteht aus dem Multilayer-Perceptron: Dieses besteht aus mehreren der zuvor erwähnten Layers, von denen jede mehrere einzelne Perceptronen enthält. Zwischen einer Eingabe- und einer Ausgabe-Schicht existieren somit auch noch eine beliebige Anzahl an sogenannten Hidden Layers.
 
-Die Aneinanderkettung dieser verschiedenen Schichten führt dazu, dass zwischen ihnen eine immer abstrahiertere Form der Eingabedaten entsteht, damit sind sie in ihrer Funktionsweise an die des menschlichen Gehirns angelehnt, welches sich auch aus einer Großzahl von hintereinandergeschalteten Neuronen zusammensetzt. % TODO Cite
+In diesem Kontext wird ein Perceptron auch als Neuron bezeichnet. Ein typisches Neuron verarbeitet einen Eingabevektor indem es dies mit einem Gewichtungs-Vektor elementweise multipliziert und anschließend einen Bias-Vektor aufaddiert. Anschließend werden die Elemente dieses Vektor aufaddiert, und auf diese Summe eine Aktivierungsfunktion (\vgl Unterabschnitt~\ref{ssec:activation}) angewandt. Während das Netzwerk trainiert wird, passen die einzelnen Perceptronen diese zwei Vektoren, also die Gewichtungen und die Biase, so an, dass die Ergebnisse weitgehend optimierrt werden (\vgl Unterabschnitt~\ref{ssec:backpropagation}). Diese Gewichtungen sind anfangs zufällig bestimmt. \cite{hardesty_17, cs231n} 
 
-Convolutional Neural Networks beschreiben eine Teilmenge der neuronalen Netze, in der die jeweilige Netzwerkarchitektur mindestens eine Convolutional Layer (auch Faltungsschicht genannt, \vgl Unterabschnitt~\ref{ssec:conv}) enthält. Die Nutzung dieser Convolutional Layer zieht fast immer die Nutzung einer Pooling Layer (Unterabschnitt~\ref{ssec:pooling}) mit sich. \cite{deeplearning_16}
+Die Aneinanderkettung dieser Schichten führt dazu, dass zwischen ihnen eine immer abstrahiertere Form der Eingabedaten entsteht, damit sind sie in ihrer Funktionsweise an die des menschlichen Gehirns angelehnt, welches sich auch aus einer Großzahl von hintereinandergeschalteten Neuronen zusammensetzt. % TODO Cite
+
+Convolutional Neural Networks beschreiben eine Teilmenge der neuronalen Netze, in der die jeweilige Netzwerkarchitektur mindestens eine Convolutional Layer (auch Faltungsschicht genannt, \vgl Unterabschnitt~\ref{ssec:conv}) enthält. Die Nutzung dieser Convolutional Layer zieht oft die Nutzung einer Pooling Layer (Unterabschnitt~\ref{ssec:pooling}) mit sich. \cite{deeplearning_16}
 
 Obwohl Convolutional Neural Networks theoretisch dazu geeignet sind die meisten Daten mit einer gitterähnlichen Struktur zu verarbeiten, erfreuen sie sich im Bereich der Bilddatenanalyse der größten Beliebtheit. \cite[Kap.~9]{deeplearning_16} Eine wichtige Ursache für diese Beliebtheit liegt \bspw in dem Erfolg bei dem Bild-Klassifizierungs-Wettbewerb \textit{ImageNet}. Während dort im Jahr 2011 die Gewinnergruppe mit klassischen Klassifizierungsalgorithmen einen Top-5-Score von $74,3\%$ erzielt hat, wurden im Jahr 2012 mit einem CNN erstmals ein Wert von $83,6\%$ erreicht. Von diesem Punkt an wurde die Bestenliste der darauffolgenden Jahre durch Convolutional Neural Networks dominiert. \cite[Kap.~1]{deeplearning_18}
 
-% TODO Add Automonous Driving for segmentation problems
-
-% TODO "Normal Network Architecture%
+Neben der genannten Objekterkennung eigenen sie sich auch zur Bildsegmentierung. So werden sie \bspw erfolgreich in der Entwicklung von Selbstfahrenden Autos. \cite{kaymak_19}
 
 Die Architektur eines typischen, einfachen Convolutional Neural Networks ist wie folgt \cite{cs231n}:
 
@@ -41,7 +41,7 @@ Die Architektur eines typischen, einfachen Convolutional Neural Networks ist wie
 \mathrm{INPUT}\rightarrow\mathrm{CONVOLUTIONAL}\rightarrow\mathrm{ACTIVATION}\\\rightarrow\mathrm{POOLING}\rightarrow\mathrm{FULLYCONNECTED}
 \end{multline*}
 
-Da CNNs primär auf Bilddateien angewandt werden, wird von diesem Punkt an von einer Bilddatei als Eingabe (INPUT) ausgegangen. Hier beschreiben die ersten beiden Dimensionen die Breite und Höhe, während die dritte Dimension die Farbwerte für den jeweiligen Pixel angibt.
+Da CNNs primär auf Bilddateien angewandt werden, wird von diesem Punkt an von einer Bilddatei als Eingabe ($\mathrm{INPUT}$) ausgegangen. Hier beschreiben die ersten beiden Dimensionen die Breite und Höhe, während die dritte Dimension die Farbwerte für den jeweiligen Pixel angibt. Die Konvolutions-, Aktivierungs-, Pooling- und Fully-Connected-Layers werden in den folgenden Unterabschnitten erläutert.
 
 \subsection{Konvolution}
 \label{ssec:conv}
@@ -213,10 +213,11 @@ Er besitzt zwei Hyperparameter: Die Stride (Schrittweite) $S$ und die eigentlich
 
 Beim Max-Pooling übernimmt die Poolingoperation den maximalen Wert des von ihr überdeckten Eingabebereiches. (\vgl \figurename~\ref{fig:maxpooling})
 
-%\subsection{Fully Connected Layer}
-%\label{ssec:fcn}
-%Manche Convolutional Neural Networks besitzen eine Fully Connected Layer. Das Ziel dieser besteht daraus, die Resultate der konvolutionellen und Pooling-Schichten zu klassifizieren, da diese nur die Wahrscheinlichkeiten zurückgeben, mit der ein gewisses merkmal an einer gewissen Pisition erkannt wird. Aus diesem Grund werden eine oder mehrere Fully Connected Layers am Ende eines ansonsten fertigen neuronalen Netzes eingesetzt. \cite{geva}
-% TODO Move to intro
+\subsection{Fully Connected Layer}
+\label{ssec:fcn}
+Manche Convolutional Neural Networks besitzen eine Fully Connected Layer. Das Ziel dieser besteht daraus, die Resultate der konvolutionellen und Pooling-Schichten zu klassifizieren, da diese nur die Wahrscheinlichkeiten zurückgeben, mit der ein gewisses Merkmal an einer gewissen Position erkannt wird. Aus diesem Grund werden eine oder mehrere Fully Connected Layers am Ende eines ansonsten fertigen neuronalen Netzes eingesetzt. \cite{geva}
+
+Die Funktionsweise einer Fully Connected Layer ist identisch zu einer Schicht eines Multilaye-Perceptrons, wie in Abschnitt~\ref{sec:cnn} beschrieben.
 
 \subsection{Batch Normalization}
 \label{ssec:bn}
@@ -224,7 +225,49 @@ Beim Max-Pooling übernimmt die Poolingoperation den maximalen Wert des von ihr 
 \subsection{Loss Function}
 \label{ssec:loss}
 
-Das Ziel eines neuronalen Netzes ist es, den Loss, also die Verlustfunktion, welche beschreibt wie weit die berechneten Werte von den im Training zu erzielenden Werten, in jeder Iteration weiter zu minimieren.
+Das Ziel eines neuronalen Netzes ist es, den Loss, also die Verlustfunktion, welche beschreibt wie weit die berechneten Werte von den im Training zu erzielenden Werten, in jeder Iteration weiter zu minimieren. Auch hier existieren verschiedenste Loss-Funktionen. Im folgenden wird genauer auf den Cross-Entropy-Loss eingegangen. Dieser ist besonders für Klassifizierungsprobleme geeignet. Er ist definiert als \cite{cs231n}:
+
+\begin{equation}
+H(p,q) = -\sum_x p(x)\log q(x)
+\end{equation}
+
+Hier ist $p$ ein Binärindikator, der angibt ob Klasse $c$ korrekt für Eingabe $o$ ist, und $q$ die berechnete Wahrscheinlichkeit, dass Klasse $c$ auf Eingabe $o$ zutrifft. Es ist zu beachten, dass der Cross-Entropy-Loss ausschließlich die Wahrscheinlichkeiten für korrekte Klassen bewertet. Da für $q$ eine Wahrscheinlichkeit im Intervall $[0,1]$ benötigt wird, wird als dessen Eingabe meistens die Softmax-Funktion der vorhergehenden Werte genutzt. Die Softmax-Funktion kann wie die ReLU- oder die Sigmoid-Funktion als Aktivierungsfunktion betrachtet werden. Sie ist definiert durch \cite{cs231n}:
+
+\begin{equation}
+S_i=\dfrac{e^{f_i}}{\sum_j e^{f_j}}
+\end{equation}
+
+Es gilt $f_i$ ist gleich dem $i$-ten Element des Eingabevektors $f$.
+Kombiniert ergibt sich so also für den Cross-Entropy-Loss \cite{cs231n}:
+
+\begin{equation}
+L_i = -\sum_x p(x)\log\left(\dfrac{e^{f_{y_i}}}{\sum_j e^{f_i}}\right)
+\end{equation}
+
+Da für alle außer eine Klasse gilt $p=0$, lässt sich die Summe entfernen:
+
+\begin{equation}
+L_i = -\log\left(\dfrac{e^{f_{y_i}}}{\sum_j e^{f_i}}\right)
+\end{equation}
+
+
+Für den durchschnittlichen Loss über alle Klassifizierungen ergibt sich so:
+
+\begin{equation}
+L = \dfrac{1}{N}\sum_{i=1}^{N}L_i
+\end{equation}
+
+Hier ist allerdings zu beachten, dass es für ein neuronale Netz mehrere optimale Gewichtungen und Biase geben kann: Würde man \bspw alle Gewichtungen mit dem selben Skalar multiplizieren, würden diese immer noch zu dem selben Ergebnis führen. Um möglichst kleine Gewichtungen und Biase zu bestimmen, wird der Regularization Loss eingeführt um die Gewichtungen möglichst gering zu halten \cite{cs231n}:
+
+\begin{equation}
+L = \dfrac{1}{N}\sum_{i=1}^{N}L_i + \lambda R(W)
+\end{equation}
+
+mit $\lambda$ als einem Hyperparameter zur Gewichtung und
+
+\begin{equation}
+R(W) = \sum_k\sum_l W^2_{k,l}
+\end{equation}
 
 \subsection{Backpropagation}
 \label{ssec:backpropagation}
