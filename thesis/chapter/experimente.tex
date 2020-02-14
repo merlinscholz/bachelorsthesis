@@ -28,8 +28,49 @@ Der F1-Score wird lediglich dazu genutzt, um eine berechnete Segmentierung, in d
 \section{Vergleich}
 \label{sec:vergleich}
 
+Wie in Unterabschnitt~\ref{ssec:vergleich} beschreiben, wurden drei bekannte Algorithmen zur Kratererkennung  (Urbach '09 \cite{urbach_stepinski_2009}, Bandeira '10 \cite{bandeira_10} und Cohen '16 \cite{cohen_16}) auf der selben Aufnahme der HRSC angewandt.
+
+Diese Aufnahme\footnote{HRSC nadir panchromatic image h0905\_0000: \url{ftp://psa.esac.esa.int/pub/mirror/MARS-EXPRESS/HRSC/MEX-M-HRSC-3-RDR-V3.0/DATA/0905/}} wurde zugeschnitten und in sechs sich überlappende Bereiche der Größe $\SI{1700}{\pixel}\times\SI{1700}{\pixel}$ eingeteilt, zu sehen in \figurename~\ref{fig:h0905_0000}\footnote{\url{https://cerena.ist.utl.pt/lpcbandeira/downloads.html}}.
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{0.3\textwidth}
+		\centering
+		\includegraphics[width=\textwidth,keepaspectratio]{images/h0905_0000/1_24.jpg}
+		\caption{1\_24}
+	\end{subfigure}
+	\begin{subfigure}{0.3\textwidth}
+		\centering
+		\includegraphics[width=\textwidth,keepaspectratio]{images/h0905_0000/2_24.jpg}
+		\caption{2\_24}
+	\end{subfigure}
+	\begin{subfigure}{0.3\textwidth}
+		\centering
+		\includegraphics[width=\textwidth,keepaspectratio]{images/h0905_0000/3_24.jpg}
+		\caption{3\_24}
+	\end{subfigure}
+	\begin{subfigure}{0.3\textwidth}
+		\centering
+		\includegraphics[width=\textwidth,keepaspectratio]{images/h0905_0000/1_25.jpg}
+		\caption{1\_25}
+	\end{subfigure}
+	\begin{subfigure}{0.3\textwidth}
+		\centering
+		\includegraphics[width=\textwidth,keepaspectratio]{images/h0905_0000/2_25.jpg}
+		\caption{2\_25}
+	\end{subfigure}
+	\begin{subfigure}{0.3\textwidth}
+		\centering
+		\includegraphics[width=\textwidth,keepaspectratio]{images/h0905_0000/3_25.jpg}
+		\caption{3\_25}
+	\end{subfigure}
+	\caption{Die zur Evaluation genutzten Teilabschnitte}
+	\label{fig:h0905_0000}
+\end{figure}
+
 \subsection{F1-Score zur Kratererkennung}
 \label{ssec:f1_crater}
+
+% TODO F1-Score definieren
 
 In \tablename~\ref{tab:comparision} werden die in Abschnitt~\ref{sec:craterdetection} vorgestellten Methoden zur Kratererkennung verglichen.
 Die F1-Scores für Urbach '09 und Bandeira '10 wurden aus den in \cite{bandeira_10} angegebenen \textit{True Positive}, \textit{False Positive} und \textit{False Negative} berechnet. Für Bandeira '12 konnte kein F1-Score berechnet werden, da dort die benötigten Werte nicht veröffentlicht wurden.

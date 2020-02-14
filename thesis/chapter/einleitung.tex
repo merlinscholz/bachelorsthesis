@@ -4,15 +4,17 @@
 \section{Motivation}
 \label{sec:motivation}
 
-Neuronale Netzwerke werden in den letzten Jahren häufig zur Objekterkennung und Bildsegmentierung genutzt. Ein weit bekanntes Anwendungsbeispiel findet sich in der Entwicklung des autonomen Fahrens, bei welcher das Bild in verschiedene Klassen wie \zB Fahrbahn, Ampel oder Passanten segmentiert wird. Dies geschieht für gewöhnlich durch überwachtes Lernen, also unter der Voraussetzung von Trainingsdaten, auch Ground Truths genannt, aus denen das Netzwerk lernen kann, wie es die jeweiligen Klassen erkennen kann.
+Neuronale Netzwerke werden in den letzten Jahren häufig zur Objekterkennung und Bildsegmentierung genutzt. Ein weit bekanntes Anwendungsbeispiel findet sich in der Entwicklung des autonomen Fahrens, bei welcher das Bild in verschiedene Klassen wie \zB Fahrbahn, Ampel oder Passant segmentiert wird. Dies geschieht für gewöhnlich durch überwachtes Lernen, also unter der Voraussetzung einer Ground Truth, aus denen das Netzwerk lernen kann, wie es die jeweiligen Klassen erkennen kann.
 
 Diese Ground Truths werden meist von Hand erschaffen. So können diese im Straßenverkehr von jedermann erstellt werden, während in spezifischeren Anwendungsgebieten meist Domänenexperten dazu benötigt werden. Dies ist auch der Fall bei der Analyse der Marsoberfläche. Aufgrund der schlichten Größe des Datensatzes, und der Notwendigkeit von Experten in diesem Fachgebiet, ist es hier weder leicht, noch zeiteffizient oder kostengünstig möglich, manuell eine Ground Truth zu entwickeln.
 
-Es besteht zwar die Möglichkeit, bereits vorhandene Ground Truths zu nutzen, dies wirft allerdings neue Probleme auf: Bei \bspw sich stark verändernden Lichtverhältnissen, Aufnahmewinkeln, \oa kann ein vortrainiertes Neuronales Netz meistens keine optimalen Ergebnisse erzielen, eben weil es nicht auf diese neuen Rahmenbedingungen trainiert wurde.
+Es besteht zwar die Möglichkeit, bereits vorhandene Ground Truths zu nutzen, dies wirft allerdings neue Probleme auf. Bei \bspw sich stark verändernden Lichtverhältnissen, Aufnahmewinkeln, \oa kann ein vortrainiertes Neuronales Netz meistens keine optimalen Ergebnisse erzielen, eben weil es nicht auf diese neuen Rahmenbedingungen trainiert wurde.
 
-Entgegen des überwachten Lernens existiert auch das unüberwachte Lernen. Hier existiert keine Ground Truth, stattdessen muss dem Algorithmus eine andere Methode übermittelt werden, anhand welcher er erkennen kann, wie korrekt ein Ergebnis ist. Dies geschieht \zB über einen \enquote{klassischen} Algorithmus, der das Problem zwar ohne neuronale Netze löst, allerdings keine so hohe Genauigkeit besitzt.
+Neben dem überwachten Lernen existiert auch das unüberwachte Lernen. Hier existiert keine Ground Truth, stattdessen muss dem Algorithmus eine andere Methode übermittelt werden, anhand welcher er erkennen kann, wie korrekt ein Ergebnis ist. Dies geschieht \zB über einen Algorithmus, der das Problem zwar ohne neuronale Netze löst, allerdings keine so hohe Genauigkeit besitzt.
 
+
+%TODO
 \section{Rahmen der Arbeit}
 \label{sec:rahmen}
 
-In dieser Arbeit wird versucht, das Problem der Segmentierung der Marsoberfläche durch unüberwachtes Lernen zu lösen. Nach der Implementierung eines einfachen Algorithmus zur Segmentierung auf Basis des Ansatzes von Kanezaki\cite{kanezaki_18}, \vgl Unterabschnitt~\ref{ssec:kanezaki}, wird dieser über verschiedene Ansätze, wie \zB das Austauschen einzelner Bausteine des Algorithmus, weiter optimiert. Anschließend werden diese Ergebnisse miteinander verglichen, und das von ihnen beste ausgewählt.
+%In dieser Arbeit wird versucht, das Problem der Segmentierung der Marsoberfläche durch unüberwachtes Lernen zu lösen. Nach der Implementierung eines einfachen Algorithmus zur Segmentierung auf Basis des Ansatzes von Kanezaki\cite{kanezaki_18}, \vgl Unterabschnitt~\ref{ssec:kanezaki}, wird dieser über verschiedene Ansätze, wie \zB das Austauschen einzelner Bausteine des Algorithmus, weiter optimiert. Anschließend werden diese Ergebnisse miteinander verglichen, und das von ihnen Beste ausgewählt.
