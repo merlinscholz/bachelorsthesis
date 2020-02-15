@@ -1,23 +1,54 @@
 \chapter{Grundlagen}
-\label{chap:grundlagen}
+\label{chap:basics}
 
-%\section{Analyse der Marsoberfläche}
-%\label{sec:analysedermarsoberflache}
+\section{Analyse der Marsoberfläche}
+\label{sec:mars_analysis}
 
-\section{Die Marsöberfläche}
-\label{sec:mars_surface}
+\subsection{Merkmale der Marsöberfläche}
+\label{ssec:mars_surface}
+Auf dem Mars ist eine Vielzahl an unterschiedlichen Oberflächenmerkmalen vorhanden. Diese wurden erstmals im Jahre 1964 fotografisch während der Mariner 4-Mission der NASA aufgenommen. \cite{mariner4} Seitdem wurden durch den Fortschritt der Technik innerhalb verschiedener Mars-Missionen Aufnahmen mit immer höheren Auflösungen erfasst. Heutzutage kann die Marsoberfläche sogar ohne explizite Mars-Mission erfasst werden, \zB durch das Hubble-Weltraumteleskop.
+
+\begin{wrapfigure}{o}{0.45\textwidth}
+	\centering
+	\includegraphics[width=0.44\textwidth,keepaspectratio]{images/mola.jpg}
+	\captionsetup{format=plain}
+	\caption{Topografie des Mars, aus \cite{mola}. In der blau-grün gefärbten, tieferen Region sind wenig signifikante Merkmale sichtbar, während in der südlichen Hemisphäre deutliche lokale Höhenunterschiede erkennbar sind.}
+	\label{fig:mola}
+\end{wrapfigure}
+
+Die Marsoberfläche wird oft in zwei Terrains unterteilt, welche anhand einer topografischen Karte gut sichtbar sind (\vgl. \figurename~\ref{fig:mola}). Die nördlichen Hemisphäre besitzt eine Wüstenartige Oberfläche: Hier befinden sich wenige Krater oder andere signifikante Oberflächenmerkmale. Radarsonden-Analysen dieser Regionen zeigen allerdings, dass unter der wüstenartigen Oberfläche mehrere kreisförmige Merkmale zu erkennen sind. Dies deutet darauf hin, dass dieser Teil der Oberfläche überdeckt wurde, möglicherweise als Folge eines vergleichsweise großen Einschlag oder eines endogenen Prozesses. \cite{greeley_13}
+
+Auf der südlichen Hemisphäre hingegen sind vergleichsweise viele Merkmale sichtbar. Ihre Oberfläche wurde durch unterschiedliche Prozesse geprägt, welche wahrscheinlich heutzutage noch aktiv sind. Auf ihr sind allerdings vergleichsweise wenig Einschlagskrater sichtbar, dies deutet auf ein relativ junges Alter hin. \cite{greeley_13}
+
+Die wohl signifikantesten Merkmale der Oberfläche sind Folgende: \cite{greeley_13}
+\begin{itemize}
+	\item Einschlagskrater\\
+Einschlagskrater können sich stark in der Größe unterscheiden: So haben die größten Exemplare einen Durchmesser von bis zu \SI{1800}{\kilo\meter}, während auch eine Großzahl an sub-\si{\kilo\meter} Kratern existieren. Diese Eigenschaft erschwert die zuverlässige Erkennung erheblich, da die angewandte Methode in der Lage sein muss, die zur Erkennung genutzen Merkmale stark in der Größe zu variieren. Es existieren zwar verschiedene Variationen, die meisten Krater gleichen aber einfachen kreisförmigen Vertiefungen, wie in \figurename~\ref{fig:ex_crater} dargestellt.
+	\item Vulkanartige Merkmale\\
+
+	\item Tektonische Merkmale
+	\item Abstufungen
+\end{itemize}
 % TODO
+\begin{figure}[h]
+	\begin{subfigure}{0.33\textwidth}
+		\centering
+		\includegraphics[width=0.9\textwidth,keepaspectratio]{images/Gre13_01.jpg}
+		\captionsetup{format=plain}
+		\caption{Beispiel für einen Krater, aus \cite{greeley_13}}
+		\label{fig:ex_crater}
+	\end{subfigure}
+	\caption{Beispiele für Merkmale der Marsoberfläche}
+\end{figure}
 
-\section{Remote Sensing Instruments} % TODO ???
-\label{sec:mars_images}
+\subsection{Remote Sensing Instruments} % TODO ???
+\label{ssec:mars_images}
 
 Von der Marsoberfläche existieren verschiedenste Arten von Aufnahmen für unterschiedliche Analysen. Dabei sind gewisse Parameter, wie \zB die aufgenommene Wellenlänge, den Winkel zur Oberfläche, die Auflösung, Brennweite, Ort der Aufnahme und viele weitere wichtig, damit ein Bild zur Analyse einer gewissen Eigenschaft geeignet ist.
 
 Für die hier genutzten Anwendungsfälle eignen sich Instrumente gut, die sichtbares Licht aufnehmen. Obwohl Farbaufnahmen in vielerlei Hinsicht von Vorteil zur Analyse wären, sind diese nicht großflächig vorhanden, daher werden Graustufenaufnahmen als Kompromiss benutzt. Diese besitzen den Vorteil, dass nur ein drittel des Speichers bei den Berechnungen benötigt wird, da statt separaten Rot-, Grün- und Blauwerten nur ein Helligkeitswert gespeichert und verarbeitet werden muss.
 
-% TODO "weite"
-
-Des Weiteren sollten die Bilder eine vergleichsweise hohe Auflösung haben, damit auch kleinere Merkmale gut erkannt werden können, es sollten aber auch weite Aufnahmen sein, damit mit einem Datensatz ein Großteil der Oberfläche analysiert werden kann.
+Des Weiteren sollten die Bilder eine vergleichsweise hohe Auflösung haben, damit auch kleinere Merkmale gut erkannt werden können. Dies stellt einen Konflikt mit einer weiteren Anforderung dar, da ein Datensatz gesucht wird, der einen Großteil der Oberfläche abdeckt.
 
 Außerdem eignen sich Aufnahmen gut, die senkrecht zur Oberfläche entstanden sind, so dass Objekte auf dieser möglichst denselben Maßstab besitzen.
 
@@ -205,7 +236,7 @@ Es existieren noch weitere Aktivierungsfunktionen, diese zu Analysieren ist alle
 
 Konvolutionelle Schichten in neuronalen Netzen können die selben Merkmale von unterschiedlichen Stellen extrahieren. Die Position, an der diese Merkmale erkannt wurden, werden auch an die nächste Schicht weitergegeben, \dahe kleine Veränderungen an der Position eines Merkmals führen zu einer veränderten Merkmalsdimension. \cite{brownlee_19} Dies kann insbesondere beim Einsatz von mehreren konsekutiven Convolutional Layers zu einer erhöhten Störanfälligkeit führen, deshalb wird oftmals eine Pooling-Layer dazu eingesetzt, das resultierende Netzwerk invariant zu einzelnen Merkmalspositionen zu machen. \cite{deeplearning_16}
 
-\begin{wrapfigure}{r}{0.38\textwidth}
+\begin{wrapfigure}{o}{0.38\textwidth}
 	\centering
 	\includegraphics[width=0.37\textwidth,keepaspectratio]{images/cs231n/pool.jpg}
 	\captionsetup{format=plain}
@@ -295,3 +326,6 @@ R(W) = \sum_k\sum_l W^2_{k,l}
 
 \subsection{Backpropagation}
 \label{ssec:backpropagation}
+
+\section{Texturbasiertes Clustering von Bilddateien}
+\label{sec:clustering}
