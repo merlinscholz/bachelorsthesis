@@ -68,4 +68,23 @@ Der Unterschied zwischen dieser Methode und dem hier vorgestellten Ansatz besteh
 \subsection{Vergleich der Methoden}
 \label{ssec:vergleich}
 
-Die drei genannten Algorithmen (Urbach '09 \cite{urbach_stepinski_2009}, Bandeira '10 \cite{bandeira_10} und Cohen '16 \cite{cohen_16}) wurden alle auf der selben Aufnahme der HRSC angewandt. Ein Vergleich anhand dieser Aufnahme findet sich in Abschnitt~\ref{sec:vergleich}.
+Die drei genannten Algorithmen (Urbach '09 \cite{urbach_stepinski_2009}, Bandeira '10 \cite{bandeira_10} und Cohen '16 \cite{cohen_16}) wurden alle auf der selben Aufnahme der HRSC angewandt. Eine genauere Beschreibung und der Vergleich anhand dieser Aufnahme findet sich in Abschnitt~\ref{sec:vergleich}.
+
+
+\section{Texturbasiertes Clustering von Bilddateien}
+\label{sec:clustering}
+
+
+\begin{wrapfigure}{o}{0.38\textwidth}
+	\centering
+	\includegraphics[width=0.37\textwidth,keepaspectratio]{images/GEN_slic_crater.png}
+	\captionsetup{format=plain}
+	\caption{Ergbenis des SLIC-Algorithmus angewandt auf eine Krateraufnahme}
+	\label{fig:slic_crater}
+\end{wrapfigure}
+
+Da die zu analysierenden Aufnahmen nur in Graustufen vorhanden sind, eignet sich eine farbbasierte Clustering-Methode nicht um diese zuverlässig zu clustern. Selbst wenn dieses mit auf die Helligkeitswerte der Eingabedatei angewandt wird, führt dies dazu, dass der Algorithmus das Bild nach den Helligkeitswerten segmentiert, und nicht wie gewünscht anhand ihrer Oberflächenstruktur. So ergibt ein Clustering des Kraters aus \figurename~\ref{fig:ex_crater} durch den SLIC-Algorithmus \cite{achanta_10} das in \figurename~\ref{fig:slic_crater} sichtbare Ergebnis.\footnote{SLIC-Implementierung: \textit{scikit-image}\\Parameter: \textit{compactness}=20, \textit{n\_segments}=30\\Cluster gefüllt mit ihrer jeweiligen Durchnittshelligkeit} Hier ist erkennbar, dass der Krater in jeweilige Licht- und Schattenregionen (bedingt durch den Lichteinfall im flachen Winkel) unterteilt wird. Dieses Phänomen wird sich zwar in \ref{sec:craterdetection} zu nutze gemacht, ist hier allerdings ungewollt.
+
+Wenn nun der in Unterabschnitt~\ref{ssec:kanezaki} beschriebene Ansatz verfolgt wird, wird das neuronale Netz daraufhin trainiert, eine Aufnahme anhand ihrer Helligkeitsinformationen hin zu trainieren. Da dies nicht gewollt ist, wird statt einem farb-/helligkeitsbasierten Clusteringalgorithmus wie SLIC ein texturbasiertes Clustering genutzt.
+
+Eine geeignete Methode wird in \cite{jain_91} beschrieben: In dieser Methode wird eine Reihe von Gabor-Filtern dazu benutzt, die Textur des Bildes zu analysieren. 
