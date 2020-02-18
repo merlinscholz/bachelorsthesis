@@ -136,12 +136,49 @@ Diese werden anschließend über das in den Unterabschnitten~\ref{ssec:conv} und
 
 Anschließend wird der k-Means-Algorithmus auf diesen Datenwürfel angewandt: Dieser teilt eine beliebige Anzahl von Messpunkten (in diesem Fall je ein Vektor pro Pixel) in eine vorher festgelegte Menge an Clustern ein. Es werden also in dieser Anwendung Messpunkte/Pixel mit ähnlichen Texturen in Cluster zusammengefasst.
 
+\begin{figure}[h!]
+	\begin{subfigure}[t]{0.328\textwidth}
+		\centering
+		\includegraphics[width=\textwidth,keepaspectratio]{images/bsd/101027.jpg}
+		\caption{Beispielbild (aus \cite{bsd500})\\\xspace}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.328\textwidth}
+		\centering
+		\includegraphics[width=\textwidth,keepaspectratio]{images/gen/GEN_tsugf_filterbank_101027_raw.png}
+		\captionsetup{format=plain}
+		\caption{Originales Clusteringergebnis\\\xspace}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.328\textwidth}
+		\centering
+		\includegraphics[width=\textwidth,keepaspectratio]{images/gen/GEN_tsugf_filterbank_101027_blur.png}
+		\caption{Weichzeichnen der Konvolutionsergebnisse}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.328\textwidth}
+		\centering
+		\includegraphics[width=\textwidth,keepaspectratio]{images/gen/GEN_tsugf_filterbank_101027_blur_norm_spatial.png}
+		\caption{Zusätzliche räumliche Informationen und Normierung}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.328\textwidth}
+		\centering
+		\includegraphics[width=\textwidth,keepaspectratio]{images/gen/GEN_tsugf_filterbank_101027_blur_norm_spatial_color.png}
+		\caption{Zusätzliche Farbinformationen}
+	\end{subfigure}
+	\caption{Optimierung des Clusteringverfahrens}
+	\label{fig:tsugf_optim}
+\end{figure}
 
-In der Praxis sind für die erfolgreiche Anwendung dieser Methode allerdings noch einige Optimierungen notwendig:
+In der Praxis sind für die erfolgreiche Anwendung dieser Methode allerdings noch einige Optimierungen notwendig: \cite{mathworks_15}
 
 \begin{itemize}
+	\item Weichzeichnung:\\
+Da die Anwendung des Konvolutionsverfahrens wie in \figurename~\ref{fig:tsugf_101027_raw} sichtbar zu einer streifenartigen Merkmalsextraktion führen kann, macht es in vielen Fällen Sinn, die jeweiligen Merkmalsebenen weichzuzeichnen. Als Radius eignet sich hier ein Wert, welcher groß genug ist um die Streifen zu entfernen, aber klein genug ist, als dass die Ränder der jeweiligen erkannten Texturen nicht in benachbarte Texturen überfließen.
 	\item Räumlicher Bezug:\\
 Damit diese Cluster eine (bessere) räumliche Beziehung zueinander haben, wird zu den Merkmalsdimensionen je eine Schicht hinzugefügt, welche ausschließlich mit den X-Koordinaten der jeweiligen Pixel gefüllt ist. Selbiges geschieht für die jeweiligen Y-Koordinaten. Da diese vom k-Means Algorithmus auch zusammen geclustert werden, entsteht ein örtlicher Bezug unter den Clustern.
-	\item Weichzeichnung:\\
-Da die Anwendung des Konvolutionsverfahrens in gewissen Fällen zu starken 
+	\item Normalisierung:\\
+Die jeweiligen Schichten sollten vor der Anwendung des k-Means-Algorithmus normalisiert werden um zu vermeiden, dass manche Merkmale stärer gewichtet werden als andere. Dies ist insbesondere wichtig, wenn wie oben genannt die Farb- oder Positionswerte den Merkmalsdimensionen hinzugefügt werden, da diese sich oft auf unterschiedlichen Skalen gegenüber den Konvolutionsergebnissen befinden.
+	\item Farbdimensionen:\\
+Wenn die Eingabedatei eine RGB-Aufnahme ist, können diese drei Farbkanäle zur besseren Unterscheidung von unterschiedlichen Clustern mit ähnlichen Texturen genutzt werden. Dazu wird die Aufnahme in ihre drei Farbkanäle aufgeteilt und diese drei Schichten anschließend als Merkmalsdimensionen dem Datenwürfel hinzugefügt.
 \end{itemize}
+
+Das schrittweise Hinzufügen dieser Optimierungen ist in \figurename~\ref{fig:tsugf_optim} sichtbar.
+
