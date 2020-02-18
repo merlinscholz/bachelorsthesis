@@ -20,26 +20,54 @@ Die Marsoberfläche wird oft in zwei Terrains unterteilt, welche anhand einer to
 
 Auf der südlichen Hemisphäre hingegen sind vergleichsweise viele Merkmale sichtbar. Ihre Oberfläche wurde durch unterschiedliche Prozesse geprägt, welche wahrscheinlich heutzutage noch aktiv sind. Auf ihr sind allerdings vergleichsweise wenig Einschlagskrater sichtbar, dies deutet auf ein relativ junges Alter hin. \cite{greeley_13}
 
-Die wohl signifikantesten Merkmale der Oberfläche sind Folgende: \cite{greeley_13}
-\begin{itemize}
-	\item Einschlagskrater\\
-Einschlagskrater können sich stark in der Größe unterscheiden: So haben die größten Exemplare einen Durchmesser von bis zu \SI{1800}{\kilo\meter}, während auch eine Großzahl an sub-\si{\kilo\meter} Kratern existieren. Diese Eigenschaft erschwert die zuverlässige Erkennung erheblich, da die angewandte Methode in der Lage sein muss, die zur Erkennung genutzen Merkmale stark in der Größe zu variieren. Es existieren zwar verschiedene Variationen, die meisten Krater gleichen aber einfachen kreisförmigen Vertiefungen, wie in \figurename~\ref{fig:ex_crater} dargestellt.
-	\item Vulkanartige Merkmale\\
-
-	\item Tektonische Merkmale
-	\item Abstufungen
-\end{itemize}
-% TODO
 \begin{figure}[h]
-	\begin{subfigure}{0.33\textwidth}
+	\centering
+	\begin{subfigure}[t]{0.3\textwidth}
 		\centering
-		\includegraphics[width=0.9\textwidth,keepaspectratio]{images/Gre13_01.jpg}
+		\includegraphics[height=4cm,keepaspectratio]{images/Gre13_01.jpg}
 		\captionsetup{format=plain}
-		\caption{Beispiel für einen Krater, aus \cite{greeley_13}}
+		\subcaption{Beispiel für einen Krater}
 		\label{fig:ex_crater}
 	\end{subfigure}
-	\caption{Beispiele für Merkmale der Marsoberfläche}
+	\hfill
+	\begin{subfigure}[t]{0.34\textwidth}
+		\centering
+		\includegraphics[height=4cm,keepaspectratio]{images/Gre13_02.jpg}
+		\captionsetup{format=plain}
+		\subcaption{Beispiel für einen (ehemaligen) Vulkan}
+		\label{fig:ex_vulc1}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[t]{0.3\textwidth}
+		\centering
+		\includegraphics[height=4cm,keepaspectratio]{images/Gre13_03.jpg}
+		\captionsetup{format=plain}
+		\subcaption{Beispiel für einen (ehemaligen) Vulkan mit strahlenförmigen Ausbuchtungen}
+		\label{fig:ex_vulc2}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[t]{0.3\textwidth}
+		\centering
+		\includegraphics[height=4cm,keepaspectratio]{images/Gre13_04.jpg}
+		\captionsetup{format=plain}
+		\subcaption{Beispiel für einen Graben}
+		\label{fig:ex_graben}
+	\end{subfigure}
+	\caption{Beispiele für Merkmale der Marsoberfläche, alle aus \cite{greeley_13}}
 \end{figure}
+
+Die wohl signifikantesten Merkmale der Oberfläche sind \ua: \cite{greeley_13}
+\begin{itemize}
+	\item Einschlagskrater:\\
+Einschlagskrater können sich stark in der Größe unterscheiden: So haben die größten Exemplare einen Durchmesser von bis zu \SI{1800}{\kilo\meter}, während auch eine Großzahl an sub-\si{\kilo\meter} Kratern existieren. Diese Eigenschaft erschwert die zuverlässige Erkennung erheblich, da die angewandte Methode in der Lage sein muss, die zur Erkennung genutzen Merkmale stark in der Größe zu variieren. Es existieren zwar verschiedene Variationen, die meisten Krater gleichen aber einfachen kreisförmigen Vertiefungen, wie in \figurename~\ref{fig:ex_crater} dargestellt.
+	\item Vulkanartige Merkmale:\\
+Merh als die Häfte der Marsoberfläche ist von Vulkanen bedeckt. \cite{greeley_13} Es existieren verschiedene Arten von Vulkanen mit jeweils verschiedenen Merkmalsausprägungen. Einige der häufigsten Merkmale sind eine kuppelartige Form (\vgl \figurename~\ref{fig:ex_vulc1}) und sich strahlenförmig ausbreitende Schluchten, ausgelöst durch den früheren Lava-Fluss (\vgl \figurename~\ref{fig:ex_vulc2}). \cite{greeley_13}
+	\item Tektonische Merkmale:\\
+Tektonische Veränderungen der Marsoberläche können verschiedene Ursachen haben, wie \zB das Auftreten von Vulkanen, Einschlägen oder anderen Verformungen der Litosphäre. \cite{greeley_13} Hierbei wird oft zwischen ausdehnenden und komprimierenden tektonischen Veränderungen unterschieden. Während ausdehnende Veränderungen zu Schluchten \bzw Gräben führen (\vgl \figurename~\ref{fig:ex_graben}), werden durch die Komprimierung Hügelketten erschaffen.
+	\item Abstufungen:
+\end{itemize}
+% TODO
+
 
 \subsection{Remote Sensing Instruments} % TODO ???
 \label{ssec:mars_images}
@@ -169,7 +197,6 @@ In \figurename~\ref{fig:activations} sind drei der am meisten Verbreiteten Aktiv
 \begin{figure}[h!]
 	\begin{subfigure}{0.33\textwidth}
 		\centering
-		\subcaption{ReLU:\\$f(x)=\mathrm{max}\{0,x\}$}
 		\begin{tikzpicture}[scale=0.6]
 			\begin{axis}[
 				axis lines = middle,
@@ -177,15 +204,15 @@ In \figurename~\ref{fig:activations} sind drei der am meisten Verbreiteten Aktiv
 				ylabel = {$f(x)$},
 				domain=-5:5,
 				]
-				\addplot[draw=blue,domain=-5:5,line width=1.5]{max(0,x)};
+				\addplot[draw=blue,samples=100,domain=-5:5,line width=1.5]{max(0,x)};
 				\addplot[draw opacity=0,domain=-5:5]{1.2*x};
 			\end{axis}
-			\label{fig:relu}
 		\end{tikzpicture}
+		\subcaption{ReLU:\\$f(x)=\mathrm{max}\{0,x\}$}
+		\label{fig:relu}
 	\end{subfigure}
 	\begin{subfigure}{0.32\textwidth}
 		\centering
-		\subcaption{Sigmoid:\\$f(x)={1}/{(1+e^{-x})}$}
 		\begin{tikzpicture}[scale=0.6]
 			\begin{axis}[
 				axis lines = middle,
@@ -193,15 +220,15 @@ In \figurename~\ref{fig:activations} sind drei der am meisten Verbreiteten Aktiv
 				ylabel = {$f(x)$},
 				domain=-5:5,
 				]
-				\addplot[draw=blue,domain=-5:5,line width=1.5]{1/(1+e^(-x))};
+				\addplot[draw=blue,samples=100,domain=-5:5,line width=1.5]{1/(1+e^(-x))};
 				\addplot[draw opacity=0,domain=-5:5]{0.3*x};
 			\end{axis}
 		\end{tikzpicture}
+		\subcaption{Sigmoid:\\$f(x)={1}/{(1+e^{-x})}$}
 		\label{fig:sigmoid}
 	\end{subfigure}
 	\begin{subfigure}{0.33\textwidth}
 		\centering
-		\subcaption{tanh:\\$f(x)=tanh(x)$}
 		\begin{tikzpicture}[scale=0.6]
 			\begin{axis}[
 				axis lines = middle,
@@ -209,10 +236,11 @@ In \figurename~\ref{fig:activations} sind drei der am meisten Verbreiteten Aktiv
 				ylabel = {$f(x)$},
 				domain=-5:5,
 				]
-				\addplot[draw=blue,domain=-5:5,line width=1.5]{tanh(x)};
+				\addplot[draw=blue,samples=100,domain=-5:5,line width=1.5]{tanh(x)};
 				\addplot[draw opacity=0,domain=-5:5]{0.3*x};
 			\end{axis}
 		\end{tikzpicture}
+		\subcaption{tanh:\\$f(x)=tanh(x)$}
 		\label{fig:tanh}
 	\end{subfigure}
 	\caption{Drei Aktivierungsfunktionen}
