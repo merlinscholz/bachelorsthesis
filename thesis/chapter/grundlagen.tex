@@ -82,7 +82,7 @@ Auch ohne Einwirkungen von Kratern, Vulkanen, \etc weißt die Marsoberfläche un
 
 Diese Faktoren sorgen für eine große Varietät an optisch unterschiedlichen Oberflächen des Mars. Erkennbar sind sie auf Fotografien nur durch das flach einfallende Licht, welches Erhebungen und Täler durch Schatten und Highlights sichtbar macht. Durch diesen Effekt werden auch die unterschiedlichen, zu analysierenden Texturen erkennbar.
 
-\subsection{Remote Sensing Instruments} % TODO ???
+\subsection{Remote Sensing Instruments}
 \label{ssec:mars_images}
 
 Von der Marsoberfläche existieren verschiedenste Arten von Aufnahmen für unterschiedliche Analysen. Dabei sind gewisse Parameter, wie \zB die aufgenommene Wellenlänge, den Winkel zur Oberfläche, die Auflösung, Brennweite, Ort der Aufnahme und viele weitere wichtig, damit ein Bild zur Analyse einer gewissen Eigenschaft geeignet ist.
@@ -325,23 +325,26 @@ Die Funktionsweise einer Fully Connected Layer ist identisch zu einer Schicht ei
 
 Das Ziel eines neuronalen Netzes ist es, den Loss in jeder Iteration weiter zu minimieren. Der Loss, auch Verlustfunktion genannt beschreibt, wie stark sich die vom Netz berechneten Werte von den zu erzielenden Werten (beim überwachten Lernen meistens die Ground Truth) unterscheiden.
 
-Auch hier existieren verschiedenste Loss-Funktionen. Im F¸olgenden wird genauer auf den Cross-Entropy-Loss eingegangen. Dieser ist besonders für Klassifizierungsprobleme geeignet. Er ist definiert als \cite{cs231n}:
+Auch hier existieren verschiedenste Loss-Funktionen. Im Folgenden wird genauer auf den Cross-Entropy-Loss eingegangen. Dieser ist besonders für Klassifizierungsprobleme geeignet. Er ist definiert als \cite{cs231n}:
 
 \begin{equation}
 H(p,q) = -\sum_x p(x)\log q(x)
 \end{equation}
 
-% TODO Binärindikator
+Dabei gibt $p$ die korrekten Klassen als one-hot-kodierter Vektor an: $p$ ist also ein Vektor mit $n$ Elementen, wobei $n$ die Anzahl der möglichen Klassen ist. 
 
-Hier ist $p$ ein Binärindikator, der angibt ob Klasse $c$ korrekt für Eingabe $o$ ist, und $q$ die berechnete Wahrscheinlichkeit, dass Klasse $c$ auf Eingabe $o$ zutrifft. Es ist zu beachten, dass der Cross-Entropy-Loss ausschließlich die Wahrscheinlichkeiten für korrekte Klassen bewertet. Da für $q$ eine Wahrscheinlichkeit im Intervall $[0,1]$ benötigt wird, wird als dessen Eingabe meistens die Softmax-Funktion der vorhergehenden Werte genutzt. Die Softmax-Funktion kann wie die ReLU- oder die Sigmoid-Funktion als Aktivierungsfunktion betrachtet werden. Sie ist definiert durch \cite{cs231n}:
+Es gilt: $f_i$ ist gleich dem $i$-ten Element eines Eingabevektors $f$.
 
-% TODO warum softmax als aktivierung?
+Eine korrekte Klasse wird mit einer $1$ am entsprechenden Element im Vektor kodiert, alle anderen Felder sind gleich $0$. Ist für die jeweilige Eingabe nun \bspw die $m$-te Klasse korrekt, so gilt $p_m=1$ und $p_{\left[1,m-1\right]} = p_{\left[m+1,n\right]} = 0$. Es ist zu beachten, dass der Cross-Entropy-Loss ausschließlich die Wahrscheinlichkeiten für korrekte Klassen bewertet.
+
+$q$ hingegen gibt die berechnete Wahrscheinlichkeit an, dass eine jeweilige Klasse auf die Eingabe zutrifft. Da für $q$ eine Wahrscheinlichkeit im Intervall $[0,1]$ benötigt wird, wird als dessen Eingabe meistens die Softmax-Funktion der vorhergehenden Werte genutzt. Die Softmax-Funktion kann wie die ReLU- oder die Sigmoid-Funktion als Aktivierungsfunktion betrachtet werden. Sie ist definiert durch \cite{cs231n}:
+
+% TODO Warum softmax als Aktivierung?
 
 \begin{equation}
 S_i=\dfrac{e^{f_i}}{\sum_j e^{f_j}}
 \end{equation}
 
-Es gilt $f_i$ ist gleich dem $i$-ten Element des Eingabevektors $f$.
 Kombiniert ergibt sich so also für den Cross-Entropy-Loss \cite{cs231n}:
 
 \begin{equation}

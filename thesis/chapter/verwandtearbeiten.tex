@@ -21,11 +21,12 @@ Erreicht wird dieses Ziel durch einen iterativen Prozess, in welchem ein anfangs
 	\label{fig:Kan18_01}
 \end{figure}
 
+% TODO
 \section{Unsupervised Deep Embedding for Clustering Analysis}
 \label{sec:unsupervised_dec}
 \cite{junyuan_16}
 
-\section{Kratererkennung} % TODO Reread
+\section{Kratererkennung}
 \label{sec:craterdetection}
 
 In \cite{bandeira_10} und dessen Fortsetzung \cite{bandeira_12} wird ein neuer Ansatz zur Kratererkennung vorgestellt. Zuvor wurden diese meist manuell katalogisiert, dies resultierte darin, dass nur die größten Krater dokumentiert wurden, oder darin, dass nur vergleichsweise kleine Bereiche innerhalb eines akzeptablen Zeitraums verarbeitet werden konnten. Daher legen die Autoren insbesondere Wert auf die korrekte Erkennung von kleineren Kratern.
@@ -97,7 +98,6 @@ Eine geeignete Methode wird in \cite{jain_91} beschrieben: In dieser Methode wir
 	\label{fig:tsugf_filters}
 \end{wrapfigure}
 
- %TODO Was ist gabor filter
 Zuerst wird eine reihe von Gabor-Filtern erstellt. Ein Beispiel, welches nach der originalen Ausarbeitung nachgestellt wurde, findet sich in \figurename~\ref{fig:tsugf_filters}. Es gilt zu beachten dass jeder Filter in mehrmals in unterschiedlichen Größen erstellt wird.
 
 Diese werden anschließend über das in den Unterabschnitten~\ref{ssec:conv} und \ref{ssec:convlayer} beschriebene Konvolutionsverfahren angewandt. Dieser Vorgang resultiert in einem Datenwürfel, bei welchem die ersten beiden Dimensionen gleich der Höhe und breite der Eingabebilddatei sind, und die dritte Dimension gleich der Anzahl der genutzen Filter ist. Somit enthält jede Schicht des Würfels Informationen darüber, wie sehr und wo im Bild das Muster der jeweiligen Filterbank \enquote{erkannt} wird. Dies ist in \figurename~\ref{fig:tsugf_101027_raw} sichtbar.
