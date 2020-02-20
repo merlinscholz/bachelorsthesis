@@ -14,7 +14,7 @@ Während das Ziel das gleiche wie bei überwachtem Lernen ist, wird hier weder e
 
 Erreicht wird dieses Ziel durch einen iterativen Prozess, in welchem ein anfangs untrainiertes neuronales Netz eine Bildsegmentierung erzeugt, welche anschließend mithilfe einer im Vorhinein erstellten, konstanten Segmentierung optimiert wird. Diese Segmentierung wird in diesem Paper über den SLIC-Algorithmus \cite{achanta_10} erzeugt. Der gesamte Algorithmus ist in \figurename~\ref{fig:Kan18_01} dargestellt. 
 
-\begin{figure}[h]
+\begin{figure}[h!]
 	\centering
 	\includegraphics[width=.8\textwidth,keepaspectratio]{images/Kan18_01.png}
 	\caption{Vorgehensweise nach Kanezaki, aus \cite{kanezaki_18}}
@@ -37,7 +37,7 @@ Der genutzte Algorithmus ist zwar relativ effizient, da er parallel alle Merkmal
 
 Nach dieser Vorsortierung und Pre-Processing Schritten (in Form von Histogramm-Optimierung) werden in \cite{bandeira_10, bandeira_12} neun Bitmasken (siehe \figurename~\ref{fig:BDS12_01}) in verschiedenen Positionen, Größen und Ausrichtungen über die Kandidaten gelegt. Die Wahrscheinlichkeit, dass der Kandidat ein Krater ist, berechnet sich aus der Übereinstimmung zwischen den Bitmasken und dem eigentlichen Kandidatenbild. Abschließend werden die Ergebnisse mithilfe eines angepassten AdaBoost Algorithmus optimiert. Das Post-Processing besteht aus der Eliminierung von ungewöhnlich geformten Kratern.
 
-\begin{figure}[h]
+\begin{figure}[h!]
 	\centering
 	\includegraphics[width=.8\textwidth,keepaspectratio]{images/BDS12_01.png}
 	\caption{Die neun, zur Merkmalsextrahierung genutzen Bitmasken, aus \cite{bandeira_12}}
@@ -46,7 +46,7 @@ Nach dieser Vorsortierung und Pre-Processing Schritten (in Form von Histogramm-O
 
 In \figurename~\ref{fig:BDS12_02} sind die von AdaBoost ausgewählten, am stärksten gewichteten Bitmasken-Überlagerungen dargestellt. Es ist zu beachten, dass der Krater im Hintergrund nur ein Beispiel ist, und nicht alle Krater, die von den jeweiligen Bitmasken überlagert werden, darstellt.
 
-\begin{figure}[H]
+\begin{figure}[h!]
 	\centering
 	\includegraphics[width=.5\textwidth,keepaspectratio]{images/BDS12_02.png}
 	\caption{Die sechs am stärksten gewichteten Bitmasken, aus \cite{bandeira_12}}
@@ -71,38 +71,38 @@ Der Unterschied zwischen dieser Methode und dem hier vorgestellten Ansatz besteh
 
 Die drei genannten Algorithmen (Urbach '09 \cite{urbach_stepinski_2009}, Bandeira '10 \cite{bandeira_10} und Cohen '16 \cite{cohen_16}) wurden alle auf der selben Aufnahme der HRSC angewandt. Eine genauere Beschreibung und der Vergleich anhand dieser Aufnahme findet sich in Abschnitt~\ref{sec:vergleich}.
 
-
 \section{Texturbasiertes Clustering von Bilddateien}
 \label{sec:clustering}
 
+Da die zu analysierenden Aufnahmen nur in Graustufen vorhanden sind, eignet sich eine farbbasierte Clustering-Methode nicht um diese zuverlässig zu clustern. Selbst wenn dieses mit auf die Helligkeitswerte der Eingabedatei angewandt wird, führt dies dazu, dass der Algorithmus das Bild nach den Helligkeitswerten segmentiert, und nicht wie gewünscht anhand ihrer Oberflächenstruktur. So ergibt ein Clustering des Kraters aus \figurename~\ref{fig:ex_crater} durch den SLIC-Algorithmus \cite{achanta_10} das in \figurename~\ref{fig:slic_crater} sichtbare Ergebnis.\footnote{SLIC-Implementierung: \textit{scikit-image}\\Parameter: \textit{compactness}=20, \textit{n\_segments}=30\\Cluster gefüllt mit ihrer jeweiligen Durchnittshelligkeit}
 
-\begin{wrapfigure}{o}{0.38\textwidth}
+\begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.37\textwidth,keepaspectratio]{images/gen/GEN_slic_crater.png}
-	\captionsetup{format=plain}
-	\caption{Ergbenis des SLIC-Algorithmus angewandt auf eine Krateraufnahme}
+	\includegraphics[width=0.35\textwidth,keepaspectratio]{images/gen/GEN_slic_crater.png}
+	\captionsetup{format=plain,width=0.35\textwidth}
+	\caption{Ergebnis des SLIC-Algorithmus angewandt auf eine Krateraufnahme}
 	\label{fig:slic_crater}
-\end{wrapfigure}
+\end{figure}
 
-Da die zu analysierenden Aufnahmen nur in Graustufen vorhanden sind, eignet sich eine farbbasierte Clustering-Methode nicht um diese zuverlässig zu clustern. Selbst wenn dieses mit auf die Helligkeitswerte der Eingabedatei angewandt wird, führt dies dazu, dass der Algorithmus das Bild nach den Helligkeitswerten segmentiert, und nicht wie gewünscht anhand ihrer Oberflächenstruktur. So ergibt ein Clustering des Kraters aus \figurename~\ref{fig:ex_crater} durch den SLIC-Algorithmus \cite{achanta_10} das in \figurename~\ref{fig:slic_crater} sichtbare Ergebnis.\footnote{SLIC-Implementierung: \textit{scikit-image}\\Parameter: \textit{compactness}=20, \textit{n\_segments}=30\\Cluster gefüllt mit ihrer jeweiligen Durchnittshelligkeit} Hier ist erkennbar, dass der Krater in jeweilige Licht- und Schattenregionen (bedingt durch den Lichteinfall im flachen Winkel) unterteilt wird. Dieses Phänomen wird sich zwar in \ref{sec:craterdetection} zu nutze gemacht, ist hier allerdings ungewollt.
+Hier ist erkennbar, dass der Krater in jeweilige Licht- und Schattenregionen (bedingt durch den Lichteinfall im flachen Winkel) unterteilt wird. Dieses Phänomen wird sich zwar in \ref{sec:craterdetection} zu nutze gemacht, ist hier allerdings ungewollt.
 
 Wenn nun der in Unterabschnitt~\ref{ssec:kanezaki} beschriebene Ansatz verfolgt wird, wird das neuronale Netz daraufhin trainiert, eine Aufnahme anhand ihrer Helligkeitsinformationen hin zu trainieren. Da dies nicht gewollt ist, wird statt einem farb-/helligkeitsbasierten Clusteringalgorithmus wie SLIC ein texturbasiertes Clustering genutzt.
 
 Eine geeignete Methode wird in \cite{jain_91} beschrieben: In dieser Methode wird eine Reihe von Gabor-Filtern dazu benutzt, die Textur des Bildes zu analysieren. Dieser Prozess verläuft wie folgt:
 
-\begin{wrapfigure}{o}{0.5\textwidth}
+Zuerst wird eine reihe von Gabor-Filtern erstellt. Ein Beispiel, welches nach der originalen Ausarbeitung nachgestellt wurde, findet sich in \figurename~\ref{fig:tsugf_filters}. Es gilt zu beachten dass jeder Filter in mehrmals in unterschiedlichen Größen erstellt wird.
+
+\begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.6\textwidth,keepaspectratio]{images/gen/GEN_tsugf_filterbank.png}
-	\captionsetup{format=plain}
+	\includegraphics[width=0.5\textwidth,keepaspectratio]{images/gen/GEN_tsugf_filterbank.png}
+	\captionsetup{width=0.5\textwidth}
 	\caption{Zum texturbasierten Clustering genutze Filterbank}
 	\label{fig:tsugf_filters}
-\end{wrapfigure}
-
-Zuerst wird eine reihe von Gabor-Filtern erstellt. Ein Beispiel, welches nach der originalen Ausarbeitung nachgestellt wurde, findet sich in \figurename~\ref{fig:tsugf_filters}. Es gilt zu beachten dass jeder Filter in mehrmals in unterschiedlichen Größen erstellt wird.
+\end{figure}
 
 Diese werden anschließend über das in den Unterabschnitten~\ref{ssec:conv} und \ref{ssec:convlayer} beschriebene Konvolutionsverfahren angewandt. Dieser Vorgang resultiert in einem Datenwürfel, bei welchem die ersten beiden Dimensionen gleich der Höhe und breite der Eingabebilddatei sind, und die dritte Dimension gleich der Anzahl der genutzen Filter ist. Somit enthält jede Schicht des Würfels Informationen darüber, wie sehr und wo im Bild das Muster der jeweiligen Filterbank \enquote{erkannt} wird. Dies ist in \figurename~\ref{fig:tsugf_101027_raw} sichtbar.
 
-\begin{figure}[H]
+\begin{figure}[h!]
 	\begin{subfigure}[t]{0.32\textwidth}
 		\centering
 		\includegraphics[width=\textwidth,keepaspectratio]{images/bsd/101027.jpg}
@@ -144,6 +144,21 @@ Diese werden anschließend über das in den Unterabschnitten~\ref{ssec:conv} und
 
 Anschließend wird der k-Means-Algorithmus auf diesen Datenwürfel angewandt: Dieser teilt eine beliebige Anzahl von Messpunkten (in diesem Fall je ein Vektor pro Pixel) in eine vorher festgelegte Menge an Clustern ein. Es werden also in dieser Anwendung Messpunkte/Pixel mit ähnlichen Texturen in Cluster zusammengefasst.
 
+In der Praxis sind für die erfolgreiche Anwendung dieser Methode allerdings noch einige Optimierungen notwendig: \cite{mathworks_15}
+
+\begin{itemize}
+	\item Weichzeichnung:\\
+Da die Anwendung des Konvolutionsverfahrens wie in \figurename~\ref{fig:tsugf_101027_raw} sichtbar zu einer streifenartigen Merkmalsextraktion führen kann, macht es in vielen Fällen Sinn, die jeweiligen Merkmalsebenen weichzuzeichnen. Als Radius eignet sich hier ein Wert, welcher groß genug ist um die Streifen zu entfernen, aber klein genug ist, als dass die Ränder der jeweiligen erkannten Texturen nicht in benachbarte Texturen überfließen.
+	\item Räumlicher Bezug:\\
+Damit diese Cluster eine (bessere) räumliche Beziehung zueinander haben, wird zu den Merkmalsdimensionen je eine Schicht hinzugefügt, welche ausschließlich mit den X-Koordinaten der jeweiligen Pixel gefüllt ist. Selbiges geschieht für die jeweiligen Y-Koordinaten. Da diese vom k-Means Algorithmus auch zusammen geclustert werden, entsteht ein örtlicher Bezug unter den Clustern.
+	\item Normalisierung:\\
+Die jeweiligen Schichten sollten vor der Anwendung des k-Means-Algorithmus normalisiert werden um zu vermeiden, dass manche Merkmale stärer gewichtet werden als andere. Dies ist insbesondere wichtig, wenn wie oben genannt die Farb- oder Positionswerte den Merkmalsdimensionen hinzugefügt werden, da diese sich oft auf unterschiedlichen Skalen gegenüber den Konvolutionsergebnissen befinden.
+	\item Farbdimensionen:\\
+Wenn die Eingabedatei eine RGB-Aufnahme ist, können diese drei Farbkanäle zur besseren Unterscheidung von unterschiedlichen Clustern mit ähnlichen Texturen genutzt werden. Dazu wird die Aufnahme in ihre drei Farbkanäle aufgeteilt und diese drei Schichten anschließend als Merkmalsdimensionen dem Datenwürfel hinzugefügt.
+\end{itemize}
+
+Das schrittweise Hinzufügen dieser Optimierungen ist in \figurename~\ref{fig:tsugf_optim} sichtbar.
+
 \begin{figure}[h!]
 	\begin{subfigure}[t]{0.32\textwidth}
 		\centering
@@ -182,19 +197,3 @@ Anschließend wird der k-Means-Algorithmus auf diesen Datenwürfel angewandt: Di
 	\caption{Optimierung des Clusteringverfahrens}
 	\label{fig:tsugf_optim}
 \end{figure}
-
-In der Praxis sind für die erfolgreiche Anwendung dieser Methode allerdings noch einige Optimierungen notwendig: \cite{mathworks_15}
-
-\begin{itemize}
-	\item Weichzeichnung:\\
-Da die Anwendung des Konvolutionsverfahrens wie in \figurename~\ref{fig:tsugf_101027_raw} sichtbar zu einer streifenartigen Merkmalsextraktion führen kann, macht es in vielen Fällen Sinn, die jeweiligen Merkmalsebenen weichzuzeichnen. Als Radius eignet sich hier ein Wert, welcher groß genug ist um die Streifen zu entfernen, aber klein genug ist, als dass die Ränder der jeweiligen erkannten Texturen nicht in benachbarte Texturen überfließen.
-	\item Räumlicher Bezug:\\
-Damit diese Cluster eine (bessere) räumliche Beziehung zueinander haben, wird zu den Merkmalsdimensionen je eine Schicht hinzugefügt, welche ausschließlich mit den X-Koordinaten der jeweiligen Pixel gefüllt ist. Selbiges geschieht für die jeweiligen Y-Koordinaten. Da diese vom k-Means Algorithmus auch zusammen geclustert werden, entsteht ein örtlicher Bezug unter den Clustern.
-	\item Normalisierung:\\
-Die jeweiligen Schichten sollten vor der Anwendung des k-Means-Algorithmus normalisiert werden um zu vermeiden, dass manche Merkmale stärer gewichtet werden als andere. Dies ist insbesondere wichtig, wenn wie oben genannt die Farb- oder Positionswerte den Merkmalsdimensionen hinzugefügt werden, da diese sich oft auf unterschiedlichen Skalen gegenüber den Konvolutionsergebnissen befinden.
-	\item Farbdimensionen:\\
-Wenn die Eingabedatei eine RGB-Aufnahme ist, können diese drei Farbkanäle zur besseren Unterscheidung von unterschiedlichen Clustern mit ähnlichen Texturen genutzt werden. Dazu wird die Aufnahme in ihre drei Farbkanäle aufgeteilt und diese drei Schichten anschließend als Merkmalsdimensionen dem Datenwürfel hinzugefügt.
-\end{itemize}
-
-Das schrittweise Hinzufügen dieser Optimierungen ist in \figurename~\ref{fig:tsugf_optim} sichtbar.
-
