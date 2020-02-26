@@ -336,12 +336,7 @@ Es gilt: $f_i$ ist gleich dem $i$-ten Element eines Eingabevektors $f$.
 
 Eine korrekte Klasse wird mit einer $1$ am entsprechenden Element im Vektor kodiert, alle anderen Felder sind gleich $0$. Ist für die jeweilige Eingabe nun \bspw die $m$-te Klasse korrekt, so gilt $p_m=1$ und $p_{\left[1,m-1\right]} = p_{\left[m+1,n\right]} = 0$. Es ist zu beachten, dass der Cross-Entropy-Loss ausschließlich die Wahrscheinlichkeiten für korrekte Klassen bewertet.
 
-$q$ hingegen gibt die berechnete Wahrscheinlichkeit an, dass eine jeweilige Klasse auf die Eingabe zutrifft. Da für $q$ eine Wahrscheinlichkeit im Intervall $[0,1]$ benötigt wird, wird als dessen Eingabe meistens die Softmax-Funktion der vorhergehenden Werte genutzt. Die Softmax-Funktion kann wie die ReLU- oder die Sigmoid-Funktion als Aktivierungsfunktion betrachtet werden. Sie ist definiert durch \cite{cs231n}:
-
-% TODO Warum softmax als Aktivierung?
-\bigskip
-{ TODO WARUM WIRD SOFTMAX GENUTZT}
-\bigskip
+$q$ hingegen gibt die berechnete Wahrscheinlichkeit an, dass eine jeweilige Klasse auf die Eingabe zutrifft. Da für $q$ eine Wahrscheinlichkeitsverteilung, welche sich auf $1$ aufsummiert benötigt wird, wird als dessen Eingabe meistens die Softmax-Funktion der vorhergehenden Werte genutzt. Die Softmax-Funktion kann wie die ReLU- oder die Sigmoid-Funktion als Aktivierungsfunktion betrachtet werden. Sie ist definiert durch \cite{cs231n}:
 
 \begin{equation}
 S_i=\dfrac{e^{f_i}}{\sum_j e^{f_j}}
