@@ -364,6 +364,7 @@ L = \dfrac{1}{N}\sum_{i=1}^{N}L_i
 Hier ist allerdings zu beachten, dass es für ein neuronale Netz mehrere optimale Gewichtungen und Bias geben kann: Würde man \bspw alle Gewichtungen mit dem selben Skalar multiplizieren, würden diese immer noch zu dem selben Ergebnis führen. Um möglichst kleine Gewichtungen und Biase zu bestimmen, wird ein Regularisierungsterm eingeführt um die Gewichtungen möglichst gering zu halten \cite{cs231n}:
 
 \begin{equation}
+\label{eqn:def_loss}
 L = \dfrac{1}{N}\sum_{i=1}^{N}L_i + \lambda R(W)
 \end{equation}
 
@@ -384,7 +385,7 @@ Die Funktion $C(w, b)$ sei die zu minimierende Lossfunktion in Abhängigkeit von
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.45\textwidth,keepaspectratio]{images/Nie15_01.png}
-	\caption{Funktion $C$ in Abhängigkeit von $v_1$ und $v_2$, aus \cite{nielsen_15}}
+	\caption{Funktion $C$ in Abhängigkeit von $v_1$ und $v_2$, aus \cite[Kap.~1]{nielsen_15}}
 	\label{fig:valley}
 \end{figure}
 
@@ -392,7 +393,7 @@ Das Gradientenverfahren beschreibt einen Prozess zur Lösung dieses Problems: Be
 
 Der Prozess lässt sich anschaulich dadurch darstellen, dass man einen Ball an einem beliebigen Punkt auf dem Graphen fallen lässt. Ignoriert man Reibung, Trägheit und andere physikalische Eigenschaften, rollt dieser immer in Richtung des nächsten lokalen Minimums.
 
-Mathematisch betrachtet ändert sich von einem beliebigen Punkt aus der Wert der Funktion $C$ um $\Delta C$, wenn jeweils eine Entfernung von $\Delta v_1$ in $v_1$-richtung, und $\Delta v_2$ in $v_2$-richtung zurückgelegt wird: \cite{nielsen_15}
+Mathematisch betrachtet ändert sich von einem beliebigen Punkt aus der Wert der Funktion $C$ um $\Delta C$, wenn jeweils eine Entfernung von $\Delta v_1$ in $v_1$-richtung, und $\Delta v_2$ in $v_2$-richtung zurückgelegt wird: \cite[Kap.~1]{nielsen_15}
 
 \begin{equation}
 \label{eqn:def_deltaC}
@@ -425,7 +426,7 @@ Es sei nun:
 \Delta v = -\eta\nabla C
 \end{equation}
 
-wobei $\eta$ ein beliebiger, positiver Wert sei. Daraus folgt:
+wobei $\eta$ ein beliebiger, positiver Wert sei. Dieser wird auch \textit{learning rate} -- Lernrate -- genannt. $\eta$ sollte so klein gewählt werden, als dass Gleichung~\ref{eqn:def_deltaC} eine gute Annäherung bleibt \cite[Kap.~1]{nielsen_15}, aber groß genug, als dass die Anzahl der nötigen Iterationen gering gehalten wird. Daraus folgt:
 
 \begin{equation}
 \Delta C\approx -\eta\nabla C\cdot\nabla C= -\eta\left|\left|\nabla C\right| \right|^2
@@ -435,5 +436,16 @@ Da $\left|\left|\nabla C\right| \right|^2$ immer größer/gleich 0 ist, verringe
 
 Es werden also $\Delta v_1$ und $\Delta v_2$ nun in jeder Iteration nach dieser Annahme gewählt, um den Wert von $C$ in jedem Durchlauf des Prozesses weiter zu verringern. Nach ausreichend vielen Iterationen erhält man die Koordinaten eines lokalen Minimums.
 
+Der Prozess des Gradientenverfahrens stößt allerdings in diesem Anwendungsfall an seine Grenzen, da hier globale statt lokale Extrempunkte gesucht werden. Ein weiteres Problem besteht daraus, dass die Verlustfunktion $C$ vergleichsweise komplex ist, da sie aus dem Durchschnitt der Verlustfunktionen aller Klassen besteht (\vgl Gleichung~\ref{eqn:def_loss}).
+
+Beide Probleme lassen sich durch die Nutzung des stochastischen Gradientenverfahrens lösen: Dabei wird, pro Iteration, statt der Durchschnitt aller Lossfunktionen, nur eine einzigen, zufällig ausgewählten Verlustfunktion betrachtet. \cite{kathuria_18}
+
+Sollte man nun an einem lokalen Minimum einer Verlustfunktion angelangt sein, so wird in der nächsten Iteration eine andere Funktion betrachtet, welche an dieser Stelle möglicherweise kein Minimum besitzt.
+
+Des Weiteren wird der Rechenaufwand drastisch reduziert, da die Startkoordinaten des jeweils nächsten Durchlaufs anhand nur einer Funktion, statt anhand des Durchschnitts aller Verlustfunktionen berechnet wird.
+
+Ein praktischer Nachteil des stochastischen Gradientenverfahrens besteht allerdings daraus, dass bei dem klassischen Gradientenverfahren die Ergebnisse der unterschiedlichen Verlustfunktionen parallel berechnet werden können, dies beim stochastischen Gradientenverfahren nicht möglich ist, da das Ergebnis einer Iteration auf dem der vorherigen Iteration basiert. Es wird also ein Kompromiss beschlossen, in dem in jedem Durchgang eine Teilmenge der Verlustfunktionen genutzt wird. \cite{kathuria_18} Dies vereint die Vorteile beider Gradientenverfahren (die Meidung der lokalen Minima des stochastischen Gradientenverfahrens und den möglichen Parallellismus des klassischen Gradientenverfahrens).
+
+Alle in diesem Unterabschnitt erklärten Verfahren lassen sich analog auf eine größere Anzahl an Parametern anwenden.
 \subsection{Backpropagation}
 \label{sec:backpropagation}
