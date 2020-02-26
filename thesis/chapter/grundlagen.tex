@@ -385,6 +385,7 @@ Das Ziel eines neuronalen Netzes besteht daraus, die Werte der Lossfunktionen we
 
 Die Funktion $C(w, b)$ sei die zu minimierende Lossfunktion in Abhängigkeit von den Gewichtungen und Bias des neuronalen Netzes. Zur einfacheren Erklärung gilt, \oBdA, dass im Netzwerk nur zwei trainierbare Parameter existieren. Somit ist das Ziel, die Parameter der Funktion $C(v_1, v_2)$ so zu optimieren, dass das Funktionsergebnis minimiert wird. Grafisch ist eine Beispielfunktion $C$ in \figurename~\ref{fig:valley} dargestellt.
 
+% TODO Better graphics?
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.45\textwidth,keepaspectratio]{images/Nie15_01.png}
@@ -393,6 +394,51 @@ Die Funktion $C(w, b)$ sei die zu minimierende Lossfunktion in Abhängigkeit von
 \end{figure}
 
 Das Gradientenverfahren beschreibt einen Prozess zur Lösung dieses Problems: Bei diesem Verfahren beginnt man bei einem Startpunkt auf dem Funktionsgraphen. Von dort aus wird ermittelt, in welche Richtung der Graph (hier) absteigend verläuft. Man schreitet nun in diese Richtung und wiederholt das Verfahren. Dies geschieht so lange, bis man an einem Punkt angelangt, von welchem aus es in keine Richtung mehr bergab geht. Dieser Punkt ist ein lokales Minimum. Es gilt zu beachten, dass die Weite des jeweiligen Schrittes variabel ist: Es kann somit geschehen, dass am Ende des Verfahrens, der jeweilige Punkt um das lokale Minimum herum schwankt.
+
+Der Prozess lässt sich anschaulich dadurch darstellen, dass man einen Ball an einem beliebigen Punkt auf dem Graphen fallen lässt. Ignoriert man Reibung, Trägheit und andere physikalische Eigenschaften, rollt dieser immer in Richtung des nächsten lokalen Minimums.
+
+Mathematisch betrachtet ändert sich von einem beliebigen Punkt aus der Wert der Funktion $C$ um $\Delta C$, wenn jeweils eine Entfernung von $\Delta v_1$ in $v_1$-richtung, und $\Delta v_2$ in $v_2$-richtung zurückgelegt wird: \cite{nielsen_15}
+
+\begin{equation}
+\label{eqn:def_deltaC}
+\Delta C\approx \dfrac{\partial C}{\partial v_1}\Delta v_1 + \dfrac{\partial C}{\partial v_2}\Delta v_2
+\end{equation}
+
+Diese Gleichung ist nur eine Annäherung, da statt der Steigung zwischen $v_1$ und $\Delta v_1$ nur die Steigung an der Stelle $v_1$ betrachtet wird. Dies gilt analog für $v_2$.
+Es gelte nun: $\Delta v$ sei der Vektor der Differenzen in $v$
+
+\begin{equation}
+\Delta v\equiv (\Delta v_1, \Delta v_2)^T
+\end{equation}
+
+Und $\nabla C$ sei der Gradient von $C$:
+
+\begin{equation}
+\nabla C\equiv \left(\dfrac{\partial C}{\partial v_1}, \dfrac{\partial C}{\partial v_2}\right)^T
+\end{equation}
+
+Durch Einsetzen in Gleichung~\ref{eqn:def_deltaC} gilt nun:
+
+\begin{equation}
+\Delta C \approx \nabla C\Delta v
+\end{equation}
+
+Es sei nun:
+
+\begin{equation}
+\label{eqn:let_deltav}
+\Delta v = -\eta\nabla C
+\end{equation}
+
+wobei $\eta$ ein beliebiger, positiver Wert sei. Daraus folgt:
+
+\begin{equation}
+\Delta C\approx -\eta\nabla C\cdot\nabla C= -\eta\left|\left|\nabla C\right| \right|^2
+\end{equation}
+
+Da $\left|\left|\nabla C\right| \right|^2$ immer größer/gleich 0 ist, verringert sich der Wert $C$ solange die Annahme in Gleichung~\ref{eqn:let_deltav} gilt. 
+
+Es werden also $\Delta v_1$ und $\Delta v_2$ nun in jeder Iteration nach dieser Annahme gewählt, um den Wert von $C$ in jedem Durchlauf des Prozesses weiter zu verringern. Nach ausreichend vielen Iterationen erhält man die Koordinaten eines lokalen Minimums.
 
 \subsection{Backpropagation}
 \label{sec:backpropagation}
