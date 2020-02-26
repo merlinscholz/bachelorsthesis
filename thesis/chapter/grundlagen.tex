@@ -8,13 +8,13 @@
 \label{ssec:mars_surface}
 Auf dem Mars ist eine Vielzahl an unterschiedlichen Oberflächenmerkmalen vorhanden. Diese wurden erstmals im Jahre 1964 fotografisch während der Mariner 4-Mission der NASA aufgenommen. \cite{mariner4} Seitdem wurden durch den Fortschritt der Technik innerhalb verschiedener Mars-Missionen Aufnahmen mit immer höheren Auflösungen erfasst. Heutzutage kann die Marsoberfläche sogar ohne explizite Mars-Mission erfasst werden, \zB durch das Hubble-Weltraumteleskop.
 
-\begin{wrapfigure}{o}{0.45\textwidth}
+\begin{figure}[H]
 	\centering
-	\includegraphics[width=0.44\textwidth,keepaspectratio]{images/mola.jpg}
-	\captionsetup{format=plain}
+	\includegraphics[width=0.8\textwidth,keepaspectratio]{images/mola.jpg}
+	\captionsetup{width=.8\textwidth}
 	\caption{Topografie des Mars, aus \cite{mola}. In der blau-grün gefärbten, tieferen Region sind wenig signifikante Merkmale sichtbar, während in der südlichen Hemisphäre deutliche lokale Höhenunterschiede erkennbar sind.}
 	\label{fig:mola}
-\end{wrapfigure}
+\end{figure}
 
 Die Marsoberfläche wird oft in zwei Terrains unterteilt, welche anhand einer topografischen Karte gut sichtbar sind (\vgl. \figurename~\ref{fig:mola}). Die nördlichen Hemisphäre besitzt eine Wüstenartige Oberfläche: Hier befinden sich wenige Krater oder andere signifikante Oberflächenmerkmale. Radarsonden-Analysen dieser Regionen zeigen allerdings, dass unter der wüstenartigen Oberfläche mehrere kreisförmige Merkmale zu erkennen sind. Dies deutet darauf hin, dass dieser Teil der Oberfläche überdeckt wurde, möglicherweise als Folge eines vergleichsweise großen Einschlag oder eines endogenen Prozesses. \cite[Kap.~7]{greeley_13}
 
@@ -288,7 +288,6 @@ Konvolutionelle Schichten in neuronalen Netzen können die selben Merkmale von u
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.37\textwidth,keepaspectratio]{images/cs231n/pool.jpg}
-	%\captionsetup{format=plain}
 	\caption{Funktionsweise der Pooling-Layer, aus \cite{cs231n}}
 	\label{fig:pooling}
 \end{figure}
@@ -303,8 +302,8 @@ Er besitzt zwei Hyperparameter: Die Stride (Schrittweite) $S$ und die eigentlich
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.5\textwidth,keepaspectratio]{images/cs231n/maxpool.jpg}
-	\captionsetup{format=plain}
+	\includegraphics[width=0.6\textwidth,keepaspectratio]{images/cs231n/maxpool.jpg}
+	\captionsetup{width=0.6\textwidth}
 	\caption{Max-Pooling anhand eines Beispiels, aus \cite{cs231n}}
 	\label{fig:maxpooling}
 \end{figure}
@@ -340,6 +339,9 @@ Eine korrekte Klasse wird mit einer $1$ am entsprechenden Element im Vektor kodi
 $q$ hingegen gibt die berechnete Wahrscheinlichkeit an, dass eine jeweilige Klasse auf die Eingabe zutrifft. Da für $q$ eine Wahrscheinlichkeit im Intervall $[0,1]$ benötigt wird, wird als dessen Eingabe meistens die Softmax-Funktion der vorhergehenden Werte genutzt. Die Softmax-Funktion kann wie die ReLU- oder die Sigmoid-Funktion als Aktivierungsfunktion betrachtet werden. Sie ist definiert durch \cite{cs231n}:
 
 % TODO Warum softmax als Aktivierung?
+\bigskip
+{ TODO WARUM WIRD SOFTMAX GENUTZT}
+\bigskip
 
 \begin{equation}
 S_i=\dfrac{e^{f_i}}{\sum_j e^{f_j}}
