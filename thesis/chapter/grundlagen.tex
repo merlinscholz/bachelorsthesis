@@ -116,7 +116,7 @@ Die Aneinanderkettung dieser Schichten führt dazu, dass zwischen ihnen eine imm
 
 Convolutional Neural Networks beschreiben eine Teilmenge der neuronalen Netze, in der die jeweilige Netzwerkarchitektur mindestens eine Convolutional Layer (auch Faltungsschicht genannt, \vgl Unterabschnitt~\ref{ssec:conv}) enthält. Die Nutzung dieser Convolutional Layer zieht oft die Nutzung einer Pooling Layer (Unterabschnitt~\ref{ssec:pooling}) mit sich. \cite{deeplearning_16}
 
-Obwohl Convolutional Neural Networks theoretisch dazu geeignet sind die meisten Daten mit einer gitterähnlichen Struktur zu verarbeiten, erfreuen sie sich im Bereich der Bilddatenanalyse der größten Beliebtheit. \cite[Kap.~9]{deeplearning_16} Eine wichtige Ursache für diese Beliebtheit liegt \bspw in dem Erfolg bei dem Bild-Klassifizierungs-Wettbewerb \textit{ImageNet}. Während dort im Jahr 2011 die Gewinnergruppe mit klassischen Klassifizierungsalgorithmen einen Top-5-Score von $74,3\%$ erzielt hat, wurden im Jahr 2012 mit einem CNN erstmals ein Wert von $83,6\%$ erreicht. Von diesem Punkt an wurde die Bestenliste der darauffolgenden Jahre durch Convolutional Neural Networks dominiert. \cite[Kap.~1]{deeplearning_18}
+Obwohl Convolutional Neural Networks theoretisch dazu geeignet sind die meisten Daten mit einer gitterähnlichen Struktur zu verarbeiten, erfreuen sie sich im Bereich der Bilddatenanalyse der größten Beliebtheit. \cite[Kap.~9]{deeplearning_16} Eine wichtige Ursache für diese Beliebtheit liegt \bspw in dem Erfolg bei dem Bild-Klassifizierungs-Wettbewerb \textit{ImageNet}. Während dort im Jahr 2011 die Gewinnergruppe mit klassischen Klassifizierungsalgorithmen einen Top-5-Score von $74,3\%$ erzielt hat, wurden im Jahr 2012 mit einem CNN (AlexNet, \cite{alexnet}) erstmals ein Wert von $83,6\%$ erreicht. Von diesem Punkt an wurde die Bestenliste der darauffolgenden Jahre durch Convolutional Neural Networks dominiert. \cite[Kap.~1]{deeplearning_18}
 
 Neben der genannten Objekterkennung eigenen sie sich auch zur Bildsegmentierung. So werden sie \bspw erfolgreich in der Entwicklung von selbstfahrenden Autos eingesetzt. \cite{kaymak_19}
 
@@ -285,13 +285,13 @@ Es existieren noch weitere Aktivierungsfunktionen, diese zu Analysieren ist alle
 
 Konvolutionelle Schichten in neuronalen Netzen können die selben Merkmale von unterschiedlichen Stellen extrahieren. Die Position, an der diese Merkmale erkannt wurden, werden auch an die nächste Schicht weitergegeben, \dahe kleine Veränderungen an der Position eines Merkmals führen zu einer veränderten Merkmalsdimension. \cite{brownlee_19} Dies kann insbesondere beim Einsatz von mehreren konsekutiven Convolutional Layers zu einer erhöhten Störanfälligkeit führen, deshalb wird oftmals eine Pooling-Layer dazu eingesetzt, das resultierende Netzwerk invariant zu einzelnen Merkmalspositionen zu machen. Des Weiteren dient eine Pooling-Layer dazu, Informationen aus verschiedenen Bildbereichen zu abstrahieren und langsam global zu aggregieren. \cite{deeplearning_16}
 
-\begin{wrapfigure}{o}{0.38\textwidth}
+\begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.37\textwidth,keepaspectratio]{images/cs231n/pool.jpg}
-	\captionsetup{format=plain}
+	%\captionsetup{format=plain}
 	\caption{Funktionsweise der Pooling-Layer, aus \cite{cs231n}}
 	\label{fig:pooling}
-\end{wrapfigure}
+\end{figure}
 
 Ein weiteres Problem des Einsatzes von ausschließlich konvolutionellen Schichten besteht daraus, dass sie schnell zu einem hohen Anstieg der Parameterzahl im Netzwerk führen können: Jede neue Schicht erzeugt einen weiteren Datenwürfel der Größe $H\times W\times F$, wobei $H$ und $W$ die Höhe und Breite des Eingabebildes, und $F$ die Größe der Merkmalsdimension ist. Alle diese Werte werden im Training des neuronalen Netzes optimiert, was zu Performanceeinbüßungen führen kann. \cite{cs231n}
 
@@ -376,5 +376,21 @@ mit $\lambda$ als einem Hyperparameter zur Gewichtung und
 R(W) = \sum_k\sum_l W^2_{k,l}
 \end{equation}
 
+\subsection{Gradientenverfahren}
+\label{ssec:gradientenverfahren}
+
+Das Ziel eines neuronalen Netzes besteht daraus, die Werte der Lossfunktionen weitgehend zu minimieren. Dies wäre rein theoretisch durch klassische Analysis möglich, indem man die Ableitungen der Funktionen Netzes berechnet und aus diesen anschließend die Extrempunkte. In der Praxis allerdings, besitzt so ein Netzwerk viel zu viele Variablen, als dass die Extremalstellen in einem Annehmbaren Zeitraum berechnet werden könnten. \cite[Kap.~1]{nielsen_15} AlexNet, der Gewinner der ImageNet-Challenge 2012 besitzt \bspw etwa 60 Millionen trainierbare Parameter. (\Vgl Abschnitt~\ref{sec:cnn})
+
+Die Funktion $C(w, b)$ sei die zu minimierende Lossfunktion in Abhängigkeit von den Gewichtungen und Bias des neuronalen Netzes. Zur einfacheren Erklärung gilt, \oBdA, dass im Netzwerk nur zwei trainierbare Parameter existieren. Somit ist das Ziel, die Parameter der Funktion $C(v_1, v_2)$ so zu optimieren, dass das Funktionsergebnis minimiert wird. Grafisch ist eine Beispielfunktion $C$ in \figurename~\ref{fig:valley} dargestellt.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.45\textwidth,keepaspectratio]{images/Nie15_01.png}
+	\caption{Funktion $C$ in Abhängigkeit von $v_1$ und $v_2$, aus \cite{nielsen_15}}
+	\label{fig:valley}
+\end{figure}
+
+Das Gradientenverfahren beschreibt einen Prozess zur Lösung dieses Problems: Bei diesem Verfahren beginnt man bei einem Startpunkt auf dem Funktionsgraphen. Von dort aus wird ermittelt, in welche Richtung der Graph (hier) absteigend verläuft. Man schreitet nun in diese Richtung und wiederholt das Verfahren. Dies geschieht so lange, bis man an einem Punkt angelangt, von welchem aus es in keine Richtung mehr bergab geht. Dieser Punkt ist ein lokales Minimum. Es gilt zu beachten, dass die Weite des jeweiligen Schrittes variabel ist: Es kann somit geschehen, dass am Ende des Verfahrens, der jeweilige Punkt um das lokale Minimum herum schwankt.
+
 \subsection{Backpropagation}
-\label{ssec:backpropagation}
+\label{sec:backpropagation}
