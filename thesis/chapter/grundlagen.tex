@@ -426,7 +426,7 @@ Es sei nun:
 \Delta v = -\eta\nabla C
 \end{equation}
 
-wobei $\eta$ ein beliebiger, positiver Wert sei. Dieser wird auch \textit{learning rate} -- Lernrate -- genannt. $\eta$ sollte so klein gewählt werden, als dass Gleichung~\ref{eqn:def_deltaC} eine gute Annäherung bleibt \cite[Kap.~1]{nielsen_15}, aber groß genug, als dass die Anzahl der nötigen Iterationen gering gehalten wird. Daraus folgt:
+wobei $\eta$ ein beliebiger, positiver Wert sei. Dieser wird auch \textit{learning rate} --~Lernrate~-- genannt. $\eta$ sollte so klein gewählt werden, als dass Gleichung~\ref{eqn:def_deltaC} eine gute Annäherung bleibt \cite[Kap.~1]{nielsen_15}, aber groß genug, als dass die Anzahl der nötigen Iterationen gering gehalten wird. Daraus folgt:
 
 \begin{equation}
 \Delta C\approx -\eta\nabla C\cdot\nabla C= -\eta\left|\left|\nabla C\right| \right|^2
@@ -451,7 +451,7 @@ Alle in diesem Unterabschnitt erklärten Verfahren lassen sich analog auf eine g
 \subsection{Backpropagation}
 \label{sec:backpropagation}
 
-Um das Gradientenverfahren anwenden zu können, wird der Gradient $\nabla C_x$ der Verlustfunktion $C_x$ benötigt. Da in einem neuronalen Netz der Trainingsdatensatz fest steht, muss dieser Gradient nur in Abhängigkeit der Gewichtungen $W$ und Biase $b$ des Netzes gebildet werden. Gesucht werden also $\frac{\partial C}{\partial w}$ und $\frac{\partial C}{\partial b}$ für jeweils jede Gewichtung und Bias.
+Um das Gradientenverfahren anwenden zu können, wird der Gradient $\nabla C_x$ der Verlustfunktion $C_x$ benötigt. Da in einem neuronalen Netz der Trainingsdatensatz fest steht, muss dieser Gradient nur in Abhängigkeit der Gewichtungen $w$ und Biase $b$ des Netzes gebildet werden. Gesucht werden also $\frac{\partial C}{\partial w}$ und $\frac{\partial C}{\partial b}$ für jeweils jede Gewichtung und Bias des Netzes.
 
 Außerdem sei die Aktivierung, also die Ausgabe eines beliebigen Neurons definiert als: \cite[Kap.~2]{nielsen_15}
 
@@ -459,7 +459,9 @@ Außerdem sei die Aktivierung, also die Ausgabe eines beliebigen Neurons definie
 a_j^l = \sigma\left(\sum_k w_{jk}^l a_k^{l-1}+b_j^l\right)
 \end{equation}
 
-Sei nun $w^l$ die Gewichtungsmatrix einer Schicht $l$. Ein Wert $w_{jk}^l$ gibt also wie oben die Gewichtung vom $k$-ten Neurons in der $l-1$-ten Schicht zum $j$-ten Neuron in der $l$-ten Schicht. Analog existiert ein Biasvektor $b^l$, welcher für einen Wert $b_j^l$ den Bias des $j$-ten Neurons der $l$-ten Schicht angibt. $\sigma$ ist die Aktivierungsfunktion des jeweiligen Neurons. Diese Gleichung lässt sich in Vektorform wie folgt darstellen: (nach \cite[Kap.~2]{nielsen_15})
+Sei nun $w^l$ die Gewichtungsmatrix einer Schicht $l$. Ein Wert $w_{jk}^l$ gibt also wie oben die Gewichtung vom $k$-ten Neurons in der $\left(l-1\right)$-ten Schicht zum $j$-ten Neuron in der $l$-ten Schicht. Analog existiert ein Biasvektor $b^l$, welcher für einen Wert $b_j^l$ den Bias des $j$-ten Neurons der $l$-ten Schicht angibt. $\sigma$ ist die Aktivierungsfunktion des jeweiligen Neurons. Es existeiren insgesamt $L$ Schichten.
+
+Diese Gleichung lässt sich in Vektorform wie folgt darstellen: (nach \cite[Kap.~2]{nielsen_15})
 
 \begin{equation}
 a^l = \sigma\left(w^l a^{l-1}+b^l\right)
@@ -470,7 +472,6 @@ Ein wichtiger Vorteil dieser vektorisierten Formeln ist (neben ihrer Lesbarkeit)
 Des Weiteren seien die gewichteten Eingaben $z^l$ einer Schicht $l$ definiert durch: (nach \cite[Kap.~2]{nielsen_15})
 
 \begin{equation}
-\label{eqn:bp1}
 z^l \equiv w^l a^{l-1} + b^l
 \end{equation}
 
@@ -482,16 +483,62 @@ Durch Backpropagation kann immer nur das Fehlersignal $\delta_j^l$ des $j$-ten N
 \delta_j^l \equiv \frac{\partial C}{\partial z_j^l} = \frac{\partial C}{\partial a_j^l}\frac{\partial a_j^l}{\partial z_j^l} = \frac{\partial C}{\partial a_j^l}\sigma'\left(z_j^l\right)
 \end{equation}
 
-Er gibt also das Verhältnis der Veränderung der Verlustfunktion des Netzes zur Veränderung einer gewichtete Eingabe $z_j^l$ an. Dies lässt sich auch in vektorisierter Form schreiben: (nach \cite[Kap.~2]{nielsen_15})
+Er gibt also das Verhältnis der Veränderung der Verlustfunktion des Netzes zur Veränderung einer gewichtete Eingabe $z_j^l$ an. Für die Ausgabe der letzten Schicht $L$ des Netzwerkes folgt:
 
 \begin{equation}
-\label{eqn:bp2}
-\delta^l = \nabla_{a^l} C\odot\sigma'\left(z^l\right)
+\delta_j^L = \frac{\partial C}{\partial a_j^L}\sigma'\left(z_j^L\right)
+\end{equation}
+
+Dies lässt sich auch in vektorisierter Form schreiben: (nach \cite[Kap.~2]{nielsen_15})
+
+\begin{equation}
+\label{eqn:bp1}
+\delta^L = \nabla_{a^L} C\odot\sigma'\left(z^L\right)
 \end{equation}
 
 Wie in Unterabschnitt~\ref{ssec:conv} beschreibt der $\odot$-Operator das Hadamard-Produkt der jeweiligen Matrizen und $\nabla_{a^l} C$ ist der Vektor aller partiellen Ableitungen $\frac{\partial C}{\partial a_j^l}$ einer Schicht $l$.
 
-% TODO BP3
-% TODO BP4
+Um den Fehler $\delta^l$  anhand des Fehlers der nächsten Schicht $\delta^{l+1}$ wird Gleichung~\ref{eqn:bp1} so umgeformt, dass sie die Veränderung von $C$ in Abhängigkeit von $z^{l+1}$ statt in Abhängigkeit von $z^{l}$ darstellt. Die vollständige Herleitung ist in \cite[Kap.~2]{kathuria_18} zu finden. Aus ihr ergibt sich:
 
-Mithilfe dieser Formeln (\ref{eqn:bp1}, \ref{eqn:bp2}, \ref{eqn:bp3} und \ref{eqn:bp4}) lässt sich nun, wie für das Gradientenverfahren benötigt, effizient der Gradient der Verlustfunktion $C$ in Abhängigkeit bestimmter Parameter berechnen: (nach \cite[Kap.~2]{nielsen_15})
+\begin{equation}
+\label{eqn:bp2}
+\delta^l =\left(\left(w^{l+1}\right)^T\delta^{l+1}\right)\odot\sigma'\left(z^l\right)
+\end{equation}
+
+Durch die Kombination der Gleichungen~\ref{eqn:bp1} und \ref{eqn:bp2} lässt sich der Fehler in einer belibigen Schicht berechnen.
+
+Um nun anhand der Fehler die jeweiligen Gradienten der Verlustfunktion in Bezug auf die Gewichtungen und Biase zu berechnen gilt nun nach der Herleitung in \cite[Kap.~2]{kathuria_18}:
+
+\begin{eqnarray}
+\label{eqn:bp3}
+\frac{\partial C}{\partial b_j^l} &=& \delta_j^l\\
+\label{eqn:bp4}
+\frac{\partial C}{\partial w_{jk}^l} &=& a_k^{l+1}\delta_j^l
+\end{eqnarray}
+
+Mithilfe dieser Formeln lässt sich nun, wie für das Gradientenverfahren benötigt, effizient der Gradient der Verlustfunktion $C$ für eine Eingabe $x$ in Abhängigkeit bestimmter Parameter berechnen. Es sein $a^1=x$. (nach \cite[Kap.~2]{nielsen_15})
+
+Zuerst werden für jedes Neuron jeder Schicht $l$ die Aktivierung und die gewichtete Eingabe berechnet:
+\begin{eqnarray}
+z^{l}&=& w^{l}a^{x-1}+b^l\\
+a^{l}&=&\sigma\left(z^{l}\right)
+\end{eqnarray}
+
+Anschließend wird der Fehlervektor der letzten Schicht $L$ berechnet (\vgl Gleichung~\ref{eqn:bp1}):
+\begin{equation}
+\delta^{L}=\nabla_{a^L}C_x\odot\sigma'\left(z^{L}\right)
+\end{equation}
+
+Dieser wird nun rückwärts durch die Schichten propagiert (\vgl Gleichung~\ref{eqn:bp2}):
+\begin{equation}
+\delta^{l}=\left(\left(w^{l+1}\right)^T\delta^{l+1}\right)\odot\sigma'\left(z^{l}\right)
+\end{equation}
+
+Daraus lassen sich mithilfe der Formeln~\ref{eqn:bp3} und \ref{eqn:bp4} die Gradienten der Verlustfunktion in Bezug auf die Gewichtungen und Biase herleiten:
+
+\begin{eqnarray}
+\frac{\partial C}{\partial w_{jk}^l}&=&a_k^{l-1}\delta_j^l\\
+\frac{\partial C}{\partial b_{j}^l}&=&\delta_j^l
+\end{eqnarray}
+
+Da nun diese Gradienten bekannt sind, lässt sich das in Unterabschnitt~\ref{ssec:gradientenverfahren} beschriebene Gradientenverfahren erfolgreich anwenden.
