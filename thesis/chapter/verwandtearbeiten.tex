@@ -4,7 +4,7 @@
 \section{Bildsegmentierung}
 \label{sec:segmentation}
 
-\subsection{Unbeaufsichtigte Bildsegmentierung durch Backpropagation}
+\subsection{Bildsegmentierung ohne Ground Truth durch Backpropagation}
 \label{ssec:kanezaki}
 In \cite{kanezaki_18} wird ein Ansatz beschrieben, Convolutional Neural Networks zur Bildsegmentierung zu nutzen. Die Besonderheit an diesem Ansatz ist allerdings, dass er nicht wie frühere Versuche CNNs zur Bildsegmentierung zu nutzen auf überwachtem Lernen basiert, sondern unüberwachtes Lernen nutzt.
 
@@ -12,7 +12,7 @@ Dieser Ansatz erstellt eine Mapping-Funktion $c_n=f(x_n)$, die jedem der $N$ $p$
 
 Während das Ziel das gleiche wie bei überwachtem Lernen ist, wird hier weder eine Ground Truth, noch ein vorher angelerntes Neuronales Netz benötigt.
 
-Erreicht wird dieses Ziel durch einen iterativen Prozess, in welchem ein anfangs untrainiertes neuronales Netz eine Bildsegmentierung erzeugt, welche anschließend mithilfe einer im Vorhinein erstellten, konstanten Segmentierung optimiert wird. Diese Segmentierung wird in diesem Paper über den SLIC-Algorithmus \cite{achanta_10} erzeugt. Der gesamte Algorithmus ist in \figurename~\ref{fig:Kan18_01} dargestellt. 
+Erreicht wird dieses Ziel durch einen iterativen Prozess, in welchem ein anfangs untrainiertes neuronales Netz eine Bildsegmentierung erzeugt, welche anschließend mithilfe einer im Vorhinein erstellten, konstanten Segmentierung optimiert wird. Diese wird in diesem Paper über den SLIC-Algorithmus \cite{achanta_10} erzeugt. Der gesamte Algorithmus ist in \figurename~\ref{fig:Kan18_01} dargestellt. 
 
 \begin{figure}[h!]
 	\centering
@@ -22,9 +22,37 @@ Erreicht wird dieses Ziel durch einen iterativen Prozess, in welchem ein anfangs
 \end{figure}
 
 % TODO
-\section{Unsupervised Deep Embedding for Clustering Analysis}
-\label{sec:unsupervised_dec}
-\cite{junyuan_16}
+%\section{Unsupervised Deep Embedding for Clustering Analysis}
+%\label{sec:unsupervised_dec}
+Eine vergleichbare, aber weitreichendere Methode --~der DEC Algorithmus~-- wird in \cite{junyuan_16} dargestellt: Auch besteht das Ziel daraus, $N$ Punkte $\{x_n\in X\}_{n=1}^N$ in $k$ verschiedene Cluster mit den jeweiligen Clustermitten $\mu_j, j\in\left[1, k\right]$ einzuteilen. Entgegen des Ansatzes von Kanezaki hingegen wird hier nicht direkt im Merkmalsraum $X$ des Eingabebildes geclustert, stattdessen wird dieser zuerst über eine nichtlineare Funktion $f_\theta: X\rightarrow Z$ in einen Merkmalsraum $Z$ abgebildet. $\theta$ ist dabei ein lernbarer Parameter, sodass das genutzte Neuronale Netz zwei Parameter zeitgleich optimiert: $\theta$, und die Position der Clustermitten $\mu_j$.
+
+Der DEC-Algorithmus besteht aus zwei Phasen:
+\begin{enumerate}
+	\item Parameterinitialisierung:\\
+Um die Startparameter für $\theta$ zu Generieren wird schichtenweise ein Stacked Autoencoder (SAE) schichtenweise aufgebaut. Jede Schicht des SAEs ist ein rauschunterdrückender Autoencoder, welcher wie folgt definiert ist: \cite{junyuan_16}
+\begin{eqnarray}
+\bar{x}&\sim&Dropout(x)\\
+h &=& g_1(W_1\tilde{x}+b_1)\\
+\tilde{h} &\sim& Dropout(h)\\
+y &=& g_2(W_2\tilde{h}+b_2)
+\end{eqnarray}
+Zuerst wird Encoder-Decoder-Paar dazu trainiert, ein Signal wiederherzustellen, nachdem dies eine Encoder-Schicht (hier ) durchlaufen hat. Anschließend wird der Parameter $h$ dazu genutzt, ein weiteres Paar zu trainieren (\vgl \figurename~\ref{fig:sae}). Am Ende dieses Lernens besteht $\theta$ aus der Menge aller Gewichtungen $W$ und Bias $b$ der verschiedenen Encoder Schichten. Diese Encoder-Schichten beschreiben nun die Funktion $f_\theta$, welche den originalen Merkmalsraum $X$ des Bildes in den reduzierten Merkmalsraum $Z$ umwandelt.
+
+Die initialen Clustermitten werden durch den k-Means-Algorithmus auf dem Merkmalsraum $Z$ generiert.
+	\item Parameteroptimierung
+Das eigentliche Lernen des DEC-Algorithmus findet in zwei, sich abwechselnden Phasen statt:
+
+Zuerst wird eine Zuweisung von den Datenpunkten des Merkmalsraumes zu den Koordinaten der Clusterzentren berechnet. Zu diesem Zweck wird eine Wahrscheinlichkeitsverteilung (die $t$-Verteilung) genutzt: Diese berechnet die Wahrscheinlichkeit, dass ein bestimmter Datenpunkt einem bestimmten Cluster zugewiesen wird.
+
+Anschließend werden die Parameter $\theta$ der Funktion $f_\theta$ optimiert. Die zu verringernde Verlustfunktion ist an dieser Stelle die Kullback-Leibler-Divergenz. Somit wird hier eine Wahrscheinlichkeitsfunktion gelernt, welche sich möglichst wenig von der oben beschriebenen, iterativ generierten $t$-Verteilung unterscheidet. Der eigentliche Optimierungsprozess der Clustermitten und der Parameter für $\theta$ findet über das Gradientenverfahren (\vgl Unterabschnitt~\ref{ssec:gradientenverfahren}) statt.
+\end{enumerate}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=.8\textwidth,keepaspectratio]{images/BK15_01.png}
+	\caption{Initialisierung eines Stacked Autoencoders, modifiziert, aus \cite{berniker_15}}
+	\label{fig:sae}
+\end{figure}
 
 \section{Kratererkennung}
 \label{sec:craterdetection}
