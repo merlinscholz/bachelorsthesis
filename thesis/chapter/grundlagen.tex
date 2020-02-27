@@ -170,7 +170,7 @@ S(i,j) = (I*K)(i,j) = \sum_{m}\sum_{n}I(m,n)K(i-m,j-n)
 
 Eine alternative Betrachtungsweise dieser Formel basiert auf dem Hadamard-Produkt. Angenommen, es existieren eine Matrix $I\in\mathbb{R}^{2}$ und eine Matrix $K\in\mathbb{R}^{m\times n}$.
 
-Sei Matrix $H$ definiert als Hadamard-Produkt aus $K$ und $I'=I_{x, y}$ mit $x\in[i-m,i]$ und $y\in[j-n,j]$.\\
+Sei Matrix $H = K\odot I'$ definiert als Hadamard-Produkt aus $K$ und $I'=I_{x, y}$ mit $x\in[i-m,i]$ und $y\in[j-n,j]$.\\
 Dann gilt: $S(i,j)=(I*K)(i,j) = \sum_{m}\sum_{n}I(m,n)K(i-m,j-n)=\sum_{h\in H}h$
 
 Diese Formel ist allerdings nur für Eingabebilder mit nur einem Farbwert pro Pixel gültig, also Graustufenbilder. Für ein Bild mit beliebig vielen Farbwertsdimensionen gilt:
@@ -339,33 +339,33 @@ Eine korrekte Klasse wird mit einer $1$ am entsprechenden Element im Vektor kodi
 $q$ hingegen gibt die berechnete Wahrscheinlichkeit an, dass eine jeweilige Klasse auf die Eingabe zutrifft. Da für $q$ eine Wahrscheinlichkeitsverteilung, welche sich auf $1$ aufsummiert benötigt wird, wird als dessen Eingabe meistens die Softmax-Funktion der vorhergehenden Werte genutzt. Die Softmax-Funktion kann wie die ReLU- oder die Sigmoid-Funktion als Aktivierungsfunktion betrachtet werden. Sie ist definiert durch \cite{cs231n}:
 
 \begin{equation}
-S_i=\dfrac{e^{f_i}}{\sum_j e^{f_j}}
+S_i=\frac{e^{f_i}}{\sum_j e^{f_j}}
 \end{equation}
 
 Kombiniert ergibt sich so also für den Cross-Entropy-Loss \cite{cs231n}:
 
 \begin{equation}
-L_i = -\sum_x p(x)\log\left(\dfrac{e^{f_{y_i}}}{\sum_j e^{f_i}}\right)
+L_i = -\sum_x p(x)\log\left(\frac{e^{f_{y_i}}}{\sum_j e^{f_i}}\right)
 \end{equation}
 
 Da für alle außer eine Klasse gilt $p=0$, lässt sich die Summe entfernen:
 
 \begin{equation}
-L_i = -\log\left(\dfrac{e^{f_{y_i}}}{\sum_j e^{f_i}}\right)
+L_i = -\log\left(\frac{e^{f_{y_i}}}{\sum_j e^{f_i}}\right)
 \end{equation}
 
 
 Für den durchschnittlichen Loss über alle Klassifizierungen ergibt sich so:
 
 \begin{equation}
-L = \dfrac{1}{N}\sum_{i=1}^{N}L_i
+L = \frac{1}{N}\sum_{i=1}^{N}L_i
 \end{equation}
 
 Hier ist allerdings zu beachten, dass es für ein neuronale Netz mehrere optimale Gewichtungen und Bias geben kann: Würde man \bspw alle Gewichtungen mit dem selben Skalar multiplizieren, würden diese immer noch zu dem selben Ergebnis führen. Um möglichst kleine Gewichtungen und Biase zu bestimmen, wird ein Regularisierungsterm eingeführt um die Gewichtungen möglichst gering zu halten \cite{cs231n}:
 
 \begin{equation}
 \label{eqn:def_loss}
-L = \dfrac{1}{N}\sum_{i=1}^{N}L_i + \lambda R(W)
+L = \frac{1}{N}\sum_{i=1}^{N}L_i + \lambda R(W)
 \end{equation}
 
 mit $\lambda$ als einem Hyperparameter zur Gewichtung und
@@ -397,7 +397,7 @@ Mathematisch betrachtet ändert sich von einem beliebigen Punkt aus der Wert der
 
 \begin{equation}
 \label{eqn:def_deltaC}
-\Delta C\approx \dfrac{\partial C}{\partial v_1}\Delta v_1 + \dfrac{\partial C}{\partial v_2}\Delta v_2
+\Delta C\approx \frac{\partial C}{\partial v_1}\Delta v_1 + \frac{\partial C}{\partial v_2}\Delta v_2
 \end{equation}
 
 Diese Gleichung ist nur eine Annäherung, da statt der Steigung zwischen $v_1$ und $\Delta v_1$ nur die Steigung an der Stelle $v_1$ betrachtet wird. Dies gilt analog für $v_2$.
@@ -410,7 +410,7 @@ Es gelte nun: $\Delta v$ sei der Vektor der Differenzen in $v$
 Und $\nabla C$ sei der Gradient von $C$:
 
 \begin{equation}
-\nabla C\equiv \left(\dfrac{\partial C}{\partial v_1}, \dfrac{\partial C}{\partial v_2}\right)^T
+\nabla C\equiv \left(\frac{\partial C}{\partial v_1}, \frac{\partial C}{\partial v_2}\right)^T
 \end{equation}
 
 Durch Einsetzen in Gleichung~\ref{eqn:def_deltaC} gilt nun:
@@ -447,5 +447,51 @@ Des Weiteren wird der Rechenaufwand drastisch reduziert, da die Startkoordinaten
 Ein praktischer Nachteil des stochastischen Gradientenverfahrens besteht allerdings daraus, dass bei dem klassischen Gradientenverfahren die Ergebnisse der unterschiedlichen Verlustfunktionen parallel berechnet werden können, dies beim stochastischen Gradientenverfahren nicht möglich ist, da das Ergebnis einer Iteration auf dem der vorherigen Iteration basiert. Es wird also ein Kompromiss beschlossen, in dem in jedem Durchgang eine Teilmenge der Verlustfunktionen genutzt wird. \cite{kathuria_18} Dies vereint die Vorteile beider Gradientenverfahren (die Meidung der lokalen Minima des stochastischen Gradientenverfahrens und den möglichen Parallellismus des klassischen Gradientenverfahrens).
 
 Alle in diesem Unterabschnitt erklärten Verfahren lassen sich analog auf eine größere Anzahl an Parametern anwenden.
+
 \subsection{Backpropagation}
 \label{sec:backpropagation}
+
+Um das Gradientenverfahren anwenden zu können, wird der Gradient $\nabla C_x$ der Verlustfunktion $C_x$ benötigt. Da in einem neuronalen Netz der Trainingsdatensatz fest steht, muss dieser Gradient nur in Abhängigkeit der Gewichtungen $W$ und Biase $b$ des Netzes gebildet werden. Gesucht werden also $\frac{\partial C}{\partial w}$ und $\frac{\partial C}{\partial b}$ für jeweils jede Gewichtung und Bias.
+
+Außerdem sei die Aktivierung, also die Ausgabe eines beliebigen Neurons definiert als: \cite[Kap.~2]{nielsen_15}
+
+\begin{equation}
+a_j^l = \sigma\left(\sum_k w_{jk}^l a_k^{l-1}+b_j^l\right)
+\end{equation}
+
+Sei nun $w^l$ die Gewichtungsmatrix einer Schicht $l$. Ein Wert $w_{jk}^l$ gibt also wie oben die Gewichtung vom $k$-ten Neurons in der $l-1$-ten Schicht zum $j$-ten Neuron in der $l$-ten Schicht. Analog existiert ein Biasvektor $b^l$, welcher für einen Wert $b_j^l$ den Bias des $j$-ten Neurons der $l$-ten Schicht angibt. $\sigma$ ist die Aktivierungsfunktion des jeweiligen Neurons. Diese Gleichung lässt sich in Vektorform wie folgt darstellen: (nach \cite[Kap.~2]{nielsen_15})
+
+\begin{equation}
+a^l = \sigma\left(w^l a^{l-1}+b^l\right)
+\end{equation}
+
+Ein wichtiger Vorteil dieser vektorisierten Formeln ist (neben ihrer Lesbarkeit) die Möglichkeit, sie parallel einfacher zu berechnen.
+
+Des Weiteren seien die gewichteten Eingaben $z^l$ einer Schicht $l$ definiert durch: (nach \cite[Kap.~2]{nielsen_15})
+
+\begin{equation}
+\label{eqn:bp1}
+z^l \equiv w^l a^{l-1} + b^l
+\end{equation}
+
+Daraus folgt $a^l=\sigma\left(z^l\right)$.
+
+Durch Backpropagation kann immer nur das Fehlersignal $\delta_j^l$ des $j$-ten Neurons der $l$-ten Schicht berechnet werden. Dieser ist definiert als: (nach \cite[Kap.~2]{nielsen_15})
+
+\begin{equation}
+\delta_j^l \equiv \frac{\partial C}{\partial z_j^l} = \frac{\partial C}{\partial a_j^l}\frac{\partial a_j^l}{\partial z_j^l} = \frac{\partial C}{\partial a_j^l}\sigma'\left(z_j^l\right)
+\end{equation}
+
+Er gibt also das Verhältnis der Veränderung der Verlustfunktion des Netzes zur Veränderung einer gewichtete Eingabe $z_j^l$ an. Dies lässt sich auch in vektorisierter Form schreiben: (nach \cite[Kap.~2]{nielsen_15})
+
+\begin{equation}
+\label{eqn:bp2}
+\delta^l = \nabla_{a^l} C\odot\sigma'\left(z^l\right)
+\end{equation}
+
+Wie in Unterabschnitt~\ref{ssec:conv} beschreibt der $\odot$-Operator das Hadamard-Produkt der jeweiligen Matrizen und $\nabla_{a^l} C$ ist der Vektor aller partiellen Ableitungen $\frac{\partial C}{\partial a_j^l}$ einer Schicht $l$.
+
+% TODO BP3
+% TODO BP4
+
+Mithilfe dieser Formeln (\ref{eqn:bp1}, \ref{eqn:bp2}, \ref{eqn:bp3} und \ref{eqn:bp4}) lässt sich nun, wie für das Gradientenverfahren benötigt, effizient der Gradient der Verlustfunktion $C$ in Abhängigkeit bestimmter Parameter berechnen: (nach \cite[Kap.~2]{nielsen_15})
