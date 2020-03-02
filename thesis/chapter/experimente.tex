@@ -4,19 +4,17 @@
 \section{Datens"atze}
 \label{sec:datensätze}
 
-Der vorgestellte Algorithmus wird auf zwei Datensätzen evaluiert: Einerseits ein allgemeiner Datensatz zur Überprüfung der Ergebnisse, und ein domänenspezifischer Datensatz, über den die Analyse der Marsoberfläche evaluiert wird. 
+Der vorgestellte Algorithmus wird auf zwei Datensätzen evaluiert: Einerseits wird ein allgemeiner Datensatz zur Überprüfung der Ergebnisse genutzt, aber auch ein domänenspezifischer Datensatz, über den die Analyse der Marsoberfläche evaluiert wird. 
 
 Als allgemeiner Datensatz wird das Berkeley Segmentation Dataset \cite{bsd500} genutzt. Dieses besteht aus 500 Foto-Aufnahmen, die manuell segmentiert wurden.
 
 Die in diesen Experimenten genutzten, domönenspezifischen Datensätze stammen von der Website des \textit{Planetary Data System} der NASA \cite{pds}, \bzw dem \textit{Planetary Science Archive} der ESA \cite{psa}. Die dort gehosteten Aufnahmen der jeweiligen Instumente sind größtenteils unverarbeitet und befinden sich in einem speziell für diesen Zweck erstellten Dateiformat, sodass diese erst konvertiert und anschließend so verarbeitet werden müssen, dass für diesen Zweck besser geeignete Bilddateien entstehen.
-Diese Verarbeitung besteht bei den Aufnahmen der CTX aus dem Herunterladen der Metadaten der einzelnen Aufnahmen, gefolgt von deren Kalibrierung, der Entfernung der Even/Odd Detector Stripes, und der Konvertierung in ein adäquates Bildformat. Dieses kann von dem eigentlichen Analyse-Algorithmus eingelesen und weiter verarbeitet werden. Bei den Aufnahmen der HRSC ist keine Kalibrierung notwendig, diese müssen nur entsprechend konvertiert werden.
+Diese Verarbeitung besteht bei den Aufnahmen der CTX aus dem Herunterladen der Metadaten der einzelnen Aufnahmen, gefolgt von der Konvertierung der Pixelfarbwerte, der Entfernung der Even/Odd Detector Stripes, und der Ausgabe in ein adäquates Bildformat. Dieses kann von dem eigentlichen Analyse-Algorithmus eingelesen und weiter verarbeitet werden. Bei den Aufnahmen der HRSC ist keine Konvertierung notwendig, diese müssen nur entsprechend konvertiert werden.
 
-Zur eigentlichen Verarbeitung/Konvertierung wird das ISIS Image Processing Software Package \cite{isis} in Kombination mit GNU Parallel \cite{gnuparallel} genutzt.
+\section{Evaluation}
+\label{sec:Evaluation}
 
-\section{Evaluierung}
-\label{sec:evaluierung}
-
-Zur Evaluierung und zum Vergleich der einzelnen Ansätze werden Metriken benötigt, die die verschiedenen Stärken und Schwächen der jeweiligen Lösungen zu einem Wert zusammenfassen. Hierbei ist zu beachten, dass ein Großteil der in anderen Arbeiten verwendeten Metriken wie \bspw der $F_1$-Score an dieser Stelle nicht geeignet sind, da diese voraussetzen, dass das jeweilige Bild nicht nur segmentiert, sondern diese Segmente auch benannt sind. Da der hier vorgestellte Ansatz unbenannte Cluster erzeugt, weichen wir auf den Rand Index\cite{randindex} aus. Dieser ist wie folgt definiert:
+Zur Evaluierung und zum Vergleich der einzelnen Ansätze werden Metriken benötigt, die die verschiedenen Stärken und Schwächen der jeweiligen Lösungen zu einem Wert zusammenfassen. Hierbei ist zu beachten, dass ein Großteil der in anderen Arbeiten verwendeten Metriken wie \bspw der $F_1$-Score an dieser Stelle nicht geeignet sind, da diese voraussetzen, dass das jeweilige Bild nicht nur segmentiert, sondern diese Segmente auch eine bestimmten Klasse zugeordnet sind. Da der hier vorgestellte Ansatz nicht-zugeordnete Cluster erzeugt, weichen wir auf den Rand Index\cite{randindex} aus. Dieser ist wie folgt definiert:
 % TODO Herleiten
 \[R=\frac{a+b}{\binom{n}{2}}\]
 
