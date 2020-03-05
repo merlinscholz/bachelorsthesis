@@ -64,29 +64,12 @@ Es gilt zu beachten, dass zur Initialisierung ein möglichst feines Clustering g
 
 Der in Unterabschnitt~\ref{ssec:kanezaki} vorgestellte Algorithmus benötigt zur Initialisierung ein relativ feines Clustering der Eingabedatei. Erreicht wird dieses Über den SLIC Superpixel Algorithmus. Dieser besteht aus der Anwendung des k-Means Algorithmus auf einem fünfdimensionalen Merkmalsraum, bestehend aus drei Dimensionen für die jeweiligen Farbwerte eines Pixels im CIELAB Farbraum und zwei Dimensionen für die X- und Y-Koordinaten des Pixels. \cite{achanta_10} Der k-Means-Algorithmus teilt eine beliebige Anzahl von Messpunkten (in diesem Fall je ein Merkmalsvektor pro Pixel) in eine vorher festgelegte Menge an Clustern ein.
 
-Dieser Algorithmus ist weitverbreitet und liefert oft gute Ergebnisse auf unterschiedlichen Eingaben, er eignet sich allerdings nur bedingt um Graustufenbilder zu clustern.
+Dieser Algorithmus ist weitverbreitet und liefert oft gute Ergebnisse auf unterschiedlichen Eingaben, er eignet sich allerdings nur bedingt um Graustufenbilder zu clustern. Da nicht garantiert ist, dass Eingabedateien mehrfarbig sind, eignet sich eine farbbasierte Clustering-Methode wie SLIC nicht immer um diese zuverlässig zu clustern. 
 
-Da nicht garantiert ist, dass Eingabedateien mehrfarbig sind, eignet sich eine farbbasierte Clustering-Methode wie SLIC nicht immer um diese zuverlässig zu clustern. 
-
-Außerdem liefert SLIC bei Eingaben in denen ein Segment starke Hell-/Dunkel-Differenzen besitzt keine optimalen Ergebnisse, da es primär anhand der Farbwerte \bzw Helligkeitswerte clustert. So ergibt ein Clustering des Kraters aus \figurename~\ref{fig:ex_crater} durch den SLIC-Algorithmus \cite{achanta_10} das in \figurename~\ref{fig:slic_crater} sichtbare Ergebnis.\footnote{SLIC-Implementierung: \textit{scikit-image}\\Parameter: \textit{compactness}=20, \textit{n\_segments}=30\\Cluster gefüllt mit ihren jeweiligen Durchnittshelligkeitswerten}
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[width=0.35\textwidth,keepaspectratio]{images/gen/GEN_slic_crater.png}
-	\captionsetup{format=plain,width=0.35\textwidth}
-	\caption{Ergebnis des SLIC-Algorithmus angewandt auf eine Graustufenaufnahme eines Kraters}
-	\label{fig:slic_crater}
-\end{figure}
+Des Weiteren liefert SLIC bei Eingaben in denen ein Segment starke Hell-/Dunkel-Differenzen besitzt keine optimalen Ergebnisse, da es primär anhand der Farbwerte \bzw Helligkeitswerte clustert. Diese Problematik ist genauer in Abschnitt~\ref{sec:initialisierung} beschrieben.
 
 \subsection{Texturbasiertes Clustering}
 
-\iffalse% TODO Move to Methodik
-Selbst wenn dieses mit auf die Helligkeitswerte der Eingabedatei angewandt wird, führt dies dazu, dass der Algorithmus das Bild nach den Helligkeitswerten segmentiert, und nicht wie gewünscht anhand ihrer Oberflächenstruktur. 
-
-Hier ist erkennbar, dass der Krater in jeweilige Licht- und Schattenregionen (bedingt durch den Lichteinfall im flachen Winkel) unterteilt wird. Dieses Phänomen wird sich zwar in \ref{sec:craterdetection} zu nutze gemacht, ist hier allerdings ungewollt.
-
-Wenn nun der in Unterabschnitt~\ref{ssec:kanezaki} beschriebene Ansatz verfolgt wird, wird das neuronale Netz daraufhin trainiert, eine Aufnahme anhand ihrer Helligkeitsinformationen hin zu trainieren. Da dies nicht gewollt ist, wird statt einem farb-/helligkeitsbasierten Clusteringalgorithmus wie SLIC ein texturbasiertes Clustering genutzt.
-\fi
 Neben dem farbbasierten Clustering existiert auch das texturbasierte Clustering. Bei diesem werden weniger die Farbwerte von benachbarten Pixeln, sondern vielmehr die Texturen in benachbarten Bereichen verglichen.
 
 Eine Methode des texturbasierten Clusterings wird in \cite{jain_91} beschrieben: Dort wird eine Reihe von Gabor-Filtern dazu benutzt, die Textur des Bildes zu analysieren. Dieser Prozess verläuft wie folgt:
@@ -143,7 +126,7 @@ Diese werden anschließend über das in den Unterabschnitten~\ref{ssec:conv} und
 	\label{fig:tsugf_101027_raw}
 \end{figure}
 
-Anschließend wird --~wie beim SLIC-Algorithmus~-- der k-Means-Algorithmus auf diesen Datenwürfel angewandt, es werden also Pixel mit ähnlichen Texturen in Cluster zusammengefasst.
+Ähnlich zur Vorgehensweise von SLIC wird dem werden dem Datenwürfen zusätzliche Informationen über die jeweiligen X- und Y-Koordinaten hinzugefügt. Anschließend wird der k-Means-Algorithmus auf diesen Datenwürfel angewandt, es werden also Pixel mit ähnlichen Texturen und geringer Distanz zueinander in Cluster zusammengefasst.
 
 In der Praxis sind für die erfolgreiche Anwendung dieser Methode allerdings noch einige Optimierungen notwendig: \cite{mathworks_15}
 
@@ -197,6 +180,38 @@ Das schrittweise Hinzufügen dieser Optimierungen ist in \figurename~\ref{fig:ts
 	\end{subfigure}
 	\caption{Optimierung des Clusteringverfahrens}
 	\label{fig:tsugf_optim}
+\end{figure}
+
+Neben der in \figurename~\ref{fig:tsugf_filters} gezeigten Filterbank existieren alternative Filterbänke, \ua:
+\begin{itemize}
+	\item Die Leung-Malik (LM) Filterbank \cite{leung_01}
+	\item Die Schmid (S) Filterbank \cite{schmid_01}
+	\item Die Maximum Response (MR) Filterbank \cite{visgeo}
+\end{itemize}
+
+Diese drei Filterbänke besitzen im Gegensatz zu der in \cite{mathworks_15} vorgestellten Filterbank auch Filter in verschiedenen Größen und rotationsinvariante Filter. Sie sind in \figurename~\ref{fig:filterbank} dargestellt.
+
+\begin{figure}[h!]
+	\begin{subfigure}[t]{0.38\textwidth}
+		\centering
+		\includegraphics[width=\textwidth,keepaspectratio]{images/vis_01.jpg}
+		\captionsetup{format=plain}
+		\subcaption{Leung-Malik-Filterbank}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[t]{0.38\textwidth}
+		\centering
+		\includegraphics[width=\textwidth,keepaspectratio]{images/vis_02.jpg}
+		\subcaption{Schmid-Filterbank}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[t]{0.21\textwidth}
+		\centering
+		\includegraphics[width=\textwidth,keepaspectratio]{images/vis_03.jpg}
+		\subcaption{Maximum Response-Filterbank}
+	\end{subfigure}
+	\caption{Darstellung dreier Filterbänke, aus \cite{visgeo}}
+	\label{fig:filterbank}
 \end{figure}
 
 % TODO Remove?
