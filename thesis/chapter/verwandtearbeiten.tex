@@ -72,6 +72,7 @@ Dieser Algorithmus ist weitverbreitet und liefert oft gute Ergebnisse auf unters
 Des Weiteren liefert SLIC bei Eingaben in denen ein Segment starke Hell-/Dunkel-Differenzen besitzt keine optimalen Ergebnisse, da es primär anhand der Farbwerte \bzw Helligkeitswerte clustert. Diese Problematik ist genauer in Abschnitt~\ref{sec:initialisierung} beschrieben.
 
 \subsection{Texturbasiertes Clustering}
+\label{ssec:tsugf}
 
 Neben dem farbbasierten Clustering existiert auch das texturbasierte Clustering. Bei diesem werden weniger die Farbwerte von benachbarten Pixeln, sondern vielmehr die Texturen in benachbarten Bereichen verglichen.
 
@@ -216,6 +217,8 @@ Diese drei Filterbänke besitzen im Gegensatz zu der in \cite{mathworks_15} vorg
 	\caption{Darstellung dreier Filterbänke, aus \cite{visgeo}}
 	\label{fig:filterbank}
 \end{figure}
+
+Die Besonderheit der Maximum Response-Filterbank besteht daraus, dass sie zwar 38 Filtern besitzt, nach der Anwendung der Konvolution aber alle bis auf die 6 Filter mit der stärksten Reaktion auf die Eingabe an den k-Means-Algorithmus weitergegeben werden. Zusätzlich werden immer die rotationsinvarianten Filter genutzt.
 
 % TODO Remove?
 \section{Kratererkennung}
