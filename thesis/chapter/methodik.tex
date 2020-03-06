@@ -8,11 +8,9 @@ Zur Modifikation des genannten Algorithmus existieren viele unterschiedliche Mö
 \section{Initialisierung}
 \label{sec:initialisierung}
 
-Die wohl wichtigste Veränderung besteht aus der Modifizierung des Initialisierungsalgorithmus.
+Die wohl wichtigste Veränderung des ursprünglichen Algorithmus besteht aus der Modifizierung des Initialisierungsalgorithmus.
 
 Der von Kanezaki \etal genutzte SLIC-Algorithmus eignet sich zwar gut für die meisten mehrfarbigen Fotografien, da die Aufnahmen der Marsoberfläche allerdings nur in Graustufen vorhanden sind, würden so hier keine guten Ergebnisse produziert werden.
-
-Selbst wenn dieses mit auf die Helligkeitswerte der Eingabedatei angewandt wird, führt dies dazu, dass der Algorithmus das Bild nach den Helligkeitswerten segmentiert, und nicht wie gewünscht anhand ihrer Oberflächenstruktur. 
 
 \begin{figure}[h!]
 	\centering
@@ -26,7 +24,10 @@ So ergibt ein Clustering des Kraters aus \figurename~\ref{fig:ex_crater} durch d
 
 Wenn nun der in Unterabschnitt~\ref{ssec:kanezaki} beschriebene Ansatz verfolgt wird, wird das neuronale Netz daraufhin trainiert, eine Aufnahme anhand ihrer Helligkeitsinformationen hin zu trainieren. Da dies nicht gewollt ist, wird statt einem farb-/helligkeitsbasierten Clusteringalgorithmus wie SLIC ein texturbasiertes Clustering genutzt.
 
+\subsection{Gewichtungen}
 
-\section{Architektur}
+\section{Netzwerkarchitektur}
 
-\section{Modifikationen}
+\section{Abbruchkriterium}
+
+\section{Anpassungen für mehrfarbige Fotografien}

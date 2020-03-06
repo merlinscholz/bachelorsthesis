@@ -29,7 +29,7 @@ Der DEC-Algorithmus besteht aus zwei Phasen:
 	
 	Zuerst wird eine Zuweisung von den Datenpunkten des Merkmalsraumes zu den Koordinaten der Clusterzentren berechnet. Zu diesem Zweck wird eine Wahrscheinlichkeitsverteilung (die $t$-Verteilung) genutzt: Diese berechnet die Wahrscheinlichkeit, dass ein bestimmter Datenpunkt einem bestimmten Cluster zugewiesen wird.
 	
-	Anschließend werden die Parameter $\theta$ der Funktion $f_\theta$ optimiert. Die zu verringernde Verlustfunktion ist an dieser Stelle die Kullback-Leibler-Divergenz. Somit wird hier eine Wahrscheinlichkeitsfunktion gelernt, welche sich möglichst wenig von der oben beschriebenen, iterativ generierten $t$-Verteilung unterscheidet. Der eigentliche Optimierungsprozess der Clustermitten und der Parameter für $\theta$ findet über das Gradientenverfahren (\vgl Unterabschnitt~\ref{ssec:gradientenverfahren}) statt.
+	Anschließend werden die Positionen der Clustermitten $\mu_j$ und die Parameter $\theta$ der Funktion $f_\theta$ optimiert. Die zu verringernde Verlustfunktion ist an dieser Stelle die Kullback-Leibler-Divergenz. Somit wird hier eine Wahrscheinlichkeitsfunktion gelernt, welche sich möglichst wenig von der oben beschriebenen, iterativ generierten $t$-Verteilung unterscheidet. Der eigentliche Optimierungsprozess der Clustermitten und der Parameter für $\theta$ findet über das Gradientenverfahren (\vgl Unterabschnitt~\ref{ssec:gradientenverfahren}) statt.
 \end{enumerate}
 
 \begin{figure}[h!]
@@ -39,6 +39,7 @@ Der DEC-Algorithmus besteht aus zwei Phasen:
 	\label{fig:sae}
 \end{figure}
 
+Zusammengefasst lernt der Algorithmus in der ersten Phase seiner Ausführung, wie er trotz einer Dropout-Layer die ursprüngliche Eingabe bestmöglich wiederherstellen kann, er lernt also wie signifikant bestimmte Merkmale zur Wiederherstellung sind. Diese Initialisierung wird im zweiten Schritt weiter optimiert.
 Der Vorteil dieser und ähnlicher Methoden besteht daraus, dass das Netzwerk nicht trainiert werden muss und somit also auch keine Ground Truth benötigt. Dies ermöglicht dessen Einsatz in Bereichen in denen es zu aufwändig ist, Ground Truths manuell zu erstellen. Eine weitere Eigenschaft besteht daraus, dass diese Methode sich für den Einsatz auf unterschiedlichsten Eingabedaten eignet, da sie dynamisch zur Laufzeit lernt, nach welchen Kriterien sie clustern sollte.
 
 \subsection{Bildsegmentierung auf Basis eines Bildclusterings}
@@ -58,6 +59,8 @@ Der gesamte Algorithmus ist in \figurename~\ref{fig:Kan18_01} dargestellt.
 \end{figure}
 
 Es gilt zu beachten, dass zur Initialisierung ein möglichst feines Clustering genutzt wird, da im Laufe des Prozesses mehrere einzelne Cluster miteinander vereint werden, bis die gewünschte Anzahl an Segmenten erreicht wird.
+
+Insgesamt lernt dieser Algorithmus iterativ die Ausgabe der Clusteringfunktion anzunähern, mit dem Unterschied, dass er in diesem Prozess mehrere Clusterzentren miteinander vereinen kann. Da in \cite{kanezaki_18} auf Basis des SLIC-Algorithmus gearbeitet wird, lernt das neuronale Netz hauptsächlich anhand der Farbwerte einzelner Pixel und deren Entfernungen zu ähnlichen Pixeln, wie es eine Eingabe segmentieren soll. Damit kann es als eine vereinfachte Version des DEC-Algorithmus betrachtet werden, da dieser dynamisch bestimmt, Anhand welcher Merkmale das Clustering geschehen soll.
 
 \section{Bildclustering}
 \label{ssec:clustering}
