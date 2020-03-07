@@ -302,6 +302,12 @@ Die Funktionsweise einer Fully Connected Layer ist identisch zu einer Schicht ei
 \subsection{Batch Normalization}
 \label{ssec:bn}
 
+Die in \cite{ioffe_15} vorgestellte Technik der Batch Normalization erleichtert die korrekte Initialisierung eines neuronalen Netzes. Das Ziel des genannten Papers bestand ursprünglich daraus, die \enquote{Internal Covariante Shift} zu minimieren, also wie sehr sich die Verteilung der Eingaben der folgenden Schichten verändert, wenn sich die Parameter einer vorherigen Schicht verändern. Sie dementsprechend normalerweise zwischen Fully Connected/Convolutional Layers und der darauffolgenden, nichtlinearen Aktivierungsfunktion eingefügt. \cite{cs231n}
+
+Mathematisch betrachtet funktioniert diese Schicht, indem sie die Gauß-Verteilung ihrer Eingabe berechnet, und diese Ergebnisse an die nächste Schicht im Netzwerk weitergibt. \cite{cs231n} Bekommt sie so \bspw aus einer Quelle Eingabewerte im Intervall $\left[0, 1\right]$, und aus einer weiteren Quelle Werte aus $\left[0, 1000\right]$, so werden diese Werte (bei gleicher Gewichtung der Eingabewerte der nächsten Schicht) sehr unterschiedlich gewertet. Dieses Problem wird durch Batchnormalisierung behoben.
+
+In \cite{santurkar_18} wurde zusätzlich gezeigt, dass durch die Nutzung von Batch Normalization auch die Verlussfunktion geglättet wird, was oft zu einer geringeren Dauer des Training führt. Insgesamt erhöht Batch Normalization also die Stabilität eines Netzes.
+
 \subsection{Loss Function}
 \label{ssec:loss}
 
