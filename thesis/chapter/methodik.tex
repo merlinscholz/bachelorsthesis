@@ -119,9 +119,68 @@ Zusammengefasst erzeugt aus dieser Auswahl an Filterbänden die Maximum Response
 
 \subsection{Größe und Gewichtungen}
 
-Neben der Auswahl einer geeigneten Filterbank lassen sich in dieser noch die einzelnen Gewichtungen anpassen: So könnten \zB die Gewichtung der Koordinaten der Pixel zueinander oder die Relevanz von ähnlichen Farbwertden modifiziert werden. Außerdem ist die Größe der einzelnen Filter in den jeweiligen Filterbänken auch Variabel und muss dementsprechend an die Dimensionen des jeweiligen Eingabebildes angepasst werden. Da alle Filterbänke (bis auf die nach \cite{jain_91}) jeweils gleiche Filter in unterschiedlichen Größen enthalten, muss nur ein Gesamtwert angepasst werden, statt der Größe jeder einzelnen Skalierung. Es wird nun versucht, die Ergebnisse der Maximum Response-Filterbank zu verbessern, da diese in vorherigen Versuchen die besten Ergebnisse erzielt hat.
+Neben der Auswahl einer geeigneten Filterbank lassen sich in dieser noch die einzelnen Gewichtungen anpassen: So könnten \zB die Gewichtung der Koordinaten der Pixel zueinander oder die Relevanz von ähnlichen Farbwerten modifiziert werden. Außerdem ist die Größe der einzelnen Filter in den jeweiligen Filterbänken auch Variabel und muss dementsprechend an die Dimensionen des jeweiligen Eingabebildes angepasst werden. Da alle Filterbänke (bis auf die nach \cite{jain_91}) jeweils gleiche Filter in unterschiedlichen Größen enthalten, muss nur ein Gesamtwert angepasst werden, statt der Größe jeder einzelnen Skalierung. Es wird nun versucht, die Ergebnisse der Maximum Response-Filterbank zu verbessern, da diese in vorherigen Versuchen die besten Ergebnisse erzielt hat.
 
-Von dieser Stelle an müssen Marsaufnahmen genutzt werden, bei denen die Auflösung bekannt ist, somit scheiden die bis hierhin genutzten Aufnahmen aus \cite{greeley_13} leider aus. Stattdessen werden Ausschnitte aus der Aufnahme \texttt{P03\_002147\_1865\_XI\_06N208W} der Context Camera des Mars Reconnaissance Orbiters genutzt. Ein weiterer Vorteil der Nutzung dieser Bilder besteht daraus, dass die Clusteringalgorithmen nun an realitätsnähreren Daten getestet werden können, statt an isolierten Aufnahmen einzelner Besonderheiten der Oberfläche.
+Von dieser Stelle an müssen Marsaufnahmen genutzt werden, bei denen die Auflösung bekannt ist, somit scheiden die bis hierhin genutzten Aufnahmen aus \cite{greeley_13} leider aus. Stattdessen werden Ausschnitte aus der Aufnahme \texttt{P03\_002147\_1865\_XI\_06N208W} der Context Camera des Mars Reconnaissance Orbiters genutzt. Ein weiterer Vorteil der Nutzung dieser Bilder besteht daraus, dass die Clusteringalgorithmen nun an realitätsnähreren Daten getestet werden können, statt an isolierten Aufnahmen einzelner Besonderheiten der Oberfläche. Die Ergebnisse sind in \figurename~\ref{fig:filterbank_sizes} zu sehen. Als Startwert wurde ein Skalierungsfaktor $s=1$ betrachtet. Dieser wurde nach oben und unten hin in Schritten von $\Delta s=0.25$ verändert, und mit der skalierten MR-Filterbank ein neues Clustering der vier Ausschnitte erstellt. Dieses wurde wieder in vier Bereiche eingeteilt, erneut sind die Farben zufällig gewählt.
+
+\paragraph{Skalierungsfaktor $s=0.50$}
+
+Auf der ersten Aufnahme ist, vergleichbar mit den Beispielaufnahmen aus dem letzten Abschnitt, ein runder Krater zentriert zu sehen. Wie zu erwarten führt die genutzte, kleinere Skalierung mit $s=0.50$ der Filterbank zu vielen kleineren Clustern, in diesem Fall deutlich erkennbar anhand der gelb markierten Flächen. Obwohl es auf den ersten Blick scheint, als würden die Kraterränder erkannt werden, wird durch die Filterbank bei dieser Skalierung nur die dunkleren Bereiche, in diesem Fall die Schatten, die die erhöhten Kraterränder werfen, erkannt. Auf dieser Aufnahme führt dies zwar zu einer vergleichsweise guten Approxmimation der Krater, sobald anderweitige Schatten hinzukommen, wird diese Skalierung keine geeigneten Ergebnisse produzieren.
+
+Das selbe Phänomen tritt auch bei der zweiten Aufnahme auf, auch dort wird stark anhand der Helligkeitswerte geclustert, erkennbar an den Kraterrändern. Bei diesem Bild wird allerdings auch trotz der kleineren Skalierung das raue Gebiet, welches sich horizontal durch das Bild erstreckt, in ein (violett gefärbtes) Cluster eingeteilt. Andere Merkmale werden auf dieser Aufnahme nicht erkannt.
+
+Die dritte Aufnahme stellt eine relativ ebenmäßige Fläche in einem Umfeld von gröberer Oberfläche dar. Bei der genutzten Skalierung wird die feinere Fläche größtenteils als ein (gelb gefärbtes) Cluster dargestellt, separat dazu sind in rot die Übergänge zwischen den Regionen gekennzeichnet. Die gröberen Flächen werden nicht zuverlässig in das selbe Cluster eingeordnet.
+
+Die letzte Testaufnahme, bestehend aus zwei Hügeln \bzw Bergen, stellt durch die über- und unterbelichteten Flächen an den Hängen eine der größten Herausforderungen für den Clusteringalgorithmus dar. An diesen Stellen ist der Kontrast des Bildes sehr gering, sodass kaum noch Texturen erkannt werden, anhand derer geclustert werden könnte. Wie zu erwarten werden die dunklen Flächen in ein einzelnes (violettes) Cluster kombiniert. Kleine Hügelketten hingegen werden zuverlässig in zusammengehörige Cluster eingeteilt, welches auf diesen Aufnahmen blau markiert ist. Die beleuchteten Seiten der Hügel werden bei dieser Skalierung leider nicht von der allgemeinen Marsoberfläche unterschieden.
+\paragraph{Skalierungsfaktor $s=0.75$}
+
+\paragraph{Skalierungsfaktor $s=1.00$}
+
+\paragraph{Skalierungsfaktor $s=1.25$}
+
+\paragraph{Skalierungsfaktor $s=1.50$}
+
+\begin{figure}[h!]
+	\begin{tabular}{p{0.15\textwidth}p{0.15\textwidth}p{0.15\textwidth}p{0.15\textwidth}p{0.15\textwidth}p{0.15\textwidth}p{0.15\textwidth}}
+		\includegraphics[width=0.15\textwidth]{images/p03_01.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_0.25.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_0.5.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_0.75.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_1.0.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_1.25.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_1.5.png} \\
+		\includegraphics[width=0.15\textwidth]{images/p03_02.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_0.25.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_0.5.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_0.75.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_1.0.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_1.25.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_1.5.png} \\
+		\includegraphics[width=0.15\textwidth]{images/p03_03.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_0.25.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_0.5.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_0.75.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_1.0.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_1.25.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_1.5.png} \\
+		\includegraphics[width=0.15\textwidth]{images/p03_04.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_0.25.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_0.5.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_0.75.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_1.0.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_1.25.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_1.5.png} \\
+		
+		\centering Eingabe & 
+		\centering $s=0.50$ &
+		\centering $s=0.75$ &
+		\centering $s=1.00$ &
+		\centering $s=1.25$ &
+		\centering $s=1.50$
+	\end{tabular}
+	\caption{Vergleich verschiedener Skalierungen der MR-Filterbank auf Bildern der Marsoberfläche. Die Farben der jeweilgen Cluster wurden zufällig gewählt und sagen nichts über deren Inhalt aus. Alle Bilder wurden in vier Cluster eingeteilt.}
+	\label{fig:filterbank_sizes}
+\end{figure}
 
 \section{Netzwerkarchitektur}
 \label{sec:networkarch}
