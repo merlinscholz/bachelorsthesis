@@ -82,6 +82,8 @@ Der Gletscher ist subjektiv betrachtet das schwierigste der hier vorgestellten P
 Zusammengefasst erzeugt aus dieser Auswahl an Filterbänden die Maximum Response-Methode von \cite{visgeo} das wohl am ehesten geeignete Ergebnis zur Weiterverarbeitung. Auf zweitem Platz folgt die Schmid-Filterbank.
 
 \begin{figure}[h!]
+\setlength\tabcolsep{1pt}
+\def\arraystretch{0.5}
 \begin{tabular}{p{0.2\textwidth}p{0.2\textwidth}p{0.2\textwidth}p{0.2\textwidth}p{0.2\textwidth}}
 	\includegraphics[width=0.2\textwidth]{images/Gre13_01.jpg} &
 	\includegraphics[width=0.2\textwidth]{images/gen/GEN_filterbanks_Gre13_01_TSUGF.png} &
@@ -107,13 +109,13 @@ Zusammengefasst erzeugt aus dieser Auswahl an Filterbänden die Maximum Response
 	\includegraphics[width=0.2\textwidth]{images/gen/GEN_filterbanks_Gre13_05_S.png} &
 	\includegraphics[width=0.2\textwidth]{images/gen/GEN_filterbanks_Gre13_05_MR.png} \\
 	
-	\centering Eingabe, aus \cite{greeley_13} &
-	\centering Filterbank nach \cite{jain_91} &
-	\centering LM-Filterbank \cite{leung_01} &
-	\centering S-Filterbank \cite{schmid_01} &
-	\centering MR-Filterbank \cite{visgeo} \\
+	\hspace{1pt}\newline\centering Eingabe, aus \cite{greeley_13} &
+	\hspace{1pt}\newline\centering Filterbank nach \cite{jain_91} &
+	\hspace{1pt}\newline\centering LM-Filterbank \cite{leung_01} &
+	\hspace{1pt}\newline\centering S-Filterbank \cite{schmid_01} &
+	\hspace{1pt}\newline\centering MR-Filterbank \cite{visgeo} \\
 \end{tabular}
-\caption{Vergleich verschiedener Filterbänke auf Bildern der Marsoberfläche (Krater, Vulkan, Vulkan mit strahlenförmigen Merkmalen, Gletscher). Die Farben der jeweilgen Cluster wurden zufällig gewählt und sagen nichts über deren Inhalt aus. Alle Bilder wurden in vier Cluster eingeteilt.}
+\caption{Vergleich verschiedener Filterbänke auf Bildern der Marsoberfläche (Krater, Vulkan, Vulkan mit strahlenförmigen Merkmalen, Gletscher). Die Farben der jeweiligen Cluster wurden zufällig gewählt und sagen nichts über deren Inhalt aus. Alle Bilder wurden in vier Cluster eingeteilt.}
 \label{fig:filterbank_comparision}
 \end{figure}
 
@@ -123,60 +125,104 @@ Neben der Auswahl einer geeigneten Filterbank lassen sich in dieser noch die ein
 
 Von dieser Stelle an müssen Marsaufnahmen genutzt werden, bei denen die Auflösung bekannt ist, somit scheiden die bis hierhin genutzten Aufnahmen aus \cite{greeley_13} leider aus. Stattdessen werden Ausschnitte aus der Aufnahme \texttt{P03\_002147\_1865\_XI\_06N208W} der Context Camera des Mars Reconnaissance Orbiters genutzt. Ein weiterer Vorteil der Nutzung dieser Bilder besteht daraus, dass die Clusteringalgorithmen nun an realitätsnähreren Daten getestet werden können, statt an isolierten Aufnahmen einzelner Besonderheiten der Oberfläche. Die Ergebnisse sind in \figurename~\ref{fig:filterbank_sizes} zu sehen. Als Startwert wurde ein Skalierungsfaktor $s=1$ betrachtet. Dieser wurde nach oben und unten hin in Schritten von $\Delta s=0.25$ verändert, und mit der skalierten MR-Filterbank ein neues Clustering der vier Ausschnitte erstellt. Dieses wurde wieder in vier Bereiche eingeteilt, erneut sind die Farben zufällig gewählt.
 
-\paragraph{Skalierungsfaktor $s=0.50$}
+\paragraph{Skalierungsfaktor $s=0,25$}
 
-Auf der ersten Aufnahme ist, vergleichbar mit den Beispielaufnahmen aus dem letzten Abschnitt, ein runder Krater zentriert zu sehen. Wie zu erwarten führt die genutzte, kleinere Skalierung mit $s=0.50$ der Filterbank zu vielen kleineren Clustern, in diesem Fall deutlich erkennbar anhand der gelb markierten Flächen. Obwohl es auf den ersten Blick scheint, als würden die Kraterränder erkannt werden, wird durch die Filterbank bei dieser Skalierung nur die dunkleren Bereiche, in diesem Fall die Schatten, die die erhöhten Kraterränder werfen, erkannt. Auf dieser Aufnahme führt dies zwar zu einer vergleichsweise guten Approxmimation der Krater, sobald anderweitige Schatten hinzukommen, wird diese Skalierung keine geeigneten Ergebnisse produzieren.
+Auf der ersten Aufnahme ist, vergleichbar mit den Beispielaufnahmen aus dem letzten Abschnitt, ein runder Krater zentriert zu sehen. Die geringe Skalierung mit dem Faktor $s=0.25$ führt dazu, dass die jeweiligen Filter zu klein sind, um die Strukturen der Oberfläche zu erkennen, somit sieht diese Aufnahme aus, als wäre nur anhand ihrer Helligkeitswerten geclustert worden. Das gleiche gilt auch für die zweite und vierte Aufnahme.
 
-Das selbe Phänomen tritt auch bei der zweiten Aufnahme auf, auch dort wird stark anhand der Helligkeitswerte geclustert, erkennbar an den Kraterrändern. Bei diesem Bild wird allerdings auch trotz der kleineren Skalierung das raue Gebiet, welches sich horizontal durch das Bild erstreckt, in ein (violett gefärbtes) Cluster eingeteilt. Andere Merkmale werden auf dieser Aufnahme nicht erkannt.
+Die dritte Aufnahme stellt eine relativ ebenmäßige Fläche in einem Umfeld von gröberer Oberfläche dar. Dort scheint es, als gäbe es nicht genug Kontrast um nach den Helligkeitswerten zu clustern, der Algorithmus erstellt eine Filterung anhand der X- und Y-Koordinaten. Bei allen Aufnahmen werden nur zwei wirkliche Cluster erstellt, die letzten zwei Cluster die erstellt werden sollten bestehen nur aus jeweils wenigen Pixeln.
 
-Die dritte Aufnahme stellt eine relativ ebenmäßige Fläche in einem Umfeld von gröberer Oberfläche dar. Bei der genutzten Skalierung wird die feinere Fläche größtenteils als ein (gelb gefärbtes) Cluster dargestellt, separat dazu sind in rot die Übergänge zwischen den Regionen gekennzeichnet. Die gröberen Flächen werden nicht zuverlässig in das selbe Cluster eingeordnet.
+Dieser Skalierungsfaktor produziert keine brauchbaren Ergebnisse.
+
+\paragraph{Skalierungsfaktor $s=0,50$}
+
+Wie zu erwarten führt die genutzte, kleinere Skalierung mit $s=0,50$ der Filterbank zu vielen kleineren Clustern, in diesem Fall deutlich erkennbar anhand der gelb markierten Flächen. Obwohl es auf den ersten Blick scheint, als würden die Kraterränder erkannt werden, wird durch die Filterbank bei dieser Skalierung nur die dunkleren Bereiche, in diesem Fall die Schatten, die die erhöhten Kraterränder werfen, erkannt. Auf dieser Aufnahme führt dies zwar zu einer vergleichsweise guten Approxmimation der Krater, sobald anderweitige Schatten hinzukommen, wird diese Skalierung allerdings keine geeigneten Ergebnisse produzieren.
+
+Das selbe Phänomen tritt auch bei der zweiten Aufnahme auf, auch dort wird stark anhand der Helligkeitswerte geclustert, erkennbar an den Kraterrändern. Bei diesem Bild wird allerdings auch trotz der kleineren Skalierung das raue Gebiet, welches sich horizontal durch das Bild erstreckt, in ein (violett gefärbtes) Cluster eingeteilt. Auch hier werden dunklerere Bereiche (wie die Kraterränder) in separate (gelb gefärbte) Cluster eingeteilt.
+
+Auf der dritten Aufnahme wird bei der genutzten Skalierung die feinere Fläche größtenteils als ein (gelb gefärbtes) Cluster dargestellt, separat dazu sind in rot die Übergänge zwischen den Regionen gekennzeichnet. Die gröberen Flächen in den äußeren Bereichen werden nicht zuverlässig in das selbe Cluster eingeordnet.
 
 Die letzte Testaufnahme, bestehend aus zwei Hügeln \bzw Bergen, stellt durch die über- und unterbelichteten Flächen an den Hängen eine der größten Herausforderungen für den Clusteringalgorithmus dar. An diesen Stellen ist der Kontrast des Bildes sehr gering, sodass kaum noch Texturen erkannt werden, anhand derer geclustert werden könnte. Wie zu erwarten werden die dunklen Flächen in ein einzelnes (violettes) Cluster kombiniert. Kleine Hügelketten hingegen werden zuverlässig in zusammengehörige Cluster eingeteilt, welches auf diesen Aufnahmen blau markiert ist. Die beleuchteten Seiten der Hügel werden bei dieser Skalierung leider nicht von der allgemeinen Marsoberfläche unterschieden.
-\paragraph{Skalierungsfaktor $s=0.75$}
+
+Dieser Skalierungsfaktor führt zu vergleichsweise guten Clusteringergebnissen.
+
+\paragraph{Skalierungsfaktor $s=0,75$}
+
+Dieser Skalierungsfaktor führt beim Clustering des ersten Bildes zu Ergebnisse, welche vergleichbar mit denen des Faktors $s=0,5$ sind. Die Ränder der Krater werden allerdings in helle und dunkle Regionen eingeteilt, die Cluster im äußeren Bereich sind größer und gröber.
+
+Auf der zweiten Aufnahme wird die horizontale rauere Region sehr gut in ein eigenes Cluster eingeteilt, selbiges gilt für die Kraterränder. Auf dieser Aufnahme erscheint der Skalierungsfaktor $s=0,75$ optimal.
+
+Die dritte Aufnahme unterscheidet sich bis auf die gröberen, größeren Cluster in den äußeren Bereichen nicht wesentlich von der vorherigen Skalierung.
+
+Bei der letzten Aufnahme führt die größere Skalierung zu einem uniformen Clusterings des beleuchteten Berghangs, er wird als eine große Fläche erkannt. Die dunkle Seite hingegen wird in zwei Cluster unterteilt: Die eigentliche dunkle Seite des Berges, und die Stellen, welche zu unterbelichtet sind, um aus ihnen eine Textur zu erkennen.
+
+Insgesamt scheint sich dieser Skalierungsfaktor auch zum textutbasierten Clustering zu eignen.
 
 \paragraph{Skalierungsfaktor $s=1.00$}
 
-\paragraph{Skalierungsfaktor $s=1.25$}
+Während bei diesem Skalierungsfaktor auf der ersten Aufnahme der größere, mittigere Krater relativ gut durch ein rotes kreisförmiges Cluster gekennzeichnet wird, wird der kleinere Krater nicht zuverlässig erkannt. Bei diesem gehen die Cluster in umlegende Gebiete über, als wäre dieser Krater nur eine etwas rauere Oberflächenstruktur.
 
-\paragraph{Skalierungsfaktor $s=1.50$}
+Bei der zweiten Aufnahme wird wie zuvor der Krater erfolgreich separat in ein Cluster eingeteilt, die Begrenzungen der gröberen Struktur, welche sich durch das Bild zieht, geht allerdings verloren. Diese Region wird leider im rechten Teil des Bildes sehr weitläufig erkannt.
+
+In dem dritten Testbild werden die gröberen Hügelketten am Rand des helleren Bereiches zwar erkannt (gelb markiert), und die Übergangsstellen zwischen zwei Regionen werden in ein rotes Cluster zusammengefügt,  alle anderen Regionen sind allerdings nicht voneinander getrennt worden.
+
+Das letzte Bild wird bei dieser Skalierung fast identisch zu der Skalierung mit $s=0,75$ geclustert.
+
+Zusammengefasst ist diese Skalierung schon zu grob um so gute Ergbenisse wie die vorherigen zu erreichen.
+
+\paragraph{Skalierungsfaktor $s=1.25$ und $s=1.50$}
+
+Da diese beiden Skalierungsfaktoren zu fast identischen Clusterverteilungen führen, werden sie in einen Abschnitt zusammengefasst.
+
+Bei diesen Skalierungen werden im oberen, glätteren Bereich der ersten Aufnahme die vereinzelten Krater wie gewollt erkannt, sie versagt allerdings im unteren, gröberen Bereich, wo sie nur ein großes Cluster erstellen. Der Krater wird nur anhand von starken Helligkeitsdifferenzen erkannt, welche in der gesamten Ausgabe violett bei $s=1,25$, \bzw blau bei $s=1,5$ markiert wurden. 
+
+Selbiges gilt im Bezug auf die starken Helligkeitsdifferenzen bei der weiten Aufnahme.
+
+Bei der dritten Aufnahme wird von beiden Skalierungsfaktoren kein brauchbares Ergebnis produziert, man kann höchstens erahnen, dass die jeweils blau gefärbten Regionen besonders kontrastarme, also glatte Flächen darstellen.
+
+Beim Clusteringergebnis der letzten Aufnahme unterschieden sich die beiden Skalierungsfaktoren erstmals: Bei $s=1,25$ gleicht das Ergebnis dem des vorherigen Clusterings: Kleinere Bergregionen und rauere Oberflächenstrukturen werden getrennt voneinander Erkannt, Flächen mit weniger oder (aufgrund von Unterbelichtung) keiner werden auch in ein großes Cluster hinzugefügt. Der Faktor $s=1,5$ scheint selbst bei diesem Bild zu groß zu sein, bis auf die Hügelketten mit starker Helligkeitsdifferenz wird die Aufnahme nur anhand ihrer Helligkeitswerte geclustert.
+
+Diese Faktoren sind also zu groß um brauchbare Ergebnisse zu produzieren.
 
 \begin{figure}[h!]
-	\begin{tabular}{p{0.15\textwidth}p{0.15\textwidth}p{0.15\textwidth}p{0.15\textwidth}p{0.15\textwidth}p{0.15\textwidth}p{0.15\textwidth}}
-		\includegraphics[width=0.15\textwidth]{images/p03_01.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_0.25.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_0.5.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_0.75.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_1.0.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_1.25.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_1.5.png} \\
-		\includegraphics[width=0.15\textwidth]{images/p03_02.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_0.25.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_0.5.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_0.75.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_1.0.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_1.25.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_1.5.png} \\
-		\includegraphics[width=0.15\textwidth]{images/p03_03.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_0.25.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_0.5.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_0.75.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_1.0.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_1.25.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_1.5.png} \\
-		\includegraphics[width=0.15\textwidth]{images/p03_04.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_0.25.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_0.5.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_0.75.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_1.0.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_1.25.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_1.5.png} \\
+	\setlength\tabcolsep{1pt}
+	\def\arraystretch{0.5}
+	\begin{tabular}{p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}}
+		\includegraphics[width=0.14\textwidth]{images/p03_01.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_0.25.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_0.5.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_0.75.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_1.0.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_1.25.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_1.5.png} \\
+		\includegraphics[width=0.14\textwidth]{images/p03_02.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_0.25.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_0.5.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_0.75.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_1.0.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_1.25.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_1.5.png} \\
+		\includegraphics[width=0.14\textwidth]{images/p03_03.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_0.25.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_0.5.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_0.75.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_1.0.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_1.25.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_1.5.png} \\
+		\includegraphics[width=0.14\textwidth]{images/p03_04.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_0.25.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_0.5.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_0.75.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_1.0.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_1.25.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_1.5.png} \\
 		
-		\centering Eingabe & 
-		\centering $s=0.50$ &
-		\centering $s=0.75$ &
-		\centering $s=1.00$ &
-		\centering $s=1.25$ &
-		\centering $s=1.50$
+		\hspace{2pt}\newline\centering Eingabe & 
+		\hspace{2pt}\newline\centering $s=0,25$ &
+		\hspace{2pt}\newline\centering $s=0,50$ &
+		\hspace{2pt}\newline\centering $s=0,75$ &
+		\hspace{2pt}\newline\centering $s=1,00$ &
+		\hspace{2pt}\newline\centering $s=1,25$ &
+		\hspace{2pt}\newline\centering $s=1,50$
 	\end{tabular}
 	\caption{Vergleich verschiedener Skalierungen der MR-Filterbank auf Bildern der Marsoberfläche. Die Farben der jeweilgen Cluster wurden zufällig gewählt und sagen nichts über deren Inhalt aus. Alle Bilder wurden in vier Cluster eingeteilt.}
 	\label{fig:filterbank_sizes}
