@@ -44,7 +44,9 @@ So ergibt ein Clustering des Kraters aus Unterabschnitt~\ref{ssec:mars_surface} 
 
 Wenn nun der in Unterabschnitt~\ref{ssec:kanezaki} beschriebene Ansatz verfolgt wird, wird das neuronale Netz daraufhin trainiert, eine Aufnahme anhand ihrer Helligkeitsinformationen hin zu trainieren. Da dies nicht gewollt ist, wird statt einem farb-/helligkeitsbasierten Clusteringalgorithmus wie SLIC ein texturbasiertes Clustering genutzt.
 
-Statt des SLIC-Clusterings wird nun die in Unterabschnitt~\ref{ssec:tsugf} vorgestellte Methode des texturbasierten Clusterings genutzt. Das Ergebnis eines Clusterings durch diese Methode\footnote{Kombiniert mit der Filterbank aus \cite{jain_91}} ist in \figurename~\ref{fig:slic_vs_tsugf_tsugf} sichtbar: Man erkennt, dass der \enquote{Ring} um den eigentlichen Einschlagskrater eine eigenständige Textur besitzt, welche unterschiedlich zu dem Rest der Oberfläche ist. Eine ähnliche Oberflächenstruktur ist direkt um den Krater herum vorhanden. Beide Vorkommnisse dieser ähnlichen Struktur werden vom texturbasierten Clustering erfasst, in ein Segment aufgeteilt und (hier durch eine rote Färbung) markiert.
+Statt des SLIC-Clusterings wird nun die in Unterabschnitt~\ref{ssec:tsugf} vorgestellte Methode des texturbasierten Clusterings genutzt. Von dieser Stelle an sind --~wenn nicht anders benannt~-- die Gewichtungen der verschiedenen Werte für die Farbwerte, X-/Y-Positionen und Reaktion auf Gaborfilter alle gleich $1$. Diese Parameter werden in Unterabschnitt~\ref{ssec:filterweight} genauer erläutert.
+
+Das Ergebnis eines Clusterings durch die genutzte, texturbasierte Methode\footnote{Kombiniert mit der Filterbank aus \cite{jain_91}} ist in \figurename~\ref{fig:slic_vs_tsugf_tsugf} sichtbar: Man erkennt, dass der \enquote{Ring} um den eigentlichen Einschlagskrater eine eigenständige Textur besitzt, welche unterschiedlich zu dem Rest der Oberfläche ist. Eine ähnliche Oberflächenstruktur ist direkt um den Krater herum vorhanden. Beide Vorkommnisse dieser ähnlichen Struktur werden vom texturbasierten Clustering erfasst, in ein Segment aufgeteilt und (hier durch eine rote Färbung) markiert.
 
 \subsection{Filterbänke}
 
@@ -119,7 +121,8 @@ Zusammengefasst erzeugt aus dieser Auswahl an Filterbänden die Maximum Response
 \label{fig:filterbank_comparision}
 \end{figure}
 
-\subsection{Größe und Gewichtungen}
+\subsection{Größe der Filter}
+\label{ssec:filtersize}
 
 Neben der Auswahl einer geeigneten Filterbank lassen sich in dieser noch die einzelnen Gewichtungen anpassen: So könnten \zB die Gewichtung der Koordinaten der Pixel zueinander oder die Relevanz von ähnlichen Farbwerten modifiziert werden. Außerdem ist die Größe der einzelnen Filter in den jeweiligen Filterbänken auch Variabel und muss dementsprechend an die Dimensionen des jeweiligen Eingabebildes angepasst werden. Da alle Filterbänke (bis auf die nach \cite{jain_91}) jeweils gleiche Filter in unterschiedlichen Größen enthalten, muss nur ein Gesamtwert angepasst werden, statt der Größe jeder einzelnen Skalierung. Es wird nun versucht, die Ergebnisse der Maximum Response-Filterbank zu verbessern, da diese in vorherigen Versuchen die besten Ergebnisse erzielt hat.
 
@@ -229,6 +232,114 @@ Diese Faktoren sind also zu groß um brauchbare Ergebnisse zu produzieren.
 \end{figure}
 
 Aus diesen Ergebnissen lässt sich schlussfolgern, dass ein Skalierungsfaktor von $s=0,5$ bei diesen Eingabedaten die besten Ergebnisse liefert.
+
+\subsection{Gewichtungen der Parameter}
+\label{ssec:filterweight}
+
+Da in dem Prozess des Clusterings alle Optimierungen aus Unterabschnitt~\ref{ssec:tsugf} miteingeschlossen sind, beinhaltet dies, dass der Datenwürfel, den k-Means verarbeitet, sowohl die Koordinaten, als auch die Farbwerte der Eingabedatei beinhaltet. Nun stellt sich die Frage, wie stark diese jeweils gewichtet werden sollten, um ein akzeptables Ergebnis zu erhalten. Aus diesem Grund sind in den Abbildungen~\ref{fig:filterbank_weights_pos} und \ref{fig:filterbank_weights_col} die Ergebnisse des Clusterings mit unterschiedlichen Werten für die jeweiligen Gewichtungen zu sehen. Die Skalierung der Filter beträgt $s=0,5$, da im vorherigen Unterabschnitt festgestellt wurde, dass dieser Wert relativ gute Ergebnisse liefert.
+
+\paragraph{Gewichtung der Koordinaten}
+Das Hinzufügen der X- und Y-Koordinaten zu dem Datenwürfel ist ursprünglich aus dem Grund geschehen, dass ein gegebener räumlicher Bezug zwischen unterschiedlichen Pixeln beim Clustering berücksichtigt werden kann (\vgl Unterabschnitt~\ref{ssec:tsugf}; \cite{jain_91}). Aus den Clusteringergebnissen in \figurename~\ref{fig:filterbank_weights_pos} allerdings lässt sich erkennen, dass dieser räumliche Bezug in diesem Anwendungsfall nicht außerordentlich hilfreich ist: Bei einer Gewichtung von $w_p\geq1,33$ lässt sich eindeutig erkennen, dass der allgemeine Bodenbereich auf allen Aufnahmen zu stark Anhand seiner Positionen eingeteilt wird, es entstehen Cluster in den Ecken der Aufnahmen, welche sich ins Zentrum erstrecken. Unter diesem starken Einfluss nimmt zusätzlich die relative Wichtigkeit der ähnlichen Textur ab.
+
+Wird nun ein geringerer Wert für $w_p$ betrachtet, so erkennt man für Werte mit $w_p\leq0.66$ keinen Starken Unterschied bei wechselnden Gewichtungen. Dies ist insbesondere bei $w_p=0$ signifikant, da dort der räumliche Bezug der einzelnen Pixel zueinander bei der Berechnung des Clusterings zwar komplett ignoriert wird, das eigentliche Ergebnis sich --~bis auf etwas kleinere Cluster in den merkmalsarmen Bereichen~-- aber kaum verändert. Dies lässt sich darauf zurückführen, dass das Hinzufügen des räumlichen Bezuges ursprünglich den Grund hatte, dass auf \enquote{normalen} Fotografien die vorkommenden Cluster meistens nur ein einziges mal an einem räumlich begrenzten Ort vorhanden sind, so sind \zB bei der Aufnahme aus \figurename~\ref{fig:tsugf_optim} aus Unterabschnitt~\ref{ssec:tsugf} die kleineren Korallen im linken Hintergrund nur an dieser Stelle vorhanden und ließen sich durch ein weit ausgedehntes Cluster zusammenfassen. Bei den aktuell genutzten Aufnahmen hingegen ist dies nicht der Fall, eine auftretende Oberflächenstruktur, wie \zB ein Krater kann an verschieden Stellen ohne räumlichen Bezug zueinander auftreten.
+Die Nutzung der Positionwerte hat allerdings einen Vorteil: Sie sorgt dafür die Clustergrößen nicht zu klein und fragmentiert werden zu lassen, indem sie eine Relation mit benachbarten Pixeln erzeugt, welche der k-Means Algorithmus berücksichtigt.
+
+Aus diesem Grund macht es Sinn, die Koordinatenbeträge der Pixel relativ gering zu gewichten, um dafür zu sorgen, dass das texturbasierte Clustering möglicht positionsinvariant operiert, aber auch nicht so gering, dass viele fragmentierte Cluster entstehen. Anhand von \figurename~\ref{fig:filterbank_weights_pos} ist erkennbar, dass ein Wert von  $w_p=0,66$ sich in diesem Fall sehr gut eignet, ein Clusterergebnis zu erstellen.
+
+\begin{figure}[h!]
+	\setlength\tabcolsep{1pt}
+	\def\arraystretch{0.5}
+	\begin{tabular}{p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}}
+		\includegraphics[width=0.14\textwidth]{images/p03_01.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_pos_0.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_pos_0.33.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_pos_0.66.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_pos_1.0.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_pos_1.33.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_pos_1.66.png} \\
+		\includegraphics[width=0.14\textwidth]{images/p03_02.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_pos_0.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_pos_0.33.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_pos_0.66.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_pos_1.0.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_pos_1.33.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_pos_1.66.png} \\
+		\includegraphics[width=0.14\textwidth]{images/p03_03.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_pos_0.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_pos_0.33.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_pos_0.66.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_pos_1.0.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_pos_1.33.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_pos_1.66.png} \\
+		\includegraphics[width=0.14\textwidth]{images/p03_04.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_pos_0.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_pos_0.33.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_pos_0.66.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_pos_1.0.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_pos_1.33.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_pos_1.66.png} \\
+		
+		\hspace{2pt}\newline\centering Eingabe & 
+		\hspace{2pt}\newline\centering $w_p=0,00$ &
+		\hspace{2pt}\newline\centering $w_p=0,33$ &
+		\hspace{2pt}\newline\centering $w_p=0,66$ &
+		\hspace{2pt}\newline\centering $w_p=1,00$ &
+		\hspace{2pt}\newline\centering $w_p=1,33$ &
+		\hspace{2pt}\newline\centering $w_p=1,66$
+	\end{tabular}
+	\caption{Vergleich verschiedener Gewichtungen der Koordinaten beim Clustering der jeweiligen Eingabedateien. Die Farben der jeweilgen Cluster wurden zufällig gewählt und sagen nichts über deren Inhalt aus. Alle Bilder wurden in vier Cluster eingeteilt.}
+	\label{fig:filterbank_weights_pos}
+\end{figure}
+
+\paragraph{Gewichtungen der Farb-/Helligkeitswerte}
+Die hier folgenden Clusteringergebnisse wurden mit einem Skalierungsfaktor von $s=0,5$ und einer Gewichtung von $w_p=0,66$ für die Positionswerte erstellt.
+
+In der originalen Ausarbeitung des texturbasierten Clusterings \cite{jain_91} werden nur zwei Ebenen für die jeweiligen X- und Y-Koordinaten hinzugefügt. Es steht also an dieser Stelle offen, ob das Hinzufügen der Farb- \bzw Helligkeitsdimension zum Datenwürfel zu besseren Ergebnissen führt. Dazu wurde der vorgestellte Algorithmus mit unterschiedlichen Werten für die Gewichtung der Helligkeitswerte $w_c$ auf den bekannten Beispielbildern ausgeführt. Die Ergebnisse dieses Experimentes sind in \figurename~\ref{fig:filterbank_weights_col} dargestellt.
+
+\begin{figure}[h!]
+	\setlength\tabcolsep{1pt}
+	\def\arraystretch{0.5}
+	\begin{tabular}{p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}}
+		\includegraphics[width=0.14\textwidth]{images/p03_01.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_col_0.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_col_0.33.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_col_0.66.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_col_1.0.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_col_1.33.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_col_1.66.png} \\
+		\includegraphics[width=0.14\textwidth]{images/p03_02.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_col_0.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_col_0.33.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_col_0.66.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_col_1.0.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_col_1.33.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_col_1.66.png} \\
+		\includegraphics[width=0.14\textwidth]{images/p03_03.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_col_0.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_col_0.33.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_col_0.66.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_col_1.0.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_col_1.33.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_col_1.66.png} \\
+		\includegraphics[width=0.14\textwidth]{images/p03_04.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_col_0.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_col_0.33.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_col_0.66.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_col_1.0.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_col_1.33.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_col_1.66.png} \\
+		
+		\hspace{2pt}\newline\centering Eingabe & 
+		\hspace{2pt}\newline\centering $w_c=0,00$ &
+		\hspace{2pt}\newline\centering $w_c=0,33$ &
+		\hspace{2pt}\newline\centering $w_c=0,66$ &
+		\hspace{2pt}\newline\centering $w_c=1,00$ &
+		\hspace{2pt}\newline\centering $w_c=1,33$ &
+		\hspace{2pt}\newline\centering $w_c=1,66$
+	\end{tabular}
+	\caption{Vergleich verschiedener Gewichtungen der Farb- \bzw Helligkeitswerte beim Clustering der jeweiligen Eingabedateien. Die Farben der jeweilgen Cluster wurden zufällig gewählt und sagen nichts über deren Inhalt aus. Alle Bilder wurden in vier Cluster eingeteilt.}
+	\label{fig:filterbank_weights_col}
+\end{figure}
 
 \section{Netzwerkarchitektur}
 \label{sec:networkarch}
