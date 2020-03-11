@@ -1,10 +1,14 @@
 \chapter{Verwandte Arbeiten}
-\label{chap:verwarbeiten}
+\label{chap:related}
 
-Da in dieser Arbeit verschiedene Forschungsbereiche miteinander kombiniert werden, ist dieses Kapitel in zwei Abschnitte eingeteilt: Es wird mit einigen verwandten Arbeiten im Bereich der Bildsegmentierung begonnen, dabei wird insbesondere auf die Nutzung von neuronalen Netzen eingegangen. Anschließend werden Clusteringprozesse betrachtet, welche zur Initialisierung der Segmentierungsalgorithmen genutzt werden. Zuletzt folgt die Analyse der Marsoberfläche, hauptsächlich der Kratererkennung. % TODO Remove mars?
+Da in dieser Arbeit verschiedene Forschungsbereiche miteinander kombiniert werden, ist dieses Kapitel in zwei Abschnitte eingeteilt: Es wird mit einigen verwandten Arbeiten im Bereich der Bildsegmentierung begonnen, dabei wird insbesondere auf die Nutzung von neuronalen Netzen eingegangen. Anschließend werden Clusteringprozesse betrachtet, welche zur Initialisierung der Segmentierungsalgorithmen genutzt werden. 
+
+\iffalse
+Zuletzt folgt die Analyse der Marsoberfläche, hauptsächlich der Kratererkennung. % TODO Remove mars?
+\fi
 
 \section{Bildsegmentierung}
-\label{sec:segmentation}
+\label{sec:image_segmentation}
 
 \subsection{Bildsegmentierung ohne Ground Truth}
 \label{ssec:dec}
@@ -29,12 +33,12 @@ Der DEC-Algorithmus besteht aus zwei Phasen:
 	
 	Zuerst wird eine Zuweisung von den Datenpunkten des Merkmalsraumes zu den Koordinaten der Clusterzentren berechnet. Zu diesem Zweck wird eine Wahrscheinlichkeitsverteilung (die $t$-Verteilung) genutzt: Diese berechnet die Wahrscheinlichkeit, dass ein bestimmter Datenpunkt einem bestimmten Cluster zugewiesen wird.
 	
-	Anschließend werden die Positionen der Clustermitten $\mu_j$ und die Parameter $\theta$ der Funktion $f_\theta$ optimiert. Die zu verringernde Verlustfunktion ist an dieser Stelle die Kullback-Leibler-Divergenz. Somit wird hier eine Wahrscheinlichkeitsfunktion gelernt, welche sich möglichst wenig von der oben beschriebenen, iterativ generierten $t$-Verteilung unterscheidet. Der eigentliche Optimierungsprozess der Clustermitten und der Parameter für $\theta$ findet über das Gradientenverfahren (\vgl Unterabschnitt~\ref{ssec:gradientenverfahren}) statt.
+	Anschließend werden die Positionen der Clustermitten $\mu_j$ und die Parameter $\theta$ der Funktion $f_\theta$ optimiert. Die zu verringernde Verlustfunktion ist an dieser Stelle die Kullback-Leibler-Divergenz. Somit wird hier eine Wahrscheinlichkeitsfunktion gelernt, welche sich möglichst wenig von der oben beschriebenen, iterativ generierten $t$-Verteilung unterscheidet. Der eigentliche Optimierungsprozess der Clustermitten und der Parameter für $\theta$ findet über das Gradientenverfahren (\vgl Unterabschnitt~\ref{ssec:gradient_descent}) statt.
 \end{enumerate}
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=.8\textwidth,keepaspectratio]{images/BK15_01.png}
+	\includegraphics[width=.8\textwidth,keepaspectratio]{images/BK15/BK15_01.png}
 	\caption{Initialisierung eines Stacked Autoencoders, modifiziert, aus \cite{berniker_15}}
 	\label{fig:sae}
 \end{figure}
@@ -53,7 +57,7 @@ Der gesamte Algorithmus ist in \figurename~\ref{fig:Kan18_01} dargestellt.
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=.8\textwidth,keepaspectratio]{images/Kan18_01.png}
+	\includegraphics[width=.8\textwidth,keepaspectratio]{images/Kan18/Kan18_01.png}
 	\caption{Vorgehensweise nach Kanezaki, aus \cite{kanezaki_18}}
 	\label{fig:Kan18_01}
 \end{figure}
@@ -69,7 +73,7 @@ Der in Unterabschnitt~\ref{ssec:kanezaki} vorgestellte Algorithmus benötigt zur
 
 Dieser Algorithmus ist weitverbreitet und liefert oft gute Ergebnisse auf unterschiedlichen Eingaben, er eignet sich allerdings nur bedingt um Graustufenbilder zu clustern. Da nicht garantiert ist, dass Eingabedateien mehrfarbig sind, eignet sich eine farbbasierte Clustering-Methode wie SLIC nicht immer um diese zuverlässig zu clustern. 
 
-Des Weiteren liefert SLIC bei Eingaben in denen ein Segment starke Hell-/Dunkel-Differenzen besitzt keine optimalen Ergebnisse, da es primär anhand der Farbwerte \bzw Helligkeitswerte clustert. Diese Problematik ist genauer in Abschnitt~\ref{sec:initialisierung} beschrieben.
+Des Weiteren liefert SLIC bei Eingaben in denen ein Segment starke Hell-/Dunkel-Differenzen besitzt keine optimalen Ergebnisse, da es primär anhand der Farbwerte \bzw Helligkeitswerte clustert. Diese Problematik ist genauer in Abschnitt~\ref{sec:initialization} beschrieben.
 
 \subsection{Texturbasiertes Clustering}
 \label{ssec:tsugf}
@@ -88,7 +92,7 @@ Zuerst wird eine Reihe von Gabor-Filtern --~auch Filterbank genannt~-- erstellt.
 	\label{fig:tsugf_filters}
 \end{figure}
 
-Diese werden anschließend über das in den Unterabschnitten~\ref{ssec:conv} und \ref{ssec:convlayer} beschriebene Konvolutionsverfahren angewandt. Dieser Vorgang resultiert in einem Datenwürfel, bei welchem die ersten beiden Dimensionen gleich der Höhe und Breite der Eingabebilddatei sind, und die dritte Dimension gleich der Anzahl der genutzten Filter ist. Somit enthält jede Schicht des Würfels Informationen darüber, wie sehr und wo im Bild das Muster der jeweiligen Filterbank \enquote{erkannt} wird. Dies ist in \figurename~\ref{fig:tsugf_101027_raw} sichtbar.
+Diese werden anschließend über das in den Unterabschnitten~\ref{ssec:convolution} und \ref{ssec:convolutional_layer} beschriebene Konvolutionsverfahren angewandt. Dieser Vorgang resultiert in einem Datenwürfel, bei welchem die ersten beiden Dimensionen gleich der Höhe und Breite der Eingabebilddatei sind, und die dritte Dimension gleich der Anzahl der genutzten Filter ist. Somit enthält jede Schicht des Würfels Informationen darüber, wie sehr und wo im Bild das Muster der jeweiligen Filterbank \enquote{erkannt} wird. Dies ist in \figurename~\ref{fig:tsugf_101027_raw} sichtbar.
 
 \begin{figure}[h!]
 	\begin{subfigure}[t]{0.32\textwidth}
@@ -197,20 +201,20 @@ Diese drei Filterbänke besitzen im Gegensatz zu der in \cite{mathworks_15} vorg
 \begin{figure}[h!]
 	\begin{subfigure}[t]{0.38\textwidth}
 		\centering
-		\includegraphics[width=\textwidth,keepaspectratio]{images/vis_01.jpg}
+		\includegraphics[width=\textwidth,keepaspectratio]{images/vis/vis_01.jpg}
 		\captionsetup{format=plain}
 		\subcaption{Leung-Malik-Filterbank}
 	\end{subfigure}
 	\hfill
 	\begin{subfigure}[t]{0.38\textwidth}
 		\centering
-		\includegraphics[width=\textwidth,keepaspectratio]{images/vis_02.jpg}
+		\includegraphics[width=\textwidth,keepaspectratio]{images/vis/vis_02.jpg}
 		\subcaption{Schmid-Filterbank}
 	\end{subfigure}
 	\hfill
 	\begin{subfigure}[t]{0.21\textwidth}
 		\centering
-		\includegraphics[width=\textwidth,keepaspectratio]{images/vis_03.jpg}
+		\includegraphics[width=\textwidth,keepaspectratio]{images/vis/vis_03.jpg}
 		\subcaption{Maximum Response-Filterbank}
 	\end{subfigure}
 	\caption{Darstellung dreier Filterbänke, aus \cite{visgeo}}
@@ -219,9 +223,10 @@ Diese drei Filterbänke besitzen im Gegensatz zu der in \cite{mathworks_15} vorg
 
 Die Besonderheit der Maximum Response-Filterbank besteht daraus, dass sie zwar 38 Filtern besitzt, nach der Anwendung der Konvolution aber alle bis auf die 6 Filter mit der stärksten Reaktion auf die Eingabe an den k-Means-Algorithmus weitergegeben werden. Zusätzlich werden immer die rotationsinvarianten Filter genutzt.
 
+\iffalse
 % TODO Remove?
 \section{Kratererkennung}
-\label{sec:craterdetection}
+\label{sec:crater_detection}
 
 In \cite{bandeira_10} und dessen Fortsetzung \cite{bandeira_12} wird ein neuer Ansatz zur Kratererkennung vorgestellt. Zuvor wurden diese meist manuell katalogisiert, dies resultierte darin, dass nur die größten Krater dokumentiert wurden, oder darin, dass nur vergleichsweise kleine Bereiche innerhalb eines akzeptablen Zeitraums verarbeitet werden konnten. Daher legen die Autoren insbesondere Wert auf die korrekte Erkennung von kleineren Kratern.
 
@@ -248,7 +253,7 @@ In \figurename~\ref{fig:BDS12_02} sind die von AdaBoost ausgewählten, am stärk
 \end{figure}
 
 \subsection{Kratererkennung über Neuronale Netze}
-\label{ssec:crater_cnn}
+\label{ssec:crater_Detection_nn}
 Auf der Basis des erwähnten, automatisch generierten Marskrater-Datensatz, wird in \cite{cohen_16} ein neuronales Netzwerk daraufhin trainiert, selbst unterscheiden zu können, ob ein Kraterkandidat auch wirklich ein Krater ist. Die Architektur des Netzwerkes ist in \figurename~\ref{fig:CLLD16_01} zu sehen. Zur Evaluierung der Ergebnisse wird hier das 10-fache Kreuzvalidierungsverfahren genutzt. Dies bedeutet, dass der Eingabedatensatz zehn-geteilt wird, und jeweils neun Teile zum trainieren und ein Teil zum Evaluieren genutzt wird. Das Ergebnis ist der Durchschnitt der jeweiligen F1-Scores.
 
 \begin{figure}[H]
@@ -261,7 +266,7 @@ Auf der Basis des erwähnten, automatisch generierten Marskrater-Datensatz, wird
 Der Unterschied zwischen dieser Methode und dem hier vorgestellten Ansatz besteht darin, dass in dieser Methode nur bewertet wird, ob Kraterkandidaten wirkliche Krater sind oder nicht, während hier ein Ansatz entwickelt wird, der aus einer kompletten Aufnahme der Marsoberfläche einzelne Krater(kandidaten) erkennt.
 
 \subsection{Vergleich der Methoden}
-\label{ssec:vergleich}
+\label{ssec:crater_detection_comparision}
 
 Die drei genannten Algorithmen (Urbach '09 \cite{urbach_stepinski_2009}, Bandeira '10 \cite{bandeira_10} und Cohen '16 \cite{cohen_16}) wurden alle auf der selben Aufnahme der HRSC angewandt. Eine genauere Beschreibung und der Vergleich anhand dieser Aufnahme findet sich in Abschnitt~\ref{sec:vergleich}.
-
+\fi

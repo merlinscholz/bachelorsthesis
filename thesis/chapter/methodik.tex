@@ -6,7 +6,7 @@ Für die Segmentierung der Marsoberfläche wird der Ansatz von Kanezaki \etal \c
 Zur Modifikation des genannten Algorithmus existieren viele unterschiedliche Möglichkeiten, einzelne Elemente zu ersetzen, welche in den folgenden Abschnitten beschrieben werden.
 
 \section{Initialisierung}
-\label{sec:initialisierung}
+\label{sec:initialization}
 
 Die wohl wichtigste Veränderung des ursprünglichen Algorithmus besteht aus der Modifizierung des Initialisierungsalgorithmus.
 
@@ -16,7 +16,7 @@ Der von Kanezaki \etal genutzte SLIC-Algorithmus eignet sich zwar gut für die m
 	\centering
 	\begin{subfigure}[t]{0.32\textwidth}
 		\centering
-		\includegraphics[width=\textwidth,keepaspectratio]{images/Gre13_01.jpg}
+		\includegraphics[width=\textwidth,keepaspectratio]{images/Gre13/Gre13_01.jpg}
 		\captionsetup{format=plain,width=0.85\textwidth}
 		\caption{Eingabebild, aus \cite[Kap.~7]{greeley_13}}
 		\label{fig:slic_vs_tsugf_in}
@@ -40,17 +40,17 @@ Der von Kanezaki \etal genutzte SLIC-Algorithmus eignet sich zwar gut für die m
 	\caption{Clustering eines Graustufenbildes}
 \end{figure}
 
-So ergibt ein Clustering des Kraters aus Unterabschnitt~\ref{ssec:mars_surface} durch den SLIC-Algorithmus \cite{achanta_10} das in \figurename~\ref{fig:slic_vs_tsugf_slic} sichtbare Ergebnis.\footnote{SLIC-Implementierung: \texttt{scikit-image}\\Parameter: \texttt{compactness=5, n\_segments=10, enforce\_connectivity=False}} Dort ist erkennbar, dass der Krater in jeweilige Licht- und Schattenregionen (bedingt durch den Lichteinfall im flachen Winkel) unterteilt wird. Außerdem wird die raue Struktur ringförmig um den Krater herum schlecht erfasst: An dieser Stelle wird jeder Hügel separat als einerseits helle, andererseits dunkle Stelle markiert. Das Phänomen, dass ein Krater so durch eine starke Differenz an Licht- und Schattenregionen äußert wird sich im Großen und Ganzen zwar in Abschnitt~\ref{sec:craterdetection} zu nutze gemacht, ist hier allerdings ungewollt.
+So ergibt ein Clustering des Kraters aus Unterabschnitt~\ref{ssec:mars_surface_features} durch den SLIC-Algorithmus \cite{achanta_10} das in \figurename~\ref{fig:slic_vs_tsugf_slic} sichtbare Ergebnis.\footnote{SLIC-Implementierung: \texttt{scikit-image}\\Parameter: \texttt{compactness=5, n\_segments=10, enforce\_connectivity=False}} Dort ist erkennbar, dass der Krater in jeweilige Licht- und Schattenregionen (bedingt durch den Lichteinfall im flachen Winkel) unterteilt wird. Außerdem wird die raue Struktur ringförmig um den Krater herum schlecht erfasst: An dieser Stelle wird jeder Hügel separat als einerseits helle, andererseits dunkle Stelle markiert. %Das Phänomen, dass ein Krater so durch eine starke Differenz an Licht- und Schattenregionen äußert wird sich im Großen und Ganzen zwar in Abschnitt~\ref{sec:craterdetection} zu nutze gemacht, ist hier allerdings ungewollt.
 
 Wenn nun der in Unterabschnitt~\ref{ssec:kanezaki} beschriebene Ansatz verfolgt wird, wird das neuronale Netz daraufhin trainiert, eine Aufnahme anhand ihrer Helligkeitsinformationen hin zu trainieren. Da dies nicht gewollt ist, wird statt einem farb-/helligkeitsbasierten Clusteringalgorithmus wie SLIC ein texturbasiertes Clustering genutzt.
 
-Statt des SLIC-Clusterings wird nun die in Unterabschnitt~\ref{ssec:tsugf} vorgestellte Methode des texturbasierten Clusterings genutzt. Von dieser Stelle an sind --~wenn nicht anders benannt~-- die Gewichtungen der verschiedenen Werte für die Farbwerte, X-/Y-Positionen und Reaktion auf Gaborfilter alle gleich $1$. Diese Parameter werden in Unterabschnitt~\ref{ssec:filterweight} genauer erläutert.
+Statt des SLIC-Clusterings wird nun die in Unterabschnitt~\ref{ssec:tsugf} vorgestellte Methode des texturbasierten Clusterings genutzt. Von dieser Stelle an sind --~wenn nicht anders benannt~-- die Gewichtungen der verschiedenen Werte für die Farbwerte, X-/Y-Positionen und Reaktion auf Gaborfilter alle gleich $1$. Diese Parameter werden in Unterabschnitt~\ref{ssec:initialization_filterweight} genauer erläutert.
 
 Das Ergebnis eines Clusterings durch die genutzte, texturbasierte Methode\footnote{Kombiniert mit der Filterbank aus \cite{jain_91}} ist in \figurename~\ref{fig:slic_vs_tsugf_tsugf} sichtbar: Man erkennt, dass der \enquote{Ring} um den eigentlichen Einschlagskrater eine eigenständige Textur besitzt, welche unterschiedlich zu dem Rest der Oberfläche ist. Eine ähnliche Oberflächenstruktur ist direkt um den Krater herum vorhanden. Beide Vorkommnisse dieser ähnlichen Struktur werden vom texturbasierten Clustering erfasst, in ein Segment aufgeteilt und (hier durch eine rote Färbung) markiert.
 
 \subsection{Filterbänke}
-
-Nun stellt sich die Frage, welche der vorgestellten Filterbänke sich gut eignet, die Eingabedatei zu clustern. Die größten Unterschiede zwischen den einzelnen Filterbänken besteht daraus, dass einige von ihnen rotationsinvariante Filter enthalten, und einige in mehreren Größen vorhanden sind. Die Größendifferenz lässt sich zwar in der Anwendung des Algorithmus ausgleichen, die Rotationsinvarianz allerdings nicht. In \figurename~\ref{fig:filterbank_comparision} ist die Anwendung der in Unterabschnitt~\ref{ssec:tsugf} vorgestellten Filterbänke auf vier Beispielbilder (\vgl Abschnitt~\ref{ssec:mars_surface}) sichtbar. Jedes Bild wurde in vier Cluster aufgeteilt und alle Optimierungen des Verfahrens (\vgl Unterabschnitt~\ref{ssec:tsugf}) wurden angewandt.
+\label{ssec:initialization_filterbanks}
+Nun stellt sich die Frage, welche der vorgestellten Filterbänke sich gut eignet, die Eingabedatei zu clustern. Die größten Unterschiede zwischen den einzelnen Filterbänken besteht daraus, dass einige von ihnen rotationsinvariante Filter enthalten, und einige in mehreren Größen vorhanden sind. Die Größendifferenz lässt sich zwar in der Anwendung des Algorithmus ausgleichen, die Rotationsinvarianz allerdings nicht. In \figurename~\ref{fig:filterbank_comparision} ist die Anwendung der in Unterabschnitt~\ref{ssec:tsugf} vorgestellten Filterbänke auf vier Beispielbilder (\vgl Abschnitt~\ref{ssec:mars_surface_features}) sichtbar. Jedes Bild wurde in vier Cluster aufgeteilt und alle Optimierungen des Verfahrens (\vgl Unterabschnitt~\ref{ssec:tsugf}) wurden angewandt.
 
 \paragraph{Krater}
 Neben dem eigentlichen Krater ist auf dieser Aufnahme der Ring aus gröberem Gestein signifikant. Dieser wird von allen Filterbänken zuverlässig erkannt, wenn auch mit einer unterschiedlichen Dicke: Die LM- und S-Filterbank selektieren dieses Gestein eher großzügig, die MR-Filterbank hingegen zeigt sehr enge Markierungen dieser Region.
@@ -87,25 +87,25 @@ Zusammengefasst erzeugt aus dieser Auswahl an Filterbänden die Maximum Response
 \setlength\tabcolsep{1pt}
 \def\arraystretch{0.5}
 \begin{tabular}{p{0.2\textwidth}p{0.2\textwidth}p{0.2\textwidth}p{0.2\textwidth}p{0.2\textwidth}}
-	\includegraphics[width=0.2\textwidth]{images/Gre13_01.jpg} &
+	\includegraphics[width=0.2\textwidth]{images/Gre13/Gre13_01.jpg} &
 	\includegraphics[width=0.2\textwidth]{images/gen/filterbanks/Gre13_01.jpg_TSUGF.png} &
 	\includegraphics[width=0.2\textwidth]{images/gen/filterbanks/Gre13_01.jpg_LM.png} &
 	\includegraphics[width=0.2\textwidth]{images/gen/filterbanks/Gre13_01.jpg_S.png} &
 	\includegraphics[width=0.2\textwidth]{images/gen/filterbanks/Gre13_01.jpg_MR.png} \\
 	
-	\includegraphics[width=0.2\textwidth]{images/Gre13_02.jpg} &
+	\includegraphics[width=0.2\textwidth]{images/Gre13/Gre13_02.jpg} &
 	\includegraphics[width=0.2\textwidth]{images/gen/filterbanks/Gre13_02.jpg_TSUGF.png} &
 	\includegraphics[width=0.2\textwidth]{images/gen/filterbanks/Gre13_02.jpg_LM.png} &
 	\includegraphics[width=0.2\textwidth]{images/gen/filterbanks/Gre13_02.jpg_S.png} &
 	\includegraphics[width=0.2\textwidth]{images/gen/filterbanks/Gre13_02.jpg_MR.png} \\
 	
-	\includegraphics[width=0.2\textwidth]{images/Gre13_03.jpg} &
+	\includegraphics[width=0.2\textwidth]{images/Gre13/Gre13_03.jpg} &
 	\includegraphics[width=0.2\textwidth]{images/gen/filterbanks/Gre13_03.jpg_TSUGF.png} &
 	\includegraphics[width=0.2\textwidth]{images/gen/filterbanks/Gre13_03.jpg_LM.png} &
 	\includegraphics[width=0.2\textwidth]{images/gen/filterbanks/Gre13_03.jpg_S.png} &
 	\includegraphics[width=0.2\textwidth]{images/gen/filterbanks/Gre13_03.jpg_MR.png} \\
 	
-	\includegraphics[width=0.2\textwidth]{images/Gre13_05.jpg} &
+	\includegraphics[width=0.2\textwidth]{images/Gre13/Gre13_05.jpg} &
 	\includegraphics[width=0.2\textwidth]{images/gen/filterbanks/Gre13_05.jpg_TSUGF.png} &
 	\includegraphics[width=0.2\textwidth]{images/gen/filterbanks/Gre13_05.jpg_LM.png} &
 	\includegraphics[width=0.2\textwidth]{images/gen/filterbanks/Gre13_05.jpg_S.png} &
@@ -122,7 +122,7 @@ Zusammengefasst erzeugt aus dieser Auswahl an Filterbänden die Maximum Response
 \end{figure}
 
 \subsection{Größe der Filter}
-\label{ssec:filtersize}
+\label{ssec:initialization_filtersize}
 
 Neben der Auswahl einer geeigneten Filterbank lassen sich in dieser noch die einzelnen Gewichtungen anpassen: So könnten \zB die Gewichtung der Koordinaten der Pixel zueinander oder die Relevanz von ähnlichen Farbwerten modifiziert werden. Außerdem ist die Größe der einzelnen Filter in den jeweiligen Filterbänken auch Variabel und muss dementsprechend an die Dimensionen des jeweiligen Eingabebildes angepasst werden. Da alle Filterbänke (bis auf die nach \cite{jain_91}) jeweils gleiche Filter in unterschiedlichen Größen enthalten, muss nur ein Gesamtwert angepasst werden, statt der Größe jeder einzelnen Skalierung. Es wird nun versucht, die Ergebnisse der Maximum Response-Filterbank zu verbessern, da diese in vorherigen Versuchen die besten Ergebnisse erzielt hat.
 
@@ -190,28 +190,28 @@ Diese Faktoren sind also zu groß um brauchbare Ergebnisse zu produzieren.
 	\setlength\tabcolsep{1pt}
 	\def\arraystretch{0.5}
 	\begin{tabular}{p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}}
-		\includegraphics[width=0.14\textwidth]{images/p03_01.png} &
+		\includegraphics[width=0.14\textwidth]{images/p03/p03_01.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_01.png_0.25.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_01.png_0.50.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_01.png_0.75.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_01.png_1.00.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_01.png_1.25.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_01.png_1.50.png} \\
-		\includegraphics[width=0.14\textwidth]{images/p03_02.png} &
+		\includegraphics[width=0.14\textwidth]{images/p03/p03_02.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_02.png_0.25.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_02.png_0.50.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_02.png_0.75.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_02.png_1.00.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_02.png_1.25.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_02.png_1.50.png} \\
-		\includegraphics[width=0.14\textwidth]{images/p03_03.png} &
+		\includegraphics[width=0.14\textwidth]{images/p03/p03_03.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_03.png_0.25.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_03.png_0.50.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_03.png_0.75.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_03.png_1.00.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_03.png_1.25.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_03.png_1.50.png} \\
-		\includegraphics[width=0.14\textwidth]{images/p03_04.png} &
+		\includegraphics[width=0.14\textwidth]{images/p03/p03_04.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_04.png_0.25.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_04.png_0.50.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_04.png_0.75.png} &
@@ -234,7 +234,7 @@ Diese Faktoren sind also zu groß um brauchbare Ergebnisse zu produzieren.
 Aus diesen Ergebnissen lässt sich schlussfolgern, dass sich die Skalierungsfaktoren $s=0,5$ und $s=0,75$ bei diesen Eingabedaten die besten Ergebnisse liefert. Da allerdings kleinere \bzw feinere Cluster in der nachfolgenden Weiterverarbeitung durch den Algorithmus nach Kanezaki bevorzugt werden, wird von nun an ein Skalierungsfaktor von $s=0,5$ genutzt.
 
 \subsection{Gewichtungen der Parameter}
-\label{ssec:filterweight}
+\label{ssec:initialization_filterweight}
 
 Da in dem Prozess des Clusterings alle Optimierungen aus Unterabschnitt~\ref{ssec:tsugf} miteingeschlossen sind, beinhaltet dies, dass der Datenwürfel, den k-Means verarbeitet, sowohl die Koordinaten, als auch die Farbwerte der Eingabedatei beinhaltet. Nun stellt sich die Frage, wie stark diese jeweils gewichtet werden sollten, um ein akzeptables Ergebnis zu erhalten. Aus diesem Grund sind in den Abbildungen~\ref{fig:filterbank_weights_pos} und \ref{fig:filterbank_weights_col} die Ergebnisse des Clusterings mit unterschiedlichen Werten für die jeweiligen Gewichtungen zu sehen. Die Skalierung der Filter beträgt $s=0,5$, da im vorherigen Unterabschnitt festgestellt wurde, dass dieser Wert relativ gute Ergebnisse liefert.
 
@@ -250,28 +250,28 @@ Aus diesem Grund macht es Sinn, die Koordinatenbeträge der Pixel relativ gering
 	\setlength\tabcolsep{1pt}
 	\def\arraystretch{0.5}
 	\begin{tabular}{p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}}
-		\includegraphics[width=0.14\textwidth]{images/p03_01.png} &
+		\includegraphics[width=0.14\textwidth]{images/p03/p03_01.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_01.png_0.00.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_01.png_0.33.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_01.png_0.66.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_01.png_1.00.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_01.png_1.33.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_01.png_1.66.png} \\
-		\includegraphics[width=0.14\textwidth]{images/p03_02.png} &
+		\includegraphics[width=0.14\textwidth]{images/p03/p03_02.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_02.png_0.00.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_02.png_0.33.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_02.png_0.66.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_02.png_1.00.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_02.png_1.33.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_02.png_1.66.png} \\
-		\includegraphics[width=0.14\textwidth]{images/p03_03.png} &
+		\includegraphics[width=0.14\textwidth]{images/p03/p03_03.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_03.png_0.00.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_03.png_0.33.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_03.png_0.66.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_03.png_1.00.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_03.png_1.33.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_03.png_1.66.png} \\
-		\includegraphics[width=0.14\textwidth]{images/p03_04.png} &
+		\includegraphics[width=0.14\textwidth]{images/p03/p03_04.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_04.png_0.00.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_04.png_0.33.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_04.png_0.66.png} &
@@ -304,28 +304,28 @@ Da sich durch die zusätzlichen Helligkeitswerte keine Verbesserungen der Cluste
 	\setlength\tabcolsep{1pt}
 	\def\arraystretch{0.5}
 	\begin{tabular}{p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}}
-		\includegraphics[width=0.14\textwidth]{images/p03_01.png} &
+		\includegraphics[width=0.14\textwidth]{images/p03/p03_01.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_01.png_0.00.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_01.png_0.33.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_01.png_0.66.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_01.png_1.00.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_01.png_1.33.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_01.png_1.66.png} \\
-		\includegraphics[width=0.14\textwidth]{images/p03_02.png} &
+		\includegraphics[width=0.14\textwidth]{images/p03/p03_02.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_02.png_0.00.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_02.png_0.33.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_02.png_0.66.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_02.png_1.00.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_02.png_1.33.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_02.png_1.66.png} \\
-		\includegraphics[width=0.14\textwidth]{images/p03_03.png} &
+		\includegraphics[width=0.14\textwidth]{images/p03/p03_03.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_03.png_0.00.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_03.png_0.33.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_03.png_0.66.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_03.png_1.00.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_03.png_1.33.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_03.png_1.66.png} \\
-		\includegraphics[width=0.14\textwidth]{images/p03_04.png} &
+		\includegraphics[width=0.14\textwidth]{images/p03/p03_04.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_04.png_0.00.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_04.png_0.33.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_04.png_0.66.png} &
@@ -346,18 +346,24 @@ Da sich durch die zusätzlichen Helligkeitswerte keine Verbesserungen der Cluste
 \end{figure}
 
 \section{Netzwerkarchitektur}
-\label{sec:networkarch}
+\label{sec:network_architecture}
 
-Die Netzwerkarchitektur im originalen Paper stellt ein relativ einfaches Netzwerk zur Objekterkennung oder Bildsegmentierung dar: Es durchläuft iterativ eine Reihe mit je einer Convolutional Layer, gefolgt von einer Batch Normalization. Im Folgenden wird geprüft, ob eine Modifikation dieser Architektur in diesem domänenspezifischen Anwendungsfall zu Verbesserungen der Ergebnisse führen kann.
+Die Netzwerkarchitektur im originalen Paper stellt ein relativ einfaches Netzwerk zur Objekterkennung oder Bildsegmentierung dar: Es durchläuft iterativ eine Reihe mit je einer Convolutional Layer, gefolgt von einer Batch Normalization. Im Folgenden wird geprüft, ob eine Modifikation dieser Architektur in diesem domänenspezifischen Anwendungsfall zu Verbesserungen der Ergebnisse führen kann. Für die Initialisierung werden die im letzten Kapitel erläuterten Parameter genutzt.
 
 \subsection{Aktivierungsfunktionen}
-\label{ssec:arch_activation}
+\label{ssec:network_architecture_activation}
+
+In der originalen Implementierung nach \cite{kanezaki_18} enthält das neuronale Netz keine Aktivuerungsfunktionen sondern lediglich Batch Normalization-Layer. An dieser Stelle wird nun untersucht, ob das Hinzufügen solcher Aktivierungsfunktionen die Clusteringergebnisse verbessern kann.
+
+Geprüft werden die weitverbreitesten Aktivierungsfunktionen: Die ReLU-, die Sigmoid- und die tanh-Funktion (\vgl Unterabschnitt~\ref{ssec:activation_layer}).
+
+
 
 \subsection{Pooling Layer}
-\label{ssec:arch_pooling}
+\label{ssec:network_architecture_pooling}
 
 \subsection{Fully Connected Layers}
-\label{ssec:arch_fully}
+\label{ssec:network_architecture_fully_connected}
 
 \section{Hyperparameter}
 \label{sec:hyperparameter}
@@ -369,4 +375,4 @@ Die Netzwerkarchitektur im originalen Paper stellt ein relativ einfaches Netzwer
 \label{sec:preprocessing}
 
 \section{Anpassungen für mehrfarbige Fotografien}
-\label{sec:referenceimages}
+\label{sec:color_picture_optimization}

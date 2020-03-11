@@ -5,7 +5,7 @@
 \label{sec:mars_analysis}
 
 \subsection{Merkmale der Marsöberfläche}
-\label{ssec:mars_surface}
+\label{ssec:mars_surface_features}
 Auf dem Mars ist eine Vielzahl an unterschiedlichen Oberflächenmerkmalen vorhanden. Diese wurden erstmals im Jahre 1964 fotografisch während der Mariner 4-Mission der NASA aufgenommen. \cite{mariner4} Seitdem wurden durch den Fortschritt der Technik innerhalb verschiedener Mars-Missionen Aufnahmen mit immer höheren Auflösungen erfasst. Heutzutage kann die Marsoberfläche sogar ohne explizite Mars-Mission erfasst werden, \zB durch das Hubble-Weltraumteleskop.
 
 \begin{figure}[H]
@@ -24,7 +24,7 @@ Auf der südlichen Hemisphäre hingegen sind vergleichsweise viele Merkmale sich
 	\centering
 	\begin{subfigure}[t]{0.3\textwidth}
 		\centering
-		\includegraphics[height=4cm,keepaspectratio]{images/Gre13_01.jpg}
+		\includegraphics[height=4cm,keepaspectratio]{images/Gre13/Gre13_01.jpg}
 		\captionsetup{format=plain}
 		\subcaption{Beispiel für einen Krater}
 		\label{fig:ex_crater}
@@ -32,7 +32,7 @@ Auf der südlichen Hemisphäre hingegen sind vergleichsweise viele Merkmale sich
 	\hfill
 	\begin{subfigure}[t]{0.34\textwidth}
 		\centering
-		\includegraphics[height=4cm,keepaspectratio]{images/Gre13_02.jpg}
+		\includegraphics[height=4cm,keepaspectratio]{images/Gre13/Gre13_02.jpg}
 		\captionsetup{format=plain}
 		\subcaption{Beispiel für einen (ehemaligen) Vulkan}
 		\label{fig:ex_vulc1}
@@ -40,7 +40,7 @@ Auf der südlichen Hemisphäre hingegen sind vergleichsweise viele Merkmale sich
 	\hfill
 	\begin{subfigure}[t]{0.3\textwidth}
 		\centering
-		\includegraphics[height=4cm,keepaspectratio]{images/Gre13_03.jpg}
+		\includegraphics[height=4cm,keepaspectratio]{images/Gre13/Gre13_03.jpg}
 		\captionsetup{format=plain}
 		\subcaption{Beispiel für einen (ehemaligen) Vulkan mit strahlenförmigen Ausbuchtungen}
 		\label{fig:ex_vulc2}
@@ -48,7 +48,7 @@ Auf der südlichen Hemisphäre hingegen sind vergleichsweise viele Merkmale sich
 	\hfill
 	\begin{subfigure}[t]{0.35\textwidth}
 		\centering
-		\includegraphics[height=4cm,keepaspectratio]{images/Gre13_04.jpg}
+		\includegraphics[height=4cm,keepaspectratio]{images/Gre13/Gre13_04.jpg}
 		\captionsetup{format=plain}
 		\subcaption{Beispiel für mehrere Gräben}
 		\label{fig:ex_graben}
@@ -56,7 +56,7 @@ Auf der südlichen Hemisphäre hingegen sind vergleichsweise viele Merkmale sich
 	\hspace{1cm}
 	\begin{subfigure}[t]{0.3\textwidth}
 		\centering
-		\includegraphics[height=4cm,keepaspectratio]{images/Gre13_05.jpg}
+		\includegraphics[height=4cm,keepaspectratio]{images/Gre13/Gre13_05.jpg}
 		\captionsetup{format=plain}
 		\subcaption{Beispiel für einen Gletscher}
 		\label{fig:ex_glacier}
@@ -99,18 +99,18 @@ Neuronale Netze werden oftmals als eine Weiterentwicklung oder Optimierung des m
 
 Eine der einfachsten Formen eines neuronalen Netzes besteht aus dem Multilayer-Perceptron: Dieses besteht aus mehreren der zuvor erwähnten Layers, von denen jede mehrere einzelne Perceptronen enthält. Zwischen einer Eingabe- und einer Ausgabe-Schicht existieren somit auch noch eine beliebige Anzahl an sogenannten Hidden Layers.
 
-In diesem Kontext wird ein Perceptron auch als Neuron bezeichnet. Ein typisches Neuron verarbeitet einen Eingabevektor indem es dies mit einem Gewichtungs-Vektor elementweise multipliziert und anschließend einen Bias-Vektor aufaddiert. Die Addition dieses Bias ist nötig um die gesamte Aktivierungsfunktion entlang der x-Achse verschieben zu können, da sonst manche gewünschten Ergebnisse nicht erreicht werden können. \cite{bias} Ein typisches Neuron ist in \figurename~\ref{fig:neuron} dargestellt. Anschließend werden die Elemente dieses Vektor aufaddiert, und auf diese Summe eine Aktivierungsfunktion (\vgl Unterabschnitt~\ref{ssec:activation}) angewandt. Während das Netzwerk trainiert wird, passen die einzelnen Perceptronen diese zwei Vektoren, also die Gewichtungen und die Bias, so an, dass die Ergebnisse weitgehend optimiert werden (\vgl Unterabschnitt~\ref{ssec:backpropagation}). Diese Gewichtungen sind anfangs zufällig bestimmt. \cite{hardesty_17, cs231n} 
+In diesem Kontext wird ein Perceptron auch als Neuron bezeichnet. Ein typisches Neuron verarbeitet einen Eingabevektor indem es dies mit einem Gewichtungs-Vektor elementweise multipliziert und anschließend einen Bias-Vektor aufaddiert. Die Addition dieses Bias ist nötig um die gesamte Aktivierungsfunktion entlang der x-Achse verschieben zu können, da sonst manche gewünschten Ergebnisse nicht erreicht werden können. \cite{bias} Ein typisches Neuron ist in \figurename~\ref{fig:neuron} dargestellt. Anschließend werden die Elemente dieses Vektor aufaddiert, und auf diese Summe eine Aktivierungsfunktion (\vgl Unterabschnitt~\ref{ssec:activation_layer}) angewandt. Während das Netzwerk trainiert wird, passen die einzelnen Perceptronen diese zwei Vektoren, also die Gewichtungen und die Bias, so an, dass die Ergebnisse weitgehend optimiert werden (\vgl Unterabschnitt~\ref{ssec:backpropagation}). Diese Gewichtungen sind anfangs zufällig bestimmt. \cite{hardesty_17, cs231n} 
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.5\textwidth,keepaspectratio]{images/cs231n/neuron.jpg}
+	\includegraphics[width=0.5\textwidth,keepaspectratio]{images/LJY19/neuron.jpg}
 	\caption{Funktionsweise eines Neurons, aus \cite{cs231n}}
 	\label{fig:neuron}
 \end{figure}
 
 Die Aneinanderkettung dieser Schichten führt dazu, dass zwischen ihnen eine immer abstraktere Form der Eingabedaten entsteht.
 
-Convolutional Neural Networks beschreiben eine Teilmenge der neuronalen Netze, in der die jeweilige Netzwerkarchitektur mindestens eine Convolutional Layer (auch Faltungsschicht genannt, \vgl Unterabschnitt~\ref{ssec:conv}) enthält. Die Nutzung dieser Convolutional Layer zieht oft die Nutzung einer Pooling Layer (Unterabschnitt~\ref{ssec:pooling}) mit sich. \cite{deeplearning_16}
+Convolutional Neural Networks beschreiben eine Teilmenge der neuronalen Netze, in der die jeweilige Netzwerkarchitektur mindestens eine Convolutional Layer (auch Faltungsschicht genannt, \vgl Unterabschnitt~\ref{ssec:convolution}) enthält. Die Nutzung dieser Convolutional Layer zieht oft die Nutzung einer Pooling Layer (Unterabschnitt~\ref{ssec:pooling_layer}) mit sich. \cite{deeplearning_16}
 
 Obwohl Convolutional Neural Networks theoretisch dazu geeignet sind die meisten Daten mit einer gitterähnlichen Struktur zu verarbeiten, erfreuen sie sich im Bereich der Bilddatenanalyse der größten Beliebtheit. \cite[Kap.~9]{deeplearning_16} Eine wichtige Ursache für diese Beliebtheit liegt \bspw in dem Erfolg bei dem Bild-Klassifizierungs-Wettbewerb \textit{ImageNet}. Während dort im Jahr 2011 die Gewinnergruppe mit klassischen Klassifizierungsalgorithmen einen Top-5-Score von $74,3\%$ erzielt hat, wurden im Jahr 2012 mit einem CNN (AlexNet, \cite{alexnet}) erstmals ein Wert von $83,6\%$ erreicht. Von diesem Punkt an wurde die Bestenliste der darauffolgenden Jahre durch Convolutional Neural Networks dominiert. \cite[Kap.~1]{deeplearning_18}
 
@@ -125,7 +125,7 @@ Die Architektur eines typischen, einfachen Convolutional Neural Networks ist wie
 Da CNNs primär auf Bilddateien angewandt werden, wird von diesem Punkt an von einer Bilddatei als Eingabe ($\mathrm{INPUT}$) ausgegangen. Hier beschreiben die ersten beiden Dimensionen die Breite und Höhe, während die dritte Dimension die Farbwerte für den jeweiligen Pixel angibt. Die Konvolutions-, Aktivierungs-, Pooling- und Fully-Connected-Layers werden in den folgenden Unterabschnitten erläutert.
 
 \subsection{Konvolution}
-\label{ssec:conv}
+\label{ssec:convolution}
 
 Die Konvolution, auch Faltung genannt, ist eine mathematische Operation auf zwei beliebigen Funktionen $f(x)$ und $g(y)$, die eine dritte Funktion, die Konvolution $s(x) = f(x)*g(y)$ ergibt, welche beschreibt, wie sich die Verläufe der beiden Funktionen beeinflussen:
 
@@ -165,13 +165,13 @@ S(i,j) = (I*K)(i,j) = \sum_{m}\sum_{n}\sum_{o}I(m,n,o)K(i-m,j-n,o)
 Es ist zu beachten, dass der Farbvektor immer komplett verarbeitet wird, und nicht nur ein Teilausschnitt wie bei Höhe und Breite.
 
 \subsection{Convolutional Layer}
-\label{ssec:convlayer}
+\label{ssec:convolutional_layer}
 
 Klassische Schichten von neuronalen Netzen nutzen Matrixmultiplikationen der kompletten Eingabe mit einer Parametermatrix um ihre Ausgaben zu berechnen, \dahe jeder einzelne Ausgabewert entsteht aus einer Berechnung basierend auf jedem einzelnen Eingabewert. Obwohl diese Taktik in vielen Einsatzbereichen gut funktioniert, stößt sie insbesondere bei der Bilddatenanalyse an ihre Grenzen, da sie nicht gut skaliert. \cite{cs231n} So benötigt eine Convolutional Layer zum Erkennen eines Merkmals nur einen Kernel mit einer Anzahl von meistens unter $\SI{100}{\pixel}$. \cite{deeplearning_16} Ein weiterer Pluspunkt besteht daraus, dass durch Convolutional Layers bestimmte Merkmale von unterschiedlichen Stellen der Eingabe extrahiert werden können, wie später beschrieben.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.4\textwidth,keepaspectratio]{images/cs231n/convolutional.jpg}
+	\includegraphics[width=0.4\textwidth,keepaspectratio]{images/LJY19/convolutional.jpg}
 	\caption{Funktionsweise der Konvolutions-Schicht, aus \cite{cs231n}}
 	\label{fig:convolutional}
 \end{figure}
@@ -192,7 +192,7 @@ Des Weiteren ist der Kernel pro Neuron konstant. Dies hat \ua zur Folge, dass da
 Erhält eine konvolutionelle Schicht mit 12 Neuronen also \bspw ein RGB-Eingabebild der Größe $\SI{64}{\pixel}\times\SI{64}{\pixel}$, so erzeugt es mit einem Stride von $1$ als Ausgabe eine dreidimensionale Matrix der Größe $64\times64\times12$, jede der Schichten der dritten Dimensionen deutet auf das Vorhandensein eines speziellen Merkmals an einer gewissen Stelle im Eingabebild hin.
 
 \subsection{Activation Layer}
-\label{ssec:activation}
+\label{ssec:activation_layer}
 
 Auf eine konvolutionelle Schicht folgt fast immer eine Aktivierungsschicht. Diese werden dazu genutzt um eine gewisse Nicht-Linearität in den Verlauf des neuronalen Netzes einzuführen. Nicht-Linearität ist in vielen neuronalen Netzen notwendig, da die Probleme, die sie lössen sollen, nicht-linear sind. \cite[Kap.~6]{deeplearning_16}
 
@@ -264,13 +264,13 @@ Die $tanh(x)$-Funktion ist in ihrer Rolle als Aktivierungsfunktion relativ ähnl
 Es existieren noch weitere Aktivierungsfunktionen, diese zu Analysieren ist allerdings außerhalb des Rahmens dieser Arbeit.
 
 \subsection{Pooling Layer}
-\label{ssec:pooling}
+\label{ssec:pooling_layer}
 
 Konvolutionelle Schichten in neuronalen Netzen können die selben Merkmale von unterschiedlichen Stellen extrahieren. Die Position, an der diese Merkmale erkannt wurden, werden auch an die nächste Schicht weitergegeben, \dahe kleine Veränderungen an der Position eines Merkmals führen zu einer veränderten Merkmalsdimension. \cite{brownlee_19} Dies kann insbesondere beim Einsatz von mehreren konsekutiven Convolutional Layers zu einer erhöhten Störanfälligkeit führen, deshalb wird oftmals eine Pooling-Layer dazu eingesetzt, das resultierende Netzwerk invariant zu einzelnen Merkmalspositionen zu machen. Des Weiteren dient eine Pooling-Layer dazu, Informationen aus verschiedenen Bildbereichen zu abstrahieren und langsam global zu aggregieren. \cite{deeplearning_16}
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.37\textwidth,keepaspectratio]{images/cs231n/pool.jpg}
+	\includegraphics[width=0.37\textwidth,keepaspectratio]{images/LJY19/pool.jpg}
 	\caption{Funktionsweise der Pooling-Layer, aus \cite{cs231n}}
 	\label{fig:pooling}
 \end{figure}
@@ -285,7 +285,7 @@ Er besitzt zwei Hyperparameter: Die Stride (Schrittweite) $S$ und die eigentlich
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.6\textwidth,keepaspectratio]{images/cs231n/maxpool.jpg}
+	\includegraphics[width=0.6\textwidth,keepaspectratio]{images/LJY19/maxpool.jpg}
 	\captionsetup{width=0.6\textwidth}
 	\caption{Max-Pooling anhand eines Beispiels, aus \cite{cs231n}}
 	\label{fig:maxpooling}
@@ -294,7 +294,7 @@ Er besitzt zwei Hyperparameter: Die Stride (Schrittweite) $S$ und die eigentlich
 Beim Max-Pooling übernimmt die Poolingoperation den maximalen Wert des von ihr überdeckten Eingabebereiches. (\vgl \figurename~\ref{fig:maxpooling})
 
 \subsection{Fully Connected Layer}
-\label{ssec:fcn}
+\label{ssec:fully_connected_layer}
 Die meisten Convolutional Neural Networks besitzen eine Fully Connected Layer. Das Ziel dieser besteht daraus, die Resultate der konvolutionellen und Pooling-Schichten zu klassifizieren, da diese nur die Wahrscheinlichkeiten zurückgeben, mit der ein gewisses Merkmal an einer gewissen Position erkannt wird. Aus diesem Grund werden eine oder mehrere Fully Connected Layers am Ende eines ansonsten fertigen neuronalen Netzes eingesetzt. \cite{geva}
 
 Die Funktionsweise einer Fully Connected Layer ist identisch zu einer Schicht eines Multilaye-Perceptrons, wie in Abschnitt~\ref{sec:cnn} beschrieben.
@@ -309,7 +309,7 @@ Mathematisch betrachtet funktioniert diese Schicht, indem sie die Gauß-Verteilu
 In \cite{santurkar_18} wurde zusätzlich gezeigt, dass durch die Nutzung von Batch Normalization auch die Verlussfunktion geglättet wird, was oft zu einer geringeren Dauer des Training führt. Insgesamt erhöht Batch Normalization also die Stabilität eines Netzes.
 
 \subsection{Loss Function}
-\label{ssec:loss}
+\label{ssec:loss_function}
 
 Wie gut ein neuronales Netz eine Zielfunktion approximiert wird über den Loss gemessen, \dahe das Ziel eines neuronalen Netzes besteht daraus, den Loss in jeder Iteration weiter zu minimieren. Der Loss, auch Verlustfunktion genannt, beschreibt, wie stark sich die vom Netz berechneten Werte von den zu erzielenden Werten (beim überwachten Lernen meistens die Ground Truth) unterscheiden.
 
@@ -364,7 +364,7 @@ R(W) = \sum_k\sum_l W^2_{k,l}
 \end{equation}
 
 \subsection{Gradientenverfahren}
-\label{ssec:gradientenverfahren}
+\label{ssec:gradient_descent}
 
 Das Ziel eines neuronalen Netzes besteht daraus, die Werte der Lossfunktionen weitgehend zu minimieren. Dies wäre rein theoretisch durch klassische Analysis möglich, indem man die Ableitungen der Funktionen Netzes berechnet und aus diesen anschließend die Extrempunkte. In der Praxis allerdings, besitzt so ein Netzwerk viel zu viele Variablen, als dass die Extremalstellen in einem Annehmbaren Zeitraum berechnet werden könnten. \cite[Kap.~1]{nielsen_15} AlexNet, der Gewinner der ImageNet-Challenge 2012 besitzt \bspw etwa 60 Millionen trainierbare Parameter. (\Vgl Abschnitt~\ref{sec:cnn})
 
@@ -373,7 +373,7 @@ Die Funktion $C(w, b)$ sei die zu minimierende Lossfunktion in Abhängigkeit von
 % TODO Better graphics?
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.45\textwidth,keepaspectratio]{images/Nie15_01.png}
+	\includegraphics[width=0.45\textwidth,keepaspectratio]{images/Nie15/Nie15_01.png}
 	\caption{Funktion $C$ in Abhängigkeit von $v_1$ und $v_2$, aus \cite[Kap.~1]{nielsen_15}}
 	\label{fig:valley}
 \end{figure}
@@ -438,7 +438,7 @@ Ein praktischer Nachteil des stochastischen Gradientenverfahrens besteht allerdi
 Alle in diesem Unterabschnitt erklärten Verfahren lassen sich analog auf eine größere Anzahl an Parametern anwenden.
 
 \subsection{Backpropagation}
-\label{sec:backpropagation}
+\label{ssec:backpropagation}
 
 Um das Gradientenverfahren anwenden zu können, wird der Gradient $\nabla C_x$ der Verlustfunktion $C_x$ benötigt. Da in einem neuronalen Netz der Trainingsdatensatz fest steht, muss dieser Gradient nur in Abhängigkeit der Gewichtungen $w$ und Biase $b$ des Netzes gebildet werden. Gesucht werden also $\frac{\partial C}{\partial w}$ und $\frac{\partial C}{\partial b}$ für jeweils jede Gewichtung und Bias des Netzes.
 
@@ -485,7 +485,7 @@ Dies lässt sich auch in vektorisierter Form schreiben: (nach \cite[Kap.~2]{niel
 \delta^L = \nabla_{a^L} C\odot\sigma'\left(z^L\right)
 \end{equation}
 
-Wie in Unterabschnitt~\ref{ssec:conv} beschreibt der $\odot$-Operator das Hadamard-Produkt der jeweiligen Matrizen und $\nabla_{a^l} C$ ist der Vektor aller partiellen Ableitungen $\frac{\partial C}{\partial a_j^l}$ einer Schicht $l$.
+Wie in Unterabschnitt~\ref{ssec:convolution} beschreibt der $\odot$-Operator das Hadamard-Produkt der jeweiligen Matrizen und $\nabla_{a^l} C$ ist der Vektor aller partiellen Ableitungen $\frac{\partial C}{\partial a_j^l}$ einer Schicht $l$.
 
 Um den Fehler $\delta^l$  anhand des Fehlers der nächsten Schicht $\delta^{l+1}$ wird Gleichung~\ref{eqn:bp1} so umgeformt, dass sie die Veränderung von $C$ in Abhängigkeit von $z^{l+1}$ statt in Abhängigkeit von $z^{l}$ darstellt. Die vollständige Herleitung ist in \cite[Kap.~2]{kathuria_18} zu finden. Aus ihr ergibt sich:
 
@@ -530,4 +530,4 @@ Daraus lassen sich mithilfe der Formeln~\ref{eqn:bp3} und \ref{eqn:bp4} die Grad
 \frac{\partial C}{\partial b_{j}^l}&=&\delta_j^l
 \end{eqnarray}
 
-Da nun diese Gradienten bekannt sind, lässt sich das in Unterabschnitt~\ref{ssec:gradientenverfahren} beschriebene Gradientenverfahren erfolgreich anwenden.
+Da nun diese Gradienten bekannt sind, lässt sich das in Unterabschnitt~\ref{ssec:gradient_descent} beschriebene Gradientenverfahren erfolgreich anwenden.
