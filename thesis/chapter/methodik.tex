@@ -24,7 +24,7 @@ Der von Kanezaki \etal genutzte SLIC-Algorithmus eignet sich zwar gut für die m
 	\hfill
 	\begin{subfigure}[t]{0.32\textwidth}
 		\centering
-		\includegraphics[width=\textwidth,keepaspectratio]{images/gen/GEN_slic_vs_tsugf_01.png}
+		\includegraphics[width=\textwidth,keepaspectratio]{images/gen/slic_vs_tsugf/Gre13_01.jpg_slic.png}
 		\captionsetup{format=plain,width=0.85\textwidth}
 		\caption{Ergebnis des SLIC-Algorithmus angewandt auf die Eingabedatei}
 		\label{fig:slic_vs_tsugf_slic}
@@ -32,7 +32,7 @@ Der von Kanezaki \etal genutzte SLIC-Algorithmus eignet sich zwar gut für die m
 	\hfill
 	\begin{subfigure}[t]{0.32\textwidth}
 		\centering
-		\includegraphics[width=\textwidth,keepaspectratio]{images/gen/GEN_slic_vs_tsugf_02.png}
+		\includegraphics[width=\textwidth,keepaspectratio]{images/gen/slic_vs_tsugf/Gre13_01.jpg_tsugf.png}
 		\captionsetup{format=plain,width=0.85\textwidth}
 		\caption{Ergebnis des texturbasierten Clusterings der Eingabedatei}
 		\label{fig:slic_vs_tsugf_tsugf}
@@ -50,7 +50,7 @@ Das Ergebnis eines Clusterings durch die genutzte, texturbasierte Methode\footno
 
 \subsection{Filterbänke}
 
-Nun stellt sich die Frage, welche der vorgestellten Filterbänke sich gut eignet, die Eingabedatei zu clustern. Die größten Unterschiede zwischen den einzelnen Filterbänken besteht daraus, dass einige von ihnen rotationsinvariante Filter enthalten, und einige in mehreren Größen vorhanden sind. Die Größendifferenz lässt sich zwar in der Anwendung des Algorithmus ausgleichen, die Rotationsinvarianz allerdings nicht. In \figurename~\ref{fig:filterbank_comparision} ist die Anwendung der in Unterabschnitt~\ref{ssec:tsugf} vorgestellten Filterbänke auf vier Beispielbilder (\vgl Abschnitt~\ref{ssec:mars_surface}) sichtbar. Jedes Bild wurde in vier Cluster aufgeteilt und alle Optimierungen (\vgl Unterabschnitt~\ref{ssec:tsugf}) des Verfahrens wurde angewandt.
+Nun stellt sich die Frage, welche der vorgestellten Filterbänke sich gut eignet, die Eingabedatei zu clustern. Die größten Unterschiede zwischen den einzelnen Filterbänken besteht daraus, dass einige von ihnen rotationsinvariante Filter enthalten, und einige in mehreren Größen vorhanden sind. Die Größendifferenz lässt sich zwar in der Anwendung des Algorithmus ausgleichen, die Rotationsinvarianz allerdings nicht. In \figurename~\ref{fig:filterbank_comparision} ist die Anwendung der in Unterabschnitt~\ref{ssec:tsugf} vorgestellten Filterbänke auf vier Beispielbilder (\vgl Abschnitt~\ref{ssec:mars_surface}) sichtbar. Jedes Bild wurde in vier Cluster aufgeteilt und alle Optimierungen des Verfahrens (\vgl Unterabschnitt~\ref{ssec:tsugf}) wurden angewandt.
 
 \paragraph{Krater}
 Neben dem eigentlichen Krater ist auf dieser Aufnahme der Ring aus gröberem Gestein signifikant. Dieser wird von allen Filterbänken zuverlässig erkannt, wenn auch mit einer unterschiedlichen Dicke: Die LM- und S-Filterbank selektieren dieses Gestein eher großzügig, die MR-Filterbank hingegen zeigt sehr enge Markierungen dieser Region.
@@ -60,25 +60,25 @@ Alle Filterbänke formen einen Ring (oder dessen Ansatz) auf dem Kraterrand, die
 Der Krater selbst wird von den Filterkombinationen nach \cite{jain_91} und der LM-Filterbank leider nur in Hell- und Dunkel-Regionen aufgeteilt, die S-Filterbank zeigt innerhalb des Kraters kein brauchbares Ergebnis. Eine Ausnahme stellt die Maximum-Response-Filterbank dar, welche neben den zwei erwähnten konzentrischen Clustern den Bereich innerhalb des Kraters als ein einziges Cluster erkennt. Die Maximum Response-Bank erzeugt in diesem Bereich das Ergebnis, welches sich wohl als bestes zur Weiterverarbeitung eignet.
 
 \paragraph{Vulkan}
-Der Vulkanberg wird leider von keiner Filterbank optimal erkannt. Der äußere Rand wird nur von der S-Filterbank als ein Cluster erkannt, dies allerdings nicht sehr genau. Der rauere Bereich der Oberfläche, was kleinere Krater miteinbeschließt, wird vom MR-Filter am ehesten und genausten erkannt (in violett markiert), auf dem zweiten Platz folgt die Filterbank nach \cite{jain_91}, welche zwar alle Krater in ein Cluster fügt (violett), allerdings eher gröber.
+Der Vulkanberg wird leider von keiner Filterbank optimal erkannt. Der äußere Rand wird nur von der S-Filterbank als ein Cluster erkannt, dies allerdings nicht sehr genau. Der rauere Bereich der Oberfläche, was kleinere Krater miteinbeschließt, wird vom MR-Filter am ehesten und genausten erkannt, auf dem zweiten Platz folgt die Filterbank nach \cite{jain_91}, welche zwar alle Krater in ein Cluster fügt (violett), allerdings eher gröber.
 
-Die Vulkanmitte wird von keiner Filterbank erkannt, nur bei der MR-Bank lässt sich eine ringförmige, rauere Stelle um den Krater herum erahnen. Außerdem ist interessant, dass der LM-Filter die Bergspitzen in vom Umfeld getrennte Cluster einteilt (blau und violett). Somit scheint es, als ließe sich diese Aufnahme über keine Filterbank gut clustern, am ehesten eignet sich allerdings erneut die MR-Bank.
+Die Vulkanmitte wird von keiner Filterbank erkannt, nur bei der MR-Bank lässt sich eine ringförmige, rauere Stelle um den Krater herum erahnen. Die anderen Filterbänke selektieren an dieser Stelle hauptsächlich nach den Helligkeitswerten. Außerdem ist interessant, dass der LM-Filter die Bergspitzen in vom Umfeld getrennte Cluster einteilt (blau und violett). Somit scheint es, als ließe sich diese Aufnahme über keine Filterbank gut clustern, am ehesten eignet sich allerdings erneut die MR-Bank.
 
 \paragraph{Vulkan mit strahlenförmigen Merkmalen}
 
-Das Ziel bei der Nutzung dieser Marsaufnahme zur Analyse besteht daraus zu analysieren, mit welcher Filterbank die konzentrischen Strahlen am genauesten erkannt werden. Des Weiteren existieren auf der Aufnahme noch Krater, welche es separat zu clustern gilt.
+Das Ziel bei der Nutzung dieser Marsaufnahme zur Analyse besteht daraus zu analysieren, mit welcher Filterbank die konzentrischen Strahlen am genauesten erkannt werden. Des Weiteren existieren auf der Aufnahme noch Krater, welche es separat einzuordnen gilt.
 
-Die Filterbank nach \cite{jain_91} erkennt die gröberen Strukturen (Strahlen und Krater), fügt diese allerdings in dasselbe Cluster ein (gelb und rot).
+Die Filterbank nach \cite{jain_91} erkennt die gröberen Strukturen (Strahlen und Krater), fügt diese allerdings in dasselbe Cluster ein (gelb und blau).
 
-Die LM-Filterbank scheint kein brauchbares Ergebnis zu produzieren, sie erkennt im Allgemeinen nur einige der Krater (gelb) separat von deren Umfeld, die Strahlen sind nicht geeignet geclustert worden.
+Die LM-Filterbank scheint kein brauchbares Ergebnis zu produzieren, sie erkennt im Allgemeinen nur einige der Krater (rot) separat von deren Umfeld, die Strahlen sind nicht geeignet geclustert worden.
 
-Die Schmid-Filterbank clustert einen Großteil der Strahle gemeinsam in ein Cluster (rot). Die Krater hingegen sind nicht fest einer Clusterart zugewiesen.
+Die Schmid-Filterbank clustert einen Großteil der Strahlen gemeinsam in ein Cluster (rot). Die Krater hingegen sind nicht fest einer Clusterart zugewiesen, ein Großteil von ihnen befindet sich jedoch auch im roten Cluster.
 
-Wie in den vorherigen Test ist das Ergebnis der MR-Filterbank schon fast zu genau, die Cluster sind sehr fein gehalten. Im Gegensatz zu den Alternativen, werden hier die Krater relativ zuverlässig in gelbe Cluster eingeordnet, die Strahlen sind leider zu fein, als das sie getrennt erkennbar sind. Dieses Phänomen könnte sich allerdings in der praktischen Anwendung zunutze gemacht werden, da dafür eine zu feine Initialisierung notwendig ist.
+Wie in den vorherigen Test ist das Ergebnis der MR-Filterbank schon fast zu genau, die Cluster sind sehr fein gehalten. Im Gegensatz zu den Alternativen, werden hier die Krater relativ zuverlässig in gelbe Cluster eingeordnet, die Strahlen sind leider zu fein markiert, als dass man sie getrennt erkennen könnte. Dieses Phänomen könnte sich allerdings in der praktischen Anwendung zunutze gemacht werden, da dafür eine zu feine Initialisierung notwendig ist.
 
 \paragraph{Gletscher}
 
-Der Gletscher ist subjektiv betrachtet das schwierigste der hier vorgestellten Probleme, da er an vielen seiner Ränder keine feste Grenze zu benachbarten Regionen zeigt, nur links auf der Aufnahme ist er durch eine Hügelreihe strikt begrenzt. Diese Grenze wird von allen Filterbänken in ein getrenntes Cluster unterteilt,mit Ausnahme der Filterbank nach \cite{jain_91}: Diese produziert kein geeignetes Ergebnis, nur die stärker erkennbaren \enquote{Streifen} werden gut erkannt (blau). Die LM-Filterbank erkennt zwar die Abgrenzung auf der linken Seite, allerdings keine anderen Regionen korrekt. Sie liefert bei diesem Bild das wohl schlechteste Ergebnis. Die Maximum-Response Methode und die Filterbank nach \cite{leung_01} liefern zwar etwas bessere Ergebnisse, diese sind allerdings nicht gut. Die MR-Bank erzeugt erneut sehr feine Cluster.
+Der Gletscher ist subjektiv betrachtet das schwierigste der hier vorgestellten Probleme, da er an vielen seiner Ränder keine feste Grenze zu benachbarten Regionen zeigt, nur links auf der Aufnahme ist er durch eine Hügelreihe strikt begrenzt. Diese Grenze wird von allen Filterbänken in ein getrenntes Cluster unterteilt,mit Ausnahme der Filterbank nach \cite{jain_91}: Diese produziert kein geeignetes Ergebnis, nur die stärker erkennbaren \enquote{Streifen} werden gut erkannt (violett). Die LM-Filterbank erkennt zwar die Abgrenzung auf der linken Seite, allerdings keine anderen Regionen korrekt. Sie liefert bei diesem Bild das wohl schlechteste Ergebnis. Die Maximum-Response Methode und die Filterbank nach \cite{schmid_01} liefern zwar etwas bessere Ergebnisse, diese sind allerdings nicht gut. Die MR-Bank erzeugt erneut sehr feine Cluster.
 
 \paragraph{}
 Zusammengefasst erzeugt aus dieser Auswahl an Filterbänden die Maximum Response-Methode von \cite{visgeo} das wohl am ehesten geeignete Ergebnis zur Weiterverarbeitung. Auf zweitem Platz folgt die Schmid-Filterbank.
@@ -88,28 +88,28 @@ Zusammengefasst erzeugt aus dieser Auswahl an Filterbänden die Maximum Response
 \def\arraystretch{0.5}
 \begin{tabular}{p{0.2\textwidth}p{0.2\textwidth}p{0.2\textwidth}p{0.2\textwidth}p{0.2\textwidth}}
 	\includegraphics[width=0.2\textwidth]{images/Gre13_01.jpg} &
-	\includegraphics[width=0.2\textwidth]{images/gen/GEN_filterbanks_Gre13_01_TSUGF.png} &
-	\includegraphics[width=0.2\textwidth]{images/gen/GEN_filterbanks_Gre13_01_LM.png} &
-	\includegraphics[width=0.2\textwidth]{images/gen/GEN_filterbanks_Gre13_01_S.png} &
-	\includegraphics[width=0.2\textwidth]{images/gen/GEN_filterbanks_Gre13_01_MR.png} \\
+	\includegraphics[width=0.2\textwidth]{images/gen/filterbanks/Gre13_01.jpg_TSUGF.png} &
+	\includegraphics[width=0.2\textwidth]{images/gen/filterbanks/Gre13_01.jpg_LM.png} &
+	\includegraphics[width=0.2\textwidth]{images/gen/filterbanks/Gre13_01.jpg_S.png} &
+	\includegraphics[width=0.2\textwidth]{images/gen/filterbanks/Gre13_01.jpg_MR.png} \\
 	
 	\includegraphics[width=0.2\textwidth]{images/Gre13_02.jpg} &
-	\includegraphics[width=0.2\textwidth]{images/gen/GEN_filterbanks_Gre13_02_TSUGF.png} &
-	\includegraphics[width=0.2\textwidth]{images/gen/GEN_filterbanks_Gre13_02_LM.png} &
-	\includegraphics[width=0.2\textwidth]{images/gen/GEN_filterbanks_Gre13_02_S.png} &
-	\includegraphics[width=0.2\textwidth]{images/gen/GEN_filterbanks_Gre13_02_MR.png} \\
+	\includegraphics[width=0.2\textwidth]{images/gen/filterbanks/Gre13_02.jpg_TSUGF.png} &
+	\includegraphics[width=0.2\textwidth]{images/gen/filterbanks/Gre13_02.jpg_LM.png} &
+	\includegraphics[width=0.2\textwidth]{images/gen/filterbanks/Gre13_02.jpg_S.png} &
+	\includegraphics[width=0.2\textwidth]{images/gen/filterbanks/Gre13_02.jpg_MR.png} \\
 	
 	\includegraphics[width=0.2\textwidth]{images/Gre13_03.jpg} &
-	\includegraphics[width=0.2\textwidth]{images/gen/GEN_filterbanks_Gre13_03_TSUGF.png} &
-	\includegraphics[width=0.2\textwidth]{images/gen/GEN_filterbanks_Gre13_03_LM.png} &
-	\includegraphics[width=0.2\textwidth]{images/gen/GEN_filterbanks_Gre13_03_S.png} &
-	\includegraphics[width=0.2\textwidth]{images/gen/GEN_filterbanks_Gre13_03_MR.png} \\
+	\includegraphics[width=0.2\textwidth]{images/gen/filterbanks/Gre13_03.jpg_TSUGF.png} &
+	\includegraphics[width=0.2\textwidth]{images/gen/filterbanks/Gre13_03.jpg_LM.png} &
+	\includegraphics[width=0.2\textwidth]{images/gen/filterbanks/Gre13_03.jpg_S.png} &
+	\includegraphics[width=0.2\textwidth]{images/gen/filterbanks/Gre13_03.jpg_MR.png} \\
 	
 	\includegraphics[width=0.2\textwidth]{images/Gre13_05.jpg} &
-	\includegraphics[width=0.2\textwidth]{images/gen/GEN_filterbanks_Gre13_05_TSUGF.png} &
-	\includegraphics[width=0.2\textwidth]{images/gen/GEN_filterbanks_Gre13_05_LM.png} &
-	\includegraphics[width=0.2\textwidth]{images/gen/GEN_filterbanks_Gre13_05_S.png} &
-	\includegraphics[width=0.2\textwidth]{images/gen/GEN_filterbanks_Gre13_05_MR.png} \\
+	\includegraphics[width=0.2\textwidth]{images/gen/filterbanks/Gre13_05.jpg_TSUGF.png} &
+	\includegraphics[width=0.2\textwidth]{images/gen/filterbanks/Gre13_05.jpg_LM.png} &
+	\includegraphics[width=0.2\textwidth]{images/gen/filterbanks/Gre13_05.jpg_S.png} &
+	\includegraphics[width=0.2\textwidth]{images/gen/filterbanks/Gre13_05.jpg_MR.png} \\
 	
 	\hspace{1pt}\newline\centering Eingabe, aus \cite{greeley_13} &
 	\hspace{1pt}\newline\centering Filterbank nach \cite{jain_91} &
@@ -138,21 +138,21 @@ Dieser Skalierungsfaktor produziert keine brauchbaren Ergebnisse.
 
 \paragraph{Skalierungsfaktor $s=0,50$}
 
-Wie zu erwarten führt die genutzte, kleinere Skalierung mit $s=0,50$ der Filterbank zu vielen kleineren Clustern, in diesem Fall deutlich erkennbar anhand der gelb markierten Flächen. Obwohl es auf den ersten Blick scheint, als würden die Kraterränder erkannt werden, wird durch die Filterbank bei dieser Skalierung nur die dunkleren Bereiche, in diesem Fall die Schatten, die die erhöhten Kraterränder werfen, erkannt. Auf dieser Aufnahme führt dies zwar zu einer vergleichsweise guten Approxmimation der Krater, sobald anderweitige Schatten hinzukommen, wird diese Skalierung allerdings keine geeigneten Ergebnisse produzieren.
+Wie zu erwarten führt die genutzte, noch relativ geringe Skalierung der Filterbank mit $s=0,50$ zu vielen kleineren Clustern, in diesem Fall auf der ersten Aufnahme deutlich erkennbar anhand der gelb markierten Flächen. Obwohl es auf den ersten Blick scheint, als würden die Kraterränder erkannt werden, werden durch die Filterbank bei dieser Skalierung nur die dunkleren Bereiche, in diesem Fall die Schatten, die die erhöhten Kraterränder werfen, erkannt. Auf dieser Aufnahme führt dies zwar zu einer vergleichsweise guten Approxmimation der Krater, sobald anderweitige Schatten hinzukommen, wird diese Skalierung allerdings keine geeigneten Ergebnisse produzieren.
 
-Das selbe Phänomen tritt auch bei der zweiten Aufnahme auf, auch dort wird stark anhand der Helligkeitswerte geclustert, erkennbar an den Kraterrändern. Bei diesem Bild wird allerdings auch trotz der kleineren Skalierung das raue Gebiet, welches sich horizontal durch das Bild erstreckt, in ein (violett gefärbtes) Cluster eingeteilt. Auch hier werden dunklerere Bereiche (wie die Kraterränder) in separate (gelb gefärbte) Cluster eingeteilt.
+Das selbe Phänomen tritt bei der zweiten Aufnahme auf, auch dort wird stark anhand der Helligkeitswerte geclustert, erkennbar insbesondere an den violetten Bereichen an den Kraterrändern. Bei diesem Bild wird allerdings auch trotz der kleineren Skalierung das raue Gebiet, welches sich horizontal durch das Bild erstreckt, in ein (rot gefärbtes) Cluster eingeteilt. Auch hier werden allerdings dunklerere Bereiche (wie die Kraterränder) in separate (violett gefärbte) Cluster eingeteilt.
 
 Auf der dritten Aufnahme wird bei der genutzten Skalierung die feinere Fläche größtenteils als ein (gelb gefärbtes) Cluster dargestellt, separat dazu sind in rot die Übergänge zwischen den Regionen gekennzeichnet. Die gröberen Flächen in den äußeren Bereichen werden nicht zuverlässig in das selbe Cluster eingeordnet.
 
-Die letzte Testaufnahme, bestehend aus zwei Hügeln \bzw Bergen, stellt durch die über- und unterbelichteten Flächen an den Hängen eine der größten Herausforderungen für den Clusteringalgorithmus dar. An diesen Stellen ist der Kontrast des Bildes sehr gering, sodass kaum noch Texturen erkannt werden, anhand derer geclustert werden könnte. Wie zu erwarten werden die dunklen Flächen in ein einzelnes (violettes) Cluster kombiniert. Kleine Hügelketten hingegen werden zuverlässig in zusammengehörige Cluster eingeteilt, welches auf diesen Aufnahmen blau markiert ist. Die beleuchteten Seiten der Hügel werden bei dieser Skalierung leider nicht von der allgemeinen Marsoberfläche unterschieden.
+Die letzte Testaufnahme, bestehend aus zwei Hügeln \bzw Bergen, stellt durch die über- und unterbelichteten Flächen an den Hängen eine der größten Herausforderungen für den Clusteringalgorithmus dar. An diesen Stellen ist der Kontrast des Bildes sehr gering, sodass kaum noch Texturen erkannt werden, anhand derer geclustert werden könnte. Wie zu erwarten werden die dunklen Flächen in ein einzelnes (rotes) Cluster kombiniert. Kleine Hügelketten hingegen werden zuverlässig in zusammengehörige Cluster eingeteilt, welches auf diesen Aufnahmen blau markiert ist. Die beleuchteten Seiten der Hügel werden bei dieser Skalierung leider nicht von der allgemeinen Marsoberfläche unterschieden, höchstens der Fuß des Berges kann durch die violette Färbung erahnt werden.
 
 Dieser Skalierungsfaktor führt zu vergleichsweise guten Clusteringergebnissen.
 
 \paragraph{Skalierungsfaktor $s=0,75$}
 
-Dieser Skalierungsfaktor führt beim Clustering des ersten Bildes zu Ergebnisse, welche vergleichbar mit denen des Faktors $s=0,5$ sind. Die Ränder der Krater werden allerdings in helle und dunkle Regionen eingeteilt, die Cluster im äußeren Bereich sind größer und gröber.
+Dieser Skalierungsfaktor führt beim Clustering des ersten Bildes zu Ergebnisse, welche vergleichbar mit denen des Faktors $s=0,5$ sind. Die Ränder der Krater werden allerdings getrennt in helle und dunkle Regionen eingeteilt, die Cluster im äußeren Bereich sind größer und gröber.
 
-Auf der zweiten Aufnahme wird die horizontale rauere Region sehr gut in ein eigenes Cluster eingeteilt, selbiges gilt für die Kraterränder. Auf dieser Aufnahme erscheint der Skalierungsfaktor $s=0,75$ optimal.
+Auf der zweiten Aufnahme wird die horizontale rauere Region sehr gut in ein eigenes Cluster eingeteilt, selbiges gilt für die Kraterränder. Auf dieser Aufnahme erscheint der Skalierungsfaktor $s=0,75$ für diese Filterbank optimal.
 
 Die dritte Aufnahme unterscheidet sich bis auf die gröberen, größeren Cluster in den äußeren Bereichen nicht wesentlich von der vorherigen Skalierung.
 
@@ -162,27 +162,27 @@ Insgesamt scheint sich dieser Skalierungsfaktor auch zum textutbasierten Cluster
 
 \paragraph{Skalierungsfaktor $s=1.00$}
 
-Während bei diesem Skalierungsfaktor auf der ersten Aufnahme der größere, mittigere Krater relativ gut durch ein rotes kreisförmiges Cluster gekennzeichnet wird, wird der kleinere Krater nicht zuverlässig erkannt. Bei diesem gehen die Cluster in umlegende Gebiete über, als wäre dieser Krater nur eine etwas rauere Oberflächenstruktur.
+Während bei diesem Skalierungsfaktor auf der ersten Aufnahme der größere, mittige Krater relativ gut durch ein gelbes kreisförmiges Cluster gekennzeichnet wird, wird der kleinere Krater nicht zuverlässig erkannt. Bei diesem gehen die Cluster in umlegende Gebiete über, als wäre dieser Krater nur eine etwas rauere Oberflächenstruktur.
 
 Bei der zweiten Aufnahme wird wie zuvor der Krater erfolgreich separat in ein Cluster eingeteilt, die Begrenzungen der gröberen Struktur, welche sich durch das Bild zieht, geht allerdings verloren. Diese Region wird leider im rechten Teil des Bildes sehr weitläufig erkannt.
 
-In dem dritten Testbild werden die gröberen Hügelketten am Rand des helleren Bereiches zwar erkannt (gelb markiert), und die Übergangsstellen zwischen zwei Regionen werden in ein rotes Cluster zusammengefügt,  alle anderen Regionen sind allerdings nicht voneinander getrennt worden.
+In dem dritten Testbild werden die gröberen Hügelketten am Rand des helleren Bereiches zwar erkannt (gelb markiert), und die Übergangsstellen zwischen zwei Regionen werden in ein blaues Cluster zusammengefügt, alle anderen Regionen sind allerdings nicht voneinander getrennt worden.
 
 Das letzte Bild wird bei dieser Skalierung fast identisch zu der Skalierung mit $s=0,75$ geclustert.
 
-Zusammengefasst ist diese Skalierung schon zu grob um so gute Ergbenisse wie die vorherigen zu erreichen.
+Zusammengefasst ist diese Skalierung schon zu grob um so gute Ergebnisse wie die vorherigen zu erreichen.
 
 \paragraph{Skalierungsfaktor $s=1.25$ und $s=1.50$}
 
 Da diese beiden Skalierungsfaktoren zu fast identischen Clusterverteilungen führen, werden sie in einen Abschnitt zusammengefasst.
 
-Bei diesen Skalierungen werden im oberen, glätteren Bereich der ersten Aufnahme die vereinzelten Krater wie gewollt erkannt, sie versagt allerdings im unteren, gröberen Bereich, wo sie nur ein großes Cluster erstellen. Der Krater wird nur anhand von starken Helligkeitsdifferenzen erkannt, welche in der gesamten Ausgabe violett bei $s=1,25$, \bzw blau bei $s=1,5$ markiert wurden. 
+Bei diesen Skalierungen werden im oberen, glätteren Bereich der ersten Aufnahme die vereinzelten Krater wie gewollt erkannt, sie versagt allerdings im unteren, gröberen Bereich, wo sie nur ein großes Cluster erstellen. Der Krater wird nur anhand von starken Helligkeitsdifferenzen erkannt, welche in der gesamten Ausgabe gelb bei $s=1,25$, \bzw violett bei $s=1,5$ markiert wurden. 
 
-Selbiges gilt im Bezug auf die starken Helligkeitsdifferenzen bei der weiten Aufnahme.
+Selbiges gilt im Bezug auf die starken Helligkeitsdifferenzen bei der zweiten Aufnahme.
 
-Bei der dritten Aufnahme wird von beiden Skalierungsfaktoren kein brauchbares Ergebnis produziert, man kann höchstens erahnen, dass die jeweils blau gefärbten Regionen besonders kontrastarme, also glatte Flächen darstellen.
+Bei der dritten Aufnahme wird von beiden Skalierungsfaktoren kein brauchbares Ergebnis produziert, man kann höchstens erahnen, dass die gelb \bzw violett gefärbten Regionen besonders kontrastarme, also glatte Flächen darstellen sollen.
 
-Beim Clusteringergebnis der letzten Aufnahme unterschieden sich die beiden Skalierungsfaktoren erstmals: Bei $s=1,25$ gleicht das Ergebnis dem des vorherigen Clusterings: Kleinere Bergregionen und rauere Oberflächenstrukturen werden getrennt voneinander Erkannt, Flächen mit weniger oder (aufgrund von Unterbelichtung) keiner werden auch in ein großes Cluster hinzugefügt. Der Faktor $s=1,5$ scheint selbst bei diesem Bild zu groß zu sein, bis auf die Hügelketten mit starker Helligkeitsdifferenz wird die Aufnahme nur anhand ihrer Helligkeitswerte geclustert.
+Beim Clusteringergebnis der letzten Aufnahme unterschieden sich die beiden Skalierungsfaktoren erstmals stärker: Bei $s=1,25$ gleicht das Ergebnis dem des vorherigen Clusterings: Kleinere Bergregionen und rauere Oberflächenstrukturen werden getrennt voneinander erkannt, Flächen mit weniger oder (aufgrund von Unterbelichtung) keiner werden auch in ein großes Cluster hinzugefügt. Der Faktor $s=1,5$ scheint selbst bei diesem Bild zu groß zu sein, bis auf die Hügelketten mit starker Helligkeitsdifferenz wird die Aufnahme nur anhand ihrer Helligkeitswerte geclustert.
 
 Diese Faktoren sind also zu groß um brauchbare Ergebnisse zu produzieren.
 
@@ -191,33 +191,33 @@ Diese Faktoren sind also zu groß um brauchbare Ergebnisse zu produzieren.
 	\def\arraystretch{0.5}
 	\begin{tabular}{p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}}
 		\includegraphics[width=0.14\textwidth]{images/p03_01.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_0.25.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_0.5.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_0.75.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_1.0.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_1.25.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_1.5.png} \\
+		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_01.png_0.25.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_01.png_0.50.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_01.png_0.75.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_01.png_1.00.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_01.png_1.25.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_01.png_1.50.png} \\
 		\includegraphics[width=0.14\textwidth]{images/p03_02.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_0.25.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_0.5.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_0.75.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_1.0.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_1.25.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_1.5.png} \\
+		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_02.png_0.25.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_02.png_0.50.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_02.png_0.75.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_02.png_1.00.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_02.png_1.25.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_02.png_1.50.png} \\
 		\includegraphics[width=0.14\textwidth]{images/p03_03.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_0.25.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_0.5.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_0.75.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_1.0.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_1.25.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_1.5.png} \\
+		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_03.png_0.25.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_03.png_0.50.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_03.png_0.75.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_03.png_1.00.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_03.png_1.25.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_03.png_1.50.png} \\
 		\includegraphics[width=0.14\textwidth]{images/p03_04.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_0.25.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_0.5.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_0.75.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_1.0.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_1.25.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_1.5.png} \\
+		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_04.png_0.25.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_04.png_0.50.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_04.png_0.75.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_04.png_1.00.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_04.png_1.25.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_04.png_1.50.png} \\
 		
 		\hspace{2pt}\newline\centering Eingabe & 
 		\hspace{2pt}\newline\centering $s=0,25$ &
@@ -231,7 +231,7 @@ Diese Faktoren sind also zu groß um brauchbare Ergebnisse zu produzieren.
 	\label{fig:filterbank_sizes}
 \end{figure}
 
-Aus diesen Ergebnissen lässt sich schlussfolgern, dass ein Skalierungsfaktor von $s=0,5$ bei diesen Eingabedaten die besten Ergebnisse liefert.
+Aus diesen Ergebnissen lässt sich schlussfolgern, dass sich die Skalierungsfaktoren $s=0,5$ und $s=0,75$ bei diesen Eingabedaten die besten Ergebnisse liefert. Da allerdings kleinere \bzw feinere Cluster in der nachfolgenden Weiterverarbeitung durch den Algorithmus nach Kanezaki bevorzugt werden, wird von nun an ein Skalierungsfaktor von $s=0,5$ genutzt.
 
 \subsection{Gewichtungen der Parameter}
 \label{ssec:filterweight}
@@ -244,40 +244,40 @@ Das Hinzufügen der X- und Y-Koordinaten zu dem Datenwürfel ist ursprünglich a
 Wird nun ein geringerer Wert für $w_p$ betrachtet, so erkennt man für Werte mit $w_p\leq0.66$ keinen Starken Unterschied bei wechselnden Gewichtungen. Dies ist insbesondere bei $w_p=0$ signifikant, da dort der räumliche Bezug der einzelnen Pixel zueinander bei der Berechnung des Clusterings zwar komplett ignoriert wird, das eigentliche Ergebnis sich --~bis auf etwas kleinere Cluster in den merkmalsarmen Bereichen~-- aber kaum verändert. Dies lässt sich darauf zurückführen, dass das Hinzufügen des räumlichen Bezuges ursprünglich den Grund hatte, dass auf \enquote{normalen} Fotografien die vorkommenden Cluster meistens nur ein einziges mal an einem räumlich begrenzten Ort vorhanden sind, so sind \zB bei der Aufnahme aus \figurename~\ref{fig:tsugf_optim} aus Unterabschnitt~\ref{ssec:tsugf} die kleineren Korallen im linken Hintergrund nur an dieser Stelle vorhanden und ließen sich durch ein weit ausgedehntes Cluster zusammenfassen. Bei den aktuell genutzten Aufnahmen hingegen ist dies nicht der Fall, eine auftretende Oberflächenstruktur, wie \zB ein Krater kann an verschieden Stellen ohne räumlichen Bezug zueinander auftreten.
 Die Nutzung der Positionwerte hat allerdings einen Vorteil: Sie sorgt dafür die Clustergrößen nicht zu klein und fragmentiert werden zu lassen, indem sie eine Relation mit benachbarten Pixeln erzeugt, welche der k-Means Algorithmus berücksichtigt.
 
-Aus diesem Grund macht es Sinn, die Koordinatenbeträge der Pixel relativ gering zu gewichten, um dafür zu sorgen, dass das texturbasierte Clustering möglicht positionsinvariant operiert, aber auch nicht so gering, dass viele fragmentierte Cluster entstehen. Anhand von \figurename~\ref{fig:filterbank_weights_pos} ist erkennbar, dass ein Wert von  $w_p=0,66$ sich in diesem Fall sehr gut eignet, ein Clusterergebnis zu erstellen.
+Aus diesem Grund macht es Sinn, die Koordinatenbeträge der Pixel relativ gering zu gewichten, um dafür zu sorgen, dass das texturbasierte Clustering möglicht positionsinvariant operiert, aber auch nicht so gering, dass viele fragmentierte Cluster entstehen. Anhand von \figurename~\ref{fig:filterbank_weights_pos} ist erkennbar, dass ein Wert von  $w_p=0,66$ sich in diesem Fall sehr gut eignet, ein brauchbares Clusterergebnis zu erstellen.
 
 \begin{figure}[h!]
 	\setlength\tabcolsep{1pt}
 	\def\arraystretch{0.5}
 	\begin{tabular}{p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}}
 		\includegraphics[width=0.14\textwidth]{images/p03_01.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_pos_0.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_pos_0.33.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_pos_0.66.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_pos_1.0.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_pos_1.33.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_pos_1.66.png} \\
+		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_01.png_0.00.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_01.png_0.33.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_01.png_0.66.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_01.png_1.00.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_01.png_1.33.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_01.png_1.66.png} \\
 		\includegraphics[width=0.14\textwidth]{images/p03_02.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_pos_0.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_pos_0.33.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_pos_0.66.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_pos_1.0.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_pos_1.33.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_pos_1.66.png} \\
+		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_02.png_0.00.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_02.png_0.33.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_02.png_0.66.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_02.png_1.00.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_02.png_1.33.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_02.png_1.66.png} \\
 		\includegraphics[width=0.14\textwidth]{images/p03_03.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_pos_0.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_pos_0.33.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_pos_0.66.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_pos_1.0.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_pos_1.33.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_pos_1.66.png} \\
+		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_03.png_0.00.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_03.png_0.33.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_03.png_0.66.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_03.png_1.00.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_03.png_1.33.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_03.png_1.66.png} \\
 		\includegraphics[width=0.14\textwidth]{images/p03_04.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_pos_0.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_pos_0.33.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_pos_0.66.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_pos_1.0.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_pos_1.33.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_pos_1.66.png} \\
+		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_04.png_0.00.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_04.png_0.33.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_04.png_0.66.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_04.png_1.00.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_04.png_1.33.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_04.png_1.66.png} \\
 		
 		\hspace{2pt}\newline\centering Eingabe & 
 		\hspace{2pt}\newline\centering $w_p=0,00$ &
@@ -296,7 +296,7 @@ Die hier folgenden Clusteringergebnisse wurden mit einem Skalierungsfaktor von $
 
 In der originalen Ausarbeitung des texturbasierten Clusterings \cite{jain_91} werden nur zwei Ebenen für die jeweiligen X- und Y-Koordinaten hinzugefügt. Es steht also an dieser Stelle offen, ob das Hinzufügen der Farb- \bzw Helligkeitsdimension zum Datenwürfel zu besseren Ergebnissen führt. Dazu wurde der vorgestellte Algorithmus mit unterschiedlichen Werten für die Gewichtung der Helligkeitswerte $w_c$ auf den bekannten Beispielbildern ausgeführt. Die Ergebnisse dieses Experimentes sind in \figurename~\ref{fig:filterbank_weights_col} dargestellt.
 
-Auf diesen Clusterings wird schnell ersichtlich, dass eine Veränderung der Gewichtung relativ geringe Auswirkungen hat. Eine stärkere Gewichtung von $w_c=1,66$ besitzt auf der vierten Aufnahme den wohl größten Einfluss, da dort anhand der Über- und Unterbelichtung die beiden Bergseiten getrennt voneinander erkannt werden. Obwohl diesese Phänomen hier gute Auswirkungen hat, ist es im allgemeinen ungewollt: Mit diesem starken Einfluss der Helligkeitswerte lernt das neuronale Netzwerk stärker mithilfe der Helligkeit statt über die Textur dieser Cluster zu lernen, was eines der größten Probleme beim Trainieren dieses Netzes ist.
+Auf diesen Clusterings wird schnell ersichtlich, dass eine Veränderung der Gewichtung relativ geringe Auswirkungen hat. Eine stärkere Gewichtung von $w_c=1,66$ besitzt auf der vierten Aufnahme den wohl größten Einfluss, da dort anhand der Über- und Unterbelichtung die beiden Bergseiten getrennt voneinander erkannt werden. Obwohl dieses Phänomen hier gute Auswirkungen hat, ist es im allgemeinen ungewollt: Mit diesem starken Einfluss der Helligkeitswerte lernt das neuronale Netzwerk stärker mithilfe der Helligkeit statt über die Textur dieser Cluster zu lernen, was eines der größten Probleme beim Trainieren dieses Netzes ist.
 
 Da sich durch die zusätzlichen Helligkeitswerte keine Verbesserungen der Clusteringergebnisse feststellen lassen wird dieser Schritt von nun an entfernt, es gilt also $w_c=0$.
 
@@ -305,33 +305,33 @@ Da sich durch die zusätzlichen Helligkeitswerte keine Verbesserungen der Cluste
 	\def\arraystretch{0.5}
 	\begin{tabular}{p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}}
 		\includegraphics[width=0.14\textwidth]{images/p03_01.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_col_0.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_col_0.33.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_col_0.66.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_col_1.0.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_col_1.33.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_01_MR_col_1.66.png} \\
+		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_01.png_0.00.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_01.png_0.33.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_01.png_0.66.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_01.png_1.00.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_01.png_1.33.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_01.png_1.66.png} \\
 		\includegraphics[width=0.14\textwidth]{images/p03_02.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_col_0.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_col_0.33.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_col_0.66.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_col_1.0.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_col_1.33.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_02_MR_col_1.66.png} \\
+		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_02.png_0.00.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_02.png_0.33.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_02.png_0.66.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_02.png_1.00.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_02.png_1.33.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_02.png_1.66.png} \\
 		\includegraphics[width=0.14\textwidth]{images/p03_03.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_col_0.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_col_0.33.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_col_0.66.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_col_1.0.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_col_1.33.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_03_MR_col_1.66.png} \\
+		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_03.png_0.00.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_03.png_0.33.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_03.png_0.66.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_03.png_1.00.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_03.png_1.33.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_03.png_1.66.png} \\
 		\includegraphics[width=0.14\textwidth]{images/p03_04.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_col_0.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_col_0.33.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_col_0.66.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_col_1.0.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_col_1.33.png} &
-		\includegraphics[width=0.14\textwidth]{images/gen/GEN_filterbanks_p03_04_MR_col_1.66.png} \\
+		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_04.png_0.00.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_04.png_0.33.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_04.png_0.66.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_04.png_1.00.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_04.png_1.33.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_04.png_1.66.png} \\
 		
 		\hspace{2pt}\newline\centering Eingabe & 
 		\hspace{2pt}\newline\centering $w_c=0,00$ &
