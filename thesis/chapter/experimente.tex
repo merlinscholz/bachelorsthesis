@@ -15,10 +15,10 @@ Einige der Aufnahmen aus diesem Datensatz wurde bereits in vorherigen Kapitel zu
 \section{Evaluation}
 \label{sec:evaluation}
 
-Zur Evaluation der verschiedenen Algorithmen wird ein Algorithmus zum Vergleich von unterschiedlichen, unbenannten Clusterings benötigt. An dieser Stelle eignet sich der Rand Index \cite{menezes_17}, er kann definiert werden durch:
+Zur Evaluation der verschiedenen Algorithmen wird ein Algorithmus zum Vergleich von unterschiedlichen, unbenannten Clusterings benötigt. An dieser Stelle eignet sich der Adjusted Rand Index \cite{hubert_85}, er kann definiert werden durch:
 
 \begin{equation}
-R = \frac{TP+TN}{RP+FP+FN+TN}
+ARI = (RI- Expected_RI)
 \end{equation}
 
 \section{Resultate}

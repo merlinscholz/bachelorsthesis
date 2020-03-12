@@ -349,12 +349,77 @@ Da sich durch die zusätzlichen Helligkeitswerte keine Verbesserungen der Cluste
 \subsection{Anzahl der Cluster}
 \label{ssec:initialization_number_of_segments}
 
-Bis zu dieser Stelle haben sich vier Cluster sehr gut zur Visualisierung der unterschiedlichen Ergebnisse nutzen lassen, dies ändert sich allerdings wenn die jeweiligen Clusterings an das darauffolgende neuronale Netz weitergegeben werden. Die Anzahl der Cluster mit denen gestartet werden sollen ist ein entscheidener Wert bei dem Prozess der Segmentierung: Ist diese Zahl zu gering, kann ads Netzwerk dieses Clustering nicht weiter verfeinern, ist sie jedoch zu groß, so sind innerhalb eines Clusters nicht genug Informationen vorhanden, als dass das Netzwerk erlernen kann, nach welchen Kriterien das Bild ursprünglich aufgeteilt wurde.
+Bis zu dieser Stelle haben sich vier Cluster sehr gut zur Visualisierung der unterschiedlichen Ergebnisse nutzen lassen, dies ändert sich allerdings wenn die jeweiligen Clusterings an das darauf folgende neuronale Netz weitergegeben werden. Die Anzahl der Cluster mit denen gestartet werden sollen ist ein entschiedener Wert bei dem Prozess der Segmentierung: Ist diese Zahl zu gering, kann das Netzwerk dieses Clustering nicht weiter verfeinern, ist sie jedoch zu groß, so sind innerhalb eines Clusters nicht genug Informationen vorhanden, als dass das Netzwerk erlernen kann, nach welchen Kriterien das Bild ursprünglich aufgeteilt wurde. Ein Vergleich unterschiedlicher Werte für diese Anzahl der Startcluster ist in \figurename~\ref{fig:n_segments} sichtbar.
+
+Dort ist zu erkennen, dass eine geringe Anzahl an initialen Clustern zu sehr groben Ergebnissen führt. Dies ist darauf zurückzuführen, dass diese wenigen, großen Cluster unterschiedliche Merkmale enthalten (können), welche zwar vom neuronalen Netz erkannt werden, anschließend allerdings mit dem Clusterlabel des am häufigsten erkannten Wertes überschrieben werden. Folglich gehen sehr schnell wichtige Oberflächenmerkmale verloren, was im Extremfall (\vgl Aufnahme 3) dazu führen kann, dass die gesamte Aufnahme durch nur ein großes Segment markiert wird. An dieser Stelle hilft das Abbruchkriterium der Anzahl der Cluster auch kaum, da in diesen Aufnahmen noch zwei weitere, kleinere Cluster mit einer Größe von wenigen Pixeln enthalten sind (hier nicht sichtbar).
+
+Ein zu großer Wert für diese Initialisierung hingegen führt --~wie oben beschrieben~-- zu Segmentzuweisungen, welche auf einer zu geringen Menge an Informationen basiert. Dieser Effekt ist auf den genutzten Aufnahmen nicht sichtbar, da diese meist relativ feine Texturen enthalten. Er wäre erst erkennbar, wenn die Länge eines Clusters geringer wäre als die Distanz, in welcher sich die zu analysierende Textur wiederholt. Außerdem führt eine höherer Anzahl von Clustern zu einer erhöhten Laufzeit der Initialisierung, da der dort genutzte k-Means-Algorithmus eine Laufzeit besitzt, welche proportional zur Anzahl der zu erstellenden Cluster ist.
+
+Anhand der Grafik lässt sich feststellen, dass ein Wert von $n=50$ für eine erfolgreiche Segmentierung ausreichend ist, da größere Werte keine sichtbare Optimierung der Ergebnisse hervorbringen.
+
+\begin{figure}[h!]
+	\setlength\tabcolsep{1pt}
+	\def\arraystretch{0.5}
+	\begin{tabular}{p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}}
+		\includegraphics[width=0.14\textwidth]{images/p03/p03_01.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/number_of_segments/p03_01.png_5.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/number_of_segments/p03_01.png_10.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/number_of_segments/p03_01.png_20.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/number_of_segments/p03_01.png_50.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/number_of_segments/p03_01.png_75.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/number_of_segments/p03_01.png_100.png} \\
+		\includegraphics[width=0.14\textwidth]{images/p03/p03_02.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/number_of_segments/p03_02.png_5.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/number_of_segments/p03_02.png_10.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/number_of_segments/p03_02.png_20.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/number_of_segments/p03_02.png_50.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/number_of_segments/p03_02.png_75.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/number_of_segments/p03_02.png_100.png} \\
+		\includegraphics[width=0.14\textwidth]{images/p03/p03_03.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/number_of_segments/p03_03.png_5.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/number_of_segments/p03_03.png_10.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/number_of_segments/p03_03.png_20.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/number_of_segments/p03_03.png_50.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/number_of_segments/p03_03.png_75.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/number_of_segments/p03_03.png_100.png} \\
+		\includegraphics[width=0.14\textwidth]{images/p03/p03_04.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/number_of_segments/p03_04.png_5.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/number_of_segments/p03_04.png_10.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/number_of_segments/p03_04.png_20.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/number_of_segments/p03_04.png_50.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/number_of_segments/p03_04.png_75.png} &
+		\includegraphics[width=0.14\textwidth]{images/gen/number_of_segments/p03_04.png_100.png} \\
+		
+		\hspace{2pt}\newline\centering Eingabe & 
+		\hspace{2pt}\newline\centering $n=5$ &
+		\hspace{2pt}\newline\centering $n=10$ &
+		\hspace{2pt}\newline\centering $n=20$ &
+		\hspace{2pt}\newline\centering $n=50$ &
+		\hspace{2pt}\newline\centering $n=75$ &
+		\hspace{2pt}\newline\centering $n=100$
+	\end{tabular}
+	\caption{Vergleich verschiedener Werte für die Anzahl der Cluster bei der Initialisierung. Die Farben der jeweilgen Cluster wurden zufällig gewählt und sagen nichts über deren Inhalt aus. Das Abbruchkriterium der Segmentierung ist eine Anzahl von drei oder weniger unterschiedlichen Clustern.}
+	\label{fig:n_segments}
+\end{figure}
+
+\section{Algorithmus}
+\label{sec:algorithm}
+
+Der eigentliche Algorithmus von Kanezaki --~das Füllen der Cluster der dynamisch erstellen Zielsegmentierung mit den derzeitigen Werten~-- wird größtenteils unverändert gelassen. Eine Modifikation die sich allerdings doch als hilfreich erwiesen hat, ist dass dieser genannte Vorgang nicht in jeder Iteration des Netzes geschieht, sondern nur alle $n$ Iterationen. Dies ermöglicht dem Netzwerk mehr Epochen zum Lernen der Methodik jeweiligen Segmentierung, bevor diese wieder verändert wird.
 
 \section{Netzwerkarchitektur}
 \label{sec:network_architecture}
 
 Die Netzwerkarchitektur im originalen Paper stellt ein relativ einfaches Netzwerk zur Objekterkennung oder Bildsegmentierung dar: Es durchläuft iterativ eine Reihe mit je einer Convolutional Layer, gefolgt von einer Batch Normalization. Im Folgenden wird geprüft, ob eine Modifikation dieser Architektur in diesem domänenspezifischen Anwendungsfall zu Verbesserungen der Ergebnisse führen kann. Für die Initialisierung werden die im letzten Kapitel erläuterten Parameter genutzt.
+
+\iffalse
+\section{Abbruchkriterium}
+\label{sec:stoppingcriteria}
+
+Die originale Implementierung nutzt die Anzahl der Segmente, die das neuronale Netz erzeugt, als Abbruchkriterium für das Netzwerk. Ist diese geringer als ein im Vorhinein festgelegter Wert, so wird das Training des Netzes gestoppt und die aktuelle Segmentierung als Ergebnis ausgegeben. Neben dieser simplen Methode lässt sich auch der Wert der Verlustfunktion als Abbruchkriterium nutzen. Da dieser allerdings pro Eingabedatei unterschiedlich zueinander ausfällt, wird ihre Änderung in den letzten $n$ Epochen betrachtet. Diese Änderungsrate sinkt während der Laufzeit des Training, da die weitere Optimierung der Segmentierung immer geringer ausfällt. Die Wahl von $n$ ist entscheidend für die erfolgreiche Funktionsweise dieser Methode, da ein zu kleiner Wert bedeuten könnte, dass das Netzwerk abgebrochen wird, wenn innerhalb von wenigen Epochen wenig neue Informationen gelernt werden. ISt $n$ allerdings zu groß, werden zu viele Epochen betrachtet, sodass eine aktuelle Senkung dieser Änderung erst spät bemerkt wird. Da das Netzwerk je nach Eingabe eine Laufzeit von etwa $50$ bis $80$ Epochen hat, eignet sich ein Wert von $n=5$ zur Bestimmung der Änderungsrate. 
+
+Eine graphische Darstellung dieser Änderungsrate in Abhängigkeit der Epochen des Netzwerkes ist für die fünf verschiedenen Aufnahmen aus TODO in TODO sichtbar.
+\fi
 
 \subsection{Aktivierungsfunktionen}
 \label{ssec:network_architecture_activation}
@@ -366,16 +431,13 @@ Geprüft werden die am weitesten verbreiteten Aktivierungsfunktionen: Die ReLU-,
 \subsection{Pooling Layer}
 \label{ssec:network_architecture_pooling}
 
+Auch auf Pooling Layers wurde im ursprünglichen Paper verzichtet. Pooling Layers können --~wie in Unterabschnitt~\ref{ssec:pooling_layer} beschrieben~-- dabei helfen, Informationen auf verschiedenen Bildbereichen zu abstrahieren und aggregieren, es ist würde also in dieser Hinsicht zu besseren Ergebnissen führen können. Ein Problem allerdings ist, dass Pooling Layers die Auflösung des Bildes merklich verringern, wird solch eine Schicht \bspw mit einer Kernelgröße von $F_1=F_2=2$ genutzt, hat die Ausgabe nur ein Viertel der Auflösung der Eingabe. Dies ist zwar ein geringeres Problem bei der Objekterkennung, kann allerdings bei der Segmentierung, bei welcher es auf die möglichst genaue Bestimmung der Kanten von Strukturen ankommt, zu einer Genauigkeitseinbüßung führen. Außerdem kann je nach Kernelgröße und weiteren Hyperparametern der Fall eintreten, dass sehr feine Oberflächenmerkmale durch das Pooling verloren gehen.
+
 \subsection{Fully Connected Layers}
 \label{ssec:network_architecture_fully_connected}
 
 \section{Hyperparameter}
 \label{sec:hyperparameter}
-
-\section{Abbruchkriterium}
-\label{sec:stoppingcriteria}
-
-Die originale Implementierung nutzt die Anzahl der Segmente, die das neuronale Netz erzeugt, als Abbruchkriterium für das Netzwerk. Ist diese geringer als ein im Vorhinein festgelegter Wert, so wird das Training des Netzes gestoppt und die aktuelle Segmentierung als Ergebnis ausgegeben. Neben dieser simplen Methode lässt sich auch der Wert der Verlustfunktion als Abbruchkriterium nutzen. Da dieser allerdings pro Eingabedatei unterschiedlich zueinander ausfällt, wird ihre Änderung in den letzten $n$ Epochen betrachtet. Diese Änderungsrate sinkt während der Laufzeit des Training, da die weitere Optimierung der Segmentierung immer geringer ausfällt. Die Wahl von $n$ ist entscheidend für die erfolgreiche Funktionsweise dieser Methode, da ein zu kleiner Wert bedeuten könnte, dass das Netzwerk abgebrochen wird, wenn innerhalb von wenigen Epochen wenig neue Informationen gelernt werden. ISt $n$ allerdings zu groß, werden zu viele Epochen betrachtet, sodass eine aktuelle Senkung dieser Änderung erst spät bemerkt wird. Da das Netzwerk je nach Eingabe eine Laufzeit von etwa $50$ bis $80$ Epochen hat, eignet sich ein Wert von $n=5$ zur Bestimmung der Änderungsrate. 
 
 \section{Preprocessing}
 \label{sec:preprocessing}
