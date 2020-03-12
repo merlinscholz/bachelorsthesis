@@ -4,8 +4,22 @@
 \section{Datens"atze}
 \label{sec:datasets}
 
+\subsection{Domänenspezifisch}
+
+\subsection{Allgemein}
+
+Ein oft genutzter Datensatz zu Evaluierung von Segmentierungsalgorithmen ist der BSDS500 Datensatz der UC Berkeley \cite{bsd500}. Zu diesem Datensatz existieren sowohl eine manuell erstelle Ground Truth, als auch mehrere auf ihm angewandte Algorithmen, mit denen die hier vorgestellte Methode verglichen werden kann.
+
+Einige der Aufnahmen aus diesem Datensatz wurde bereits in vorherigen Kapitel zur Erläuterung einiger Algorithmen genutzt (\vgl \bspw \figurename~\ref{fig:Kan18_01} oder \ref{fig:tsugf_101027_raw}).
+
 \section{Evaluation}
 \label{sec:evaluation}
+
+Zur Evaluation der verschiedenen Algorithmen wird ein Algorithmus zum Vergleich von unterschiedlichen, unbenannten Clusterings benötigt. An dieser Stelle eignet sich der Rand Index \cite{menezes_17}, er kann definiert werden durch:
+
+\begin{equation}
+R = \frac{TP+TN}{RP+FP+FN+TN}
+\end{equation}
 
 \section{Resultate}
 \label{sec:results}

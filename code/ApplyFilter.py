@@ -2,7 +2,7 @@ import cv2
 from sklearn.cluster import KMeans
 import numpy as np
 
-def applyFilter(A, g, n_clusters = 4, no_blur = False, no_spatial = False, no_norm = False, no_color = False, r_bank_results = False, mr = False, size = 0.5, w_color = 0, w_spatial = 0.66):
+def applyFilter(A, g, n_clusters = 4, no_blur = False, no_spatial = False, no_norm = False, no_color = False, r_bank_results = False, mr = False, size = 0.8, w_color = 0, w_spatial = 0.66):
   if no_spatial == True:
     w_spatial = 0
 
@@ -88,6 +88,6 @@ def applyFilter(A, g, n_clusters = 4, no_blur = False, no_spatial = False, no_no
   X = X.reshape(numPoints, -1)
 
   L = KMeans(n_clusters = n_clusters, n_init = 20,
-    max_iter = 1000, n_jobs = 10).fit(X).labels_
+    max_iter = 500, n_jobs = 10).fit(X).labels_
 
   return L
