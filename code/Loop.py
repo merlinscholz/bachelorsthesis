@@ -46,8 +46,8 @@ def run(image, tags, model, max_epochs=500, tensorboard=True, lr=0.15, momentum=
   
   input = preprocess(image.copy()).unsqueeze(0).cuda()
 
-  #target_shape = get_output_size(input, model)
-  target_shape = image.shape
+  target_shape = get_output_size(input, model)
+  #target_shape = image.shape
     
   if target_shape[0] != image.shape[0] or target_shape[1] != image.shape[1]:
     tags = cv2.resize(tags.reshape(image.shape[0], image.shape[1]), dsize=(target_shape[1], target_shape[0]), interpolation=cv2.INTER_NEAREST).flatten()
