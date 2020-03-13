@@ -223,7 +223,7 @@ Diese drei Filterbänke besitzen im Gegensatz zu der in \cite{mathworks_15} vorg
 
 Die Besonderheit der Maximum Response-Filterbank besteht daraus, dass sie zwar 38 Filtern besitzt, nach der Anwendung der Konvolution aber alle bis auf die 6 Filter mit der stärksten Reaktion auf die Eingabe an den k-Means-Algorithmus weitergegeben werden. Zusätzlich werden immer die rotationsinvarianten Filter genutzt.
 
-\iffalse
+%\iffalse
 % TODO Remove?
 \section{Kratererkennung}
 \label{sec:crater_detection}
@@ -232,13 +232,13 @@ In \cite{bandeira_10} und dessen Fortsetzung \cite{bandeira_12} wird ein neuer A
 
 Die erarbeitete Vorgehensweise beginnt damit, dass über einen möglichst effizienten Algorithmus (hier der Algorithmus von Urbach \etal \cite{urbach_stepinski_2009}) eine Vorsortierung von Krater-Kandidaten berechnet wird. Als Alternative zu diesem Algorithmus werden \cite{bandeira_07} und \cite{salamuniccar_10} genannt.
 
-Der genutzte Algorithmus ist zwar relativ effizient, da er parallel alle Merkmale eliminiert, die nicht auf Krater hindeuten. Frühere Algorithmen hingegen griffen meist auf eine Brute-Force-Methode zurück. Zur Erkennung von Krater (\bzw Krater-Kandidaten) wird hier die Tatsache genutzt, dass diese auf Abbildungen meisten aus nebeneinander liegenden, starken Schatten- und Hightlight-Regionen bestehen.
+Der genutzte Algorithmus ist zwar relativ effizient, da er parallel alle Merkmale eliminiert, die nicht auf Krater hindeuten. Frühere Algorithmen hingegen griffen meist auf eine Brute-Force-Methode zurück. Zur Erkennung von Krater (\bzw Krater-Kandidaten) wird hier die Tatsache genutzt, dass diese auf Abbildungen meisten aus nebeneinander liegenden, starken Schatten- und Spitzlicht-Regionen bestehen.
 
 Nach dieser Vorsortierung und Pre-Processing Schritten (in Form von Histogramm-Optimierung) werden in \cite{bandeira_10, bandeira_12} neun Bitmasken (siehe \figurename~\ref{fig:BDS12_01}) in verschiedenen Positionen, Größen und Ausrichtungen über die Kandidaten gelegt. Die Wahrscheinlichkeit, dass der Kandidat ein Krater ist, berechnet sich aus der Übereinstimmung zwischen den Bitmasken und dem eigentlichen Kandidatenbild. Abschließend werden die Ergebnisse mithilfe eines angepassten AdaBoost Algorithmus optimiert. Das Post-Processing besteht aus der Eliminierung von ungewöhnlich geformten Kratern.
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=.8\textwidth,keepaspectratio]{images/BDS12_01.png}
+	\includegraphics[width=.8\textwidth,keepaspectratio]{images/BDS12/BDS12_01.png}
 	\caption{Die neun, zur Merkmalsextrahierung genutzen Bitmasken, aus \cite{bandeira_12}}
 	\label{fig:BDS12_01}
 \end{figure}
@@ -247,26 +247,27 @@ In \figurename~\ref{fig:BDS12_02} sind die von AdaBoost ausgewählten, am stärk
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=.5\textwidth,keepaspectratio]{images/BDS12_02.png}
+	\includegraphics[width=.5\textwidth,keepaspectratio]{images/BDS12/BDS12_02.png}
 	\caption{Die sechs am stärksten gewichteten Bitmasken, aus \cite{bandeira_12}}
 	\label{fig:BDS12_02}
 \end{figure}
 
 \subsection{Kratererkennung über Neuronale Netze}
-\label{ssec:crater_Detection_nn}
+\label{ssec:crater_detection_nn}
 Auf der Basis des erwähnten, automatisch generierten Marskrater-Datensatz, wird in \cite{cohen_16} ein neuronales Netzwerk daraufhin trainiert, selbst unterscheiden zu können, ob ein Kraterkandidat auch wirklich ein Krater ist. Die Architektur des Netzwerkes ist in \figurename~\ref{fig:CLLD16_01} zu sehen. Zur Evaluierung der Ergebnisse wird hier das 10-fache Kreuzvalidierungsverfahren genutzt. Dies bedeutet, dass der Eingabedatensatz zehn-geteilt wird, und jeweils neun Teile zum trainieren und ein Teil zum Evaluieren genutzt wird. Das Ergebnis ist der Durchschnitt der jeweiligen F1-Scores.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=.5\textwidth,keepaspectratio]{images/CLLD16_01.png}
+	\includegraphics[width=.5\textwidth,keepaspectratio]{images/CLLD16/CLLD16_01.png}
 	\caption{Die Architektur des Netzwerkes, aus \cite{cohen_16}}
 	\label{fig:CLLD16_01}
 \end{figure}
 
 Der Unterschied zwischen dieser Methode und dem hier vorgestellten Ansatz besteht darin, dass in dieser Methode nur bewertet wird, ob Kraterkandidaten wirkliche Krater sind oder nicht, während hier ein Ansatz entwickelt wird, der aus einer kompletten Aufnahme der Marsoberfläche einzelne Krater(kandidaten) erkennt.
 
+\iffalse
 \subsection{Vergleich der Methoden}
 \label{ssec:crater_detection_comparision}
 
-Die drei genannten Algorithmen (Urbach '09 \cite{urbach_stepinski_2009}, Bandeira '10 \cite{bandeira_10} und Cohen '16 \cite{cohen_16}) wurden alle auf der selben Aufnahme der HRSC angewandt. Eine genauere Beschreibung und der Vergleich anhand dieser Aufnahme findet sich in Abschnitt~\ref{sec:vergleich}.
+Die drei genannten Algorithmen (Urbach '09 \cite{urbach_stepinski_2009}, Bandeira '10 \cite{bandeira_10} und Cohen '16 \cite{cohen_16}) wurden alle auf der selben Aufnahme der HRSC angewandt. Eine genauere Beschreibung und der Vergleich anhand dieser Aufnahme findet sich in Abschnitt~\ref{sec:comparision}.
 \fi

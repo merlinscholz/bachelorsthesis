@@ -4,7 +4,14 @@
 \section{Datens"atze}
 \label{sec:datasets}
 
+Der vorgestellte Algorithmus wird auf zwei Datensätzen evaluiert: Einerseits wird ein allgemeiner Datensatz zur Überprüfung der Ergebnisse genutzt, aber auch ein domänenspezifischer Datensatz, über den die Analyse der Marsoberfläche evaluiert wird. 
+
 \subsection{Domänenspezifisch}
+
+Die in Kapitel~\ref{chap:experiments} genutzten, domönenspezifischen Datensätze stammen von der Website des \textit{Planetary Data System} der NASA \cite{pds}, \bzw dem \textit{Planetary Science Archive} der ESA \cite{psa}. Die dort gehosteten Aufnahmen der jeweiligen Instumente sind größtenteils unverarbeitet und befinden sich in einem speziell für diesen Zweck erstellten Dateiformat, sodass diese erst konvertiert und anschließend so verarbeitet werden müssen, dass für diesen Zweck besser geeignete Bilddateien entstehen.
+Diese Verarbeitung besteht bei den Aufnahmen der CTX aus dem Herunterladen der Metadaten der einzelnen Aufnahmen, gefolgt von der Konvertierung der Pixelfarbwerte, der Entfernung der Even/Odd Detector Stripes, und der Ausgabe in ein adäquates Bildformat. Dieses kann von dem eigentlichen Analyse-Algorithmus eingelesen und weiter verarbeitet werden. Bei den Aufnahmen der HRSC ist keine Konvertierung notwendig, diese müssen nur entsprechend konvertiert werden.
+
+Es existieren allerdings keine segmentierten Aufnahmen der Marsoberfläche. Aus diesem Grund wird der in Unterabschnitt~\ref{ssec:crater_detection_nn} Datensatz genutzt. Da dieser allerdings nur Informationen über die Positionen der Krater auf der Marsoberfläche zur Verfügung stellt, werden die durch den hier vorgestellten Algorithmus erzeugten Segmentieren manuell in zwei Klassen eingeordnet: Krater und Nicht-Krater.
 
 \subsection{Allgemein}
 
@@ -15,10 +22,14 @@ Einige der Aufnahmen aus diesem Datensatz wurde bereits in vorherigen Kapitel zu
 \section{Evaluation}
 \label{sec:evaluation}
 
-Zur Evaluation der verschiedenen Algorithmen wird ein Algorithmus zum Vergleich von unterschiedlichen, unbenannten Clusterings benötigt. An dieser Stelle eignet sich der Adjusted Rand Index \cite{hubert_85}, er kann definiert werden durch:
+\subsection{Domänenspezifisch}
+
+\subsection{Allgemein}
+
+Zur Evaluation der Resultate wird ein Algorithmus zum Vergleich von unterschiedlichen, unbenannten Clusterings benötigt. An dieser Stelle eignet sich der Adjusted Rand Index \cite{hubert_85}, er kann definiert werden durch:
 
 \begin{equation}
-ARI = (RI- Expected_RI)
+0
 \end{equation}
 
 \section{Resultate}
@@ -27,6 +38,9 @@ ARI = (RI- Expected_RI)
 \section{Vergleich}
 \label{sec:comparision}
 
+\section{Mosaik}
+\label{sec:mosaic}
+
 \iffalse
 \chapter{Experimente}
 \label{chap:experimente}
@@ -34,12 +48,10 @@ ARI = (RI- Expected_RI)
 \section{Datens"atze}
 \label{sec:datensätze}
 
-Der vorgestellte Algorithmus wird auf zwei Datensätzen evaluiert: Einerseits wird ein allgemeiner Datensatz zur Überprüfung der Ergebnisse genutzt, aber auch ein domänenspezifischer Datensatz, über den die Analyse der Marsoberfläche evaluiert wird. 
 
 Als allgemeiner Datensatz wird das Berkeley Segmentation Dataset \cite{bsd500} genutzt. Dieses besteht aus 500 Foto-Aufnahmen, die manuell segmentiert wurden.
 
-Die in diesen Experimenten genutzten, domönenspezifischen Datensätze stammen von der Website des \textit{Planetary Data System} der NASA \cite{pds}, \bzw dem \textit{Planetary Science Archive} der ESA \cite{psa}. Die dort gehosteten Aufnahmen der jeweiligen Instumente sind größtenteils unverarbeitet und befinden sich in einem speziell für diesen Zweck erstellten Dateiformat, sodass diese erst konvertiert und anschließend so verarbeitet werden müssen, dass für diesen Zweck besser geeignete Bilddateien entstehen.
-Diese Verarbeitung besteht bei den Aufnahmen der CTX aus dem Herunterladen der Metadaten der einzelnen Aufnahmen, gefolgt von der Konvertierung der Pixelfarbwerte, der Entfernung der Even/Odd Detector Stripes, und der Ausgabe in ein adäquates Bildformat. Dieses kann von dem eigentlichen Analyse-Algorithmus eingelesen und weiter verarbeitet werden. Bei den Aufnahmen der HRSC ist keine Konvertierung notwendig, diese müssen nur entsprechend konvertiert werden.
+
 
 \section{Evaluation}
 \label{sec:Evaluation}

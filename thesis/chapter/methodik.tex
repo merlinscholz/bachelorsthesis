@@ -10,7 +10,7 @@ Zur Modifikation des genannten Algorithmus existieren viele unterschiedliche Mö
 
 Die wohl wichtigste Veränderung des ursprünglichen Algorithmus besteht aus der Modifizierung des Initialisierungsalgorithmus.
 
-Der von Kanezaki \etal genutzte SLIC-Algorithmus eignet sich zwar gut für die meisten mehrfarbigen Fotografien, da die Aufnahmen der Marsoberfläche allerdings nur in Graustufen vorhanden sind, würden so hier keine guten Ergebnisse produziert werden.
+Der von Kanezaki \etal genutzte SLIC-Algorithmus eignet sich zwar gut für die meisten mehrfarbigen Fotografien, da die Aufnahmen der Marsoberfläche allerdings nur in Graustufen vorhanden sind, würden so hier keine guten Resultate produziert werden.
 
 \begin{figure}[h!]
 	\centering
@@ -46,7 +46,7 @@ Wenn nun der in Unterabschnitt~\ref{ssec:kanezaki} beschriebene Ansatz verfolgt 
 
 Statt des SLIC-Clusterings wird nun die in Unterabschnitt~\ref{ssec:tsugf} vorgestellte Methode des texturbasierten Clusterings genutzt. Von dieser Stelle an sind --~wenn nicht anders benannt~-- die Gewichtungen der verschiedenen Werte für die Farbwerte, X-/Y-Positionen und Reaktion auf Gaborfilter alle gleich $1$. Diese Parameter werden in Unterabschnitt~\ref{ssec:initialization_filterweight} genauer erläutert.
 
-Das Ergebnis eines Clusterings durch die genutzte, texturbasierte Methode\footnote{Kombiniert mit der Filterbank aus \cite{jain_91}} ist in \figurename~\ref{fig:slic_vs_tsugf_tsugf} sichtbar: Man erkennt, dass der \enquote{Ring} um den eigentlichen Einschlagskrater eine eigenständige Textur besitzt, welche unterschiedlich zu dem Rest der Oberfläche ist. Eine ähnliche Oberflächenstruktur ist direkt um den Krater herum vorhanden. Beide Vorkommnisse dieser ähnlichen Struktur werden vom texturbasierten Clustering erfasst, in ein Segment aufgeteilt und (hier durch eine rote Färbung) markiert.
+Das Resultat eines Clusterings durch die genutzte, texturbasierte Methode\footnote{Kombiniert mit der Filterbank aus \cite{jain_91}} ist in \figurename~\ref{fig:slic_vs_tsugf_tsugf} sichtbar: Man erkennt, dass der \enquote{Ring} um den eigentlichen Einschlagskrater eine eigenständige Textur besitzt, welche unterschiedlich zu dem Rest der Oberfläche ist. Eine ähnliche Oberflächenstruktur ist direkt um den Krater herum vorhanden. Beide Vorkommnisse dieser ähnlichen Struktur werden vom texturbasierten Clustering erfasst, in ein Segment aufgeteilt und (hier durch eine rote Färbung) markiert.
 
 \subsection{Filterbänke}
 \label{ssec:initialization_filterbanks}
@@ -57,7 +57,7 @@ Neben dem eigentlichen Krater ist auf dieser Aufnahme der Ring aus gröberem Ges
 
 Alle Filterbänke formen einen Ring (oder dessen Ansatz) auf dem Kraterrand, die Maximum Response-Filterbank erzeugt zwei konzentrische Ringe
 
-Der Krater selbst wird von den Filterkombinationen nach \cite{jain_91} und der LM-Filterbank leider nur in Hell- und Dunkel-Regionen aufgeteilt, die S-Filterbank zeigt innerhalb des Kraters kein brauchbares Ergebnis. Eine Ausnahme stellt die Maximum-Response-Filterbank dar, welche neben den zwei erwähnten konzentrischen Clustern den Bereich innerhalb des Kraters als ein einziges Cluster erkennt. Die Maximum Response-Bank erzeugt in diesem Bereich das Ergebnis, welches sich wohl als bestes zur Weiterverarbeitung eignet.
+Der Krater selbst wird von den Filterkombinationen nach \cite{jain_91} und der LM-Filterbank leider nur in Hell- und Dunkel-Regionen aufgeteilt, die S-Filterbank zeigt innerhalb des Kraters kein brauchbares Ergebnis. Eine Ausnahme stellt die Maximum-Response-Filterbank dar, welche neben den zwei erwähnten konzentrischen Clustern den Bereich innerhalb des Kraters als ein einziges Cluster erkennt. Die Maximum Response-Bank erzeugt in diesem Bereich das Resultat, welches sich wohl als bestes zur Weiterverarbeitung eignet.
 
 \paragraph{Vulkan}
 Der Vulkanberg wird leider von keiner Filterbank optimal erkannt. Der äußere Rand wird nur von der S-Filterbank als ein Cluster erkannt, dies allerdings nicht sehr genau. Der rauere Bereich der Oberfläche, was kleinere Krater miteinbeschließt, wird vom MR-Filter am ehesten und genausten erkannt, auf dem zweiten Platz folgt die Filterbank nach \cite{jain_91}, welche zwar alle Krater in ein Cluster fügt (violett), allerdings eher gröber.
@@ -74,14 +74,14 @@ Die LM-Filterbank scheint kein brauchbares Ergebnis zu produzieren, sie erkennt 
 
 Die Schmid-Filterbank clustert einen Großteil der Strahlen gemeinsam in ein Cluster (rot). Die Krater hingegen sind nicht fest einer Clusterart zugewiesen, ein Großteil von ihnen befindet sich jedoch auch im roten Cluster.
 
-Wie in den vorherigen Test ist das Ergebnis der MR-Filterbank schon fast zu genau, die Cluster sind sehr fein gehalten. Im Gegensatz zu den Alternativen, werden hier die Krater relativ zuverlässig in gelbe Cluster eingeordnet, die Strahlen sind leider zu fein markiert, als dass man sie getrennt erkennen könnte. Dieses Phänomen könnte sich allerdings in der praktischen Anwendung zunutze gemacht werden, da dafür eine zu feine Initialisierung notwendig ist.
+Wie in den vorherigen Test ist das Resultat der MR-Filterbank schon fast zu genau, die Cluster sind sehr fein gehalten. Im Gegensatz zu den Alternativen, werden hier die Krater relativ zuverlässig in gelbe Cluster eingeordnet, die Strahlen sind leider zu fein markiert, als dass man sie getrennt erkennen könnte. Dieses Phänomen könnte sich allerdings in der praktischen Anwendung zunutze gemacht werden, da dafür eine zu feine Initialisierung notwendig ist.
 
 \paragraph{Gletscher}
 
-Der Gletscher ist subjektiv betrachtet das schwierigste der hier vorgestellten Probleme, da er an vielen seiner Ränder keine feste Grenze zu benachbarten Regionen zeigt, nur links auf der Aufnahme ist er durch eine Hügelreihe strikt begrenzt. Diese Grenze wird von allen Filterbänken in ein getrenntes Cluster unterteilt,mit Ausnahme der Filterbank nach \cite{jain_91}: Diese produziert kein geeignetes Ergebnis, nur die stärker erkennbaren \enquote{Streifen} werden gut erkannt (violett). Die LM-Filterbank erkennt zwar die Abgrenzung auf der linken Seite, allerdings keine anderen Regionen korrekt. Sie liefert bei diesem Bild das wohl schlechteste Ergebnis. Die Maximum-Response Methode und die Filterbank nach \cite{schmid_01} liefern zwar etwas bessere Ergebnisse, diese sind allerdings nicht gut. Die MR-Bank erzeugt erneut sehr feine Cluster.
+Der Gletscher ist subjektiv betrachtet das schwierigste der hier vorgestellten Probleme, da er an vielen seiner Ränder keine feste Grenze zu benachbarten Regionen zeigt, nur links auf der Aufnahme ist er durch eine Hügelreihe strikt begrenzt. Diese Grenze wird von allen Filterbänken in ein getrenntes Cluster unterteilt,mit Ausnahme der Filterbank nach \cite{jain_91}: Diese produziert kein geeignetes Ergebnis, nur die stärker erkennbaren \enquote{Streifen} werden gut erkannt (violett). Die LM-Filterbank erkennt zwar die Abgrenzung auf der linken Seite, allerdings keine anderen Regionen korrekt. Sie liefert bei diesem Bild das wohl schlechteste Resultat. Die Maximum-Response Methode und die Filterbank nach \cite{schmid_01} liefern zwar etwas bessere Ergebnisse, diese sind allerdings nicht gut. Die MR-Bank erzeugt erneut sehr feine Cluster.
 
 \paragraph{}
-Zusammengefasst erzeugt aus dieser Auswahl an Filterbänden die Maximum Response-Methode von \cite{visgeo} das wohl am ehesten geeignete Ergebnis zur Weiterverarbeitung. Auf zweitem Platz folgt die Schmid-Filterbank.
+Zusammengefasst erzeugt aus dieser Auswahl an Filterbänden die Maximum Response-Methode von \cite{visgeo} das wohl am ehesten geeignete Resultat zur Weiterverarbeitung. Auf zweitem Platz folgt die Schmid-Filterbank.
 
 \begin{figure}[h!]
 \setlength\tabcolsep{1pt}
@@ -138,7 +138,7 @@ Dieser Skalierungsfaktor produziert keine brauchbaren Ergebnisse.
 
 \paragraph{Skalierungsfaktor $s=0,50$}
 
-Wie zu erwarten führt die genutzte, noch relativ geringe Skalierung der Filterbank mit $s=0,50$ zu vielen kleineren Clustern, in diesem Fall auf der ersten Aufnahme deutlich erkennbar anhand der gelb markierten Flächen. Obwohl es auf den ersten Blick scheint, als würden die Kraterränder erkannt werden, werden durch die Filterbank bei dieser Skalierung nur die dunkleren Bereiche, in diesem Fall die Schatten, die die erhöhten Kraterränder werfen, erkannt. Auf dieser Aufnahme führt dies zwar zu einer vergleichsweise guten Approxmimation der Krater, sobald anderweitige Schatten hinzukommen, wird diese Skalierung allerdings keine geeigneten Ergebnisse produzieren.
+Wie zu erwarten führt die genutzte, noch relativ geringe Skalierung der Filterbank mit $s=0,50$ zu vielen kleineren Clustern, in diesem Fall auf der ersten Aufnahme deutlich erkennbar anhand der gelb markierten Flächen. Obwohl es auf den ersten Blick scheint, als würden die Kraterränder erkannt werden, werden durch die Filterbank bei dieser Skalierung nur die dunkleren Bereiche, in diesem Fall die Schatten, die die erhöhten Kraterränder werfen, erkannt. Auf dieser Aufnahme führt dies zwar zu einer vergleichsweise guten Approxmimation der Krater, sobald anderweitige Schatten hinzukommen, wird diese Skalierung allerdings keine geeigneten Resultate produzieren.
 
 Das selbe Phänomen tritt bei der zweiten Aufnahme auf, auch dort wird stark anhand der Helligkeitswerte geclustert, erkennbar insbesondere an den violetten Bereichen an den Kraterrändern. Bei diesem Bild wird allerdings auch trotz der kleineren Skalierung das raue Gebiet, welches sich horizontal durch das Bild erstreckt, in ein (rot gefärbtes) Cluster eingeteilt. Auch hier werden allerdings dunklerere Bereiche (wie die Kraterränder) in separate (violett gefärbte) Cluster eingeteilt.
 
@@ -150,7 +150,7 @@ Dieser Skalierungsfaktor führt zu vergleichsweise guten Clusteringergebnissen.
 
 \paragraph{Skalierungsfaktor $s=0,75$}
 
-Dieser Skalierungsfaktor führt beim Clustering des ersten Bildes zu Ergebnisse, welche vergleichbar mit denen des Faktors $s=0,5$ sind. Die Ränder der Krater werden allerdings getrennt in helle und dunkle Regionen eingeteilt, die Cluster im äußeren Bereich sind größer und gröber.
+Dieser Skalierungsfaktor führt beim Clustering des ersten Bildes zu Resultat, welche vergleichbar mit denen des Faktors $s=0,5$ sind. Die Ränder der Krater werden allerdings getrennt in helle und dunkle Regionen eingeteilt, die Cluster im äußeren Bereich sind größer und gröber.
 
 Auf der zweiten Aufnahme wird die horizontale rauere Region sehr gut in ein eigenes Cluster eingeteilt, selbiges gilt für die Kraterränder. Auf dieser Aufnahme erscheint der Skalierungsfaktor $s=0,75$ für diese Filterbank optimal.
 
@@ -180,16 +180,16 @@ Bei diesen Skalierungen werden im oberen, glätteren Bereich der ersten Aufnahme
 
 Selbiges gilt im Bezug auf die starken Helligkeitsdifferenzen bei der zweiten Aufnahme.
 
-Bei der dritten Aufnahme wird von beiden Skalierungsfaktoren kein brauchbares Ergebnis produziert, man kann höchstens erahnen, dass die gelb \bzw violett gefärbten Regionen besonders kontrastarme, also glatte Flächen darstellen sollen.
+Bei der dritten Aufnahme wird von beiden Skalierungsfaktoren kein brauchbares Resultat produziert, man kann höchstens erahnen, dass die gelb \bzw violett gefärbten Regionen besonders kontrastarme, also glatte Flächen darstellen sollen.
 
 Beim Clusteringergebnis der letzten Aufnahme unterschieden sich die beiden Skalierungsfaktoren erstmals stärker: Bei $s=1,25$ gleicht das Ergebnis dem des vorherigen Clusterings: Kleinere Bergregionen und rauere Oberflächenstrukturen werden getrennt voneinander erkannt, Flächen mit weniger oder (aufgrund von Unterbelichtung) keiner werden auch in ein großes Cluster hinzugefügt. Der Faktor $s=1,5$ scheint selbst bei diesem Bild zu groß zu sein, bis auf die Hügelketten mit starker Helligkeitsdifferenz wird die Aufnahme nur anhand ihrer Helligkeitswerte geclustert.
 
-Diese Faktoren sind also zu groß um brauchbare Ergebnisse zu produzieren.
+Diese Faktoren sind also zu groß um brauchbare Resultate zu produzieren.
 
 \begin{figure}[h!]
 	\setlength\tabcolsep{1pt}
 	\def\arraystretch{0.5}
-	\begin{tabular}{p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}}
+	\begin{tabular}{C{0.14\textwidth}C{0.14\textwidth}C{0.14\textwidth}C{0.14\textwidth}C{0.14\textwidth}C{0.14\textwidth}C{0.14\textwidth}}
 		\includegraphics[width=0.14\textwidth]{images/p03/p03_01.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_01.png_0.25.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/filter_size/p03_01.png_0.50.png} &
@@ -232,12 +232,12 @@ Diese Faktoren sind also zu groß um brauchbare Ergebnisse zu produzieren.
 \end{figure}
 
 \paragraph{}
-Aus diesen Ergebnissen lässt sich schlussfolgern, dass sich die Skalierungsfaktoren $s=0,5$ und $s=0,75$ bei diesen Eingabedaten die besten Ergebnisse liefert. Da durch die nachfolgende Weiterverarbeitung durch den Algorithmus nach Kanezaki eine hohe Anzahl an Clustern benötigt wird, diese aber nicht zu klein und Verstreut ausfallen sollten, wird von nun an ein Skalierungsfaktor von $s=0,75$ genutzt.
+Aus diesen Ergebnissen lässt sich schlussfolgern, dass sich die Skalierungsfaktoren $s=0,5$ und $s=0,75$ bei diesen Eingabedaten die besten Resultate liefert. Da durch die nachfolgende Weiterverarbeitung durch den Algorithmus nach Kanezaki eine hohe Anzahl an Clustern benötigt wird, diese aber nicht zu klein und Verstreut ausfallen sollten, wird von nun an ein Skalierungsfaktor von $s=0,75$ genutzt.
 
 \subsection{Gewichtungen der Parameter}
 \label{ssec:initialization_filterweight}
 
-Da in dem Prozess des Clusterings alle Optimierungen aus Unterabschnitt~\ref{ssec:tsugf} miteingeschlossen sind, beinhaltet dies, dass der Datenwürfel, den k-Means verarbeitet, sowohl die Koordinaten, als auch die Farbwerte der Eingabedatei beinhaltet. Nun stellt sich die Frage, wie stark diese jeweils gewichtet werden sollten, um ein akzeptables Ergebnis zu erhalten. Aus diesem Grund sind in den Abbildungen~\ref{fig:filterbank_weights_pos} und \ref{fig:filterbank_weights_col} die Ergebnisse des Clusterings mit unterschiedlichen Werten für die jeweiligen Gewichtungen zu sehen. Die Skalierung der Filter beträgt $s=0,5$, da im vorherigen Unterabschnitt festgestellt wurde, dass dieser Wert relativ gute Ergebnisse liefert.
+Da in dem Prozess des Clusterings alle Optimierungen aus Unterabschnitt~\ref{ssec:tsugf} miteingeschlossen sind, beinhaltet dies, dass der Datenwürfel, den k-Means verarbeitet, sowohl die Koordinaten, als auch die Farbwerte der Eingabedatei beinhaltet. Nun stellt sich die Frage, wie stark diese jeweils gewichtet werden sollten, um ein akzeptables Ergebnis zu erhalten. Aus diesem Grund sind in den Abbildungen~\ref{fig:filterbank_weights_pos} und \ref{fig:filterbank_weights_col} die Resultate des Clusterings mit unterschiedlichen Werten für die jeweiligen Gewichtungen zu sehen. Die Skalierung der Filter beträgt $s=0,5$, da im vorherigen Unterabschnitt festgestellt wurde, dass dieser Wert relativ gute Ergebnisse liefert.
 
 \paragraph{Gewichtung der Koordinaten}
 Das Hinzufügen der X- und Y-Koordinaten zu dem Datenwürfel ist ursprünglich aus dem Grund geschehen, dass ein gegebener räumlicher Bezug zwischen unterschiedlichen Pixeln beim Clustering berücksichtigt werden kann (\vgl Unterabschnitt~\ref{ssec:tsugf}; \cite{jain_91}). Aus den Clusteringergebnissen in \figurename~\ref{fig:filterbank_weights_pos} allerdings lässt sich erkennen, dass dieser räumliche Bezug in diesem Anwendungsfall nicht außerordentlich hilfreich ist: Bei einer Gewichtung von $w_p\geq1,33$ lässt sich eindeutig erkennen, dass der allgemeine Bodenbereich auf allen Aufnahmen zu stark Anhand seiner Positionen eingeteilt wird, es entstehen Cluster in den Ecken der Aufnahmen, welche sich ins Zentrum erstrecken. Unter diesem starken Einfluss nimmt zusätzlich die relative Wichtigkeit der ähnlichen Textur ab.
@@ -250,7 +250,7 @@ Aus diesem Grund macht es Sinn, die Koordinatenbeträge der Pixel relativ gering
 \begin{figure}[h!]
 	\setlength\tabcolsep{1pt}
 	\def\arraystretch{0.5}
-	\begin{tabular}{p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}}
+	\begin{tabular}{C{0.14\textwidth}C{0.14\textwidth}C{0.14\textwidth}C{0.14\textwidth}C{0.14\textwidth}C{0.14\textwidth}C{0.14\textwidth}}
 		\includegraphics[width=0.14\textwidth]{images/p03/p03_01.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_01.png_0.00.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/spatial_weight/p03_01.png_0.33.png} &
@@ -295,7 +295,7 @@ Aus diesem Grund macht es Sinn, die Koordinatenbeträge der Pixel relativ gering
 \paragraph{Gewichtungen der Farb-/Helligkeitswerte}
 Die hier folgenden Clusteringergebnisse wurden mit einem Skalierungsfaktor von $s=0,5$ und einer Gewichtung von $w_p=0,66$ für die Positionswerte erstellt.
 
-In der originalen Ausarbeitung des texturbasierten Clusterings \cite{jain_91} werden nur zwei Ebenen für die jeweiligen X- und Y-Koordinaten hinzugefügt. Es steht also an dieser Stelle offen, ob das Hinzufügen der Farb- \bzw Helligkeitsdimension zum Datenwürfel zu besseren Ergebnissen führt. Dazu wurde der vorgestellte Algorithmus mit unterschiedlichen Werten für die Gewichtung der Helligkeitswerte $w_c$ auf den bekannten Beispielbildern ausgeführt. Die Ergebnisse dieses Experimentes sind in \figurename~\ref{fig:filterbank_weights_col} dargestellt.
+In der originalen Ausarbeitung des texturbasierten Clusterings \cite{jain_91} werden nur zwei Ebenen für die jeweiligen X- und Y-Koordinaten hinzugefügt. Es steht also an dieser Stelle offen, ob das Hinzufügen der Farb- \bzw Helligkeitsdimension zum Datenwürfel zu besseren Ergebnissen führt. Dazu wurde der vorgestellte Algorithmus mit unterschiedlichen Werten für die Gewichtung der Helligkeitswerte $w_c$ auf den bekannten Beispielbildern ausgeführt. Die Resultate dieses Experimentes sind in \figurename~\ref{fig:filterbank_weights_col} dargestellt.
 
 Auf diesen Clusterings wird schnell ersichtlich, dass eine Veränderung der Gewichtung relativ geringe Auswirkungen hat. Eine stärkere Gewichtung von $w_c=1,66$ besitzt auf der vierten Aufnahme den wohl größten Einfluss, da dort anhand der Über- und Unterbelichtung die beiden Bergseiten getrennt voneinander erkannt werden. Obwohl dieses Phänomen hier gute Auswirkungen hat, ist es im allgemeinen ungewollt: Mit diesem starken Einfluss der Helligkeitswerte lernt das neuronale Netzwerk stärker mithilfe der Helligkeit statt über die Textur dieser Cluster zu lernen, was eines der größten Probleme beim Trainieren dieses Netzes ist.
 
@@ -304,7 +304,7 @@ Da sich durch die zusätzlichen Helligkeitswerte keine Verbesserungen der Cluste
 \begin{figure}[h!]
 	\setlength\tabcolsep{1pt}
 	\def\arraystretch{0.5}
-	\begin{tabular}{p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}}
+	\begin{tabular}{C{0.14\textwidth}C{0.14\textwidth}C{0.14\textwidth}C{0.14\textwidth}C{0.14\textwidth}C{0.14\textwidth}C{0.14\textwidth}}
 		\includegraphics[width=0.14\textwidth]{images/p03/p03_01.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_01.png_0.00.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/color_weight/p03_01.png_0.33.png} &
@@ -351,7 +351,7 @@ Da sich durch die zusätzlichen Helligkeitswerte keine Verbesserungen der Cluste
 
 Bis zu dieser Stelle haben sich vier Cluster sehr gut zur Visualisierung der unterschiedlichen Ergebnisse nutzen lassen, dies ändert sich allerdings wenn die jeweiligen Clusterings an das darauf folgende neuronale Netz weitergegeben werden. Die Anzahl der Cluster mit denen gestartet werden sollen ist ein entschiedener Wert bei dem Prozess der Segmentierung: Ist diese Zahl zu gering, kann das Netzwerk dieses Clustering nicht weiter verfeinern, ist sie jedoch zu groß, so sind innerhalb eines Clusters nicht genug Informationen vorhanden, als dass das Netzwerk erlernen kann, nach welchen Kriterien das Bild ursprünglich aufgeteilt wurde. Ein Vergleich unterschiedlicher Werte für diese Anzahl der Startcluster ist in \figurename~\ref{fig:n_segments} sichtbar.
 
-Dort ist zu erkennen, dass eine geringe Anzahl an initialen Clustern zu sehr groben Ergebnissen führt. Dies ist darauf zurückzuführen, dass diese wenigen, großen Cluster unterschiedliche Merkmale enthalten (können), welche zwar vom neuronalen Netz erkannt werden, anschließend allerdings mit dem Clusterlabel des am häufigsten erkannten Wertes überschrieben werden. Folglich gehen sehr schnell wichtige Oberflächenmerkmale verloren, was im Extremfall (\vgl Aufnahme 3) dazu führen kann, dass die gesamte Aufnahme durch nur ein großes Segment markiert wird. An dieser Stelle hilft das Abbruchkriterium der Anzahl der Cluster auch kaum, da in diesen Aufnahmen noch zwei weitere, kleinere Cluster mit einer Größe von wenigen Pixeln enthalten sind (hier nicht sichtbar).
+Dort ist zu erkennen, dass eine geringe Anzahl an initialen Clustern zu sehr groben Resultate führt. Dies ist darauf zurückzuführen, dass diese wenigen, großen Cluster unterschiedliche Merkmale enthalten (können), welche zwar vom neuronalen Netz erkannt werden, anschließend allerdings mit dem Clusterlabel des am häufigsten erkannten Wertes überschrieben werden. Folglich gehen sehr schnell wichtige Oberflächenmerkmale verloren, was im Extremfall (\vgl Aufnahme 3) dazu führen kann, dass die gesamte Aufnahme durch nur ein großes Segment markiert wird. An dieser Stelle hilft das Abbruchkriterium der Anzahl der Cluster auch kaum, da in diesen Aufnahmen noch zwei weitere, kleinere Cluster mit einer Größe von wenigen Pixeln enthalten sind (hier nicht sichtbar).
 
 Ein zu großer Wert für diese Initialisierung hingegen führt --~wie oben beschrieben~-- zu Segmentzuweisungen, welche auf einer zu geringen Menge an Informationen basiert. Dieser Effekt ist auf den genutzten Aufnahmen nicht sichtbar, da diese meist relativ feine Texturen enthalten. Er wäre erst erkennbar, wenn die Länge eines Clusters geringer wäre als die Distanz, in welcher sich die zu analysierende Textur wiederholt. Außerdem führt eine höherer Anzahl von Clustern zu einer erhöhten Laufzeit der Initialisierung, da der dort genutzte k-Means-Algorithmus eine Laufzeit besitzt, welche proportional zur Anzahl der zu erstellenden Cluster ist.
 
@@ -360,7 +360,7 @@ Anhand der Grafik lässt sich feststellen, dass ein Wert von $n=50$ für eine er
 \begin{figure}[h!]
 	\setlength\tabcolsep{1pt}
 	\def\arraystretch{0.5}
-	\begin{tabular}{p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}p{0.14\textwidth}}
+	\begin{tabular}{C{0.14\textwidth}C{0.14\textwidth}C{0.14\textwidth}C{0.14\textwidth}C{0.14\textwidth}C{0.14\textwidth}C{0.14\textwidth}}
 		\includegraphics[width=0.14\textwidth]{images/p03/p03_01.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/number_of_segments/p03_01.png_5.png} &
 		\includegraphics[width=0.14\textwidth]{images/gen/number_of_segments/p03_01.png_10.png} &
@@ -410,13 +410,13 @@ Der eigentliche Algorithmus von Kanezaki --~das Füllen der Cluster der dynamisc
 \section{Netzwerkarchitektur}
 \label{sec:network_architecture}
 
-Die Netzwerkarchitektur im originalen Paper stellt ein relativ einfaches Netzwerk zur Objekterkennung oder Bildsegmentierung dar: Es durchläuft iterativ eine Reihe mit je einer Convolutional Layer, gefolgt von einer Batch Normalization. Im Folgenden wird geprüft, ob eine Modifikation dieser Architektur in diesem domänenspezifischen Anwendungsfall zu Verbesserungen der Ergebnisse führen kann. Für die Initialisierung werden die im letzten Kapitel erläuterten Parameter genutzt.
+Die Netzwerkarchitektur im originalen Paper stellt ein relativ einfaches Netzwerk zur Objekterkennung oder Bildsegmentierung dar: Es durchläuft iterativ drei mal eine Reihe mit je einer Convolutional Layer, gefolgt von einer Batch Normalization. Im Folgenden wird geprüft, ob eine Modifikation dieser Architektur in diesem domänenspezifischen Anwendungsfall zu Verbesserungen der Ergebnisse führen kann. Für die Initialisierung werden die im letzten Kapitel erläuterten Parameter genutzt.
 
 \iffalse
-\section{Abbruchkriterium}
-\label{sec:stoppingcriteria}
+\subsection{Abbruchkriterium}
+\label{ssec:stoppingcriteria}
 
-Die originale Implementierung nutzt die Anzahl der Segmente, die das neuronale Netz erzeugt, als Abbruchkriterium für das Netzwerk. Ist diese geringer als ein im Vorhinein festgelegter Wert, so wird das Training des Netzes gestoppt und die aktuelle Segmentierung als Ergebnis ausgegeben. Neben dieser simplen Methode lässt sich auch der Wert der Verlustfunktion als Abbruchkriterium nutzen. Da dieser allerdings pro Eingabedatei unterschiedlich zueinander ausfällt, wird ihre Änderung in den letzten $n$ Epochen betrachtet. Diese Änderungsrate sinkt während der Laufzeit des Training, da die weitere Optimierung der Segmentierung immer geringer ausfällt. Die Wahl von $n$ ist entscheidend für die erfolgreiche Funktionsweise dieser Methode, da ein zu kleiner Wert bedeuten könnte, dass das Netzwerk abgebrochen wird, wenn innerhalb von wenigen Epochen wenig neue Informationen gelernt werden. ISt $n$ allerdings zu groß, werden zu viele Epochen betrachtet, sodass eine aktuelle Senkung dieser Änderung erst spät bemerkt wird. Da das Netzwerk je nach Eingabe eine Laufzeit von etwa $50$ bis $80$ Epochen hat, eignet sich ein Wert von $n=5$ zur Bestimmung der Änderungsrate. 
+Die originale Implementierung nutzt die Anzahl der Segmente, die das neuronale Netz erzeugt, als Abbruchkriterium für das Netzwerk. Ist diese geringer als ein im Vorhinein festgelegter Wert, so wird das Training des Netzes gestoppt und die aktuelle Segmentierung als Ergebnis ausgegeben. Neben dieser simplen Methode lässt sich auch der Wert der Verlustfunktion als Abbruchkriterium nutzen. Da dieser allerdings pro Eingabedatei unterschiedlich zueinander ausfällt, wird ihre Änderung in den letzten $n$ Epochen betrachtet. Diese Änderungsrate sinkt während der Laufzeit des Training, da die weitere Optimierung der Segmentierung immer geringer ausfällt. Die Wahl von $n$ ist entscheidend für die erfolgreiche Funktionsweise dieser Methode, da ein zu kleiner Wert bedeuten könnte, dass das Netzwerk abgebrochen wird, wenn innerhalb von wenigen Epochen wenig neue Informationen gelernt werden. Ist $n$ allerdings zu groß, werden zu viele Epochen betrachtet, sodass eine aktuelle Senkung dieser Änderung erst spät bemerkt wird. Da das Netzwerk je nach Eingabe eine Laufzeit von etwa $50$ bis $80$ Epochen hat, eignet sich ein Wert von $n=5$ zur Bestimmung der Änderungsrate. 
 
 Eine graphische Darstellung dieser Änderungsrate in Abhängigkeit der Epochen des Netzwerkes ist für die fünf verschiedenen Aufnahmen aus TODO in TODO sichtbar.
 \fi
@@ -424,23 +424,135 @@ Eine graphische Darstellung dieser Änderungsrate in Abhängigkeit der Epochen d
 \subsection{Aktivierungsfunktionen}
 \label{ssec:network_architecture_activation}
 
-In der originalen Implementierung nach \cite{kanezaki_18} enthält das neuronale Netz keine Aktivuerungsfunktionen sondern lediglich Batch Normalization-Layer. An dieser Stelle wird nun untersucht, ob das Hinzufügen solcher Aktivierungsfunktionen die Clusteringergebnisse verbessern kann.
+In der originalen Implementierung nach \cite{kanezaki_18} enthält das neuronale Netz keine Aktivierungsfunktionen sondern lediglich Batch Normalization-Layer. An dieser Stelle wird nun untersucht, ob das Hinzufügen solcher Aktivierungsfunktionen die Clusteringergebnisse verbessern kann.
 
-Geprüft werden die am weitesten verbreiteten Aktivierungsfunktionen: Die ReLU-, die Sigmoid- und die tanh-Funktion (\vgl Unterabschnitt~\ref{ssec:activation_layer}).
+Geprüft werden die am weitesten verbreiteten Aktivierungsfunktionen: Die ReLU-, die Sigmoid- und die tanh-Funktion (\vgl Unterabschnitt~\ref{ssec:activation_layer}), genutzt werden die bereits verbesserten weiteren Hyperparameter. Die Ergebnisse befinden sich in \figurename~\ref{fig:activation_comparision}.
+
+Aus diesen lässt sich relativ schnell erkennen, dass sowohl die Sigmoid-, als auch die tanh-Funktion als Aktivierungsfunktion keinen merklichen Einfluss auf die entstehende Segmentierung haben. Lediglich bei der ReLU-Aktivierung werden deutliche Verbesserungen gegenüber der Segmentierung ohne Aktivierungsfunktion sichtbar.
+
+So ist direkt in der ersten Aufnahme erkennbar, dass das neuronale Netzwerk ein Segment entlang der einzelnen, kleineren Kraterränder erstellt, bei den anderen Aktivierungsfunktionen gehen diese vollständig verloren, da dort hauptsächlich der Helligkeitswert zur Segmentierung genutzt wird. Auch in der zweiten Aufnahme zeigen sich deutliche Verbesserungen, der raue Bereich, welcher sich horizontal durch die Aufnahme zieht wird mithilfe der ReLU-Funktion auf der vollen Länge erkannt, statt nur in den rechten zwei Dritteln. Des Weiteren wird dort der kleinere Bereich mit einer ähnlichen Textur im oberen Bereich des Bildes sehr gut erkannt und in das selbe Segment eingeordnet wie die größere Struktur. Auch hier werden die Kraterränder gut in ein im Bild einzigartiges Cluster eingeteilt. In der dritten Aufnahme ist die Nutzung der ReLU-Funktion vergleichbar mit den anderen Aktivierungen, allerdings werden hier die Begrenzungen der feineren, helleren Struktur in ein rotes Segment eingeteilt. Dieses ist sonst nicht vorhanden. Auch auf der letzten Aufnahme ist sichtbar, dass das Netzwerk dank der ReLU-Aktivierung nicht nur nach den Helligkeitswerten segmentiert, sondern wie gewünscht nach der Oberflächenstruktur: Der Bereich um den Berg herum wird in ein rotes Segment eingeteilt, außerdem werden die Berghänge trotz ihrer starken Über-/Unterbelichtung getrennt zu ihrem Umfeld erkannt.
+
+Diese Verbesserung ist darauf zurückzuführen, dass die ReLU-Aktivierung negative Eingaben als Nullwert weitergibt. Lernt also \bspw eine konvoluitonelle Schicht statt den gewünschten Parametern zur texturbasierten Segmentierung Parameter, welche die Textur ignorieren (also nur die Helligkeitsinformationen betrachten), so werden diese nicht mit einem mit einem negativen Faktor gewichtet (was weiterhin die Helligkeitswerte betrachten würde), sondern komplett ignoriert. Reagiert hingegen ein Konvolutionsfilter besonders stark auf eine Textur, so ist dieser nicht wie nach den anderen Aktivierungsfunktionen auf das Intervall $\left[0, 1\right]$ \bzw $\left[-1, 1\right]$ beschränkt, sondern behält seinen vergleichsweise starken Einfluss auf die nächste Schicht.
+
+\begin{figure}[h!]
+	\begin{tabular}{C{0.19\textwidth}C{0.19\textwidth}C{0.19\textwidth}C{0.19\textwidth}C{0.19\textwidth}}
+		\includegraphics[width=0.15\textwidth]{images/p03/p03_01.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/activation_functions/p03_01.png_None.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/activation_functions/p03_01.png_relu.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/activation_functions/p03_01.png_sigmoid.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/activation_functions/p03_01.png_tanh.png} \\
+		\includegraphics[width=0.15\textwidth]{images/p03/p03_02.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/activation_functions/p03_02.png_None.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/activation_functions/p03_02.png_relu.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/activation_functions/p03_02.png_sigmoid.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/activation_functions/p03_02.png_tanh.png} \\
+		\includegraphics[width=0.15\textwidth]{images/p03/p03_03.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/activation_functions/p03_03.png_None.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/activation_functions/p03_03.png_relu.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/activation_functions/p03_03.png_sigmoid.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/activation_functions/p03_03.png_tanh.png} \\
+		\includegraphics[width=0.15\textwidth]{images/p03/p03_04.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/activation_functions/p03_04.png_None.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/activation_functions/p03_04.png_relu.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/activation_functions/p03_04.png_sigmoid.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/activation_functions/p03_04.png_tanh.png} \\
+		
+		\hspace{2pt}\newline\centering Eingabe & 
+		\hspace{2pt}\newline\centering Ohne Aktivierungsfunktion &
+		\hspace{2pt}\newline\centering ReLU-Aktivierung &
+		\hspace{2pt}\newline\centering Sigmoid-Aktivierung &
+		\hspace{2pt}\newline\centering tanh-Aktivierung 
+	\end{tabular}
+	\caption{Vergleich der Auswirkungen der Nutzung verschiedener Aktivierungsfunktionen. Die Farben der jeweilgen Cluster wurden zufällig gewählt und sagen nichts über deren Inhalt aus. Das Abbruchkriterium der Segmentierung ist eine Anzahl von drei oder weniger unterschiedlichen Clustern.}
+	\label{fig:activation_comparision}
+\end{figure}
 
 \subsection{Pooling Layer}
 \label{ssec:network_architecture_pooling}
 
-Auch auf Pooling Layers wurde im ursprünglichen Paper verzichtet. Pooling Layers können --~wie in Unterabschnitt~\ref{ssec:pooling_layer} beschrieben~-- dabei helfen, Informationen auf verschiedenen Bildbereichen zu abstrahieren und aggregieren, es ist würde also in dieser Hinsicht zu besseren Ergebnissen führen können. Ein Problem allerdings ist, dass Pooling Layers die Auflösung des Bildes merklich verringern, wird solch eine Schicht \bspw mit einer Kernelgröße von $F_1=F_2=2$ genutzt, hat die Ausgabe nur ein Viertel der Auflösung der Eingabe. Dies ist zwar ein geringeres Problem bei der Objekterkennung, kann allerdings bei der Segmentierung, bei welcher es auf die möglichst genaue Bestimmung der Kanten von Strukturen ankommt, zu einer Genauigkeitseinbüßung führen. Außerdem kann je nach Kernelgröße und weiteren Hyperparametern der Fall eintreten, dass sehr feine Oberflächenmerkmale durch das Pooling verloren gehen.
+Auch auf Pooling Layers wurde im ursprünglichen Paper verzichtet. Pooling Layers können --~wie in Unterabschnitt~\ref{ssec:pooling_layer} beschrieben~-- dabei helfen, Informationen auf verschiedenen Bildbereichen zu abstrahieren und aggregieren, es ist würde also in dieser Hinsicht zu besseren Ergebnissen führen können. Ein Problem allerdings ist, dass Pooling Layers die Auflösung des Bildes merklich verringern, wird solch eine Schicht \bspw mit einer Kernelgröße von $F_1=F_2=2$ genutzt, enthält die Ausgabe nur ein Viertel der Pixel der Eingabedatei. Dies ist zwar ein geringeres Problem bei der Objekterkennung, kann allerdings bei der Segmentierung, bei welcher es auf die möglichst genaue Bestimmung der Kanten von Strukturen ankommt, zu einer Genauigkeitseinbüßung führen. Außerdem kann je nach Kernelgröße und weiteren Hyperparametern der Fall eintreten, dass sehr feine Oberflächenmerkmale durch das Pooling verloren gehen. Die Resultate nach der Implementierung von nur einer einzigen Max-Pooling Layer mit den Kernel-Größen $F=(2, 2)$ und $F=(4, 4)$ sind in der folgen \figurename~\ref{fig:maxpool_comparision} aufgeführt. Das Hinzufügen von weiteren Pooling-Schichten und die Nutzung von größeren Kerneln führte zu Ergebnissen, auf welchen keine sinvolle Segmentierung erkennbar war und ist aus diesem Grund nicht an dieser Stelle aufgeführt.
+
+Auf der ersten Aufnahme zeigt sich der größte Nachteil der Pooling-Schichten: Die kleinen Krater in den äußeren Bereichen werden bei $F=(2, 2)$ nicht so zuverlässig wie zuvor erkannt, bei einer Kernelgröße von $F=(4, 4)$ werden nur noch sehr wenige kleinere Krater in separate Segmente eingeteilt. Auch auf den weiteren Eingabedateien ist keine Optimierung der Resultate durch die Nutzung der Max-Pooling-Schichten sichtbar.
+
+Wie zu erkennen ist, bringt die Nutzung einer Pooling-Schicht bei diesem Anwendungsfall keine sichtbaren Vorteile mit sich und ist folglich ungeeignet.
+
+\begin{figure}[h!]
+	\begin{tabular}{C{0.24\textwidth}C{0.24\textwidth}C{0.24\textwidth}C{0.24\textwidth}}
+		\includegraphics[width=0.2\textwidth]{images/p03/p03_01.png} &
+		\includegraphics[width=0.2\textwidth]{images/gen/pooling_layers/p03_01.png_1.png} &
+		\includegraphics[width=0.2\textwidth]{images/gen/pooling_layers/p03_01.png_2.png} &
+		\includegraphics[width=0.2\textwidth]{images/gen/pooling_layers/p03_01.png_4.png} \\
+		\includegraphics[width=0.2\textwidth]{images/p03/p03_02.png} &
+		\includegraphics[width=0.2\textwidth]{images/gen/pooling_layers/p03_02.png_1.png} &
+		\includegraphics[width=0.2\textwidth]{images/gen/pooling_layers/p03_02.png_2.png} &
+		\includegraphics[width=0.2\textwidth]{images/gen/pooling_layers/p03_02.png_4.png} \\
+		\includegraphics[width=0.2\textwidth]{images/p03/p03_03.png} &
+		\includegraphics[width=0.2\textwidth]{images/gen/pooling_layers/p03_03.png_1.png} &
+		\includegraphics[width=0.2\textwidth]{images/gen/pooling_layers/p03_03.png_2.png} &
+		\includegraphics[width=0.2\textwidth]{images/gen/pooling_layers/p03_03.png_4.png} \\
+		\includegraphics[width=0.2\textwidth]{images/p03/p03_04.png} &
+		\includegraphics[width=0.2\textwidth]{images/gen/pooling_layers/p03_04.png_1.png} &
+		\includegraphics[width=0.2\textwidth]{images/gen/pooling_layers/p03_04.png_2.png} &
+		\includegraphics[width=0.2\textwidth]{images/gen/pooling_layers/p03_04.png_4.png} \\
+		
+		\hspace{2pt}\newline\centering Eingabe & 
+		\hspace{2pt}\newline\centering $F=(1, 1)$ &
+		\hspace{2pt}\newline\centering $F=(2, 2)$ &
+		\hspace{2pt}\newline\centering $F=(4, 4)$ 
+	\end{tabular}
+	\caption{Vergleich der Auswirkungen der Nutzung von Pooling-Schichten. Die Farben der jeweilgen Cluster wurden zufällig gewählt und sagen nichts über deren Inhalt aus. Das Abbruchkriterium der Segmentierung ist eine Anzahl von drei oder weniger unterschiedlichen Clustern.}
+	\label{fig:maxpool_comparision}
+\end{figure}
 
 \subsection{Fully Connected Layers}
 \label{ssec:network_architecture_fully_connected}
 
+Wie in Unterabschnitt~\ref{ssec:fully_connected_layer} werden Fully Connected Layers in Convolutional Neural Networks dazu eingesetzt, die Resultate der ihr vorhergehenden Schichten zu klassifizieren. Angewandt auf das hier genutzte Netzwerk könnte ihre Nutzung zur Folge haben, dass verschiedene lokale Oberflächenmerkmale besser im globalen Kontext erkannt werden können und \ggf in die selben Cluster wie ihnen ähnliche Regionen eingeteilt werden. Anhand der Segmentierungen in \figurename~\ref{fig:fc_comparision} ist erkennbar, dass die Nutzung von $n_{fc}$ Fully Connected Layer bei diesem Anwendungsfall keine Vorteile mit sich bringt: Sie führt eher dazu, dass die Eingabedateien nach ihrer Helligkeit segmentiert werden, da innerhalb dieser Fully Connected Layers kein Konzept der Oberflächenstruktur entsteht. Dies ist insbesondere auf der letzten Aufnahme offensichtlich, da dort die vorherige Segmentierung in die zwei Berghänge ersetzt wird durch eine Segmentierung, welche die stark Über- und Unterbelichteten Regionen separat von ihrem Umfeld einordnet. Ein weiteres Beispiel für diese Funktionsweise ist auch in der ersten Reihen der Abbildung sichtbar. Während die Segmentierung ohne die Nutzung von Fully Connected Layers die Ränder der beiden größeren Krater in ein helligkeitsunabhängiges Segment einteilt, wird diese bereits bei der Nutzung von nur einer FC-Schicht durch zwei Cluster ersetzt: Eins, welches helle Regionen, und eins, welches dunkle Regionen kennzeichnet. Des Weiteren gehen durch die Nutzung dieser Fully Connected Layers Informationen über einen Großteil der kleineren Krater in der ersten Aufnahme verloren.
+Aus diesen Umständen lässt sich schließen, dass die Nutzung dieser Fully Connected Layers, welche im Allgemeinen viele Vorteile hat, hier ungeeignet ist.
+
+\begin{figure}[h!]
+	\begin{tabular}{C{0.24\textwidth}C{0.24\textwidth}C{0.24\textwidth}C{0.24\textwidth}}
+		\includegraphics[width=0.2\textwidth]{images/p03/p03_01.png} &
+		\includegraphics[width=0.2\textwidth]{images/gen/fully_connected/p03_01.png_0.png} &
+		\includegraphics[width=0.2\textwidth]{images/gen/fully_connected/p03_01.png_1.png} &
+		\includegraphics[width=0.2\textwidth]{images/gen/fully_connected/p03_01.png_2.png} \\
+		\includegraphics[width=0.2\textwidth]{images/p03/p03_02.png} &
+		\includegraphics[width=0.2\textwidth]{images/gen/fully_connected/p03_02.png_0.png} &
+		\includegraphics[width=0.2\textwidth]{images/gen/fully_connected/p03_02.png_1.png} &
+		\includegraphics[width=0.2\textwidth]{images/gen/fully_connected/p03_02.png_2.png} \\
+		\includegraphics[width=0.2\textwidth]{images/p03/p03_03.png} &
+		\includegraphics[width=0.2\textwidth]{images/gen/fully_connected/p03_03.png_0.png} &
+		\includegraphics[width=0.2\textwidth]{images/gen/fully_connected/p03_03.png_1.png} &
+		\includegraphics[width=0.2\textwidth]{images/gen/fully_connected/p03_03.png_2.png} \\
+		\includegraphics[width=0.2\textwidth]{images/p03/p03_04.png} &
+		\includegraphics[width=0.2\textwidth]{images/gen/fully_connected/p03_04.png_0.png} &
+		\includegraphics[width=0.2\textwidth]{images/gen/fully_connected/p03_04.png_1.png} &
+		\includegraphics[width=0.2\textwidth]{images/gen/fully_connected/p03_04.png_2.png} \\
+		
+		\hspace{2pt}\newline\centering Eingabe & 
+		\hspace{2pt}\newline\centering $n_{fc}=0$ &
+		\hspace{2pt}\newline\centering $n_{fc}=1$ &
+		\hspace{2pt}\newline\centering $n_{fc}=2$ 
+	\end{tabular}
+	\caption{Vergleich der Auswirkungen der Nutzung von Fully-Connected-Layers. Die Farben der jeweiligen Cluster wurden zufällig gewählt und sagen nichts über deren Inhalt aus. Das Abbruchkriterium der Segmentierung ist eine Anzahl von drei oder weniger unterschiedlichen Clustern.}
+	\label{fig:fc_comparision}
+\end{figure}
+
 \section{Hyperparameter}
 \label{sec:hyperparameter}
 
-\section{Preprocessing}
-\label{sec:preprocessing}
+\subsection{Merkmalsdimensionen}
 
-\section{Anpassungen für mehrfarbige Fotografien}
+Die Anzahl der Merkmalsdimensionen gibt (hier) die Anzahl der Schichten an, welcher der Datenwürfel, welcher bei der Konvolution generiert wird, besitzt. Anders ausgedrückt, ist er gleich der Anzahl der genutzten Kernel einer Konvolutions-Schicht. In der Beispielimplementierung nach \cite{kanezaki_18} wird von ein Standardwert von $n_{fd} = 100$ ausgegangen. Im folgenden wird überprüft, ob sich dieser Wert für den hier genutzten Anwendungsfall optimieren lässt.
+
+\subsection{Anzahl der Schichten}
+
+\subsection{Größe des Konvolutionskernels}
+
+\subsection{Learning Rate}
+
+%\section{Preprocessing}
+%\label{sec:preprocessing}
+
+\section{Anpassungen zur Segmentierung von mehrfarbigen Fotografien}
 \label{sec:color_picture_optimization}
