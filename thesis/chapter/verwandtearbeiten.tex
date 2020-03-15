@@ -53,7 +53,7 @@ Ein vergleichbarer, wenn auch einfacherer Ansatz wird in \cite{kanezaki_18} besc
 Statt das neuronale Netz selbst eine Initialisierung lernen zu lassen, wird in diesem Algorithmus auf Clusteringalgorithmen aus der Bildverarbeitung zurückgegriffen, insbesondere wird der SLIC-Algorithmus \cite{achanta_10} genutzt.
 
 Eine Segmentierung wird durch einen iterativen Prozess erreicht, in welchem ein anfangs untrainiertes neuronales Netz eine Bildsegmentierung erzeugt, welche anschließend mithilfe der im Vorhinein erstellten, konstanten Segmentierung optimiert wird. Diese Optimierung besteht daraus, dass für jedes Cluster des SLIC-Algorithmus überprüft wird, welches Label das neuronalen Netz am häufigsten den Pixeln im Cluster zugewiesen wurde. Anschließend wird jedes Cluster mit eben diesem häufigsten Label gefüllt und die Differenz zwischen der Ausgabe des Netzwerkes und diesem neu generierten \enquote{Ziel} betrachtet.
-Der gesamte Algorithmus ist in \figurename~\ref{fig:Kan18_01} dargestellt. 
+Der gesamte Algorithmus ist in \figurename~\ref{fig:Kan18_01} dargestellt, eine genauere Beschreibung findet sich in Abschnitt~\ref{sec:howitworks}.
 
 \begin{figure}[h!]
 	\centering
