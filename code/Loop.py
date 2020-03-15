@@ -16,7 +16,7 @@ from torch import nn, optim
 from torch.utils.tensorboard import SummaryWriter
 from torchvision import transforms
 
-def run(image, tags, model, max_epochs=500, tensorboard=True, lr=0.15, momentum=0.4, filename = "", starttime = 0):
+def run(image, tags, model, max_epochs=500, tensorboard=True, lr=0.15, momentum=0.4, filename = "", starttime = 0, stopping = 6):
   def gen_preview(tags, shape, colors = None):
     return label2rgb(tags.reshape(shape[0], shape[1]), colors=colors)
   def get_output_size(input, model):
@@ -79,18 +79,18 @@ def run(image, tags, model, max_epochs=500, tensorboard=True, lr=0.15, momentum=
     optimizer.step()
     loss_delta[epoch] = loss.item()
     
-    if epoch >= 5:
-      current_delta = np.sum(loss_delta[epoch-4:epoch]/loss_delta[epoch-5:epoch-1])/5
+    if epoch >= 20:
+      current_delta = np.mean(loss_delta[epoch-19:epoch]-loss_delta[epoch-20:epoch-1])
     
     if tensorboard:
-      tb.add_scalar("loss/delta_over_5", current_delta, epoch)
+      tb.add_scalar("loss/delta_over_20", current_delta, epoch)
       tb.add_scalar("loss/loss", loss.item(), epoch)
       tb.add_scalar("labels/", n_labels, epoch)
       tb.add_image("target/", gen_preview(target, target_shape), epoch, dataformats="HWC")
       tb.add_image("preview/", gen_preview(argmax, target_shape), epoch, dataformats="HWC")
       tb.flush()
 
-    if n_labels <= 6:
+    if n_labels <= stopping:
       break
     
   returns = {}
