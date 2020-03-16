@@ -28,7 +28,7 @@ Selbiges geschieht für die Initialisierung:
 P_{I, z\in Z_I} = \{\langle i, j\rangle\mid I(x_{ij}) = z\}
 \end{equation}
 
-Nun wird für jedes Cluster in $Z_i$ bestimmt, welcher Wert aus $F_{e}$ am häufigsten in dem jeweiligen Cluster vorkommt, und das Cluster anschließend damit gefüllt. Das dadurch entstehende Clustering sei $F'_e$
+Nun wird für jedes Cluster in $Z_i$ bestimmt, welcher Wert aus $F_{e}$ am häufigsten in dem jeweiligen Cluster vorkommt, und das Cluster anschließend damit gefüllt. Das dadurch entstehende Clustering sei $F'_e$.
 
 %\begin{equation}
 %\forall z\in Z_I\;\forall p\in P_{F'_e, z}\;p = %\{mod_{F_e(x_{ij})}\mid\langle i,j\rangle\in P_{I, z}\}
@@ -58,6 +58,9 @@ return current_result
 \end{algorithm}
 
 Die insgesamt zu berechnende Mapping-Funktion ist nun das letzte erzeugte Mapping $F_e$.
+
+Durch die Tatsache, dass in jeder Iteration ein Cluster mit dem am häufigsten in ihm enthaltenen Wert gefüllt wird, verringert sich in der jeweils neu generierten Zielsegmentierung die Anzahl der Segmente. Da das neuronale Netz sich diesem Ziel dynamisch anpasst, folgt daraus, dass ein Netzwerk welches in der ersten Epoche \bspw 100 Segmente generiert nach einigen Epochen wesentlich weniger Segmente erzeugt. In diesem Prozess lernt das Netzwerk auch, die Clusteringkriterien der Initialisierung zu lernen und anhand derer seine eigene Segmentierung anzupassen. Dies ist dadurch begründet, dass die Zielsegmentierung zwar oft unterschiedliche Cluster enthält, die Begrenzungen dieser allerdings immer gleich der Begrenzungen des initialen Clusterings sind.
+Grafisch ist der Prozess der Verringerung der Segmentanzahl in \figurename~\ref{fig:n_segments} zu sehen: Die Anzahl der Segmente steigt ab und konvergiert gegen $1$. Da ein einziges Segment allerdings eine schlechte Segmentierung bedeutet, muss das neuronale Netzwerk an der richtigen Stelle abgebrochen werden. Unterabschnitt~\ref{ssec:stoppingcriteria} beschäftigt sich mit diesem Prozess.
 
 Es ist zu beachten, dass für jeder Iteration die selbe Initialisierung $I$ benutzt wird.
 
@@ -475,6 +478,10 @@ Die originale Implementierung nutzt die Anzahl der Segmente, die das neuronale N
 
 Eine graphische Darstellung dieser Änderungsrate in Abhängigkeit der Epochen des Netzwerkes ist für die fünf verschiedenen Aufnahmen des letzten Abschnittes in \figurename~\ref{fig:stopping_criteria} sichtbar. Es wird deutlich, dass sich die vorgeschlagene Methode der Nutzung der letzten 20 Verlustwerte nicht als Abbruchkriterium eignet, da diese stark zwischen unterschiedlichen Aufnahmen variiert und trotz ihres relativ großen Umfangs noch starke lokale Extremstellen beinhaltet.
 
+Es ist auch ersichtlich, dass die Verlustfunktion alleine nicht als Abbruchkriterium funktionieren würde, da diese für unterschiedliche Eingabedateien sich an unterschiedliche Werte annähert -- es ist also nicht möglich einen gemeinsamen Wert festzulegen, ab welchem das neuronale Netzwerk abgebrochen werden sollte.
+
+Diese beiden Probleme bedeuten, dass wenn eins der beiden --~der Wert der Verlustfunktion oder deren Änderung~-- als Abbruchkriterium genutzt werden, dies dazu führen würde, dass das Netzwerk zu viele oder zu wenige Segmente erzeugt, da das Verhältnis zwischen Verlust und Anzahl der Segmente für jedes Eingabebild unterschiedlich ist. Folglich wird das Abbruchkriterium bei der Anzahl der generierten Segmente belassen.
+
 \begin{figure}[h!]
 	\centering
 	\begin{subfigure}[t]{0.32\textwidth}
@@ -482,7 +489,7 @@ Eine graphische Darstellung dieser Änderungsrate in Abhängigkeit der Epochen d
 		\includesvg[inkscapelatex=false,width=\textwidth,keepaspectratio]{images/tb/labels_.svg}
 		\captionsetup{format=plain,width=0.85\textwidth}
 		\caption{Anzahl der Segmente}
-		\label{}
+		\label{fig:n_segments}
 	\end{subfigure}
 	\hfill
 	\begin{subfigure}[t]{0.32\textwidth}
@@ -509,9 +516,11 @@ Eine graphische Darstellung dieser Änderungsrate in Abhängigkeit der Epochen d
 \subsection{Aktivierungsfunktionen}
 \label{ssec:network_architecture_activation}
 
-In der originalen Implementierung nach \cite{kanezaki_18} enthält das neuronale Netz keine Aktivierungsfunktionen sondern lediglich Batch Normalization-Layer. An dieser Stelle wird nun untersucht, ob das Hinzufügen solcher Aktivierungsfunktionen die Clusteringergebnisse verbessern kann.
+% TODO ReLU was in original
 
-Geprüft werden die am weitesten verbreiteten Aktivierungsfunktionen: Die ReLU-, die Sigmoid- und die tanh-Funktion (\vgl Unterabschnitt~\ref{ssec:activation_layer}), genutzt werden die bereits verbesserten weiteren Hyperparameter. Die Ergebnisse befinden sich in \figurename~\ref{fig:activation_comparision}.
+In der originalen Implementierung nach \cite{kanezaki_18} enthält das neuronale Netz die ReLU-Funktion als Aktivierungsfunktion vor der Batch Normalization-Layer. An dieser Stelle wird nun untersucht, ob das Entfernen oder Ersetzen einer solchen Aktivierungsfunktionen die Clusteringergebnisse verbessern kann.
+
+Geprüft werden die am weitesten verbreiteten Aktivierungsfunktionen: Die ReLU-, die Sigmoid- und die tanh-Funktion (\vgl Unterabschnitt~\ref{ssec:activation_layer}), sowie die Entfernung der vorhandenen ReLU-Funktion. Genutzt werden die bereits verbesserten weiteren Hyperparameter. Die Ergebnisse befinden sich in \figurename~\ref{fig:activation_comparision}.
 
 Aus diesen lässt sich relativ schnell erkennen, dass sowohl die Sigmoid-, als auch die tanh-Funktion als Aktivierungsfunktion keinen merklichen Einfluss auf die entstehende Segmentierung haben. Lediglich bei der ReLU-Aktivierung werden deutliche Verbesserungen gegenüber der Segmentierung ohne Aktivierungsfunktion sichtbar.
 
@@ -631,6 +640,8 @@ Aus diesen Umständen lässt sich schließen, dass die Nutzung dieser Fully Conn
 Die Anzahl der Merkmalsdimensionen gibt (hier) die Anzahl der Schichten an, welcher der Datenwürfel, welcher bei der Konvolution generiert wird, besitzt. Anders ausgedrückt, ist er gleich der Anzahl der genutzten Kernel einer Konvolutions-Schicht. In der Beispielimplementierung nach \cite{kanezaki_18} wird von ein Standardwert von $n_{fd} = 100$ ausgegangen. Im folgenden wird überprüft, ob sich dieser Wert für den hier genutzten Anwendungsfall optimieren lässt.
 
 \subsection{Anzahl der Schichten}
+
+In der orignalen Implementierung war die Anzahl der Konvolutionsschichten (gefolgt von den Batch-Normalisierungs-Schichten) dynamisch, mit einem Standardwert von drei Schichten. Nun wird überüprüft, welchen Einfluss eine Veränderung dieses Parameters auf die entstehende Segmentierung hat.
 
 \subsection{Größe des Konvolutionskernels}
 
