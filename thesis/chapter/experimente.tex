@@ -15,14 +15,33 @@ Es existieren allerdings keine segmentierten Aufnahmen der Marsoberfläche. Aus 
 
 \subsection{Allgemein}
 
-Ein oft genutzter Datensatz zu Evaluierung von Segmentierungsalgorithmen ist der Common Objects in Context-Datensatz (COCO) \cite{lin_14}. Zu diesem Datensatz existieren unterschiedliche AUfgaben \bzw Herausforderungen inkl. Ergebnissen, mit welchen man die jeweils eignen Ansätze vergleichen kann. Hier wird der sog. \textit{COCO 2017 Stuff Segmentation Task} genutzt.
+Ein oft genutzter Datensatz zu Evaluierung von Segmentierungsalgorithmen ist der BSDS500 Datensatz der UC Berkeley \cite{bsd500}. Zu diesem Datensatz existieren sowohl eine manuell erstelle Ground Truth, als auch mehrere auf ihm angewandte Algorithmen, mit denen die hier vorgestellte Methode verglichen werden kann.
+Einige der Aufnahmen aus diesem Datensatz wurde bereits in vorherigen Kapitel zur Erläuterung einiger Algorithmen genutzt (\vgl \bspw \figurename~\ref{fig:Kan18_01} oder \ref{fig:tsugf_101027_raw}).
 
 \section{Evaluation}
 \label{sec:evaluation}
 
-\subsection{Domänenspezifisch}
+Zur Evaluation der hier erarbeiteten Methode zur Bildsegmentierung werden eine Reihe von unterschiedlichen Metriken benutzt. Diese wurden ausgewählt, da sie zur Evaluation anderer Segmentierungsalgorithmen auf dem BSDS500 Datensatz genutzt wurden. \cite{arbelaez_10, xia_17}
 
-\subsection{Allgemein}
+\subsection{Variation of Information}
+
+Die Variation of Information, aus \cite{meil_03} stammend, wurde speziell dafür geschaffen, mehrere Clusterings miteinander vergleichen zu können. Sie ist für zwei Partitionen $X$ und $Y$ der selben Menge $A$ definiert durch:
+
+\begin{equation}
+VI(X, Y) = -\sum_{i, j} r_{ij}\left(\log\left(\frac{r_{ij}}{p_i}\right)+\log\left(\frac{r_{ij}}{q_j}\right)\right)
+\end{equation}
+
+Es gelten:
+\begin{eqnarray}
+n&=&\sum_i\mid X_i\mid=\sum_j \mid Y_j\mid=\mid A\mid\\
+p_i&=&\mid X_i\mid/n\\
+q_j&=&\mid Y_j\mid/n\\
+r_{ij}&=&\mid X_i\cap Y_j\mid/n\\
+\end{eqnarray}
+
+%\subsection{Domänenspezifisch}
+
+%\subsection{Allgemein}
 
 \section{Resultate}
 \label{sec:results}

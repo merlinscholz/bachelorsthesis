@@ -457,7 +457,7 @@ Anhand der Grafik lässt sich feststellen, dass ein Wert von $n=50$ für eine er
 		\hspace{2pt}\newline\centering $n=75$ &
 		\hspace{2pt}\newline\centering $n=100$
 	\end{tabular}
-	\caption{Vergleich verschiedener Werte für die Anzahl der Cluster bei der Initialisierung. Die Farben der jeweilgen Cluster wurden zufällig gewählt und sagen nichts über deren Inhalt aus. Das Abbruchkriterium der Segmentierung ist eine Anzahl von drei oder weniger unterschiedlichen Clustern.}
+	\caption{Vergleich verschiedener Werte für die Anzahl der Cluster bei der Initialisierung. Die Farben der jeweilgen Cluster wurden zufällig gewählt und sagen nichts über deren Inhalt aus.}
 	\label{fig:n_segments}
 \end{figure}
 
@@ -557,7 +557,7 @@ Diese Verbesserung ist darauf zurückzuführen, dass die ReLU-Aktivierung negati
 		\hspace{2pt}\newline\centering Sigmoid-Aktivierung &
 		\hspace{2pt}\newline\centering tanh-Aktivierung 
 	\end{tabular}
-	\caption{Vergleich der Auswirkungen der Nutzung verschiedener Aktivierungsfunktionen. Die Farben der jeweilgen Cluster wurden zufällig gewählt und sagen nichts über deren Inhalt aus. Das Abbruchkriterium der Segmentierung ist eine Anzahl von drei oder weniger unterschiedlichen Clustern.}
+	\caption{Vergleich der Auswirkungen der Nutzung verschiedener Aktivierungsfunktionen. Die Farben der jeweilgen Cluster wurden zufällig gewählt und sagen nichts über deren Inhalt aus.}
 	\label{fig:activation_comparision}
 \end{figure}
 
@@ -594,7 +594,7 @@ Wie zu erkennen ist, bringt die Nutzung einer Pooling-Schicht bei diesem Anwendu
 		\hspace{2pt}\newline\centering $F=(2, 2)$ &
 		\hspace{2pt}\newline\centering $F=(4, 4)$ 
 	\end{tabular}
-	\caption{Vergleich der Auswirkungen der Nutzung von Pooling-Schichten. Die Farben der jeweilgen Cluster wurden zufällig gewählt und sagen nichts über deren Inhalt aus. Das Abbruchkriterium der Segmentierung ist eine Anzahl von drei oder weniger unterschiedlichen Clustern.}
+	\caption{Vergleich der Auswirkungen der Nutzung von Pooling-Schichten. Die Farben der jeweilgen Cluster wurden zufällig gewählt und sagen nichts über deren Inhalt aus.}
 	\label{fig:maxpool_comparision}
 \end{figure}
 
@@ -628,24 +628,110 @@ Aus diesen Umständen lässt sich schließen, dass die Nutzung dieser Fully Conn
 		\hspace{2pt}\newline\centering $n_{fc}=1$ &
 		\hspace{2pt}\newline\centering $n_{fc}=2$ 
 	\end{tabular}
-	\caption{Vergleich der Auswirkungen der Nutzung von Fully-Connected-Layers. Die Farben der jeweiligen Cluster wurden zufällig gewählt und sagen nichts über deren Inhalt aus. Das Abbruchkriterium der Segmentierung ist eine Anzahl von drei oder weniger unterschiedlichen Clustern.}
+	\caption{Vergleich der Auswirkungen der Nutzung von Fully-Connected-Layers. Die Farben der jeweiligen Cluster wurden zufällig gewählt und sagen nichts über deren Inhalt aus.}
 	\label{fig:fc_comparision}
 \end{figure}
 
 \section{Hyperparameter}
 \label{sec:hyperparameter}
+\iffalse
+\subsection{Merkmalsdimensionen}
 
-\iffalse\subsection{Merkmalsdimensionen}
+Die Anzahl der Merkmalsdimensionen $n_{fd}$ gibt (hier) die Anzahl der Schichten an, welcher der Datenwürfel, welcher bei der Konvolution generiert wird, besitzt. Anders ausgedrückt, ist er gleich der Anzahl der genutzten Kernel einer Konvolutions-Schicht. In der Beispielimplementierung nach \cite{kanezaki_18} wird von ein Standardwert von $n_{fd} = 100$ ausgegangen. Im folgenden wird anhand der \figurename~\ref{fig:fd_comparision} überprüft, ob sich dieser Wert für den hier genutzten Anwendungsfall optimieren lässt.
 
-Die Anzahl der Merkmalsdimensionen gibt (hier) die Anzahl der Schichten an, welcher der Datenwürfel, welcher bei der Konvolution generiert wird, besitzt. Anders ausgedrückt, ist er gleich der Anzahl der genutzten Kernel einer Konvolutions-Schicht. In der Beispielimplementierung nach \cite{kanezaki_18} wird von ein Standardwert von $n_{fd} = 100$ ausgegangen. Im folgenden wird überprüft, ob sich dieser Wert für den hier genutzten Anwendungsfall optimieren lässt.
+\begin{figure}[h!]
+	\setlength\tabcolsep{1pt}
+	\def\arraystretch{0.5}
+	\begin{tabular}{C{0.166\textwidth}C{0.166\textwidth}C{0.166\textwidth}C{0.166\textwidth}C{0.166\textwidth}C{0.166\textwidth}}
+		\includegraphics[width=0.15\textwidth]{images/p03/p03_01.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/feature_dimensions/p03_01.png_33.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/feature_dimensions/p03_01.png_67.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/feature_dimensions/p03_01.png_100.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/feature_dimensions/p03_01.png_133.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/feature_dimensions/p03_01.png_167.png} \\
+		\includegraphics[width=0.15\textwidth]{images/p03/p03_02.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/feature_dimensions/p03_02.png_33.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/feature_dimensions/p03_02.png_67.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/feature_dimensions/p03_02.png_100.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/feature_dimensions/p03_02.png_133.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/feature_dimensions/p03_02.png_167.png} \\
+		\includegraphics[width=0.15\textwidth]{images/p03/p03_03.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/feature_dimensions/p03_03.png_33.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/feature_dimensions/p03_03.png_67.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/feature_dimensions/p03_03.png_100.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/feature_dimensions/p03_03.png_133.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/feature_dimensions/p03_03.png_167.png} \\
+		\includegraphics[width=0.15\textwidth]{images/p03/p03_04.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/feature_dimensions/p03_04.png_33.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/feature_dimensions/p03_04.png_67.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/feature_dimensions/p03_04.png_100.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/feature_dimensions/p03_04.png_133.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/feature_dimensions/p03_04.png_167.png} \\
+		
+		\hspace{2pt}\newline\centering Eingabe & 
+		\hspace{2pt}\newline\centering $n_{fd}=33$ &
+		\hspace{2pt}\newline\centering $n_{fd}=67$ &
+		\hspace{2pt}\newline\centering $n_{fd}=100$ &
+		\hspace{2pt}\newline\centering $n_{fd}=133$ &
+		\hspace{2pt}\newline\centering $n_{fd}=167$ \\
+	\end{tabular}
+	\caption{Vergleich der Auswirkungen einer veränderten Anzahl an Merkmalsdimensionen. Die Farben der jeweiligen Cluster wurden zufällig gewählt und sagen nichts über deren Inhalt aus.}
+	\label{fig:fd_comparision}
+\end{figure}
+\fi
+\subsection{Anzahl der Konvolutionsschichten}
 
-\subsection{Anzahl der Schichten}
+In der originalen Implementierung war die Anzahl der Konvolutionsschichten (gefolgt von den Aktivierungs- und Batch-Normalisierungs-Schichten) dynamisch, mit einem Standardwert von drei Schichten. Nun wird über \figurename~\ref{fig:n_layers_comparision} überprüft, welchen Einfluss eine Veränderung dieses Parameters auf die entstehende Segmentierung hat.
 
-In der orignalen Implementierung war die Anzahl der Konvolutionsschichten (gefolgt von den Batch-Normalisierungs-Schichten) dynamisch, mit einem Standardwert von drei Schichten. Nun wird überüprüft, welchen Einfluss eine Veränderung dieses Parameters auf die entstehende Segmentierung hat.
+Insgesamt fällt hier kein signifikanter Unterschied zwischen den einzelnen Aufnahmen auf: Ein Großteil der Verbesserungen und Verschlechterungen bei der Modifikation der Anzahl der Konvolutionsschichten ist schlichtweg auf die unterschiedliche Initialisierung des texturbasierten Clusterings und des Netzwerkes selbst zurückzuführen. Erkennbar ist dies daran, dass in der zweiten Aufnahme, bei fünf Konvolutionsschichten eine vergleichbar schlechte Segmentierung generiert wird, diese wird allerdings wieder besser, egal ob eine Konvolutionsschicht hinzugefügt oder entfernt wird.
 
+In Aufnahme drei verändert sich die Segmentierung zwischen $n_{conv}=2$ und $n_{conv}=5$ kaum, lediglich bei $n_{conv}=6$ wird der rechte Bereich als ein weiteres Segment erkannt. Dieser Effekt erschien über mehrere Ausführen des Experimentes hinweg auch nicht zuverlässig, es ist daher auch nur mit einer unterschiedlichen Initialisierung begründet.
+
+
+\begin{figure}[h!]
+	\setlength\tabcolsep{1pt}
+	\def\arraystretch{0.5}
+	\begin{tabular}{C{0.166\textwidth}C{0.166\textwidth}C{0.166\textwidth}C{0.166\textwidth}C{0.166\textwidth}C{0.166\textwidth}}
+		\includegraphics[width=0.15\textwidth]{images/p03/p03_01.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_01.png_2.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_01.png_3.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_01.png_4.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_01.png_5.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_01.png_6.png} \\
+		\includegraphics[width=0.15\textwidth]{images/p03/p03_02.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_02.png_2.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_02.png_3.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_02.png_4.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_02.png_5.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_02.png_6.png} \\
+		\includegraphics[width=0.15\textwidth]{images/p03/p03_03.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_03.png_2.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_03.png_3.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_03.png_4.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_03.png_5.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_03.png_6.png} \\
+		\includegraphics[width=0.15\textwidth]{images/p03/p03_04.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_04.png_2.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_04.png_3.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_04.png_4.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_04.png_5.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_04.png_6.png} \\
+		
+		\hspace{2pt}\newline\centering Eingabe & 
+		\hspace{2pt}\newline\centering $n_{conv}=2$ &
+		\hspace{2pt}\newline\centering $n_{conv}=3$ &
+		\hspace{2pt}\newline\centering $n_{conv}=4$ &
+		\hspace{2pt}\newline\centering $n_{conv}=5$ &
+		\hspace{2pt}\newline\centering $n_{conv}=6$ 
+	\end{tabular}
+	\caption{Vergleich der Auswirkungen der Änderung der Anzahl an Konvolutionsschichten. Die Farben der jeweiligen Cluster wurden zufällig gewählt und sagen nichts über deren Inhalt aus.}
+	\label{fig:n_layers_comparision}
+\end{figure}
+
+\iffalse
 \subsection{Größe des Konvolutionskernels}
-
 \subsection{Learning Rate}
+
 
 %\section{Preprocessing}
 %\label{sec:preprocessing}
