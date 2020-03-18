@@ -1,5 +1,7 @@
 # Variation of information
 # Expects list of sets
+
+from math import log
 def voi(X, Y):
     n = float(sum([len(x) for x in X]))
     assert n == float(sum([len(y) for y in Y]))
