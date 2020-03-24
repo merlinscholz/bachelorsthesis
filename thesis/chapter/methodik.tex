@@ -1,24 +1,27 @@
 \chapter{Methodik}
 \label{chap:methodik}
 
-Für die Segmentierung der Marsoberfläche wird der Ansatz von Kanezaki \etal \cite{kanezaki_18} aus Unterabschnit~\ref{ssec:kanezaki} abgewandelt. Das Ziel besteht daraus, eine Eingabebilddatei durch neuronale Netze zu segmentieren, allerdings ohne vorhandene Ground Truth.
+Für die Segmentierung der Marsoberfläche wird der Ansatz von Kanezaki \etal \cite{kanezaki_18} aus Unterabschnit~\ref{ssec:kanezaki} abgewandelt. Das Ziel besteht daraus, eine Eingabebilddatei durch neuronale Netze zu segmentieren, ohne vorhandene Ground Truth.
 
-Zur Modifikation des genannten Algorithmus existieren viele unterschiedliche Möglichkeiten, einzelne Elemente zu ersetzen, welche in den folgenden Abschnitten beschrieben werden.
+Zur Modifikation des genannten Algorithmus existieren viele unterschiedliche Möglichkeiten, einzelne Elemente zu ersetzen, welche in den folgenden Abschnitten beschrieben werden. Nachdem kurz auf die gesamte Funktionsweise des Algorithmus eingegangen wird folgt eine Übersicht über den Initialisierungsalgorithmus und Wege, diesen zu Optimieren. Dazu zählen \bspw unterschiedliche Filterbänke, deren Größen, Gewichtungen der Merkmale und Anzahl der zu generierenden Cluster. Anschließend wird der eigentliche Algorithmus versucht zu verbessern, gefolgt von einzelnen Anpassungen der Architektur des neuronalen Netzes und einiger weiterer Hyperparameter.
 
 \section{Funktionsweise des Algorithmus}
 \label{sec:howitworks}
 
 Die grundsätzliche Funktionsweise des Algorithmus aus \cite{kanezaki_18} findet sich in Abschnitt~\ref{ssec:kanezaki}. 
 
-Im Folgenden gilt: $Z_F$ gibt die Menge aller durch $F$ generierten Cluster an.
+Im Folgenden gilt: $F$ sei eine Mapping-Funktion. $P_{F,z}$ ist die Menge aller Koordinaten der Pixel im Cluster $z$ generiert durch $F$.
 
-Des weiteren ist $P_{F,z}$ die Menge aller Koordinaten der Pixel im Cluster $z$ der Mapping-Funktion $F$.
+Des Weiteren gibt $Z_F$ die Menge aller durch $F$ generierten Cluster an.
 
-Der erste Schritt bei der Erstellung der Segmentierung ist die Initialisierung. Bei dieser wird ein übermäßig feines Clustering der Eingabedatei $x$ erstellt, dies geschieht über klassische Clusteringalgorithmen wie SLIC. Die Initialisierung besteht also folglich aus einer Mapping-Funktion, $I(x_{ij}), I: \mathbb{R}^p\rightarrow\mathbb{Z}$, die jedem $p$-dimensionalen Pixel $x_{ij}$ mit den Koordinaten $i$ und $j$ des Eingabebildes ein Cluster zuordnet. Der Sinn dieses initialien Clustering besteht daraus, dass das darauf folgende neuronale Netzwerk dieses nutzen kann, um zu erlernen, nach welchen Kriterien es bei der Segmentierung verfahren soll.
+Der erste Schritt bei der Erstellung der Segmentierung ist die Initialisierung. Bei dieser wird ein übermäßig feines Clustering der Eingabedatei $x$ erstellt, dies geschieht über klassische Clusteringalgorithmen wie SLIC. Die Initialisierung besteht also folglich aus einer Mapping-Funktion, $I(x_{ij}), I: \mathbb{R}^p\rightarrow\mathbb{Z}$, die jedem $p$-dimensionalen Pixel $x_{ij}$ mit den Koordinaten $i$ und $j$ des Eingabebildes ein Cluster zuordnet. Der Sinn dieses initialien Clustering besteht daraus, dass das darauf folgende neuronale Netzwerk dieses nutzen kann, um zu erlernen, nach welchen Kriterien es bei der Segmentierung verfahren soll. Der wesentliche Unterschied zu \cite{junyuan_16} besteht folglich daraus, dass das Netzwerk bei dem dortigen Ansatz anhand der Autoencoder selbst erlernt, welche Merkmale relevant für die Segmentierung sind, während in \cite{kanezaki_18} ein externer Clusteringalgorithmus dazu genutzt wird, die wichtigen Merkmale zu bestimmen.
+
+% TODO Pixel reelwertig?
 
 Dies geschieht, indem die Eingabedatei das neuronale Netzwerk durchläuft, dabei entsteht eine weitere Mapping-Funktion $F_e(x_{ij}), F: \mathbb{R}^p\rightarrow\mathbb{Z}$, wobei $e$ die Anzahl der bisherigen Epochen die das Netzwerk durchlaufen hat angibt.
 
-Anschließend werden für jedes Cluster in $Z_{F_e}$  die Koordinaten der in ihm enthaltenen Pixel bestimmt:
+Anschließend werden für jedes Cluster in $Z_{F_e}$  die Koordinaten der in ihm enthaltenen Pixel bestimmt. $\langle i, j\rangle$ wird hier und im Folgenden zur Beschreibung eines Tupels bestehend aus X- und Y-Koordinaten genutzt.
+
 \begin{equation}
 P_{F_e,{z\in Z_{F_e}}} = \{\langle i, j\rangle\mid F_e(x_{ij}) = z\}
 \end{equation}
@@ -28,28 +31,38 @@ Selbiges geschieht für die Initialisierung:
 P_{I, z\in Z_I} = \{\langle i, j\rangle\mid I(x_{ij}) = z\}
 \end{equation}
 
-Nun wird für jedes Cluster in $Z_i$ bestimmt, welcher Wert aus $F_{e}$ am häufigsten in dem jeweiligen Cluster vorkommt, und das Cluster anschließend damit gefüllt. Das dadurch entstehende Clustering sei $F'_e$.
+Nun wird für jedes Cluster in $Z_i$ bestimmt, welcher Wert aus $F_{e}$ am häufigsten in dem jeweiligen Cluster vorkommt, und das Cluster anschließend damit gefüllt. Das dadurch entstehende Clustering sei $F'_e$. Durch diesen Schritt wird dem neuronalen Netzwerk ein Zielclustering zugeführt, welches die Clusterpositionen und -größen des ursprünglichen Clusterings berücksichtigt, dieser Prozess wäre also äquivalent zur wahrscheinlichkeitsbasierten Zuweisung der Datenpunkte des Merkmalsraumes zu den einzelnen Clusterzentren im DEC-Algorithmus (\vgl Unterabschnitt~\ref{ssec:dec}, \enquote{Parameteroptimierung}).
 
 %\begin{equation}
 %\forall z\in Z_I\;\forall p\in P_{F'_e, z}\;p = %\{mod_{F_e(x_{ij})}\mid\langle i,j\rangle\in P_{I, z}\}
 %\end{equation}
 
-Anschließend wird der Loss zwischen dem ursprünglichen Ergebnis des Netzes $F_e$ und des neu generierten Ziels $F'_e$ berechnet, und eine Backpropagation über das Netzwerk ausgeführt. Dieser Prozess wird wiederholt, bis ein Abbruchkriterium (\vgl Unterabschnitt~\ref{ssec:stoppingcriteria}) erreicht wird. Er lässt sich folgendermaßen als vereinfachter Python-Code darstellen:
+% TODO Loss??
 
-\begin{algorithm}
-\caption{Algorithmus nach Kanezaki \etal}
-\textbf{Eingabe:} Bilddatei x \\
+Anschließend wird der Loss zwischen dem ursprünglichen Ergebnis des Netzes $F_e$ und des neu generierten Ziels $F'_e$ berechnet, und eine Backpropagation über das Netzwerk ausgeführt. Dieser Prozess wird wiederholt, bis ein Abbruchkriterium (\vgl Unterabschnitt~\ref{ssec:stoppingcriteria}) erreicht wird. Die insgesamt zu berechnende Mapping-Funktion ist nun das letzte erzeugte Mapping $F_e$. Er lässt sich wie folgt als vereinfachter Python-Code darstellen. Es ist zwischen zwei Datentypen für die Speicherung von Clustern zu unterscheiden:
+
+\begin{itemize}
+	\item{\lstinline[columns=fixed]{tags}:} Eine $2\times2$-Matrix mit den Dimensionen des Eingabebildes, bei welcher jeder Pixel durch die entsprechende Nummer des ihm zugeordneten Clusters ersetzt ist.
+	\item{\lstinline[columns=fixed]{coordinates}:} Eine Liste von Mengen der Koordinaten, welche in einem bestimmten Cluster enthalten sind. Analog zu der Darstellung $P_{F,z}$ aus den vorherigen Paragraphen.
+\end{itemize}
+
+\begin{algorithm}[H]
+\caption{Algorithmus nach \cite{kanezaki_18}}
+\textbf{Eingabe:} Bilddatei \lstinline[columns=fixed]{x}\\
 \textbf{Ausgabe:} Clustering der Eingabebilddatei 
 \begin{lstlisting}[language=Python]
-def gen_cells(tags):
+def gen_coordinates(tags):
+	clusters = []
+	for c in np.unique(tags):
+		clusters.append(numpy.where(c == tags)[0])
+	return clusters
 
-init_tags = slic(x)
-init_coordinates = gen_clusters(init_tags)
+init_tags = skimage.segmentation.slic(x)
+init_coordinates = gen_coordinates(init_tags)
 while abbruchkriterium() is False:
 	current_result = network.step(x)
 	for c in init_coordinates:
-		target_result[c] = mode(current_result[c])
-		
+		target_result[c] = scipy.stats.mode(current_result[c])
 	loss = CrossEntropyLoss(current_result, target_result)
 	network.backpropagate()
 	network.optimize()
@@ -57,7 +70,15 @@ return current_result
 \end{lstlisting}
 \end{algorithm}
 
-Die insgesamt zu berechnende Mapping-Funktion ist nun das letzte erzeugte Mapping $F_e$.
+Hierbei sind:
+
+\begin{itemize}
+	\item{\lstinline[columns=fixed]{numpy.where(x)}\footnote{\url{https://docs.scipy.org/doc/numpy/reference/generated/numpy.where.html}}:} Gibt Elemente zurück, bei welchen die angegebene Bedingung \lstinline[columns=fixed]{x} zutrifft.
+	\item{\lstinline[columns=fixed]{skimage.segmentation.slic(x)}\footnote{\url{https://scikit-image.org/docs/dev/api/skimage.segmentation.html\#skimage.segmentation.slic}}:} Der SLIC-Algorithmus aus \cite{achanta_10}, angewandt auf ein Eingabebild \lstinline[columns=fixed]{x}. Gibt Ergebnisse in der \lstinline[columns=fixed]{coordinates}-Darstellung zurück.
+	\item{\lstinline[columns=fixed]{scipy.stats.mode(x)}\footnote{\url{https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.mode.html}}:} Der statistische Modus der Menge \lstinline[columns=fixed]{x}.
+	\item{\lstinline[columns=fixed]{abbruchkriterium()}:} \Vgl Unterabschnitt~\ref{ssec:stoppingcriteria}
+	\item{\lstinline[columns=fixed]{step, CrossEntropyLoss, backpropagate, optimize}:} Die üblichen Methoden zur Evolution eines neuronalen Netzes aus PyTorch\footnote{\url{https://pytorch.org/}}.
+\end{itemize}
 
 Durch die Tatsache, dass in jeder Iteration ein Cluster mit dem am häufigsten in ihm enthaltenen Wert gefüllt wird, verringert sich in der jeweils neu generierten Zielsegmentierung die Anzahl der Segmente. Da das neuronale Netz sich diesem Ziel dynamisch anpasst, folgt daraus, dass ein Netzwerk welches in der ersten Epoche \bspw 100 Segmente generiert nach einigen Epochen wesentlich weniger Segmente erzeugt. In diesem Prozess lernt das Netzwerk auch, die Clusteringkriterien der Initialisierung zu lernen und anhand derer seine eigene Segmentierung anzupassen. Dies ist dadurch begründet, dass die Zielsegmentierung zwar oft unterschiedliche Cluster enthält, die Begrenzungen dieser allerdings immer gleich der Begrenzungen des initialen Clusterings sind.
 Grafisch ist der Prozess der Verringerung der Segmentanzahl in \figurename~\ref{fig:n_segments} zu sehen: Die Anzahl der Segmente steigt ab und konvergiert gegen $1$. Da ein einziges Segment allerdings eine schlechte Segmentierung bedeutet, muss das neuronale Netzwerk an der richtigen Stelle abgebrochen werden. Unterabschnitt~\ref{ssec:stoppingcriteria} beschäftigt sich mit diesem Prozess.
@@ -67,7 +88,7 @@ Es ist zu beachten, dass für jeder Iteration die selbe Initialisierung $I$ benu
 \section{Initialisierung}
 \label{sec:initialization}
 
-Die wohl wichtigste Veränderung des ursprünglichen Algorithmus besteht aus der Modifizierung des Initialisierungsalgorithmus.
+Eine Veränderung mit starkem Einfluss des ursprünglichen Algorithmus besteht aus der Modifizierung des Initialisierungsalgorithmus.
 
 Der von Kanezaki \etal genutzte SLIC-Algorithmus eignet sich zwar gut für die meisten mehrfarbigen Fotografien, da die Aufnahmen der Marsoberfläche allerdings nur in Graustufen vorhanden sind, würden so hier keine guten Resultate produziert werden.
 
@@ -85,7 +106,7 @@ Der von Kanezaki \etal genutzte SLIC-Algorithmus eignet sich zwar gut für die m
 		\centering
 		\includegraphics[width=\textwidth,keepaspectratio]{images/gen/slic_vs_tsugf/Gre13_01.jpg_slic.png}
 		\captionsetup{format=plain,width=0.85\textwidth}
-		\caption{Ergebnis des SLIC-Algorithmus angewandt auf die Eingabedatei}
+		\caption{Ergebnis des SLIC-Algorithmus \cite{achanta_10} angewandt auf die Eingabedatei}
 		\label{fig:slic_vs_tsugf_slic}
 	\end{subfigure}
 	\hfill
@@ -93,35 +114,39 @@ Der von Kanezaki \etal genutzte SLIC-Algorithmus eignet sich zwar gut für die m
 		\centering
 		\includegraphics[width=\textwidth,keepaspectratio]{images/gen/slic_vs_tsugf/Gre13_01.jpg_tsugf.png}
 		\captionsetup{format=plain,width=0.85\textwidth}
-		\caption{Ergebnis des texturbasierten Clusterings der Eingabedatei}
+		\caption{Ergebnis des texturbasierten Clusterings (\vgl Unterabschnitt~\ref{ssec:tsugf}) der Eingabedatei}
 		\label{fig:slic_vs_tsugf_tsugf}
 	\end{subfigure}
-	\caption{Clustering eines Graustufenbildes}
+	\caption{Clustering eines Graustufenbildes eines Kraters der Marsoberfläche}
 \end{figure}
 
-So ergibt ein Clustering des Kraters aus Unterabschnitt~\ref{ssec:mars_surface_features} durch den SLIC-Algorithmus \cite{achanta_10} das in \figurename~\ref{fig:slic_vs_tsugf_slic} sichtbare Ergebnis.\footnote{SLIC-Implementierung: \texttt{scikit-image}\\Parameter: \texttt{compactness=5, n\_segments=10, enforce\_connectivity=False}} Dort ist erkennbar, dass der Krater in jeweilige Licht- und Schattenregionen (bedingt durch den Lichteinfall im flachen Winkel) unterteilt wird. Außerdem wird die raue Struktur ringförmig um den Krater herum schlecht erfasst: An dieser Stelle wird jeder Hügel separat als einerseits helle, andererseits dunkle Stelle markiert. Das Phänomen, dass ein Krater so durch eine starke Differenz an Licht- und Schattenregionen äußert wird sich im Großen und Ganzen zwar in Abschnitt~\ref{sec:craterdetection} zu nutze gemacht, ist hier allerdings ungewollt.
+So ergibt ein Clustering des Kraters aus Unterabschnitt~\ref{ssec:mars_surface_features} durch den SLIC-Algorithmus \cite{achanta_10} das in \figurename~\ref{fig:slic_vs_tsugf_slic} sichtbare Ergebnis.\footnote{SLIC-Implementierung: \texttt{scikit-image}\\Parameter: \texttt{compactness=5, n\_segments=10, enforce\_connectivity=False}} Dort ist erkennbar, dass der Krater in jeweilige Licht- und Schattenregionen (bedingt durch den Lichteinfall im flachen Winkel) unterteilt wird. Außerdem wird die raue Struktur ringförmig um den Krater herum schlecht erfasst: An dieser Stelle wird jeder Hügel separat als einerseits helle, andererseits dunkle Stelle markiert. Das Phänomen, dass ein Krater durch eine starke Differenz an Licht- und Schattenregionen erkannt wird wird sich im Großen und Ganzen zwar in Abschnitt~\ref{sec:crater_detection} zu nutze gemacht, ist hier allerdings ungewollt.
 
 Wenn nun der in Unterabschnitt~\ref{ssec:kanezaki} beschriebene Ansatz verfolgt wird, wird das neuronale Netz daraufhin trainiert, eine Aufnahme anhand ihrer Helligkeitsinformationen hin zu trainieren. Da dies nicht gewollt ist, wird statt einem farb-/helligkeitsbasierten Clusteringalgorithmus wie SLIC ein texturbasiertes Clustering genutzt.
 
-Statt des SLIC-Clusterings wird nun die in Unterabschnitt~\ref{ssec:tsugf} vorgestellte Methode des texturbasierten Clusterings genutzt. Von dieser Stelle an sind --~wenn nicht anders benannt~-- die Gewichtungen der verschiedenen Werte für die Farbwerte, X-/Y-Positionen und Reaktion auf Gaborfilter alle gleich $1$. Diese Parameter werden in Unterabschnitt~\ref{ssec:initialization_filterweight} genauer erläutert.
+Statt des SLIC-Clusterings wird nun die in Unterabschnitt~\ref{ssec:tsugf} vorgestellte Methode des texturbasierten Clusterings genutzt. Von dieser Stelle an sind, wenn nicht anders benannt, die Gewichtungen der verschiedenen Werte für die Farbwerte, X-/Y-Positionen und Reaktion auf Gaborfilter alle gleich $1$. Diese Parameter werden in Unterabschnitt~\ref{ssec:initialization_filterweight} genauer erläutert.
 
 Das Resultat eines Clusterings durch die genutzte, texturbasierte Methode\footnote{Kombiniert mit der Filterbank aus \cite{jain_91}} ist in \figurename~\ref{fig:slic_vs_tsugf_tsugf} sichtbar: Man erkennt, dass der \enquote{Ring} um den eigentlichen Einschlagskrater eine eigenständige Textur besitzt, welche unterschiedlich zu dem Rest der Oberfläche ist. Eine ähnliche Oberflächenstruktur ist direkt um den Krater herum vorhanden. Beide Vorkommnisse dieser ähnlichen Struktur werden vom texturbasierten Clustering erfasst, in ein Segment aufgeteilt und (hier durch eine rote Färbung) markiert.
 
+% TODO Reread
+
 \subsection{Filterbänke}
 \label{ssec:initialization_filterbanks}
-Nun stellt sich die Frage, welche der vorgestellten Filterbänke sich gut eignet, die Eingabedatei zu clustern. Die größten Unterschiede zwischen den einzelnen Filterbänken besteht daraus, dass einige von ihnen rotationsinvariante Filter enthalten, und einige in mehreren Größen vorhanden sind. Die Größendifferenz lässt sich zwar in der Anwendung des Algorithmus ausgleichen, die Rotationsinvarianz allerdings nicht. In \figurename~\ref{fig:filterbank_comparision} ist die Anwendung der in Unterabschnitt~\ref{ssec:tsugf} vorgestellten Filterbänke auf vier Beispielbilder (\vgl Abschnitt~\ref{ssec:mars_surface_features}) sichtbar. Jedes Bild wurde in vier Cluster aufgeteilt und alle Optimierungen des Verfahrens (\vgl Unterabschnitt~\ref{ssec:tsugf}) wurden angewandt.
+Nun stellt sich die Frage, welche der vorgestellten Filterbänke sich gut eignet, die Eingabedatei zu clustern. Die größten Unterschiede zwischen den einzelnen Filterbänken besteht darin, dass einige von ihnen rotationsinvariante Filter enthalten, und andere in mehreren Größen vorhanden sind. Die Größendifferenz lässt sich in der Anwendung des Algorithmus dadurch ausgleichen, dass jeder Filter zusätzlich in weitere Größen skaliert wird, und in jeder Skalierungsstufe angewandt wird. Die Rotationsinvarianz würde sich höchstens durch die Rotation der Filter approximieren lassen, da so allerdings nicht jeder Winkel abgedeckt werden kann, ist diese Methode ungeeignet. In \figurename~\ref{fig:filterbank_comparision} ist die Anwendung der in Unterabschnitt~\ref{ssec:tsugf} vorgestellten Filterbänke auf vier Beispielbilder (\vgl Abschnitt~\ref{ssec:mars_surface_features}) sichtbar. Diese sind nach deren Bezeichnungen in genanntem Abschnitt benannt. Jedes Bild wurde in vier Cluster aufgeteilt und alle Optimierungen des Verfahrens (\vgl Unterabschnitt~\ref{ssec:tsugf}) wurden angewandt.
 
 \paragraph{Krater}
-Neben dem eigentlichen Krater ist auf dieser Aufnahme der Ring aus gröberem Gestein signifikant. Dieser wird von allen Filterbänken zuverlässig erkannt, wenn auch mit einer unterschiedlichen Dicke: Die LM- und S-Filterbank selektieren dieses Gestein eher großzügig, die MR-Filterbank hingegen zeigt sehr enge Markierungen dieser Region.
+Neben dem eigentlichen Krater ist auf dieser Aufnahme der Ring aus gröberem Gestein ein wichtiges Merkmal. Dieser wird von allen Filterbänken zuverlässig erkannt, wenn auch mit einer unterschiedlichen Dicke: Die LM- und S-Filterbank selektieren dieses Gestein eher großzügig, die MR-Filterbank hingegen zeigt sehr enge Markierungen dieser Region.
 
 Alle Filterbänke formen einen Ring (oder dessen Ansatz) auf dem Kraterrand, die Maximum Response-Filterbank erzeugt zwei konzentrische Ringe
 
 Der Krater selbst wird von den Filterkombinationen nach \cite{jain_91} und der LM-Filterbank leider nur in Hell- und Dunkel-Regionen aufgeteilt, die S-Filterbank zeigt innerhalb des Kraters kein brauchbares Ergebnis. Eine Ausnahme stellt die Maximum-Response-Filterbank dar, welche neben den zwei erwähnten konzentrischen Clustern den Bereich innerhalb des Kraters als ein einziges Cluster erkennt. Die Maximum Response-Bank erzeugt in diesem Bereich das Resultat, welches sich wohl als bestes zur Weiterverarbeitung eignet.
 
+% TODO Weil...
+
 \paragraph{Vulkan}
 Der Vulkanberg wird leider von keiner Filterbank optimal erkannt. Der äußere Rand wird nur von der S-Filterbank als ein Cluster erkannt, dies allerdings nicht sehr genau. Der rauere Bereich der Oberfläche, was kleinere Krater miteinbeschließt, wird vom MR-Filter am ehesten und genausten erkannt, auf dem zweiten Platz folgt die Filterbank nach \cite{jain_91}, welche zwar alle Krater in ein Cluster fügt (violett), allerdings eher gröber.
 
-Die Vulkanmitte wird von keiner Filterbank erkannt, nur bei der MR-Bank lässt sich eine ringförmige, rauere Stelle um den Krater herum erahnen. Die anderen Filterbänke selektieren an dieser Stelle hauptsächlich nach den Helligkeitswerten. Außerdem ist interessant, dass der LM-Filter die Bergspitzen in vom Umfeld getrennte Cluster einteilt (blau und violett). Somit scheint es, als ließe sich diese Aufnahme über keine Filterbank gut clustern, am ehesten eignet sich allerdings erneut die MR-Bank.
+Die Vulkanmitte wird von keiner Filterbank erkannt, nur bei der MR-Bank lässt sich eine ringförmige, rauere Stelle um den Krater herum erahnen. Die anderen Filterbänke selektieren an dieser Stelle hauptsächlich nach den Helligkeitswerten. Außerdem ist interessant, dass der LM-Filter die Bergspitzen in vom Umfeld getrennte Cluster einteilt (blau und violett). Somit scheint es, als ließe sich diese Aufnahme über keine Filterbank gut clustern. Am ehesten eignet sich allerdings erneut die MR-Bank.
 
 \paragraph{Vulkan mit strahlenförmigen Merkmalen}
 
@@ -133,11 +158,11 @@ Die LM-Filterbank scheint kein brauchbares Ergebnis zu produzieren, sie erkennt 
 
 Die Schmid-Filterbank clustert einen Großteil der Strahlen gemeinsam in ein Cluster (rot). Die Krater hingegen sind nicht fest einer Clusterart zugewiesen, ein Großteil von ihnen befindet sich jedoch auch im roten Cluster.
 
-Wie in den vorherigen Test ist das Resultat der MR-Filterbank schon fast zu genau, die Cluster sind sehr fein gehalten. Im Gegensatz zu den Alternativen, werden hier die Krater relativ zuverlässig in gelbe Cluster eingeordnet, die Strahlen sind leider zu fein markiert, als dass man sie getrennt erkennen könnte. Dieses Phänomen könnte sich allerdings in der praktischen Anwendung zunutze gemacht werden, da dafür eine zu feine Initialisierung notwendig ist.
+Wie in den vorherigen Tests ist das Resultat der MR-Filterbank schon fast zu genau, die Cluster sind sehr fein gehalten. Im Gegensatz zu den Alternativen, werden hier die Krater relativ zuverlässig in gelbe Cluster eingeordnet, die Strahlen sind leider zu fein markiert, als dass man sie getrennt erkennen könnte. Dieses Phänomen könnte sich allerdings in der praktischen Anwendung zunutze gemacht werden, da dafür eine zu feine Initialisierung notwendig ist.
 
 \paragraph{Gletscher}
 
-Der Gletscher ist subjektiv betrachtet das schwierigste der hier vorgestellten Probleme, da er an vielen seiner Ränder keine feste Grenze zu benachbarten Regionen zeigt, nur links auf der Aufnahme ist er durch eine Hügelreihe strikt begrenzt. Diese Grenze wird von allen Filterbänken in ein getrenntes Cluster unterteilt,mit Ausnahme der Filterbank nach \cite{jain_91}: Diese produziert kein geeignetes Ergebnis, nur die stärker erkennbaren \enquote{Streifen} werden gut erkannt (violett). Die LM-Filterbank erkennt zwar die Abgrenzung auf der linken Seite, allerdings keine anderen Regionen korrekt. Sie liefert bei diesem Bild das wohl schlechteste Resultat. Die Maximum-Response Methode und die Filterbank nach \cite{schmid_01} liefern zwar etwas bessere Ergebnisse, diese sind allerdings nicht gut. Die MR-Bank erzeugt erneut sehr feine Cluster.
+Der Gletscher stellt im Bereich der Bildsegmentierung ein vergleichsweise schwieriges Problem dar, da er an vielen seiner Ränder keine feste Grenze zu benachbarten Regionen zeigt, nur links auf der Aufnahme ist er durch eine Hügelreihe strikt begrenzt. Diese Grenze wird von allen Filterbänken in ein getrenntes Cluster unterteilt,mit Ausnahme der Filterbank nach \cite{jain_91}: Diese produziert kein geeignetes Ergebnis, nur die stärker erkennbaren \enquote{Streifen} werden gut erkannt (violett). Die LM-Filterbank erkennt zwar die Abgrenzung auf der linken Seite, allerdings keine anderen Regionen korrekt. Sie liefert bei diesem Bild das wohl schlechteste Resultat. Die Maximum-Response Methode und die Filterbank nach \cite{schmid_01} liefern zwar etwas bessere Ergebnisse, diese sind allerdings nicht gut. Die MR-Bank erzeugt erneut sehr feine Cluster.
 
 \paragraph{}
 Zusammengefasst erzeugt aus dieser Auswahl an Filterbänden die Maximum Response-Methode von \cite{visgeo} das wohl am ehesten geeignete Resultat zur Weiterverarbeitung. Auf zweitem Platz folgt die Schmid-Filterbank.

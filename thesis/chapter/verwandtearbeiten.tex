@@ -10,41 +10,50 @@ Zuletzt folgt die Analyse der Marsoberfläche, hauptsächlich der Kratererkennun
 \section{Bildsegmentierung}
 \label{sec:image_segmentation}
 
-\subsection{Bildsegmentierung ohne Ground Truth}
+\subsection{DEC -- Deep Embedded Clustering}
 \label{ssec:dec}
-In \cite{junyuan_16} wird eine Methode --~der DEC Algorithmus~-- zur Bildsegmentierung durch neuronale Netze ohne vorherige Ground Truth vorgestellt: Das Ziel besteht daraus, $N$ Punkte $\{x_n\in X\}_{n=1}^N$ in $k$ verschiedene Cluster mit den jeweiligen Clustermitten $\mu_j, j\in\left[1, k\right]$ einzuteilen. Entgegen des naiven Ansatzes, direkt die Farbwerte der einzelnen Pixel als Merkmalsraum $X$ zu nutzen und zu clustern, wird in diesem Paper nicht direkt anhand der Farbwerte geclustert, stattdessen wird dieser zuerst über eine nichtlineare Funktion $f_\theta: X\rightarrow Z$ in einen Merkmalsraum $Z$ abgebildet. $\theta$ ist dabei ein erlernbarer Parameter, sodass das genutzte Neuronale Netz zwei Parameter zeitgleich optimiert: $\theta$, und die Position der Clustermitten $\mu_j$.
+In \cite{junyuan_16} wird eine Methode zur Bildsegmentierung durch neuronale Netze ohne vorherige Ground Truth vorgestellt: Das Ziel besteht daraus, $N$ Punkte $\{x_n\in X\}_{n=1}^N$ in $k$ verschiedene Cluster mit den jeweiligen Clusterzentren $\mu_j, j\in\left[1, k\right]$ einzuteilen. Entgegen des naiven Ansatzes, direkt die Farbwerte der einzelnen Pixel als Merkmalsraum $X$ zu nutzen und zu clustern, wird in \cite{junyuan_16} nicht direkt anhand der Farbwerte geclustert, stattdessen wird dieser zuerst über eine nichtlineare Funktion $f_\theta: X\rightarrow Z$ in einen Merkmalsraum $Z$ abgebildet. $\theta$ ist dabei ein erlernbarer Parameter, sodass das genutzte Neuronale Netz zwei Parameter zeitgleich optimiert: $\theta$, und die Position der Clustermitten $\mu_j$.
 
 Der DEC-Algorithmus besteht aus zwei Phasen:
 \begin{enumerate}
-	\item Parameterinitialisierung:\\
-	Um die Startparameter für $\theta$ zu Generieren wird ein Stacked Autoencoder (SAE) schichtenweise aufgebaut. Jede Schicht des SAEs ist ein rauschunterdrückender Autoencoder, welcher wie folgt definiert ist: \cite{junyuan_16}
+	\item{Parameterinitialisierung:}\\
+	Um die Startparameter für $\theta$ zu Generieren wird ein Stacked Autoencoder (SAE, \cite{vincent_10}) schichtenweise aufgebaut. Jede Schicht des SAEs ist ein rauschunterdrückender Autoencoder, welcher wie folgt definiert ist: \cite{junyuan_16}
 	\begin{eqnarray}
 	\bar{x}&\sim&Dropout(x)\\
 	h &=& g_1(W_1\tilde{x}+b_1)\\
 	\tilde{h} &\sim& Dropout(h)\\
 	y &=& g_2(W_2\tilde{h}+b_2)
 	\end{eqnarray}
-	Zuerst wird Encoder-Decoder-Paar dazu trainiert, ein Signal wiederherzustellen, nachdem dieses eine Encoder-Schicht durchlaufen hat. Anschließend wird der Parameter $h$ dazu genutzt, ein weiteres Paar zu trainieren (\vgl \figurename~\ref{fig:sae}). Am Ende dieses Lernens besteht $\theta$ aus der Menge aller Gewichtungen $W$ und Bias $b$ der verschiedenen Encoder Schichten. Diese Encoder-Schichten beschreiben nun die Funktion $f_\theta$, welche den originalen Merkmalsraum $X$ des Bildes in den reduzierten Merkmalsraum $Z$ umwandelt.
+	Zuerst wird ein Encoder-Decoder-Paar dazu trainiert, ein Signal wiederherzustellen, nachdem dieses eine Encoder-Schicht durchlaufen hat. Anschließend wird der Parameter $h$ dazu genutzt, ein weiteres Paar zu trainieren (\vgl \figurename~\ref{fig:sae}). Am Ende dieses Lernens besteht $\theta$ aus der Menge aller Gewichtungen $W$ und Bias $b$ der verschiedenen Encoder Schichten. Diese Encoder-Schichten beschreiben nun die Funktion $f_\theta$, welche den originalen Merkmalsraum $X$ des Bildes in den reduzierten Merkmalsraum $Z$ umwandelt.
 	
 	Die initialen Clustermitten werden durch den k-Means-Algorithmus auf dem Merkmalsraum $Z$ generiert.
 	
-	\item Parameteroptimierung
+	\item{Parameteroptimierung:}\\
 	Das eigentliche Lernen des DEC-Algorithmus findet in zwei, sich gegenseitig abwechselnden Phasen statt:
 	
-	Zuerst wird eine Zuweisung von den Datenpunkten des Merkmalsraumes zu den Koordinaten der Clusterzentren berechnet. Zu diesem Zweck wird eine Wahrscheinlichkeitsverteilung (die $t$-Verteilung) genutzt: Diese berechnet die Wahrscheinlichkeit, dass ein bestimmter Datenpunkt einem bestimmten Cluster zugewiesen wird.
+	Zuerst wird eine Zuweisung von den Datenpunkten des Merkmalsraumes zu den Koordinaten der Clusterzentren berechnet. Zu diesem Zweck wird eine Wahrscheinlichkeitsverteilung, die t-Verteilung genutzt:
 	
-	Anschließend werden die Positionen der Clustermitten $\mu_j$ und die Parameter $\theta$ der Funktion $f_\theta$ optimiert. Die zu verringernde Verlustfunktion ist an dieser Stelle die Kullback-Leibler-Divergenz. Somit wird hier eine Wahrscheinlichkeitsfunktion gelernt, welche sich möglichst wenig von der oben beschriebenen, iterativ generierten $t$-Verteilung unterscheidet. Der eigentliche Optimierungsprozess der Clustermitten und der Parameter für $\theta$ findet über das Gradientenverfahren (\vgl Unterabschnitt~\ref{ssec:gradient_descent}) statt.
+	\begin{equation}
+		f(t)=\frac{\Gamma\left(\frac{\nu+1}{2}\right)}{\sqrt{\nu\pi}\Gamma\left(\frac{\nu}{2}\right)}\left(1+\frac{t^2}{\nu}\right)^{-\frac{\nu+1}{2}}
+	\end{equation}
+	
+	Dabei ist $\Gamma$ die Gamma-Funktion und $\nu$ die Anzahl der Freiheitsgrade.
+	
+	Diese Funktion berechnet also die Wahrscheinlichkeit, dass ein bestimmter Datenpunkt einem bestimmten Cluster zugewiesen wird.
+	
+	Anschließend werden die Positionen der Clustermitten $\mu_j$ und die Parameter $\theta$ der Funktion $f_\theta$ optimiert. Die zu verringernde Verlustfunktion ist an dieser Stelle die Kullback-Leibler-Divergenz. Somit wird hier eine Funktion gelernt, welche sich möglichst wenig von der oben beschriebenen, iterativ generierten $t$-Verteilung unterscheidet. Der eigentliche Optimierungsprozess der Clustermitten und der Parameter für $\theta$ findet über das Gradientenverfahren (\vgl Unterabschnitt~\ref{ssec:gradient_descent}) statt.
 \end{enumerate}
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=.8\textwidth,keepaspectratio]{images/BK15/BK15_01.png}
-	\caption{Initialisierung eines Stacked Autoencoders, modifiziert, aus \cite{berniker_15}}
+	\caption{Initialisierung eines Stacked Autoencoders, modifiziert, aus \cite{berniker_15}. Zu Beginn existiert ein Encoder-Paar (blau) bestehend aus Encoder $Y$ und Decoder $\hat{Y}$ mit einer Zwischenausgabe $V$ (links). Anschließend wird diese Ausgabe $V$ dazu genutzt, ein weiteres Autoencoder-Paar so zu trainieren, dass es die Eingabe $V$ durch $\hat{V}$ approximieren kann (mitte). Dies geschieht iterativ so lange, bis die Anzahl der gewünschten Schichten erreicht ist. Zuletzt werden die so generierten Autoencoder-Paare verschachtelt (rechts).}
 	\label{fig:sae}
 \end{figure}
 
-Zusammengefasst lernt der Algorithmus in der ersten Phase seiner Ausführung, wie er trotz einer Dropout-Layer die ursprüngliche Eingabe bestmöglich wiederherstellen kann, er lernt also wie signifikant bestimmte Merkmale zur Wiederherstellung sind. Diese Initialisierung wird im zweiten Schritt weiter optimiert.
+Zusammengefasst lernt der Algorithmus in der ersten Phase seiner Ausführung, wie er nach der Anwendung von Dropout-Schichten die ursprüngliche Eingabe bestmöglich wiederherstellen kann, er lernt also wie signifikant bestimmte Merkmale zur Wiederherstellung sind. Diese Initialisierung wird im zweiten Schritt weiter optimiert.
 Der Vorteil dieser und ähnlicher Methoden besteht daraus, dass das Netzwerk nicht trainiert werden muss und somit also auch keine Ground Truth benötigt. Dies ermöglicht dessen Einsatz in Bereichen in denen es zu aufwändig ist, Ground Truths manuell zu erstellen. Eine weitere Eigenschaft besteht daraus, dass diese Methode sich für den Einsatz auf unterschiedlichsten Eingabedaten eignet, da sie dynamisch zur Laufzeit lernt, nach welchen Kriterien sie clustern sollte.
+% TODO Initialisierung Abbruchkriterium
 
 \subsection{Bildsegmentierung auf Basis eines Bildclusterings}
 \label{ssec:kanezaki}
