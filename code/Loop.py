@@ -4,6 +4,7 @@ from time import time
 import cv2
 import matplotlib.pyplot as plt
 import numpy as np
+import numpy.polynomial.polynomial as poly
 import scipy.io as sio
 import torch
 from IPython.display import display
@@ -33,7 +34,6 @@ def run(image, tags, model, max_epochs=500, tensorboard=True, lr=0.15, momentum=
   loss_fn = nn.CrossEntropyLoss()
   optimizer = optim.SGD(model.parameters(), lr=lr, momentum=momentum)
 
-    
   if image.shape[2] == 3:
     preprocess = transforms.Compose([
       transforms.ToTensor(),
@@ -59,6 +59,7 @@ def run(image, tags, model, max_epochs=500, tensorboard=True, lr=0.15, momentum=
     tb.add_image("input/", image, 0, dataformats="HWC")
     tb.add_image("clustered/", gen_preview(tags, target_shape), 0, dataformats="HWC")
 
+  loss_history = []
   loss_delta = np.zeros(max_epochs)
   current_delta = np.inf
   for epoch in range(max_epochs):
@@ -72,17 +73,34 @@ def run(image, tags, model, max_epochs=500, tensorboard=True, lr=0.15, momentum=
       for cell in cells:
         possible = argmax[cell].flatten()
         target[cell] = mode(possible)[0]
-
+        
     optimizer.zero_grad()
     loss = loss_fn(predicted, torch.from_numpy(target).cuda().long())
     loss.backward()
     optimizer.step()
+    loss_history.append(loss.item())
     loss_delta[epoch] = loss.item()
+    
+    
+    #print(np.arange(len(loss_history)))
+    #print(np.array(loss_history))
+    test = poly.polyfit(np.arange(len(loss_history)), np.array(loss_history), 2)
+    #plt.figure()
+    #plt.plot(np.arange(len(loss_history)), poly.polyval(np.arange(len(loss_history)), test))
+    #plt.show()
+    
+    testder = poly.polyder(test)
+    
+    
+    
+    
+    
     
     if epoch >= 20:
       current_delta = np.mean(loss_delta[epoch-19:epoch]-loss_delta[epoch-20:epoch-1])
     
     if tensorboard:
+      tb.add_scalar("loss/grad", poly.polyval(len(loss_history), testder), epoch)
       tb.add_scalar("loss/delta_over_20", current_delta, epoch)
       tb.add_scalar("loss/loss", loss.item(), epoch)
       tb.add_scalar("labels/", n_labels, epoch)
@@ -91,7 +109,8 @@ def run(image, tags, model, max_epochs=500, tensorboard=True, lr=0.15, momentum=
       tb.flush()
 
     if n_labels <= stopping:
-      break
+      pass
+      #break
     
   returns = {}
   returns["labels"] = argmax.astype(np.uint8).reshape(target_shape[0], target_shape[1])
