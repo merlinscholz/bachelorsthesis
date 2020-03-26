@@ -412,42 +412,77 @@ Anhand der Grafik lässt sich feststellen, dass ein Wert von $n=50$ für eine er
 \subsection{Abbruchkriterium}
 \label{ssec:exp_stoppingcriteria}
 
-Eine graphische Darstellung der Änderungsrate in Abhängigkeit der Epochen des Netzwerkes ist für die fünf verschiedenen Aufnahmen des letzten Abschnittes in \figurename~\ref{fig:sc_n_segments}, \ref{fig:sc_loss} und \ref{fig:sc_loss_rel} sichtbar. Es wird deutlich, dass sich die vorgeschlagene Methode der Nutzung der letzten 20 Verlustwerte nicht als Abbruchkriterium eignet, da diese stark zwischen unterschiedlichen Aufnahmen variiert und trotz ihres relativ großen Umfangs noch starke lokale Extremstellen beinhaltet.
+Eine graphische Darstellung der Änderungsrate in Abhängigkeit der Epochen des Netzwerkes ist für die fünf verschiedenen Aufnahmen des letzten Abschnittes in \figurename~\ref{fig:exp_stoppingcriteria} sichtbar. Es wird deutlich, dass sich die vorgeschlagene Methode der Nutzung der letzten 20 Verlustwerte nicht als Abbruchkriterium eignet, da diese stark zwischen unterschiedlichen Aufnahmen variiert und trotz ihres relativ großen Umfangs noch starke lokale Extremstellen beinhaltet.
 
 \begin{figure}[h!]
 	\centering
-	\begin{minipage}{0.32\textwidth}
-		\centering
-		\includesvg[inkscapelatex=false,width=\textwidth,keepaspectratio]{images/tb/labels_.svg}
-  		\begin{minipage}[t][2.5cm][t]{\textwidth}
-			\captionsetup{format=plain,width=0.85\textwidth}
-			\caption{Anzahl der Segmente in Abhängigkeit der Epoche}
-			\label{fig:sc_n_segments}
-		\end{minipage}
-	\end{minipage}
-	\hfill
-	\begin{minipage}{0.32\textwidth}
-		\centering
-		\includesvg[inkscapelatex=false,width=\textwidth,keepaspectratio]{images/tb/loss_loss.svg}
-		\begin{minipage}[t][2.5cm][t]{\textwidth}
-			\captionsetup{format=plain,width=0.85\textwidth}
-			\caption{Verlustfunktion in Abhängigkeit der Epoche}
-			\label{fig:sc_loss}
-		\end{minipage}
-	\end{minipage}
-	\hfill
-	\begin{minipage}{0.32\textwidth}
-		\centering
-		\includesvg[inkscapelatex=false,width=\textwidth,keepaspectratio]{images/tb/loss_delta_over_20.svg}
-		\begin{minipage}[t][2.5cm][t]{\textwidth}
-			\captionsetup{format=plain,width=0.85\textwidth}
-			\caption{Median der jeweils letzten 20 Verlustfunktionsdifferenzen in Abhängigkeit der Epoche}
-			\label{fig:sc_loss_rel}
-		\end{minipage}
-	\end{minipage}
+	\begin{tikzpicture}
+		\begin{groupplot}[
+			group style={
+				group size=2 by 2,
+				horizontal sep=1cm, vertical sep=2cm
+			},
+			width=0.5\textwidth,
+			height=6cm]
+			\nextgroupplot[
+				major grid style={line width=.1pt, draw=gray!10},
+				grid=major,
+				xmin=0,
+				xmax=500,
+				ymin=0,
+				ymax=30,
+				xlabel style={text width=6cm,align=center},
+				xlabel=Segmente/Epoche]
+				\addplot +[mark=none,blue,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_01.png-tag-labels_.csv};
+				\addplot +[mark=none,red,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_02.png-tag-labels_.csv};
+				\addplot +[mark=none,green,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_03.png-tag-labels_.csv};
+				\addplot +[mark=none,black,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_04.png-tag-labels_.csv};
+		
+			\nextgroupplot[major grid style={line width=.1pt, draw=gray!10},
+				grid=major,
+				xmin=0,
+				xmax=500,
+				ymin=0,
+				ymax=2.5,
+				xlabel style={text width=6cm,align=center},
+				xlabel=Loss/Epoche]
+				\addplot +[mark=none,blue,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_01.png-tag-loss_loss.csv};
+				\addplot +[mark=none,red,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_02.png-tag-loss_loss.csv};
+				\addplot +[mark=none,green,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_03.png-tag-loss_loss.csv};
+				\addplot +[mark=none,black,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_04.png-tag-loss_loss.csv};
+									
+			\nextgroupplot[major grid style={line width=.1pt, draw=gray!10},
+				grid=major,
+				xmin=0,
+				xmax=500,
+				ymin=-0.05,
+				ymax=0.01,
+				xlabel style={text width=6cm,align=center},
+				xlabel=Median der Verlustfunktionin den letzten 20 Epochen/Epoche]
+				\addplot +[mark=none,blue,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_01.png-tag-loss_delta_over_20.csv};
+				\addplot +[mark=none,red,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_02.png-tag-loss_delta_over_20.csv};
+				\addplot +[mark=none,green,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_03.png-tag-loss_delta_over_20.csv};
+				\addplot +[mark=none,black,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_04.png-tag-loss_delta_over_20.csv};
+			
+			\nextgroupplot[major grid style={line width=.1pt, draw=gray!10},
+				grid=major,
+				xmin=0,
+				xmax=500,
+				ymin=-0.03,
+				ymax=0.05,
+				xlabel style={text width=6cm,align=center},
+				xlabel=Approximierter Gradient der Verlustfunktion/Epoche]
+				\addplot +[mark=none,blue,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_01.png-tag-loss_grad.csv};
+				\addplot +[mark=none,red,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_02.png-tag-loss_grad.csv};
+				\addplot +[mark=none,green,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_03.png-tag-loss_grad.csv};
+				\addplot +[mark=none,black,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_04.png-tag-loss_grad.csv};
+		\end{groupplot}
+	\end{tikzpicture}
+	\caption{Vergleich unterschiedlicher möglicher Abbruchkriterien, jeweils bis 500 Epochen. Die Graphen sind in höherer Auflösung in Appendix~\ref{app:exp_stoppingcriteria} zu finden.}
+	\label{fig:exp_stoppingcriteria}
 \end{figure}
 
-Es ist auch ersichtlich, dass die Verlustfunktion alleine nicht als Abbruchkriterium funktionieren würde, da diese für unterschiedliche Eingabedateien sich an unterschiedliche Werte annähert -- es ist also nicht möglich einen gemeinsamen Wert festzulegen, ab welchem das neuronale Netzwerk abgebrochen werden sollte.
+Es ist auch ersichtlich, dass die Verlustfunktion alleine nicht als Abbruchkriterium funktionieren würde, da diese für verschiedene Eingabedateien sich an unterschiedliche Werte annähert -- es ist also nicht möglich einen gemeinsamen Wert festzulegen, ab welchem das neuronale Netzwerk abgebrochen werden sollte.
 
 Diese beiden Probleme bedeuten, dass wenn eins der beiden, der Wert der Verlustfunktion oder deren Änderung, als Abbruchkriterium genutzt werden, dies dazu führen würde, dass das Netzwerk zu viele oder zu wenige Segmente erzeugt, da das Verhältnis zwischen Verlust und Anzahl der Segmente für jedes Eingabebild unterschiedlich ist. Folglich wird das Abbruchkriterium bei der Anzahl der generierten Segmente belassen.
 

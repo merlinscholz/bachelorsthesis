@@ -1,0 +1,69 @@
+\chapter{Graphen}
+\clearpage
+\section{Graphen zu Unterabschnitt~\ref{ssec:exp_stoppingcriteria} \enquote{Abbruchkriterum}}
+\label{app:exp_stoppingcriteria}
+\begin{figure}[h!]
+	\centering
+	\begin{tikzpicture}
+	\begin{groupplot}[
+	group style={
+		group size=1 by 4,
+		vertical sep=1.5cm
+	},
+	width=\textwidth,
+	height=5.5cm]
+	\nextgroupplot[
+	major grid style={line width=.1pt, draw=gray!10},
+	grid=major,
+	xmin=0,
+	xmax=500,
+	ymin=0,
+	ymax=30,
+	xlabel style={text width=6cm,align=center},
+	xlabel=Segmente/Epoche]
+	\addplot +[mark=none,blue,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_01.png-tag-labels_.csv};
+	\addplot +[mark=none,red,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_02.png-tag-labels_.csv};
+	\addplot +[mark=none,green,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_03.png-tag-labels_.csv};
+	\addplot +[mark=none,black,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_04.png-tag-labels_.csv};
+	
+	\nextgroupplot[major grid style={line width=.1pt, draw=gray!10},
+	grid=major,
+	xmin=0,
+	xmax=500,
+	ymin=0,
+	ymax=2.5,
+	xlabel style={text width=6cm,align=center},
+	xlabel=Loss/Epoche]
+	\addplot +[mark=none,blue,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_01.png-tag-loss_loss.csv};
+	\addplot +[mark=none,red,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_02.png-tag-loss_loss.csv};
+	\addplot +[mark=none,green,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_03.png-tag-loss_loss.csv};
+	\addplot +[mark=none,black,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_04.png-tag-loss_loss.csv};
+	
+	\nextgroupplot[major grid style={line width=.1pt, draw=gray!10},
+	grid=major,
+	xmin=0,
+	xmax=500,
+	ymin=-0.05,
+	ymax=0.01,
+	xlabel=Median der Verlustfunktionin den letzten 20 Epochen/Epoche]
+	\addplot +[mark=none,blue,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_01.png-tag-loss_delta_over_20.csv};
+	\addplot +[mark=none,red,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_02.png-tag-loss_delta_over_20.csv};
+	\addplot +[mark=none,green,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_03.png-tag-loss_delta_over_20.csv};
+	\addplot +[mark=none,black,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_04.png-tag-loss_delta_over_20.csv};
+	
+	\nextgroupplot[major grid style={line width=.1pt, draw=gray!10},
+	grid=major,
+	xmin=0,
+	xmax=500,
+	ymin=-0.03,
+	ymax=0.05,
+	xlabel=Approximierter Gradient der Verlustfunktion/Epoche]
+	\addplot +[mark=none,blue,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_01.png-tag-loss_grad.csv};
+	\addplot +[mark=none,red,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_02.png-tag-loss_grad.csv};
+	\addplot +[mark=none,green,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_03.png-tag-loss_grad.csv};
+	\addplot +[mark=none,black,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_04.png-tag-loss_grad.csv};
+	\end{groupplot}
+	\end{tikzpicture}
+	\caption{Vergleich unterschiedlicher möglicher Abbruchkriterien, jeweils bis 500 Epochen. Die Graphen sind in höherer Auflösung in Appendix~\ref{app:exp_stoppingcriteria} zu finden.}
+	\label{fig:exp_stoppingcriteria}
+\end{figure}

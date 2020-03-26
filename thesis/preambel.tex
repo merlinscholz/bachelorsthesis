@@ -71,11 +71,28 @@
 \usepackage{tikz}
 \usepackage{wrapfig}
 \usepackage{pgfplots}
-\pgfplotsset{compat=1.14}
+\pgfplotsset{compat=1.16}
+\usepgfplotslibrary{groupplots}
 \usepackage{grffile}
 \usepackage[final]{pdfpages}
 \usepackage{svg}
 
+% -------------------------------------------------------------------
+% Fixes
+%
+
+%\makeatletter
+%\newcommand\appendix@numberline[1]{\appendixname\ #1\autodot\ }
+%\g@addto@macro\appendix{%
+%	\addtocontents{toc}{
+%		\let\protect\numberline\protect\appendix@numberline}%
+%}
+%\makeatother
+
+\pgfplotsset{ticklabel style={
+		/pgf/number format/fixed,
+		/pgf/number format/precision=4
+	},scaled ticks=false}
 \makeatletter
 \renewcommand{\ALG@name}{Algorithmus}
 \renewcommand{\listalgorithmname}{\ALG@name-Verzeichnis}
