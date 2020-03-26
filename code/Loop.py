@@ -17,7 +17,7 @@ from torch import nn, optim
 from torch.utils.tensorboard import SummaryWriter
 from torchvision import transforms
 
-def run(image, tags, model, max_epochs=500, tensorboard=True, lr=0.15, momentum=0.4, filename = "", starttime = 0, stopping = 6):
+def run(image, tags, model, max_epochs=500, tensorboard=True, lr=0.15, momentum=0.4, filename = "", starttime = 0, stopping = ["gradient", 0.015]):
   def gen_preview(tags, shape, colors = None):
     return label2rgb(tags.reshape(shape[0], shape[1]), colors=colors)
   def get_output_size(input, model):
@@ -81,20 +81,8 @@ def run(image, tags, model, max_epochs=500, tensorboard=True, lr=0.15, momentum=
     loss_history.append(loss.item())
     loss_delta[epoch] = loss.item()
     
-    
-    #print(np.arange(len(loss_history)))
-    #print(np.array(loss_history))
     test = poly.polyfit(np.arange(len(loss_history)), np.array(loss_history), 2)
-    #plt.figure()
-    #plt.plot(np.arange(len(loss_history)), poly.polyval(np.arange(len(loss_history)), test))
-    #plt.show()
-    
     testder = poly.polyder(test)
-    
-    
-    
-    
-    
     
     if epoch >= 20:
       current_delta = np.mean(loss_delta[epoch-19:epoch]-loss_delta[epoch-20:epoch-1])
@@ -108,9 +96,11 @@ def run(image, tags, model, max_epochs=500, tensorboard=True, lr=0.15, momentum=
       tb.add_image("preview/", gen_preview(argmax, target_shape), epoch, dataformats="HWC")
       tb.flush()
 
-    if n_labels <= stopping:
-      pass
-      #break
+    if stopping[0] == "segments" and n_labels <= stopping[1]:
+      break
+    
+    if stopping[0] == "gradient" and poly.polyval(len(loss_history), testder) <= stopping[1]:
+      break
     
   returns = {}
   returns["labels"] = argmax.astype(np.uint8).reshape(target_shape[0], target_shape[1])
