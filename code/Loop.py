@@ -99,9 +99,13 @@ def run(image, tags, model, max_epochs=500, tensorboard=True, lr=0.15, momentum=
     if stopping[0] == "segments" and n_labels <= stopping[1]:
       break
     
-    if stopping[0] == "gradient" and poly.polyval(len(loss_history), testder) <= stopping[1]:
-      break
     
+    if stopping[0] == "gradient" and poly.polyval(len(loss_history), testder) <= stopping[1] and epoch>=100:
+      break
+
+  if tensorboard:
+    for i in range(max_epochs):
+      tb.add_scalar("loss/loss_approx", poly.polyval(i, test), i)
   returns = {}
   returns["labels"] = argmax.astype(np.uint8).reshape(target_shape[0], target_shape[1])
   returns["epochs"] = epoch
