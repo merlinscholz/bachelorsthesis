@@ -14,7 +14,7 @@ Diese Verarbeitung besteht bei den Aufnahmen der CTX aus dem Herunterladen der M
 Es existieren allerdings keine segmentierten Aufnahmen der Marsoberfläche. Aus diesem Grund wird der in Unterabschnitt~\ref{ssec:crater_detection_nn} Datensatz genutzt. Da dieser allerdings nur Informationen über die Positionen der Krater auf der Marsoberfläche zur Verfügung stellt, werden die durch den hier vorgestellten Algorithmus erzeugten Segmentieren manuell in zwei Klassen eingeordnet: Krater und Nicht-Krater.
 
 \subsection{Allgemein}
-
+\label{ssec:bsds500}
 Ein oft genutzter Datensatz zu Evaluierung von Segmentierungsalgorithmen ist der BSDS500 Datensatz der UC Berkeley \cite{bsd500}. Zu diesem Datensatz existieren sowohl eine manuell erstelle Ground Truth, als auch mehrere auf ihm angewandte Algorithmen, mit denen die hier vorgestellte Methode verglichen werden kann.
 Einige der Aufnahmen aus diesem Datensatz wurde bereits in vorherigen Kapitel zur Erläuterung einiger Algorithmen genutzt (\vgl \bspw \figurename~\ref{fig:Kan18_01} oder \ref{fig:tsugf_101027_raw}).
 
@@ -418,7 +418,9 @@ Die in \cite{kanezaki_18} genutzte Anzahl der Segmente eignet sich zwar als grun
 
 Es wird auch deutlich, dass sich die vorgeschlagene Methode der Nutzung der letzten 20 Verlustwerte nicht als Abbruchkriterium eignet, da diese stark zwischen unterschiedlichen Aufnahmen variiert und trotz ihres relativ großen Umfangs noch starke lokale Extremstellen beinhaltet.
 
-Die Nutzung der Ableitung der Lossfunktion hingegen scheint zu vergleichsweise guten Ergebnissen zu führen, da deren Graphen ab etwa 100 Epochen kaum schwanken und alle gegen den selben wert konvergieren zu scheinen. Weitere Experimente haben gezeigt dass ein Wert von $0.015$ sich gut als Abbruchkriterium eignet.
+Um eine Ableitung der Verlustfunktion bilden zu können, muss diese durch eine stetige Funktion approximiert werden. Da die Verlustfunktion von der Stelle $x=0$ an immer weiter sinkt und somit gegen einen Wert von $y=0$ konvergiert, wird diese Approximierungsfunktion durch $f(x) = a*\frac{1}{x}+b$ beschrieben. Die konkreten Werte für $a$ und $b$ werden in jeder Iteration des Netzwerkes neu berechnet, da durch jede weitere Epoche neue Messwerte hinzukommen, welche zu einer besseren Approximation führen. Außerdem wird mit dieser Verfahren erst ab der fünfzigsten Epoche begonnen, da die Verlustfunktion davor zu instabile Werte annimmt, als dass eine gute Ableitung gebildet werden kann. Zur eigentlichen erstellung der abzuleitenden Funktion wird die Methode der kleinsten Quadrate genutzt.
+
+Die Nutzung der Ableitung der Lossfunktion hingegen scheint zu vergleichsweise guten Ergebnissen zu führen, da deren Graphen ab etwa 100 Epochen kaum schwanken und alle gegen den selben wert konvergieren zu scheinen. Weitere Experimente haben gezeigt dass ein Wert von $0.0025$ sich gut als Abbruchkriterium eignet. Es sollte allerdings noch ein weiteres Abbruchkriterium hinzugefügt werden, welches die Anzahl der Segmente nach unten hin beschränkt. Ansonsten kann es vorkommen, dass das gesamte Bild als nur ein einziges Segment erkennt, was zwar den Wert der Verlustfunktion senkt, aber keine nutzbaren Ergebnisse erzeugt.
 
 \begin{figure}[h!]
 	\centering
@@ -434,15 +436,15 @@ Die Nutzung der Ableitung der Lossfunktion hingegen scheint zu vergleichsweise g
 				major grid style={line width=.1pt, draw=gray!10},
 				grid=major,
 				xmin=0,
-				xmax=500,
+				xmax=300,
 				ymin=0,
 				ymax=30,
 				xlabel style={text width=6cm,align=center},
 				xlabel=Segmente/Epoche]
-				\addplot +[mark=none,blue,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_01.png-tag-labels_.csv};
-				\addplot +[mark=none,red,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_02.png-tag-labels_.csv};
-				\addplot +[mark=none,green,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_03.png-tag-labels_.csv};
-				\addplot +[mark=none,black,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_04.png-tag-labels_.csv};
+				\addplot +[mark=none,blue,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585332321.2379851_p03_01.png-tag-labels_.csv};
+				\addplot +[mark=none,red,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585332321.2379851_p03_02.png-tag-labels_.csv};
+				\addplot +[mark=none,green,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585332321.2379851_p03_03.png-tag-labels_.csv};
+				\addplot +[mark=none,black,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585332321.2379851_p03_04.png-tag-labels_.csv};
 				\addlegendentry{a)}
 				\addlegendentry{b)}
 				\addlegendentry{c)}
@@ -451,15 +453,15 @@ Die Nutzung der Ableitung der Lossfunktion hingegen scheint zu vergleichsweise g
 			\nextgroupplot[major grid style={line width=.1pt, draw=gray!10},
 				grid=major,
 				xmin=0,
-				xmax=500,
+				xmax=300,
 				ymin=0,
 				ymax=2.5,
 				xlabel style={text width=6cm,align=center},
 				xlabel=Loss/Epoche]
-				\addplot +[mark=none,blue,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_01.png-tag-loss_loss.csv};
-				\addplot +[mark=none,red,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_02.png-tag-loss_loss.csv};
-				\addplot +[mark=none,green,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_03.png-tag-loss_loss.csv};
-				\addplot +[mark=none,black,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_04.png-tag-loss_loss.csv};
+				\addplot +[mark=none,blue,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585332321.2379851_p03_01.png-tag-loss_loss.csv};
+				\addplot +[mark=none,red,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585332321.2379851_p03_02.png-tag-loss_loss.csv};
+				\addplot +[mark=none,green,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585332321.2379851_p03_03.png-tag-loss_loss.csv};
+				\addplot +[mark=none,black,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585332321.2379851_p03_04.png-tag-loss_loss.csv};
 				\addlegendentry{a)}
 				\addlegendentry{b)}
 				\addlegendentry{c)}
@@ -468,17 +470,17 @@ Die Nutzung der Ableitung der Lossfunktion hingegen scheint zu vergleichsweise g
 			\nextgroupplot[major grid style={line width=.1pt, draw=gray!10},
 				grid=major,
 				xmin=0,
-				xmax=500,
-				ymin=-0.05,
+				xmax=300,
+				ymin=-0.03,
 				ymax=0.01,
 				xlabel style={text width=6cm,align=center},
 				xlabel=Median der Verlustfunktionin den letzten 20 Epochen/Epoche,
 				legend style={at={(0.98,0.02)}, anchor=south east}
 				]
-				\addplot +[mark=none,blue,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_01.png-tag-loss_delta_over_20.csv};
-				\addplot +[mark=none,red,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_02.png-tag-loss_delta_over_20.csv};
-				\addplot +[mark=none,green,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_03.png-tag-loss_delta_over_20.csv};
-				\addplot +[mark=none,black,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_04.png-tag-loss_delta_over_20.csv};
+				\addplot +[mark=none,blue,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585332321.2379851_p03_01.png-tag-loss_delta_over_20.csv};
+				\addplot +[mark=none,red,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585332321.2379851_p03_02.png-tag-loss_delta_over_20.csv};
+				\addplot +[mark=none,green,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585332321.2379851_p03_03.png-tag-loss_delta_over_20.csv};
+				\addplot +[mark=none,black,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585332321.2379851_p03_04.png-tag-loss_delta_over_20.csv};
 				\addlegendentry{a)}
 				\addlegendentry{b)}
 				\addlegendentry{c)}
@@ -487,15 +489,15 @@ Die Nutzung der Ableitung der Lossfunktion hingegen scheint zu vergleichsweise g
 			\nextgroupplot[major grid style={line width=.1pt, draw=gray!10},
 				grid=major,
 				xmin=0,
-				xmax=500,
+				xmax=300,
 				ymin=-0.03,
-				ymax=0.05,
+				ymax=0.01,
 				xlabel style={text width=6cm,align=center},
 				xlabel=Approximierter Gradient der Verlustfunktion/Epoche]
-				\addplot +[mark=none,blue,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_01.png-tag-loss_grad.csv};
-				\addplot +[mark=none,red,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_02.png-tag-loss_grad.csv};
-				\addplot +[mark=none,green,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_03.png-tag-loss_grad.csv};
-				\addplot +[mark=none,black,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585173289.139173_p03_04.png-tag-loss_grad.csv};
+				\addplot +[mark=none,blue] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585332321.2379851_p03_01.png-tag-approx_deriv.csv};
+				\addplot +[mark=none,red,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585332321.2379851_p03_02.png-tag-approx_deriv.csv};
+				\addplot +[mark=none,green,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585332321.2379851_p03_03.png-tag-approx_deriv.csv};
+				\addplot +[mark=none,black,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585332321.2379851_p03_04.png-tag-approx_deriv.csv};
 				\addlegendentry{a)}
 				\addlegendentry{b)}
 				\addlegendentry{c)}
@@ -650,6 +652,13 @@ Aus diesen Umständen lässt sich schließen, dass die Nutzung dieser Fully Conn
 % TODO FCL ist normalerweise Klassifikator
 
 
+\subsection{Anpassungen zur Segmentierung von mehrfarbigen Fotografien}
+\label{exp_colorpicture_optimization}
+
+Wie in Kapitel~\ref{chap:methodik} erläutert, können nicht alle der bisher bestimmten Hyperparameter dazu genutz werden, auch Aufnahmen aus dem BSDS500-Datensatz zu segmentieren. Daher wurde der gesamte Prozess des Abschnittes~\ref{sec:modifications} für Aufnahmen dieses Datensatzes wiederholt. Der Algorithmus wurde mit den aus diesen Experimenten besten Hyperparametern angewandt. Die Ergebnisse sind in \figurename~\ref{fig:color_pictures} dargestellt.
+
+% TODO Add images
+
 \section{Evaluation}
 \label{sec:evaluation}
 
@@ -683,91 +692,3 @@ r_{ij}&=&\mid X_i\cap Y_j\mid/n\\
 
 \section{Mosaik}
 \label{sec:mosaic}
-
-\iffalse
-\chapter{Experimente}
-\label{chap:experimente}
-
-\section{Datens"atze}
-\label{sec:datensätze}
-
-
-Als allgemeiner Datensatz wird das Berkeley Segmentation Dataset \cite{bsd500} genutzt. Dieses besteht aus 500 Foto-Aufnahmen, die manuell segmentiert wurden.
-
-
-
-\section{Evaluation}
-\label{sec:Evaluation}
-
-Zur Evaluierung und zum Vergleich der einzelnen Ansätze werden Metriken benötigt, die die verschiedenen Stärken und Schwächen der jeweiligen Lösungen zu einem Wert zusammenfassen. Hierbei ist zu beachten, dass ein Großteil der in anderen Arbeiten verwendeten Metriken wie \bspw der $F_1$-Score an dieser Stelle nicht geeignet sind, da diese voraussetzen, dass das jeweilige Bild nicht nur segmentiert, sondern diese Segmente auch eine bestimmten Klasse zugeordnet sind. Da der hier vorgestellte Ansatz nicht-zugeordnete Cluster erzeugt, weichen wir auf den Rand Index\cite{randindex} aus. Dieser ist wie folgt definiert:
-% TODO Herleiten
-\[R=\frac{a+b}{\binom{n}{2}}\]
-
-Der F1-Score wird lediglich dazu genutzt, um eine berechnete Segmentierung, in der manuell die entsprechenden Label, die Krater darstellen, mit anderen Methoden zur Kratererkennung zu vergleichen. (\vgl Unterabschnitt~\ref{ssec:f1_crater})
-
-\section{Resultate}
-\label{sec:resultate}
-
-\section{Vergleich}
-\label{sec:vergleich}
-
-Wie in Unterabschnitt~\ref{ssec:vergleich} beschreiben, wurden drei bekannte Algorithmen zur Kratererkennung  (Urbach '09 \cite{urbach_stepinski_2009}, Bandeira '10 \cite{bandeira_10} und Cohen '16 \cite{cohen_16}) auf der selben Aufnahme der HRSC angewandt.
-
-Diese Aufnahme\footnote{HRSC nadir panchromatic image h0905\_0000: \url{ftp://psa.esac.esa.int/pub/mirror/MARS-EXPRESS/HRSC/MEX-M-HRSC-3-RDR-V3.0/DATA/0905/}} wurde zugeschnitten und in sechs sich überlappende Bereiche der Größe $\SI{1700}{\pixel}\times\SI{1700}{\pixel}$ eingeteilt, zu sehen in \figurename~\ref{fig:h0905_0000}\footnote{\url{https://cerena.ist.utl.pt/lpcbandeira/downloads.html}}.
-\begin{figure}[H]
-	\centering
-	\begin{subfigure}{0.3\textwidth}
-		\centering
-		\includegraphics[width=\textwidth,keepaspectratio]{images/h0905_0000/1_24.jpg}
-		\caption{1\_24}
-	\end{subfigure}
-	\begin{subfigure}{0.3\textwidth}
-		\centering
-		\includegraphics[width=\textwidth,keepaspectratio]{images/h0905_0000/2_24.jpg}
-		\caption{2\_24}
-	\end{subfigure}
-	\begin{subfigure}{0.3\textwidth}
-		\centering
-		\includegraphics[width=\textwidth,keepaspectratio]{images/h0905_0000/3_24.jpg}
-		\caption{3\_24}
-	\end{subfigure}
-	\begin{subfigure}{0.3\textwidth}
-		\centering
-		\includegraphics[width=\textwidth,keepaspectratio]{images/h0905_0000/1_25.jpg}
-		\caption{1\_25}
-	\end{subfigure}
-	\begin{subfigure}{0.3\textwidth}
-		\centering
-		\includegraphics[width=\textwidth,keepaspectratio]{images/h0905_0000/2_25.jpg}
-		\caption{2\_25}
-	\end{subfigure}
-	\begin{subfigure}{0.3\textwidth}
-		\centering
-		\includegraphics[width=\textwidth,keepaspectratio]{images/h0905_0000/3_25.jpg}
-		\caption{3\_25}
-	\end{subfigure}
-	\caption{Die zur Evaluation genutzten Teilabschnitte}
-	\label{fig:h0905_0000}
-\end{figure}
-
-\subsection{F1-Score zur Kratererkennung}
-\label{ssec:f1_crater}
-
-% TODO F1-Score definieren
-
-In \tablename~\ref{tab:comparision} werden die in Abschnitt~\ref{sec:craterdetection} vorgestellten Methoden zur Kratererkennung verglichen.
-Die F1-Scores für Urbach '09 und Bandeira '10 wurden aus den in \cite{bandeira_10} angegebenen \textit{True Positive}, \textit{False Positive} und \textit{False Negative} berechnet. Für Bandeira '12 konnte kein F1-Score berechnet werden, da dort die benötigten Werte nicht veröffentlicht wurden.
-
-\begin{table}[h]
-	\centering
-	\begin{tabular}{l | s s s}
-		Region & \text{Urbach '09} & \text{Bandeira '10} & \text{Cohen '16}\\
-		\hline
-		Westen & 67,95\% & 85,33\% & 88,78\% \\
-		Mitte  & 69,63\% & 79,35\% & 88,81\% \\
-		Osten  & 78,30\% & 86,09\% & 90,29\% \\
-	\end{tabular}
-	\caption{Die F1-Scores der vorgestellten Methoden}
-	\label{tab:comparision}
-\end{table}
-\fi

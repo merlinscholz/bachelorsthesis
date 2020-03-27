@@ -168,7 +168,7 @@ Die originale Implementierung nutzt die Anzahl der Segmente, die das neuronale N
 
 Eine Lösungsmöglichkeit besteht daraus, den Median der relativen Änderung zur jeweils vorherigen Epoche in den letzten $n$ Epochen zu betrachten. Diese Änderungsrate sinkt während der Laufzeit des Training, da die weitere Optimierung der Segmentierung immer geringer ausfällt. Die Wahl von $n$ ist entscheidend für die erfolgreiche Funktionsweise dieser Methode, da ein zu kleiner Wert bedeuten könnte, dass das Netzwerk abgebrochen wird, wenn vorzeitig eine lokale Extremstelle auftritt, also \zB innerhalb von einigen Epochen wenig neue Informationen gelernt werden. Ist $n$ allerdings zu groß, werden zu viele Epochen betrachtet, sodass eine aktuelle Senkung dieser Änderung erst spät bemerkt wird.
 
-Ein weiterer Ansatz zur Lösung dieses Problems ist die Nutzung des Wertes der Ableitung der Verlustfunktion in der aktuellen Epoche. Dies ist allerdings nicht direkt möglich, da die Verlustfunktion nicht stetig definiert ist, sondern nur an den Stellen der jeweiligen Epochen. Dies lässt sich dadurch ausgleichen, dass durch die bekannten Punkte eine ganzrationale Funktion zweiten Grades erzeugt wird, welche anschließend abgeleitet werden kann.
+Ein weiterer Ansatz zur Lösung dieses Problems ist die Nutzung des Wertes der Ableitung der Verlustfunktion in der aktuellen Epoche. Dies ist allerdings nicht direkt möglich, da die Verlustfunktion nicht stetig definiert ist, sondern nur an den Stellen der jeweiligen Epochen. Dies lässt sich dadurch ausgleichen, dass die bekannten Punkte durch eine stetige Funktion approximiert werden, welche anschließend abgeleitet werden kann.
 
 Der Vergleich dieser Abbruchkriterien ist in Unterabschnitt~\ref{ssec:exp_stoppingcriteria} aufgeführt.
 
@@ -308,3 +308,6 @@ In Aufnahme \texttt{c)} verändert sich die Segmentierung zwischen $n_{conv}=2$ 
 \fi
 \section{Anpassungen zur Segmentierung von mehrfarbigen Fotografien}
 \label{sec:color_picture_optimization}
+
+Mehrfarbige Eingabedateien besitzen mehr Merkmale, welche zur Analyse genutzt werden können, da sie zusätzlich Informationen über den Rot, Grün-, und Blauwert der einzelnen Pixel enthalten. Außerdem sind die Motive allgemeiner Fotografieren (wie \zB die des BSDS500-Datensatzes, \vgl Unterabschnitt~\ref{ssec:bsds500}) unterschiedlich zu denen, die bisher genutzt wurden.
+Aus diesen Ursachen eignen sich die bisher genannten Parameter nicht universell sowohl zur Segmentierung einer Aufnahme der Marsoberfläche, als auch zur Segmentierung \enquote{normaler} Fotografien.
