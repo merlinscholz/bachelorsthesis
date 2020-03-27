@@ -4,7 +4,7 @@ from time import time
 import cv2
 import matplotlib.pyplot as plt
 import numpy as np
-import numpy.polynomial.polynomial as poly
+from scipy.optimize import curve_fit
 import scipy.io as sio
 import torch
 from IPython.display import display
@@ -17,11 +17,17 @@ from torch import nn, optim
 from torch.utils.tensorboard import SummaryWriter
 from torchvision import transforms
 
-def run(image, tags, model, max_epochs=500, tensorboard=True, lr=0.15, momentum=0.4, filename = "", starttime = 0, stopping = ["gradient", 0.015]):
+def run(image, tags, model, max_epochs=500, tensorboard=True, lr=0.15, momentum=0.4, filename = "", starttime = 0, stopping = ["gradient", 0.0025]):
   def gen_preview(tags, shape, colors = None):
     return label2rgb(tags.reshape(shape[0], shape[1]), colors=colors)
   def get_output_size(input, model):
     return np.array(model(input).permute(1, 2, 0).shape)
+
+  def curve(x, a, b):
+    return a/(x)+b
+
+  def curve_deriv(x, a, b):
+    return (-a)/((x)**2)
   
   def gen_cells(tags):
     cells = []
@@ -81,14 +87,20 @@ def run(image, tags, model, max_epochs=500, tensorboard=True, lr=0.15, momentum=
     loss_history.append(loss.item())
     loss_delta[epoch] = loss.item()
     
-    test = poly.polyfit(np.arange(len(loss_history)), np.array(loss_history), 2)
-    testder = poly.polyder(test)
+    #test = poly.polyfit(np.arange(len(loss_history)), np.array(loss_history), 2)
+    #testder = poly.polyder(test)
+    
+    if(len(loss_history)>=25):
+        popt1, pcov1 = curve_fit(curve, np.arange(20, len(loss_history)).astype(np.float64), np.array(loss_history)[20:].astype(np.float64))
     
     if epoch >= 20:
       current_delta = np.mean(loss_delta[epoch-19:epoch]-loss_delta[epoch-20:epoch-1])
     
     if tensorboard:
-      tb.add_scalar("loss/grad", poly.polyval(len(loss_history), testder), epoch)
+      if(len(loss_history)>=25):
+        tb.add_scalar("approx/cov", np.sum(np.sqrt(np.diag(pcov1))), epoch)
+        tb.add_scalar("approx/curve", curve(epoch, *popt1), epoch)
+        tb.add_scalar("approx/deriv", curve_deriv(epoch, *popt1), epoch)
       tb.add_scalar("loss/delta_over_20", current_delta, epoch)
       tb.add_scalar("loss/loss", loss.item(), epoch)
       tb.add_scalar("labels/", n_labels, epoch)
@@ -99,13 +111,17 @@ def run(image, tags, model, max_epochs=500, tensorboard=True, lr=0.15, momentum=
     if stopping[0] == "segments" and n_labels <= stopping[1]:
       break
     
-    
-    if stopping[0] == "gradient" and poly.polyval(len(loss_history), testder) <= stopping[1] and epoch>=100:
-      break
+    if epoch>=25:
+        if (stopping[0] == "gradient" and curve_deriv(epoch, *popt1) <= stopping[1]) or n_labels<3:
+          break
 
   if tensorboard:
     for i in range(max_epochs):
-      tb.add_scalar("loss/loss_approx", poly.polyval(i, test), i)
+      tb.add_scalar("approx_final/curve", curve(i, *popt1), i)
+      tb.add_scalar("approx_final/deriv", curve_deriv(i, *popt1), i)
+    
+    
+    
   returns = {}
   returns["labels"] = argmax.astype(np.uint8).reshape(target_shape[0], target_shape[1])
   returns["epochs"] = epoch
