@@ -18,7 +18,7 @@ Es existieren allerdings keine segmentierten Aufnahmen der Marsoberfläche. Aus 
 Ein oft genutzter Datensatz zu Evaluierung von Segmentierungsalgorithmen ist der BSDS500 Datensatz der UC Berkeley \cite{bsd500}. Zu diesem Datensatz existieren sowohl eine manuell erstelle Ground Truth, als auch mehrere auf ihm angewandte Algorithmen, mit denen die hier vorgestellte Methode verglichen werden kann.
 Einige der Aufnahmen aus diesem Datensatz wurde bereits in vorherigen Kapitel zur Erläuterung einiger Algorithmen genutzt (\vgl \bspw \figurename~\ref{fig:Kan18_01} oder \ref{fig:tsugf_101027_raw}).
 
-\section{Modifizierungen}
+\section{Modifizierungen der Initialisierung}
 \label{sec:modifications}
 
 Im Folgenden ist eine Anwendung der in Kapitel~\ref{chap:methodik} genannten Modifizierungen zu finden.
@@ -409,6 +409,8 @@ Ein zu großer Wert für diese Initialisierung hingegen führt, wie oben beschri
 
 Anhand der Grafik lässt sich feststellen, dass ein Wert von $n=50$ für eine erfolgreiche Segmentierung ausreichend ist, da größere Werte keine sichtbare Verbesserung der Ergebnisse hervorbringen.
 
+\section{Modifizierungen der Netzwerkarchitektur}
+
 \subsection{Abbruchkriterium}
 \label{ssec:exp_stoppingcriteria}
 
@@ -432,9 +434,10 @@ Die Nutzung der Ableitung der Lossfunktion hingegen scheint zu vergleichsweise g
 			},
 			width=0.5\textwidth,
 			height=6cm]
-			\nextgroupplot[
-				major grid style={line width=.1pt, draw=gray!10},
-				grid=major,
+			\nextgroupplot[major grid style={line width=.1pt, draw=gray!30},
+			minor grid style={line width=.1pt, draw=gray!10},
+			minor tick num=3,
+			grid=both,
 				xmin=0,
 				xmax=300,
 				ymin=0,
@@ -450,8 +453,10 @@ Die Nutzung der Ableitung der Lossfunktion hingegen scheint zu vergleichsweise g
 				\addlegendentry{c)}
 				\addlegendentry{d)}
 		
-			\nextgroupplot[major grid style={line width=.1pt, draw=gray!10},
-				grid=major,
+			\nextgroupplot[major grid style={line width=.1pt, draw=gray!30},
+			minor grid style={line width=.1pt, draw=gray!10},
+			minor tick num=3,
+			grid=both,
 				xmin=0,
 				xmax=300,
 				ymin=0,
@@ -467,8 +472,10 @@ Die Nutzung der Ableitung der Lossfunktion hingegen scheint zu vergleichsweise g
 				\addlegendentry{c)}
 				\addlegendentry{d)}
 									
-			\nextgroupplot[major grid style={line width=.1pt, draw=gray!10},
-				grid=major,
+			\nextgroupplot[major grid style={line width=.1pt, draw=gray!30},
+			minor grid style={line width=.1pt, draw=gray!10},
+			minor tick num=3,
+			grid=both,
 				xmin=0,
 				xmax=300,
 				ymin=-0.03,
@@ -486,8 +493,10 @@ Die Nutzung der Ableitung der Lossfunktion hingegen scheint zu vergleichsweise g
 				\addlegendentry{c)}
 				\addlegendentry{d)}
 			
-			\nextgroupplot[major grid style={line width=.1pt, draw=gray!10},
-				grid=major,
+			\nextgroupplot[major grid style={line width=.1pt, draw=gray!30},
+				minor grid style={line width=.1pt, draw=gray!10},
+				minor tick num=3,
+				grid=both,
 				xmin=0,
 				xmax=300,
 				ymin=-0.03,
@@ -561,6 +570,7 @@ Aus diesen lässt sich relativ schnell erkennen, dass sowohl die Sigmoid-, als a
 So ist direkt in Aufnahme \texttt{a)} erkennbar, dass das neuronale Netzwerk ein Segment entlang der einzelnen, kleineren Kraterränder erstellt, bei den anderen Aktivierungsfunktionen gehen diese vollständig verloren, da dort hauptsächlich der Helligkeitswert zur Segmentierung genutzt wird. Auch in Aufnahme \texttt{b)} zeigen sich deutliche Verbesserungen, der raue Bereich, welcher sich horizontal durch die Aufnahme zieht wird mithilfe der ReLU-Funktion auf der vollen Länge erkannt, statt nur in den rechten zwei Dritteln. Des Weiteren wird dort der kleinere Bereich mit einer ähnlichen Textur im oberen Bereich des Bildes sehr gut erkannt und in das selbe Segment eingeordnet wie die größere Struktur. Auch hier werden die Kraterränder gut in ein im Bild einzigartiges Cluster eingeteilt. In Aufnahme \texttt{c)} ist die Nutzung der ReLU-Funktion vergleichbar mit den anderen Aktivierungen, allerdings werden hier die Begrenzungen der feineren, helleren Struktur in ein rotes Segment eingeteilt. Dieses ist sonst nicht vorhanden. Auch auf der letzten Aufnahme, Aufnahme \texttt{d)}, ist sichtbar, dass das Netzwerk dank der ReLU-Aktivierung nicht nur nach den Helligkeitswerten segmentiert, sondern wie gewünscht nach der Oberflächenstruktur: Der Bereich um den Berg herum wird in ein rotes Segment eingeteilt, außerdem werden die Berghänge trotz ihrer starken Licht-/Schattenregionen getrennt zu ihrem Umfeld erkannt.
 
 % TODO Bullshit
+% TODO Leaky ReLU?
 
 Diese Verbesserung ist darauf zurückzuführen, dass die ReLU-Aktivierung negative Eingaben als Nullwert weitergibt. Lernt also \bspw eine konvolutionelle Schicht statt den gewünschten Parametern zur texturbasierten Segmentierung Parameter, welche die Textur ignorieren (also nur die Helligkeitsinformationen betrachten), so werden diese nicht negativ gewichtet (was weiterhin die Helligkeitswerte betrachten würde), sondern komplett ignoriert. Reagiert hingegen ein Konvolutionsfilter besonders stark auf eine Textur, so ist dieser nicht wie nach den anderen Aktivierungsfunktionen auf das Intervall $\left[0, 1\right]$ \bzw $\left[-1, 1\right]$ beschränkt, sondern behält seinen vergleichsweise starken Einfluss auf die nächste Schicht.
 
@@ -602,9 +612,9 @@ Die Resultate nach der Implementierung von nur einer einzigen Max-Pooling Layer 
 	\label{fig:maxpool_comparision}
 \end{figure}
 
-Auf Aufnahme \texttt{a)} zeigt sich der größte Nachteil der Pooling-Schichten. Die kleinen Krater in den äußeren Bereichen werden bei $F=(2, 2)$ nicht so zuverlässig wie zuvor erkannt, bei einer Kernelgröße von $F=(4, 4)$ werden nur noch sehr wenige kleinere Krater in separate Segmente eingeteilt. Auch auf den weiteren Eingabedateien ist keine Optimierung der Resultate durch die Nutzung der Max-Pooling-Schichten sichtbar.
+Auf Aufnahme \texttt{a)} zeigt sich der größte Nachteil der Pooling-Schichten. Die kleinen Krater in den äußeren Bereichen werden bei $F=(2, 2)$ nicht so zuverlässig wie zuvor erkannt, bei einer Kernelgröße von $F=(4, 4)$ werden nur noch sehr wenige kleinere Krater in separate Segmente eingeteilt. Auch auf den weiteren Eingabedateien ist keine Optimierung der Resultate durch die Nutzung der Max-Pooling-Schichten sichtbar. Nach mehreren Testdurchläufen stellt sich heraus dass die meisten der dortigen Unterschiede zwischen den einzelnen Kernelgrößen auf die zufälligen Initialisierungen des Clusterings und des Neuronalen Netzes zurückzuführen sind. Ansonsten fällt erneut auf, dass kleinere Regionen nicht mehr sicher erkannt werden. Diese Nachteile sind auch durch den Vorteil von Pooling-Schichten, die erhöhte Performance des Netzes, nicht auszugleichen. Ein weiteres Argument gegen die Nutzung von Pooling Layern ist, dass diese die Auflösung verringern. Sie werden meistens zur Objekterkennung genutzt, bei welcher es meistens irrelevant ist, bei welchen Koordinaten genau ein Gegenstand beginnt oder endet. Hier allerdings ist die Problemstellung ein Segmentierungsproblem, die Marsoberfläche soll möglichst genau segmentiert werden.
 
-% TODO Mehr erklären
+% TODO Check annotation
 
 Wie zu erkennen ist, bringt die Nutzung einer Pooling-Schicht bei diesem Anwendungsfall keine sichtbaren Vorteile mit sich und ist folglich ungeeignet.
 
@@ -647,7 +657,10 @@ Anhand der Segmentierungen in \figurename~\ref{fig:fc_comparision} ist erkennbar
 \end{figure}
 
 Dies ist insbesondere auf Aufnahme \texttt{d)} offensichtlich, da dort die vorherige Segmentierung in die zwei Berghänge ersetzt wird durch eine Segmentierung, welche die stark belichteten und wenig belichteten Regionen separat von ihrem Umfeld einordnet. Ein weiteres Beispiel für diese Funktionsweise ist auch in Abbildung \texttt{a)} sichtbar. Während die Segmentierung ohne die Nutzung von Fully Connected Layers die Ränder der beiden größeren Krater in ein helligkeitsunabhängiges Segment einteilt, wird diese bereits bei der Nutzung von nur einer FC-Schicht durch zwei Cluster ersetzt: Eins, welches helle Regionen, und eins, welches dunkle Regionen kennzeichnet. Des Weiteren gehen durch die Nutzung dieser Fully Connected Layers Informationen über einen Großteil der kleineren Krater in dieser Aufnahme verloren.
-Aus diesen Umständen lässt sich schließen, dass die Nutzung dieser Fully Connected Layers, welche im Allgemeinen viele Vorteile hat, hier ungeeignet ist.
+
+Diese Phänomene rühren daher, dass Fully Connected Layer meistens nur als Klassifikator am Ende eines ansonsten vollständigen neuronalen Netzes genutzt werden. Dort werden sie dazu genutzt, anhand der ihnen von den konvolutionellen Schichten gelieferten Merkmalsräume zu entscheiden, wie ein gegebener Punkt klassifiziert werden soll. In der hier beschriebenen Anwendung allerdings, reicht es aus, die Unterschiedlichen Merkmale voneinander zu Unterscheiden, diese müssen folglich nicht weiter klassifiziert werden.
+
+Aus diesen Umständen lässt sich schließen, dass die Nutzung dieser Fully Connected Layers, welche in anderen Anwendungsgebieten viele Vorteile hat, hier ungeeignet ist.
 
 % TODO FCL ist normalerweise Klassifikator
 
@@ -662,7 +675,7 @@ Wie in Kapitel~\ref{chap:methodik} erläutert, können nicht alle der bisher bes
 \section{Evaluation}
 \label{sec:evaluation}
 
-Zur Evaluation der hier erarbeiteten Methode zur Bildsegmentierung werden eine Reihe von unterschiedlichen Metriken benutzt. Diese wurden ausgewählt, da sie zur Evaluation anderer Segmentierungsalgorithmen auf dem BSDS500 Datensatz genutzt wurden. \cite{arbelaez_10, xia_17}
+Zur Evaluation der hier erarbeiteten Methode zur Bildsegmentierung werden eine Reihe von unterschiedlichen Metriken benutzt. Diese wurden ausgewählt, da sie zur Evaluation anderer Segmentierungsalgorithmen auf dem BSDS500 Datensatz \cite{bsd500} genutzt wurden. \cite{arbelaez_10, xia_17}
 
 \subsection{Variation of Information}
 
