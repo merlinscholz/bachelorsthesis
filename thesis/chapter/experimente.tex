@@ -569,10 +569,55 @@ Aus diesen lässt sich relativ schnell erkennen, dass sowohl die Sigmoid-, als a
 
 So ist direkt in Aufnahme \texttt{a)} erkennbar, dass das neuronale Netzwerk ein Segment entlang der einzelnen, kleineren Kraterränder erstellt, bei den anderen Aktivierungsfunktionen gehen diese vollständig verloren, da dort hauptsächlich der Helligkeitswert zur Segmentierung genutzt wird. Auch in Aufnahme \texttt{b)} zeigen sich deutliche Verbesserungen, der raue Bereich, welcher sich horizontal durch die Aufnahme zieht wird mithilfe der ReLU-Funktion auf der vollen Länge erkannt, statt nur in den rechten zwei Dritteln. Des Weiteren wird dort der kleinere Bereich mit einer ähnlichen Textur im oberen Bereich des Bildes sehr gut erkannt und in das selbe Segment eingeordnet wie die größere Struktur. Auch hier werden die Kraterränder gut in ein im Bild einzigartiges Cluster eingeteilt. In Aufnahme \texttt{c)} ist die Nutzung der ReLU-Funktion vergleichbar mit den anderen Aktivierungen, allerdings werden hier die Begrenzungen der feineren, helleren Struktur in ein rotes Segment eingeteilt. Dieses ist sonst nicht vorhanden. Auch auf der letzten Aufnahme, Aufnahme \texttt{d)}, ist sichtbar, dass das Netzwerk dank der ReLU-Aktivierung nicht nur nach den Helligkeitswerten segmentiert, sondern wie gewünscht nach der Oberflächenstruktur: Der Bereich um den Berg herum wird in ein rotes Segment eingeteilt, außerdem werden die Berghänge trotz ihrer starken Licht-/Schattenregionen getrennt zu ihrem Umfeld erkannt.
 
-% TODO Bullshit
-% TODO Leaky ReLU?
+An dieser Stelle existieren nun zwei unterschiedliche Theorien, warum die Nutzung der ReLU-Aktivierung wesentlich bessere Ergebnisse produziert als sämtliche Alternativen:
 
-Diese Verbesserung ist darauf zurückzuführen, dass die ReLU-Aktivierung negative Eingaben als Nullwert weitergibt. Lernt also \bspw eine konvolutionelle Schicht statt den gewünschten Parametern zur texturbasierten Segmentierung Parameter, welche die Textur ignorieren (also nur die Helligkeitsinformationen betrachten), so werden diese nicht negativ gewichtet (was weiterhin die Helligkeitswerte betrachten würde), sondern komplett ignoriert. Reagiert hingegen ein Konvolutionsfilter besonders stark auf eine Textur, so ist dieser nicht wie nach den anderen Aktivierungsfunktionen auf das Intervall $\left[0, 1\right]$ \bzw $\left[-1, 1\right]$ beschränkt, sondern behält seinen vergleichsweise starken Einfluss auf die nächste Schicht.
+\begin{enumerate}
+	\item Die Verbesserung ist darauf zurückzuführen, dass in dem hier genutzten Algorithmus die Anzahl der Iterationen im Vergleich zu den meisten anderen neuronalen Netzen relativ gering ist, da sie hier nur etwa $100$ bis $300$ beträgt. ReLU ist auf dieser geringen Epochenanzahl effizienter darin, unbrauchbare Merkmale auszufiltern.
+	\item Die Verbesserung ist darauf zurückzuführen, dass die ReLU-Aktivierung negative Eingaben als Nullwert weitergibt. Lernt also \bspw eine konvolutionelle Schicht statt den gewünschten Parametern zur texturbasierten Segmentierung Parameter, welche die Textur ignorieren (also \bspw nur die Helligkeitsinformationen betrachten), so werden diese nicht negativ gewichtet. Stattdessen würden die Konvolutionsfilter, welche zu diesem Punkt führen mit $0$ multipliziert, und somit im Bezug auf das Endergebnis verworfen, statt mit einem negativen Faktor darauf einzuwirken. Dieses Phänomen wird im Allgemeinen als \textit{dying ReLU} oder \textit{dead ReLU} bezeichnet.% Reagiert hingegen ein Konvolutionsfilter besonders stark auf eine Textur, so ist dieser nicht wie nach den anderen Aktivierungsfunktionen auf das Intervall $\left[0, 1\right]$ \bzw $\left[-1, 1\right]$ beschränkt, sondern behält seinen vergleichsweise starken Einfluss auf die nächste Schicht.
+\end{enumerate}
+
+Um nun herauszufinden, welche Erklärung die Ursache für die auftretenden Ergebnisse liefert, wird der Algorithmus mit der Leaky ReLU-Aktivierungsfunktion getestet. Diese Aktivierungsfunktion verhält sich wie die ReLU-Aktivierung, hat im Bereich $x<0$ allerdings eine sehr geringe Steigung (hier $0.01$), eben um das \textit{dying ReLU}-Problem zu bekämpfen:
+
+\begin{equation}
+f(x)=\begin{cases}x&\text{wenn } x>0\\0.01x&\text{sonst}\end{cases}
+\end{equation}
+
+\cite{he_15} Diese Aktivierungsfunktion ist in \figurename~\ref{fig:leaky_relu} dargestellt.
+
+\begin{figure}[h!]
+	\centering
+	\begin{tikzpicture}[scale=0.6]
+	\begin{axis}[
+	axis lines = middle,
+	xlabel = {$x$},
+	ylabel = {$f(x)$},
+	domain=-5:5,
+	]
+	\addplot[draw=blue,samples=100,domain=-5:5,line width=1.5]{max(0,x)};
+	\addplot[draw opacity=0,domain=-5:5]{1.2*x};
+	\end{axis}
+	\end{tikzpicture}
+	\caption{Leaky ReLU}
+	\label{fig:leaky_relu}
+\end{figure}
+
+\begin{figure}[h!]
+	\begin{tabular}{m{0.24\textwidth}m{0.24\textwidth}m{0.24\textwidth}m{0.24\textwidth}}
+		\includegraphics[width=0.24\textwidth]{images/gen/activation_functions/p03_01.png_leakyrelu.png} &
+		\includegraphics[width=0.24\textwidth]{images/gen/activation_functions/p03_02.png_leakyrelu.png} &
+		\includegraphics[width=0.24\textwidth]{images/gen/activation_functions/p03_03.png_leakyrelu.png} &
+		\includegraphics[width=0.24\textwidth]{images/gen/activation_functions/p03_04.png_leakyrelu.png} \\
+		
+		\vspace*{2pt}\centering \texttt{a)} & 
+		\vspace*{2pt}\centering \texttt{b)} &
+		\vspace*{2pt}\centering \texttt{c)} &
+		\vspace*{2pt}\centering \texttt{d)} 
+	\end{tabular}
+	\caption{Nutzung der Leaky ReLU-Aktivierungsfunktion. Die Farben der jeweilgen Cluster wurden zufällig gewählt.\\}
+	\label{fig:leaky_relu_application}
+\end{figure}
+
+Anhand der Ergebnisse der Anwendung des Algorithmus mithilfe der Leaky ReLU-Funktion in \figurename~\ref{fig:leaky_relu_application} lässt sich erkennen, dass sich die Segmentierung praktisch nicht von der Segmentierung mithilfe der Sigmoid- oder der tanh-Funktion unterscheidet. Daraus lässt sich nun schließen, dass die erste Theorie für die Ursache der besseren Ergebnisse falsch ist, da auch die nun genutzt Aktivierung in etwa die selbe Geschwindigkeit besitzt wie die normale ReLU-Aktivierung. Selbst wenn diese Aktivierung langsamer sein sollte, so müssen zumindest Ergebnisse produziert werden, welche unterschiedlich zu den bisher erstellten Segmentierungen sind. Somit ist die zweite Theorie für die Verbessrung durch ReLU korrekt, da diese darauf basiert, dass sich das \textit{dying ReLU}-Problem zunutze gemacht wird.
 
 \subsection{Pooling Layer}
 \label{ssec:exp_architecture_pooling}
