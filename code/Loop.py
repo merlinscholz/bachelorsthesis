@@ -17,7 +17,7 @@ from torch import nn, optim
 from torch.utils.tensorboard import SummaryWriter
 from torchvision import transforms
 
-def run(image, tags, model, max_epochs=500, tensorboard=True, lr=0.15, momentum=0.4, filename = "", starttime = 0, stopping = ["gradient", 0.0025]):
+def run(image, tags, model, max_epochs=500, tensorboard=True, lr=0.15, momentum=0.4, filename = "", starttime = 0, stopping = ["gradient", -0.0025]):
   def gen_preview(tags, shape, colors = None):
     return label2rgb(tags.reshape(shape[0], shape[1]), colors=colors)
   def get_output_size(input, model):
@@ -68,6 +68,7 @@ def run(image, tags, model, max_epochs=500, tensorboard=True, lr=0.15, momentum=
   loss_history = []
   loss_delta = np.zeros(max_epochs)
   current_delta = np.inf
+  popt1 = None
   for epoch in range(max_epochs):
     raw = model(input)
     predicted = raw.permute(1, 2, 0).view(target_shape[0]*target_shape[1], -1)
@@ -112,10 +113,10 @@ def run(image, tags, model, max_epochs=500, tensorboard=True, lr=0.15, momentum=
       break
     
     if epoch>=25:
-        if (stopping[0] == "gradient" and curve_deriv(epoch, *popt1) <= stopping[1]) or n_labels<3:
+        if (stopping[0] == "gradient" and curve_deriv(epoch, *popt1) >= stopping[1]) or n_labels<3:
           break
 
-  if tensorboard:
+  if tensorboard and popt1 is not None:
     for i in range(max_epochs):
       tb.add_scalar("approx_final/curve", curve(i, *popt1), i)
       tb.add_scalar("approx_final/deriv", curve_deriv(i, *popt1), i)

@@ -4,14 +4,15 @@
 \label{app:exp_stoppingcriteria}
 \begin{figure}[h!]
 	\centering
+	\footnotesize
 	\begin{tikzpicture}
 	\begin{groupplot}[
 	group style={
-		group size=1 by 4,
+		group size=1 by 2,
 		vertical sep=1.5cm
 	},
 	width=\textwidth,
-	height=4.5cm]
+	height=8.5cm]
 	\nextgroupplot[major grid style={line width=.1pt, draw=gray!30},
 	minor grid style={line width=.1pt, draw=gray!10},
 	minor tick num=3,
@@ -49,7 +50,20 @@
 	\addlegendentry{b)}
 	\addlegendentry{c)}
 	\addlegendentry{d)}
-	
+	\end{groupplot}
+	\end{tikzpicture}
+\end{figure}
+\begin{figure}[h!]
+	\centering
+	\footnotesize
+	\begin{tikzpicture}
+	\begin{groupplot}[
+	group style={
+		group size=1 by 2,
+		vertical sep=1.5cm
+	},
+	width=\textwidth,
+	height=8.5cm]
 	\nextgroupplot[major grid style={line width=.1pt, draw=gray!30},
 	minor grid style={line width=.1pt, draw=gray!10},
 	minor tick num=3,
@@ -59,7 +73,7 @@
 	ymin=-0.03,
 	ymax=0.01,
 	xlabel=Median der Verlustfunktionin den letzten 20 Epochen/Epoche,
-	legend style={at={(0.98,0.02)}, anchor=south east}]
+	legend style={at={(0.02,0.98)}, anchor=north west}]
 	\addplot +[mark=none,blue,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585332321.2379851_p03_01.png-tag-loss_delta_over_20.csv};
 	\addplot +[mark=none,red,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585332321.2379851_p03_02.png-tag-loss_delta_over_20.csv};
 	\addplot +[mark=none,green,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585332321.2379851_p03_03.png-tag-loss_delta_over_20.csv};
@@ -77,7 +91,8 @@
 	xmax=300,
 	ymin=-0.03,
 	ymax=0.01,
-	xlabel=Approximierter Gradient der Verlustfunktion/Epoche]
+	xlabel=Approximierter Gradient der Verlustfunktion/Epoche,
+	legend style={at={(0.02,0.98)}, anchor=north west}]
 	\addplot +[mark=none,blue,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585332321.2379851_p03_01.png-tag-approx_deriv.csv};
 	\addplot +[mark=none,red,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585332321.2379851_p03_02.png-tag-approx_deriv.csv};
 	\addplot +[mark=none,green,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585332321.2379851_p03_03.png-tag-approx_deriv.csv};
@@ -89,6 +104,6 @@
 	
 	\end{groupplot}
 	\end{tikzpicture}
-	\caption{Vergleich unterschiedlicher möglicher Abbruchkriterien, jeweils bis 500 Epochen. Die Graphen sind in höherer Auflösung in Appendix~\ref{app:exp_stoppingcriteria} zu finden. Die Legenden geben die zugehörige Marsaufnahme aus Abschnitt~\ref{sec:modifications} an.}
+	\caption{Vergleich unterschiedlicher möglicher Abbruchkriterien, jeweils bis 300 Epochen. Die Graphen sind in höherer Auflösung in Appendix~\ref{app:exp_stoppingcriteria} zu finden. Die Legenden geben die zugehörige Marsaufnahme aus Abschnitt~\ref{sec:modifications} an.}
 	\label{fig:exp_stoppingcriteria}
 \end{figure}
