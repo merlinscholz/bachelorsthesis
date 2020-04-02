@@ -420,7 +420,7 @@ Die in \cite{kanezaki_18} genutzte Anzahl der Segmente eignet sich zwar als grun
 
 Es wird auch deutlich, dass sich die vorgeschlagene Methode der Nutzung der letzten 20 Verlustwerte nicht als Abbruchkriterium eignet, da diese stark zwischen unterschiedlichen Aufnahmen variiert und trotz ihres relativ großen Umfangs noch starke lokale Extremstellen beinhaltet.
 
-Um eine Ableitung der Verlustfunktion bilden zu können, muss diese durch eine stetige Funktion approximiert werden. Da die Verlustfunktion von der Stelle $x=0$ an immer weiter sinkt und somit gegen einen Wert von $y=0$ konvergiert, wird diese Approximierungsfunktion durch $f(x) = a*\frac{1}{x}+b$ beschrieben. Die konkreten Werte für $a$ und $b$ werden in jeder Iteration des Netzwerkes neu berechnet, da durch jede weitere Epoche neue Messwerte hinzukommen, welche zu einer besseren Approximation führen. Außerdem wird mit dieser Verfahren erst ab der fünfzigsten Epoche begonnen, da die Verlustfunktion davor zu instabile Werte annimmt, als dass eine gute Ableitung gebildet werden kann. Zur eigentlichen erstellung der abzuleitenden Funktion wird die Methode der kleinsten Quadrate genutzt.
+Um eine Ableitung der Verlustfunktion bilden zu können, muss diese durch eine stetige Funktion approximiert werden. Da die Verlustfunktion von der Stelle $x=0$ an immer weiter sinkt und somit gegen einen Wert von $y=0$ konvergiert, wird diese Approximierungsfunktion durch $f(x) = a*\frac{1}{x}+b$ beschrieben, welche die Ableitung $f'(x)=-a\frac{1}{x^2}$ besitzt. Die konkreten Werte für $a$ und $b$ werden in jeder Iteration des Netzwerkes neu berechnet, da durch jede weitere Epoche neue Messwerte hinzukommen, welche zu einer besseren Approximation führen. Außerdem wird mit dieser Verfahren erst ab der zwanzigsten Epoche begonnen, da die Verlustfunktion davor zu instabile Werte annimmt, als dass eine gute Ableitung gebildet werden kann. Zur eigentlichen Erstellung der abzuleitenden Funktion wird die Methode der kleinsten Quadrate genutzt.
 
 Die Nutzung der Ableitung der Lossfunktion hingegen scheint zu vergleichsweise guten Ergebnissen zu führen, da deren Graphen ab etwa 100 Epochen kaum schwanken und alle gegen den selben wert konvergieren zu scheinen. Weitere Experimente haben gezeigt dass eine Schwelle von $f'(x)\geq-0.0025$ sich gut als Abbruchkriterium eignet. Es sollte allerdings noch ein weiteres Abbruchkriterium hinzugefügt werden, welches die Anzahl der Segmente nach unten hin beschränkt. Ansonsten kann es vorkommen, dass das gesamte Bild als nur ein einziges Segment erkennt, was zwar den Wert der Verlustfunktion senkt, aber keine nutzbaren Ergebnisse erzeugt.
 
@@ -710,7 +710,7 @@ Aus diesen Umständen lässt sich schließen, dass die Nutzung dieser Fully Conn
 \subsection{Anpassungen zur Segmentierung von mehrfarbigen Fotografien}
 \label{exp_colorpicture_optimization}
 
-Wie in Kapitel~\ref{chap:methodik} erläutert, können nicht alle der bisher bestimmten Hyperparameter dazu genutz werden, auch Aufnahmen aus dem BSDS500-Datensatz zu segmentieren. Daher wurde der gesamte Prozess des Abschnittes~\ref{sec:modifications} für Aufnahmen dieses Datensatzes wiederholt. Der Algorithmus wurde mit den aus diesen Experimenten besten Hyperparametern angewandt. Die Ergebnisse sind in \figurename~\ref{fig:color_pictures} dargestellt.
+Wie in Kapitel~\ref{chap:methodik} erläutert, können nicht alle der bisher bestimmten Hyperparameter dazu genutz werden, auch Aufnahmen aus dem BSDS500-Datensatz zu segmentieren. Daher wurde der gesamte Prozess des Abschnittes~\ref{sec:modifications} für Aufnahmen dieses Datensatzes wiederholt. Ein großer Vortiel bei der Anpassung der Parameter für diesen Datensatz besteht daraus, dass für den BSDS500-Datensatz Ground Truths existieren. Die Parameter wurden also nicht nach einer subjektiven Ansicht der jeweiligen Ergebnisse angepasst, sondern danach, welche Eingaben die besten Werte für die Variation of Interest und den Probabilistic Rand Index erzielte. Der Algorithmus wurde mit den aus diesen Experimenten besten Hyperparametern angewandt. Die Ergebnisse sind in \figurename~\ref{fig:color_pictures} dargestellt.
 
 % TODO Add images
 
@@ -721,7 +721,7 @@ Wie in Kapitel~\ref{chap:methodik} erläutert, können nicht alle der bisher bes
 
 \subsection{Allgemein}
 
-Zur Evaluation der hier erarbeiteten Methode zur Bildsegmentierung werden eine Reihe von unterschiedlichen Metriken benutzt. Diese wurden ausgewählt, da sie zur Evaluation anderer Segmentierungsalgorithmen auf dem BSDS500 Datensatz \cite{bsd500} genutzt wurden. \cite{arbelaez_10, xia_17}
+Zur Evaluation der hier erarbeiteten Methode zur Bildsegmentierung werden zwei unterschiedliche Metriken benutzt. Diese wurden ausgewählt, da sie zur Evaluation anderer Segmentierungsalgorithmen auf dem BSDS500 Datensatz \cite{bsd500} genutzt wurden und somit bereits Referenzwerte existieren, die dabei helfe, die hier gewonnen Ergebnisse im weiteren Kontext besser einordnen zu können.. \cite{arbelaez_10, xia_17}
 
 \paragraph{Variation of Information}
 
@@ -807,6 +807,31 @@ Wie der Rand Index nimmt der Probabilistic Rand Index Werte aus dem Wertebereich
 
 \section{Resultate}
 \label{sec:results}
+
+\subsection{Domänenspezifisch}
+
+\subsection{Allgemein}
+
+Die Ergebnisse der Anwendung des vorgestellten Algorithmus sind in \tablename~\ref{tab:res_bsds500} zu finden. Die Ergebnisse aller außer des hier vorgestellten Algorithmus wurden aus \cite{arbelaez_10} übernommen. Nur die Werte die über die dort beschriebene \enquote{optimal dataset scale}-Methode generiert wurden, wurden übernommen, da der vorgestellte Algorithmus ebenfalls die selben Skalierungen/Gewichtungen/\etc für alle Eingabebilder nutzt. Die Erweiterung des Algorithmus um eine Methode zur Generierung einer \enquote{optimal image scale} wäre in der Theorie machbar (\bspw über eine jeweilige binäre Suche über alle zu optimierenden Parameter). Aufgrund des dazu benötigten enormen Rechen- und Zeitaufwandes (56 Validierungsbilder, 5 Parameter \footnote{Filterbank, Filtergröße, Gewichtung von Position und Farb-/Helligkeitswerten, Anzahl der Cluster, Abbruchkriterium} mit je \bspw 10 möglichen Werten und 2 Minuten Verarbeitungszeit pro Aufnahme ergeben etwa \SI{186666}{\hour} reine Rechenzeit) wird diese Metrik allerdings an dieser Stelle nicht beachtet.
+
+\begin{table}
+	\begin{tabular}{l c c}
+		\toprule
+		\textbf{Segmentierungsmethode} & \textbf{Probabilistic Rand Index} & \textbf{Variation of Information} \\
+		\midrule
+		Mensch \cite{bsd500} & $0,88$ & $1,17$ \\
+		\midrule
+		gPb-pwt-ucm \cite{arbelaez_10} & $0,83$ & $1,69$ \\
+		Mean Shift \cite{comaniciu_02} & $0,79$ & $1,85$ \\
+		Felz-Hutt \cite{felzenszwalb_04} & $0,80$ & $2,21$ \\
+		Canny-owt-ucm \cite{arbelaez_10} & $0,79$ & $2,19$ \\
+		NCuts \cite{cour_05} & $0,78$ & $2,23$ \\
+		Quad-Tree & $0,73$ & $2,46$ \\
+		\bottomrule
+	\end{tabular}
+	\caption{Metriken der Anwendung mehrerer Algorithmen auf den BSDS-500 Datensatz \cite{bsd500}. Die Werte wurden aus \cite{arbelaez_10} übernommen und sind anhand des PRIs absteigend geordnet.}
+	\label{tab:res_bsds500}
+\end{table}
 
 \section{Vergleich}
 \label{sec:comparision}

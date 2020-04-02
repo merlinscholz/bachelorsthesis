@@ -1,6 +1,8 @@
 import cv2
 from sklearn.cluster import KMeans
 import numpy as np
+import matplotlib.pyplot as plt
+
 
 def applyFilter(A, g, n_clusters = 50, no_blur = False, no_spatial = False, no_norm = False, no_color = False, r_bank_results = False, mr = False, size = 0.75, w_color = 0, w_spatial = 0.66):
   if no_spatial == True:
@@ -54,15 +56,20 @@ def applyFilter(A, g, n_clusters = 50, no_blur = False, no_spatial = False, no_n
     maxresp = maxresp[:, :, :6]
     rotinv = featureSet[: ,: , -2: ]
     featureSet = np.concatenate((maxresp, rotinv), 2)
-    
+    print(featureSet.shape)
 
   if A.shape[2] == 3:
+    color_sums = A.sum(axis=2)
+    color_avg = A / color_sums[:, :, np.newaxis]
+    plt.figure()
+    plt.imshow(color_avg)
+    plt.show()
     featureSet = np.concatenate(
-      (featureSet, np.expand_dims(A[: ,: , 0], axis = 2)), 2)
+      (featureSet, np.expand_dims(color_avg[: ,: , 0], axis = 2)), 2)
     featureSet = np.concatenate(
-      (featureSet, np.expand_dims(A[: ,: , 1], axis = 2)), 2)
+      (featureSet, np.expand_dims(color_avg[: ,: , 1], axis = 2)), 2)
     featureSet = np.concatenate(
-      (featureSet, np.expand_dims(A[: ,: , 2], axis = 2)), 2)
+      (featureSet, np.expand_dims(color_avg[: ,: , 2], axis = 2)), 2)
   elif A.shape[2] == 1:
     featureSet = np.concatenate(
       (featureSet, np.expand_dims(A[: ,: , 0], axis = 2)), 2)
@@ -72,11 +79,11 @@ def applyFilter(A, g, n_clusters = 50, no_blur = False, no_spatial = False, no_n
 
   X = featureSet.reshape(numPoints, -1)
 
+  X = X[: , ~np.isnan(X).any(axis = 0)]
+  X = X[: , ~np.isinf(X).any(axis = 0)]
   if no_norm == False:
     X = X - X.mean(axis = 0)
     X = X / X.std(axis = 0, ddof = 1)
-  X = X[: , ~np.isnan(X).any(axis = 0)]
-  X = X[: , ~np.isinf(X).any(axis = 0)]
 
   X = X.reshape(A.shape[0], A.shape[1], -1)
 

@@ -23,8 +23,9 @@ def run(image, tags, model, max_epochs=500, tensorboard=True, lr=0.15, momentum=
   def get_output_size(input, model):
     return np.array(model(input).permute(1, 2, 0).shape)
 
-  def curve(x, a, b):
+  def curve(x, a, b): 
     return a/(x)+b
+    
 
   def curve_deriv(x, a, b):
     return (-a)/((x)**2)
@@ -117,7 +118,7 @@ def run(image, tags, model, max_epochs=500, tensorboard=True, lr=0.15, momentum=
           break
 
   if tensorboard and popt1 is not None:
-    for i in range(max_epochs):
+    for i in range(1, max_epochs):
       tb.add_scalar("approx_final/curve", curve(i, *popt1), i)
       tb.add_scalar("approx_final/deriv", curve_deriv(i, *popt1), i)
     
