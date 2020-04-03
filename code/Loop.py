@@ -40,7 +40,6 @@ def run(image, tags, model, max_epochs=500, tensorboard=True, lr=0.15, momentum=
   model = model.cuda()
   loss_fn = nn.CrossEntropyLoss()
   optimizer = optim.SGD(model.parameters(), lr=lr, momentum=momentum)
-
   if image.shape[2] == 3:
     preprocess = transforms.Compose([
       transforms.ToTensor(),

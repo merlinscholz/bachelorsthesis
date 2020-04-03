@@ -56,14 +56,10 @@ def applyFilter(A, g, n_clusters = 50, no_blur = False, no_spatial = False, no_n
     maxresp = maxresp[:, :, :6]
     rotinv = featureSet[: ,: , -2: ]
     featureSet = np.concatenate((maxresp, rotinv), 2)
-    print(featureSet.shape)
 
   if A.shape[2] == 3:
     color_sums = A.sum(axis=2)
     color_avg = A / color_sums[:, :, np.newaxis]
-    plt.figure()
-    plt.imshow(color_avg)
-    plt.show()
     featureSet = np.concatenate(
       (featureSet, np.expand_dims(color_avg[: ,: , 0], axis = 2)), 2)
     featureSet = np.concatenate(

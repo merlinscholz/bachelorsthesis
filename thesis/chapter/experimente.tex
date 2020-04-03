@@ -295,7 +295,7 @@ Die Nutzung der Positionwerte hat allerdings einen Vorteil: Sie sorgt dafür die
 Aus diesem Grund macht es Sinn, die Koordinatenbeträge der Pixel relativ gering zu gewichten, um dafür zu sorgen, dass das texturbasierte Clustering möglicht positionsinvariant operiert, aber auch nicht so gering, dass viele fragmentierte Cluster entstehen. Anhand von \figurename~\ref{fig:filterbank_weights_pos} ist erkennbar, dass ein Wert von  $w_p=0,66$ sich in diesem Fall sehr gut eignet, ein brauchbares Clusterergebnis zu erstellen.
 
 \paragraph{Gewichtungen der Farb-/Helligkeitswerte}
-Die hier folgenden Clusteringergebnisse wurden mit einem Skalierungsfaktor von $s=0,5$ und einer Gewichtung von $w_p=0,66$ für die Positionswerte erstellt.
+Die hier folgenden Clusteringergebnisse wurden mit den zuvor bestimmten optimalen Parametern erstellt.
 
 In der originalen Ausarbeitung des texturbasierten Clusterings \cite{jain_91} werden nur zwei Ebenen für die jeweiligen X- und Y-Koordinaten hinzugefügt. Es steht also an dieser Stelle offen, ob das Hinzufügen der Farb- \bzw Helligkeitsdimension zum Datenwürfel zu besseren Ergebnissen führt. Dazu wurde der vorgestellte Algorithmus mit unterschiedlichen Werten für die Gewichtung der Helligkeitswerte $w_c$ auf den bekannten Beispielbildern ausgeführt. Die Resultate dieses Experimentes sind in \figurename~\ref{fig:filterbank_weights_col} dargestellt.
 
@@ -427,7 +427,7 @@ Es wird auch deutlich, dass sich die vorgeschlagene Methode der Nutzung der letz
 
 Um eine Ableitung der Verlustfunktion bilden zu können, muss diese durch eine stetige Funktion approximiert werden. Da die Verlustfunktion von der Stelle $x=0$ an immer weiter sinkt und somit gegen einen Wert von $y=0$ konvergiert, wird diese Approximierungsfunktion durch $f(x) = a*\frac{1}{x}+b$ beschrieben, welche die Ableitung $f'(x)=-a\frac{1}{x^2}$ besitzt. Die konkreten Werte für $a$ und $b$ werden in jeder Iteration des Netzwerkes neu berechnet, da durch jede weitere Epoche neue Messwerte hinzukommen, welche zu einer besseren Approximation führen. Außerdem wird mit dieser Verfahren erst ab der zwanzigsten Epoche begonnen, da die Verlustfunktion davor zu instabile Werte annimmt, als dass eine gute Ableitung gebildet werden kann. Zur eigentlichen Erstellung der abzuleitenden Funktion wird die Methode der kleinsten Quadrate genutzt.
 
-Die Nutzung der Ableitung der Lossfunktion hingegen scheint zu vergleichsweise guten Ergebnissen zu führen, da deren Graphen ab etwa 100 Epochen kaum schwanken und alle gegen den selben wert konvergieren zu scheinen. Weitere Experimente haben gezeigt dass eine Schwelle von $f'(x)\geq-0.0025$ sich gut als Abbruchkriterium eignet. Es sollte allerdings noch ein weiteres Abbruchkriterium hinzugefügt werden, welches die Anzahl der Segmente nach unten hin beschränkt. Ansonsten kann es vorkommen, dass das gesamte Bild als nur ein einziges Segment erkennt, was zwar den Wert der Verlustfunktion senkt, aber keine nutzbaren Ergebnisse erzeugt.
+Die Nutzung der Ableitung der Lossfunktion hingegen scheint zu vergleichsweise guten Ergebnissen zu führen, da deren Graphen ab etwa 100 Epochen kaum schwanken und alle gegen den selben Wert zu konvergieren scheinen. Weitere Experimente haben gezeigt dass eine Schwelle von $f'(x)\geq-0,0025$ sich gut als Abbruchkriterium eignet. Es sollte allerdings noch ein weiteres Abbruchkriterium hinzugefügt werden, welches die Anzahl der Segmente nach unten hin beschränkt. Ansonsten kann es vorkommen, dass das gesamte Bild als nur ein einziges Segment erkennt, was zwar den Wert der Verlustfunktion senkt, aber keine nutzbaren Ergebnisse erzeugt.
 
 \begin{figure}[h!]
 	\centering
@@ -769,17 +769,26 @@ In Aufnahme \texttt{c)} verändert sich die Segmentierung zwischen $n_{conv}=2$ 
 \subsection{Anpassungen zur Segmentierung von mehrfarbigen Fotografien}
 \label{ssec:exp_colorpicture_optimization}
 
-Wie in Kapitel~\ref{chap:methodik} erläutert, können nicht alle der bisher bestimmten Hyperparameter dazu genutz werden, auch Aufnahmen aus dem BSDS500-Datensatz zu segmentieren. Daher wurde der gesamte Prozess des Abschnittes~\ref{sec:modifications} für Aufnahmen dieses Datensatzes wiederholt. Ein großer Vortiel bei der Anpassung der Parameter für diesen Datensatz besteht daraus, dass für den BSDS500-Datensatz Ground Truths existieren. Die Parameter wurden also nicht nach einer subjektiven Ansicht der jeweiligen Ergebnisse angepasst, sondern danach, welche Eingaben die besten Werte für die Variation of Interest und den Probabilistic Rand Index erzielte. Der Algorithmus wurde mit den aus diesen Experimenten besten Hyperparametern angewandt. Die Ergebnisse sind in \figurename~\ref{fig:color_pictures} dargestellt.
+Wie in Kapitel~\ref{chap:methodik} erläutert, können nicht alle der bisher bestimmten Hyperparameter dazu genutz werden, auch Aufnahmen aus dem BSDS500-Datensatz zu segmentieren. Daher wurde der gesamte Prozess des Abschnittes~\ref{sec:modifications} für Aufnahmen dieses Datensatzes wiederholt. Ein großer Vortiel bei der Anpassung der Parameter für diesen Datensatz besteht daraus, dass für den BSDS500-Datensatz Ground Truths existieren. Die Parameter wurden also nicht nach einer subjektiven Ansicht der jeweiligen Ergebnisse angepasst, sondern danach, welche Eingaben die besten Werte für die Variation of Interest und den Probabilistic Rand Index erzielte. Der Algorithmus wurde mit den aus diesen Experimenten besten Hyperparametern angewandt. Die Ergebnisse sind in Unterabschnitt~\ref{ssec:results_general} dargestellt.
 
-% TODO Add images
-{\centering TODO: ADD IMAGES}
+Die folgende Kombination an Parametern hat die Resultate mit dem besten PRI (\vgl Unterabschnitt~\ref{ssec:eval_general}) erzielt:
 
+\begin{itemize}
+	\item{Gewichtung der Positionswerte:} $w_p = 1,33$
+	\item{Gewichtung der Farbwerte:} $w_c = 1,33$
+	\item{Anzahl der Cluster:} $n = 35$
+	\item{Abbruchkriterium:} $f'(x) \geq -0,0018$
+\end{itemize}
 
+Alle nicht aufgeführten Parameter entsprechen den bisher bestimmten Optimalwerten bei der Anwendung des Algorithmus auf die Marsoberfläche.
+
+Auf eine genaue Analyse der Auswirkungen der Anpassung der einzelnen Parameter wird an dieser Stelle bewusst verzichtet, da dies außerhalb des Rahmens dieser Arbeit liegt.
 
 \section{Evaluation}
 \label{sec:evaluation}
 
 \subsection{Domänenspezifisch}
+\label{ssec:evaluation_domain}
 
 \paragraph{Post-Processing der Resultate}
 \label{ssec:postprocessing}
@@ -796,9 +805,10 @@ Damit ein Segment auf einem Krater hindeutet und als solcher markiert wird, gelt
 	\item Wird ein Kraterrand erkannt, so darf dieser aus mehreren unterschiedlichen Segmenten zusammengesetzt sein.
 	\item Alle manuell erzeugten Segmente sind perfekt kreisförmig, es ist irrelevant ob das unterliegende Segment nicht perfekt rund ist. Dies ist eine Limitierung der Ground Truth.
 	\item Es werden keine konkaven Segmente markiert.
-	\item Ist ein Segment zu klein, um sicher feststellen zu können ob dieses kreisförmig ist, so wird dieses als Krater gekennzeichnet.
+	\item Krater mit einem Durchmesser von unter \SI{20}{\pixel} werden ignoriert, da diese in der Ground Truth auch nicht erscheinen.
 	\item Krater dürfen sich teilweise überlappen.
-	\item Krater müssen nicht vollständig im Bildbereich liegen. Dies hat die Ursache, dass die Eingabedatei aufgrund technischer Limitationen in kleinere Aufnahmen eingeteilt werden musste, bevor sie den vorgestellten prozess durchlaufen konnte.
+	\item Krater müssen nicht vollständig im Bildbereich liegen. Dies hat die Ursache, dass die Eingabedatei aufgrund technischer Limitationen in kleinere Aufnahmen eingeteilt werden musste, bevor sie den vorgestellten Prozess durchlaufen konnte.
+	\item Krater, welche aufgrund der Aufteilung des Eingabebildes abgeschnitten sind werden vervollständigt
 	\item Ein kreisförmiges Segment wird nicht markiert, wenn es offensichtlich ist, dass dies ein Teil einer größeren Struktur wie einer Hügelkette ist.
 \end{enumerate}
 
@@ -808,6 +818,7 @@ Diese Regeln führen zu einer fairen Segmentierung, da sie unabhängig von der o
 
 
 \subsection{Allgemein}
+\label{ssec:eval_general}
 
 Zur Evaluation der hier erarbeiteten Methode zur Bildsegmentierung werden zwei unterschiedliche Metriken benutzt. Diese wurden ausgewählt, da sie zur Evaluation anderer Segmentierungsalgorithmen auf dem BSDS500 Datensatz \cite{bsd500} genutzt wurden und somit bereits Referenzwerte existieren, die dabei helfen, die hier gewonnen Ergebnisse im weiteren Kontext besser einordnen zu können. \cite{arbelaez_10, xia_17}
 
@@ -899,9 +910,12 @@ Da bei dem genutzten Datensatz mehrere Ground Truths vorhanden sind, wird der Du
 \label{sec:results}
 
 \subsection{Domänenspezifisch}
+\label{ssec:results_domain}
+
+Nach der Anwendung des in Unterabschnitt~\ref{ssec:evaluation_domain} beschriebenen Verfahrens ergibt sich ein F1-Score von $f_1=0,637$.
 
 \subsection{Allgemein}
-
+\label{ssec:results_general}
 Die Ergebnisse der Anwendung des in dieser Arbeit vorgestellten Algorithmus sind in \tablename~\ref{tab:res_bsds500} zu finden. Alle weiteren Ergebnisse wurden aus \cite{arbelaez_10} übernommen. Nur die Werte die über die dort beschriebene \enquote{optimal dataset scale}-Methode generiert wurden, wurden übernommen, da der vorgestellte Algorithmus ebenfalls die selben Parameter für alle Eingabebilder nutzt. Die Erweiterung des Algorithmus um eine Methode zur Generierung einer \enquote{optimal image scale} wäre in der Theorie machbar (\bspw über eine jeweilige binäre Suche über alle zu optimierenden Parameter). Aufgrund des dazu benötigten enormen Rechen- und Zeitaufwandes wird diese Metrik allerdings an dieser Stelle nicht beachtet.
 
 \begin{table}
