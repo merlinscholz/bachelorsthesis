@@ -189,6 +189,9 @@ Auch auf Pooling Layers wurde im ursprünglichen Paper verzichtet. Pooling Layer
 
 Wie in Unterabschnitt~\ref{ssec:fully_connected_layer} werden Fully Connected Layers in Convolutional Neural Networks dazu eingesetzt, die Resultate der ihr vorhergehenden Schichten zu klassifizieren. Angewandt auf das hier genutzte Netzwerk könnte ihre Nutzung zur Folge haben, dass verschiedene lokale Oberflächenmerkmale besser im globalen Kontext erkannt werden können und \ggf in die selben Cluster wie ihnen ähnliche Regionen eingeteilt werden. Ob dies auch in der praktischen Anwendung der Fall ist, wird in Unterabschnitt~\ref{ssec:exp_fully_connected} erläutert.
 
+\subsection{Anzahl der Konvolutionsschichten}
+
+Die Anzahl der Konvolutionsschichten stellt einen weiteren Hyperparameter dar, welcher Einfluss auf die Qualität der Resultate des Netzes hat. Die originale Implementierung des Algorithmus aus \cite{kanezaki_18} setzt diese Anzahl als dynamisch und vom Nutzer bestimmbar fest, mit einem Standardwert von einer Eingabeschicht, welche die drei Merkmalsdimensionen auf einen Datenwürfel mit 100 Merkmalsdimensionen abbildet, gefolgt von standardmäßg zwei weiteren Konvolutionsschichten. Ob dies ein geeigneter Wert für den hier genutzten Anwendungsfall darstellt wird in Unterabschnitt~\ref{ssec:exp_n_convolutions} untersucht.
 
 \iffalse
 
@@ -244,61 +247,7 @@ Die Anzahl der Merkmalsdimensionen $n_{fd}$ gibt (hier) die Anzahl der Schichten
 	\caption{Vergleich der Auswirkungen einer veränderten Anzahl an Merkmalsdimensionen. Die Farben der jeweiligen Cluster wurden zufällig gewählt.}
 	\label{fig:fd_comparision}
 \end{figure}
-\fi
-\subsection{Anzahl der Konvolutionsschichten}
 
-In der originalen Implementierung war die Anzahl der Konvolutionsschichten (gefolgt von den Aktivierungs- und Batch-Normalisierungs-Schichten) dynamisch, mit einem Standardwert von drei Schichten. Nun wird über \figurename~\ref{fig:n_layers_comparision} überprüft, welchen Einfluss eine Veränderung dieses Parameters auf die entstehende Segmentierung hat.
-
-\begin{figure}[h!]
-	\setlength\tabcolsep{1pt}
-	\def\arraystretch{0.5}
-	\begin{tabular}{m{15pt}m{0.166\textwidth}m{0.166\textwidth}m{0.166\textwidth}m{0.166\textwidth}m{0.166\textwidth}m{0.166\textwidth}}
-		\texttt{a)} &
-		\includegraphics[width=0.15\textwidth]{images/p03/p03_01.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_01.png_2.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_01.png_3.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_01.png_4.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_01.png_5.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_01.png_6.png} \\
-		\texttt{b)} &
-		\includegraphics[width=0.15\textwidth]{images/p03/p03_02.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_02.png_2.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_02.png_3.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_02.png_4.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_02.png_5.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_02.png_6.png} \\
-		\texttt{c)} &
-		\includegraphics[width=0.15\textwidth]{images/p03/p03_03.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_03.png_2.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_03.png_3.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_03.png_4.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_03.png_5.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_03.png_6.png} \\
-		\texttt{d)} &
-		\includegraphics[width=0.15\textwidth]{images/p03/p03_04.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_04.png_2.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_04.png_3.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_04.png_4.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_04.png_5.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_04.png_6.png} \\
-		
-		&
-		\vspace*{2pt}\centering Eingabe & 
-		\vspace*{2pt}\centering $n_{conv}=2$ &
-		\vspace*{2pt}\centering $n_{conv}=3$ &
-		\vspace*{2pt}\centering $n_{conv}=4$ &
-		\vspace*{2pt}\centering $n_{conv}=5$ &
-		\vspace*{2pt}\centering $n_{conv}=6$ 
-	\end{tabular}
-	\caption{Vergleich der Auswirkungen der Änderung der Anzahl an Konvolutionsschichten. Die Farben der jeweiligen Cluster wurden zufällig gewählt.}
-	\label{fig:n_layers_comparision}
-\end{figure}
-
-Insgesamt fällt hier kein signifikanter Unterschied zwischen den einzelnen Aufnahmen auf: Ein Großteil der Verbesserungen und Verschlechterungen bei der Modifikation der Anzahl der Konvolutionsschichten ist schlichtweg auf die unterschiedliche Initialisierung des texturbasierten Clusterings und des Netzwerkes selbst zurückzuführen. Erkennbar ist dies daran, dass in der zweiten Aufnahme, bei fünf Konvolutionsschichten eine vergleichbar schlechte Segmentierung generiert wird, diese wird allerdings wieder besser, egal ob eine Konvolutionsschicht hinzugefügt oder entfernt wird.
-
-In Aufnahme \texttt{c)} verändert sich die Segmentierung zwischen $n_{conv}=2$ und $n_{conv}=5$ kaum, lediglich bei $n_{conv}=6$ wird der rechte Bereich als ein weiteres Segment erkannt. Dieser Effekt erschien über mehrere Ausführen des Experimentes hinweg auch nicht zuverlässig, es ist daher auch nur mit einer unterschiedlichen Initialisierung begründet.
-
-\iffalse
 \subsection{Größe des Konvolutionskernels}
 \subsection{Learning Rate}
 

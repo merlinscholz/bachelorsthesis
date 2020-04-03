@@ -11,7 +11,9 @@ Der vorgestellte Algorithmus wird auf zwei Datensätzen evaluiert: Einerseits wi
 Die in Kapitel~\ref{chap:experiments} genutzten, domänenspezifischen Datensätze stammen von der Website des \textit{Planetary Data System} der NASA \cite{pds}, \bzw dem \textit{Planetary Science Archive} der ESA \cite{psa}. Die dort gehosteten Aufnahmen der jeweiligen Instumente sind größtenteils unverarbeitet und befinden sich in einem speziell für diesen Zweck erstellten Dateiformat, sodass diese erst konvertiert und anschließend so verarbeitet werden müssen, dass für diesen Zweck besser geeignete Bilddateien entstehen.
 Diese Verarbeitung besteht bei den Aufnahmen der CTX aus dem Herunterladen der Metadaten der einzelnen Aufnahmen, gefolgt von der Konvertierung der Pixelfarbwerte, der Entfernung der Even/Odd Detector Stripes, und der Ausgabe in ein adäquates Bildformat. Dieses kann von dem eigentlichen Analyse-Algorithmus eingelesen und weiter verarbeitet werden. Bei den Aufnahmen der HRSC ist keine Konvertierung notwendig, diese müssen nur entsprechend konvertiert werden.
 
-Es existieren allerdings keine segmentierten Aufnahmen der Marsoberfläche. Aus diesem Grund wird der in Unterabschnitt~\ref{ssec:crater_detection_nn} Datensatz genutzt. Da dieser allerdings nur Informationen über die Positionen der Krater auf der Marsoberfläche zur Verfügung stellt, werden die durch den hier vorgestellten Algorithmus erzeugten Segmentieren manuell in zwei Klassen eingeordnet: Krater und Nicht-Krater.
+Es existieren allerdings keine segmentierten Aufnahmen der Marsoberfläche. Aus diesem Grund wird einer der größten Datensätze an Mars-Kratern, der \textit{Mars Crater Catalog v1 Robbins} \cite{robbins_12} genutzt.
+
+Da dieser allerdings nur Informationen über die Positionen der Krater auf der Marsoberfläche zur Verfügung stellt, werden die durch den hier vorgestellten Algorithmus erzeugten Segmentieren manuell in zwei Klassen eingeordnet: Krater und Nicht-Krater.
 
 \subsection{Allgemein}
 \label{ssec:bsds500}
@@ -705,14 +707,71 @@ Dies ist insbesondere auf Aufnahme \texttt{d)} offensichtlich, da dort die vorhe
 
 Diese Phänomene rühren daher, dass Fully Connected Layer meistens nur als Klassifikator am Ende eines ansonsten vollständigen neuronalen Netzes genutzt werden. Dort werden sie dazu genutzt, anhand der ihnen von den konvolutionellen Schichten gelieferten Merkmalsräume zu entscheiden, wie ein gegebener Punkt klassifiziert werden soll. In der hier beschriebenen Anwendung allerdings, reicht es aus, die Unterschiedlichen Merkmale voneinander zu Unterscheiden, diese müssen folglich nicht weiter klassifiziert werden.
 
-Aus diesen Umständen lässt sich schließen, dass die Nutzung dieser Fully Connected Layers, welche in anderen Anwendungsgebieten viele Vorteile hat, hier ungeeignet ist.
+Aus diesen Umständen lässt sich schließen, dass die Nutzung dieser Fully Connected Layers, welche in anderen Anwendungsgebieten viele Vorteile hat, hier eher ungeeignet ist.
+
+\subsection{Anzahl der Konvolutionsschichten}
+\label{ssec:exp_n_convolutions}
+
+In der originalen Implementierung war die Anzahl der Konvolutionsschichten (gefolgt von den Aktivierungs- und Batch-Normalisierungs-Schichten) dynamisch, mit einem Standardwert von 1+2 Schichten. Nun wird über die Resultate in \figurename~\ref{fig:n_layers_comparision} überprüft, welchen Einfluss eine Veränderung dieses Parameters auf die entstehende Segmentierung hat.
+
+\begin{figure}[h!]
+	\setlength\tabcolsep{1pt}
+	\def\arraystretch{0.5}
+	\begin{tabular}{m{15pt}m{0.166\textwidth}m{0.166\textwidth}m{0.166\textwidth}m{0.166\textwidth}m{0.166\textwidth}m{0.166\textwidth}}
+		\texttt{a)} &
+		\includegraphics[width=0.15\textwidth]{images/p03/p03_01.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_01.png_2.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_01.png_3.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_01.png_4.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_01.png_5.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_01.png_6.png} \\
+		\texttt{b)} &
+		\includegraphics[width=0.15\textwidth]{images/p03/p03_02.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_02.png_2.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_02.png_3.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_02.png_4.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_02.png_5.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_02.png_6.png} \\
+		\texttt{c)} &
+		\includegraphics[width=0.15\textwidth]{images/p03/p03_03.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_03.png_2.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_03.png_3.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_03.png_4.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_03.png_5.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_03.png_6.png} \\
+		\texttt{d)} &
+		\includegraphics[width=0.15\textwidth]{images/p03/p03_04.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_04.png_2.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_04.png_3.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_04.png_4.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_04.png_5.png} &
+		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_04.png_6.png} \\
+		
+		&
+		\vspace*{2pt}\centering Eingabe & 
+		\vspace*{2pt}\centering $n_{conv}=2$ &
+		\vspace*{2pt}\centering $n_{conv}=3$ &
+		\vspace*{2pt}\centering $n_{conv}=4$ &
+		\vspace*{2pt}\centering $n_{conv}=5$ &
+		\vspace*{2pt}\centering $n_{conv}=6$ 
+	\end{tabular}
+	\caption{Vergleich der Auswirkungen der Änderung der Anzahl an Konvolutionsschichten. Die Farben der jeweiligen Cluster wurden zufällig gewählt.}
+	\label{fig:n_layers_comparision}
+\end{figure}
+
+Insgesamt fällt hier kein signifikanter Unterschied zwischen den einzelnen Aufnahmen auf: Ein Großteil der Verbesserungen und Verschlechterungen bei der Modifikation der Anzahl der Konvolutionsschichten ist schlichtweg auf die unterschiedliche Initialisierung des texturbasierten Clusterings und des Netzwerkes selbst zurückzuführen. Erkennbar ist dies daran, dass in der zweiten Aufnahme, bei fünf Konvolutionsschichten eine vergleichbar schlechte Segmentierung generiert wird, diese wird allerdings wieder besser, egal ob eine Konvolutionsschicht hinzugefügt oder entfernt wird.
+
+In Aufnahme \texttt{c)} verändert sich die Segmentierung zwischen $n_{conv}=2$ und $n_{conv}=5$ kaum, lediglich bei $n_{conv}=6$ wird der rechte Bereich als ein weiteres Segment erkannt. Dieser Effekt erschien über mehrere Ausführen des Experimentes hinweg auch nicht zuverlässig, es ist daher auch nur mit einer unterschiedlichen Initialisierung begründet.
 
 \subsection{Anpassungen zur Segmentierung von mehrfarbigen Fotografien}
-\label{exp_colorpicture_optimization}
+\label{ssec:exp_colorpicture_optimization}
 
 Wie in Kapitel~\ref{chap:methodik} erläutert, können nicht alle der bisher bestimmten Hyperparameter dazu genutz werden, auch Aufnahmen aus dem BSDS500-Datensatz zu segmentieren. Daher wurde der gesamte Prozess des Abschnittes~\ref{sec:modifications} für Aufnahmen dieses Datensatzes wiederholt. Ein großer Vortiel bei der Anpassung der Parameter für diesen Datensatz besteht daraus, dass für den BSDS500-Datensatz Ground Truths existieren. Die Parameter wurden also nicht nach einer subjektiven Ansicht der jeweiligen Ergebnisse angepasst, sondern danach, welche Eingaben die besten Werte für die Variation of Interest und den Probabilistic Rand Index erzielte. Der Algorithmus wurde mit den aus diesen Experimenten besten Hyperparametern angewandt. Die Ergebnisse sind in \figurename~\ref{fig:color_pictures} dargestellt.
 
 % TODO Add images
+{\centering TODO: ADD IMAGES}
+
+
 
 \section{Evaluation}
 \label{sec:evaluation}
@@ -721,23 +780,7 @@ Wie in Kapitel~\ref{chap:methodik} erläutert, können nicht alle der bisher bes
 
 \subsection{Allgemein}
 
-Zur Evaluation der hier erarbeiteten Methode zur Bildsegmentierung werden zwei unterschiedliche Metriken benutzt. Diese wurden ausgewählt, da sie zur Evaluation anderer Segmentierungsalgorithmen auf dem BSDS500 Datensatz \cite{bsd500} genutzt wurden und somit bereits Referenzwerte existieren, die dabei helfe, die hier gewonnen Ergebnisse im weiteren Kontext besser einordnen zu können.. \cite{arbelaez_10, xia_17}
-
-\paragraph{Variation of Information}
-
-Die Variation of Information, aus \cite{meil_03} stammend, wurde speziell dafür geschaffen, mehrere Clusterings miteinander vergleichen zu können. Sie ist für zwei Partitionen $X$ und $Y$ der selben Menge $A$ definiert durch:
-
-\begin{equation}
-VI(X, Y) = -\sum_{i, j} r_{ij}\left(\log\left(\frac{r_{ij}}{p_i}\right)+\log\left(\frac{r_{ij}}{q_j}\right)\right)
-\end{equation}
-
-Es gelten:
-\begin{eqnarray}
-n&=&\sum_i\mid X_i\mid=\sum_j \mid Y_j\mid=\mid A\mid\\
-p_i&=&\mid X_i\mid/n\\
-q_j&=&\mid Y_j\mid/n\\
-r_{ij}&=&\mid X_i\cap Y_j\mid/n\\
-\end{eqnarray}
+Zur Evaluation der hier erarbeiteten Methode zur Bildsegmentierung werden zwei unterschiedliche Metriken benutzt. Diese wurden ausgewählt, da sie zur Evaluation anderer Segmentierungsalgorithmen auf dem BSDS500 Datensatz \cite{bsd500} genutzt wurden und somit bereits Referenzwerte existieren, die dabei helfen, die hier gewonnen Ergebnisse im weiteren Kontext besser einordnen zu können. \cite{arbelaez_10, xia_17}
 
 \paragraph{Probablistic Rand Index}
 
@@ -801,6 +844,24 @@ Der Probabilistic Rand Index ist also gleich dem Median aller gewöhnlichen Rand
 
 Wie der Rand Index nimmt der Probabilistic Rand Index Werte aus dem Wertebereich $\left[0, 1\right]$ an. Dabei indiziert $0$ gegenteilige Segmentierungen, $1$ bedeutet alle Segmentierungen gleichen sich. \cite{pantofaru_07}
 
+\paragraph{Variation of Information}
+
+Die Variation of Information, aus \cite{meil_03} stammend, wurde speziell dafür geschaffen, mehrere Clusterings miteinander vergleichen zu können. Sie ist für zwei Partitionen $X$ und $Y$ der selben Menge $A$ definiert durch:
+
+\begin{equation}
+VI(X, Y) = -\sum_{i, j} r_{ij}\left(\log\left(\frac{r_{ij}}{p_i}\right)+\log\left(\frac{r_{ij}}{q_j}\right)\right)
+\end{equation}
+
+Es gelten:
+\begin{eqnarray}
+n&=&\sum_i\mid X_i\mid=\sum_j \mid Y_j\mid=\mid A\mid\\
+p_i&=&\mid X_i\mid/n\\
+q_j&=&\mid Y_j\mid/n\\
+r_{ij}&=&\mid X_i\cap Y_j\mid/n\\
+\end{eqnarray}
+
+Da bei dem genutzten Datensatz mehrere Ground Truths vorhanden sind, wird der Durchschnitt der jeweiligen VOIs als Resultat genutzt.
+
 %\subsection{Domänenspezifisch}
 
 %\subsection{Allgemein}
@@ -812,7 +873,11 @@ Wie der Rand Index nimmt der Probabilistic Rand Index Werte aus dem Wertebereich
 
 \subsection{Allgemein}
 
-Die Ergebnisse der Anwendung des vorgestellten Algorithmus sind in \tablename~\ref{tab:res_bsds500} zu finden. Die Ergebnisse aller außer des hier vorgestellten Algorithmus wurden aus \cite{arbelaez_10} übernommen. Nur die Werte die über die dort beschriebene \enquote{optimal dataset scale}-Methode generiert wurden, wurden übernommen, da der vorgestellte Algorithmus ebenfalls die selben Skalierungen/Gewichtungen/\etc für alle Eingabebilder nutzt. Die Erweiterung des Algorithmus um eine Methode zur Generierung einer \enquote{optimal image scale} wäre in der Theorie machbar (\bspw über eine jeweilige binäre Suche über alle zu optimierenden Parameter). Aufgrund des dazu benötigten enormen Rechen- und Zeitaufwandes (56 Validierungsbilder, 5 Parameter \footnote{Filterbank, Filtergröße, Gewichtung von Position und Farb-/Helligkeitswerten, Anzahl der Cluster, Abbruchkriterium} mit je \bspw 10 möglichen Werten und 2 Minuten Verarbeitungszeit pro Aufnahme ergeben etwa \SI{186666}{\hour} reine Rechenzeit) wird diese Metrik allerdings an dieser Stelle nicht beachtet.
+Die Ergebnisse der Anwendung des vorgestellten Algorithmus sind in \tablename~\ref{tab:res_bsds500} zu finden. Die Ergebnisse aller außer des hier vorgestellten Algorithmus wurden aus \cite{arbelaez_10} übernommen. Nur die Werte die über die dort beschriebene \enquote{optimal dataset scale}-Methode generiert wurden, wurden übernommen, da der vorgestellte Algorithmus ebenfalls die selben Skalierungen/Gewichtungen/\etc für alle Eingabebilder nutzt. Die Erweiterung des Algorithmus um eine Methode zur Generierung einer \enquote{optimal image scale} wäre in der Theorie machbar (\bspw über eine jeweilige binäre Suche über alle zu optimierenden Parameter). Aufgrund des dazu benötigten enormen Rechen- und Zeitaufwandes (100 Validierungsbilder, 6 Parameter\footnote{Filterbank, Filtergröße, Gewichtung von Position und Farb-/Helligkeitswerten, Anzahl der Cluster, Abbruchkriterium} mit je \bspw 10 möglichen Werten und etwa eine Minuten Verarbeitungszeit pro Aufnahme auf der genutzten Hardware ergeben etwa \SI{27777}{\day} reine Rechenzeit) wird diese Metrik allerdings an dieser Stelle nicht beachtet.
+
+
+%TODO Bessere hyperparameter?
+{\centering TODO: OPTIMIZE PARAMETERS EVEN MORE}
 
 \begin{table}
 	\begin{tabular}{l c c}
@@ -827,6 +892,7 @@ Die Ergebnisse der Anwendung des vorgestellten Algorithmus sind in \tablename~\r
 		Canny-owt-ucm \cite{arbelaez_10} & $0,79$ & $2,19$ \\
 		NCuts \cite{cour_05} & $0,78$ & $2,23$ \\
 		Quad-Tree & $0,73$ & $2,46$ \\
+		Unüberwachtes tiefes Clustering & $0,73$ & $2,88$ \\
 		\bottomrule
 	\end{tabular}
 	\caption{Metriken der Anwendung mehrerer Algorithmen auf den BSDS-500 Datensatz \cite{bsd500}. Die Werte wurden aus \cite{arbelaez_10} übernommen und sind anhand des PRIs absteigend geordnet.}
@@ -835,6 +901,12 @@ Die Ergebnisse der Anwendung des vorgestellten Algorithmus sind in \tablename~\r
 
 \section{Vergleich}
 \label{sec:comparision}
+
+\subsection{Domänenspezifisch}
+
+\subsection{Allgemein}
+Aus dem Vergleich mit weiteren Segmentierungsmethoden in dem vorherigen Abschnitt wird deutlich, dass sich der hier vorgestellte Algorithmus durchaus zur Segmentierung von alltäglichen Aufnahmen eignet. Die Metriken deuten darauf hin, dass die Qualität der Ergebnisse zwar nicht ganz auf dem Niveau der führenden Alternativen sind, allerdings wurde gezeigt, dass der vorgestellte Algorithmus auf eine Großzahl an unterschiedlichen Eingaben angewandt werden kann.
+
 
 \section{Mosaik}
 \label{sec:mosaic}
