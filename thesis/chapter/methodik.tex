@@ -1,26 +1,31 @@
 \chapter{Methodik}
 \label{chap:methodik}
 
-Für die Segmentierung der Marsoberfläche wird der Ansatz von Kanezaki \etal \cite{kanezaki_18} aus Unterabschnit~\ref{ssec:kanezaki} abgewandelt. Das Ziel besteht daraus, eine Eingabebilddatei durch neuronale Netze zu segmentieren, ohne vorhandene Ground Truth.
+Für die Segmentierung der Marsoberfläche wird auf dem Ansatz von Kanezaki \etal \cite{kanezaki_18} aus Unterabschnit~\ref{ssec:kanezaki} aufgebaut. Das Ziel besteht daraus, eine Eingabebilddatei durch neuronale Netze zu segmentieren, ohne vorhandene Ground Truth.
 
-Zur Modifikation des genannten Algorithmus existieren viele unterschiedliche Möglichkeiten, einzelne Elemente zu ersetzen, welche in den folgenden Abschnitten beschrieben werden. Nachdem kurz auf die gesamte Funktionsweise des Algorithmus eingegangen wird folgt eine Übersicht über den Initialisierungsalgorithmus und Wege, diesen zu Optimieren. Dazu zählen \bspw unterschiedliche Filterbänke, deren Größen, Gewichtungen der Merkmale und Anzahl der zu generierenden Cluster. Anschließend wird der eigentliche Algorithmus versucht zu verbessern, gefolgt von einzelnen Anpassungen der Architektur des neuronalen Netzes und einiger weiterer Hyperparameter.
+In den folgenden Abschnitten wird beschrieben, welche Veränderungen vorgenommen wurden, um den Ansatz für die Segmentierung der Marsoberfläche zu optimieren.
+
+Nachdem kurz auf die gesamte Funktionsweise des Algorithmus eingegangen wird folgt eine Übersicht über den Initialisierungsalgorithmus und Wege diesen zu Optimieren. Dazu zählen \bspw unterschiedliche Filterbänke, deren Größen, Gewichtungen der Merkmale und Anzahl der zu generierenden Cluster. Anschließend wird der eigentliche Algorithmus versucht zu verbessern, gefolgt von einzelnen Anpassungen der Architektur des neuronalen Netzes und einiger weiterer Hyperparameter.
 
 \section{Funktionsweise des Algorithmus}
 \label{sec:howitworks}
 
 Die grundsätzliche Funktionsweise des Algorithmus aus \cite{kanezaki_18} findet sich in Abschnitt~\ref{ssec:kanezaki}. 
 
-Im Folgenden gilt: $F$ sei eine Mapping-Funktion. $P_{F,z}$ ist die Menge aller Koordinaten der Pixel im Cluster $z$ generiert durch $F$.
+Das Ziel des Algorithmus besteht darin, eine Mapping-Funktion zu generieren, welche jedem der $N$ $p$-dimensionalen Pixel der Eingabedatei genau ein Clusterlabel $c$ zuordnet.
 
-Des Weiteren gibt $Z_F$ die Menge aller durch $F$ generierten Cluster an.
+Im Folgenden gilt für eine beliebige Mapping-Funktion $F$ die Konvention:
 
-Der erste Schritt bei der Erstellung der Segmentierung ist die Initialisierung. Bei dieser wird ein übermäßig feines Clustering der Eingabedatei $x$ erstellt, dies geschieht über klassische Clusteringalgorithmen wie SLIC. Die Initialisierung besteht also folglich aus einer Mapping-Funktion, $I(x_{ij}), I: \mathbb{R}^p\rightarrow\mathbb{Z}$, die jedem $p$-dimensionalen Pixel $x_{ij}$ mit den Koordinaten $i$ und $j$ des Eingabebildes ein Cluster zuordnet. Der Sinn dieses initialien Clustering besteht daraus, dass das darauf folgende neuronale Netzwerk dieses nutzen kann, um zu erlernen, nach welchen Kriterien es bei der Segmentierung verfahren soll. Der wesentliche Unterschied zu \cite{junyuan_16} besteht folglich daraus, dass das Netzwerk bei dem dortigen Ansatz anhand der Autoencoder selbst erlernt, welche Merkmale relevant für die Segmentierung sind, während in \cite{kanezaki_18} ein externer Clusteringalgorithmus dazu genutzt wird, die wichtigen Merkmale zu bestimmen.
+\begin{enumerate}
+	\item $F$ sei eine Mapping-Funktion
+	\item $P_{F,z}$ ist die Menge aller Koordinaten der Pixel im Cluster $z$ generiert durch $F$
+	\item Des Weiteren gibt $Z_F$ die Menge aller durch $F$ generierten Cluster an.
+\end{enumerate}
 
-% TODO Pixel reelwertig?
+Der erste Schritt bei der Erstellung der Segmentierung ist die Initialisierung. Bei dieser wird ein übermäßig feines Clustering der Eingabedatei $x$ erstellt, dies geschieht über klassische Clusteringalgorithmen wie SLIC \cite{achanta_10}. Die Initialisierung besteht also folglich aus einer Mapping-Funktion, $I(x_{ij}), I: \mathbb{R}^p\rightarrow\mathbb{Z}$, die jedem $p$-dimensionalen Pixel $x_{ij}$ mit den Koordinaten $i$ und $j$ des Eingabebildes ein Cluster zuordnet. Mithilfe des initialen Clusterings kann das neuronale Netzwerk erlernen, nach welchen Kriterien es bei der Segmentierung verfahren soll.
+Der wesentliche Unterschied zu \cite{junyuan_16} besteht folglich daraus, dass das Netzwerk bei dem dortigen Ansatz anhand der Autoencoder selbst erlernt, welche Merkmale relevant für die Segmentierung sind. Dies geschieht dadurch, dass durch den Autoencoder Merkmale extrahiert werden, welche anschließend über den k-Means Algorithmus geclustert werden. In \cite{kanezaki_18} hingegen wird ausschließlich ein externer Clusteringalgorithmus dazu genutzt, die wichtigen Merkmale zu bestimmen. An dieser Stelle ist erwähnenswert, dass viele externe Clusteringalgorithmen, die bei diesem Zweck Anwendung finden können, intern auch ein k-Means Clustering berechnen. So wird auch bei dem SLIC-Algorithmus, welcher in der originalen Implementierung nach \cite{kanezaki_18} genutzt wird, eine abgewandelte Version des k-Means Algorithmus angewandt. \cite{achanta_10}
 
-Dies geschieht, indem die Eingabedatei das neuronale Netzwerk durchläuft, dabei entsteht eine weitere Mapping-Funktion $F_e(x_{ij}), F: \mathbb{R}^p\rightarrow\mathbb{Z}$, wobei $e$ die Anzahl der bisherigen Epochen die das Netzwerk durchlaufen hat angibt.
-
-Anschließend werden für jedes Cluster in $Z_{F_e}$  die Koordinaten der in ihm enthaltenen Pixel bestimmt. $\langle i, j\rangle$ wird hier und im Folgenden zur Beschreibung eines Tupels bestehend aus X- und Y-Koordinaten genutzt.
+In \cite{kanezaki_18} beginnt der eigentliche Lernprozess damit, dass die Eingabedatei das neuronale Netzwerk durchläuft. Durch diesem Prozess entsteht eine weitere Mapping-Funktion $F_e(x_{ij}), F: \mathbb{R}^p\rightarrow\mathbb{Z}$, wobei $e$ die Anzahl der bisherigen Epochen die das Netzwerk durchlaufen hat angibt. Anschließend werden für jedes Cluster in $Z_{F_e}$  die Koordinaten der in ihm enthaltenen Pixel bestimmt. $\langle i, j\rangle$ wird hier und im Folgenden zur Beschreibung eines Tupels bestehend aus X- und Y-Koordinaten genutzt.
 
 \begin{equation}
 P_{F_e,{z\in Z_{F_e}}} = \{\langle i, j\rangle\mid F_e(x_{ij}) = z\}
@@ -42,7 +47,7 @@ Nun wird für jedes Cluster in $Z_i$ bestimmt, welcher Wert aus $F_{e}$ am häuf
 Anschließend wird der Loss zwischen dem ursprünglichen Ergebnis des Netzes $F_e$ und des neu generierten Ziels $F'_e$ berechnet, und eine Backpropagation über das Netzwerk ausgeführt. Dieser Prozess wird wiederholt, bis ein Abbruchkriterium (\vgl Unterabschnitt~\ref{ssec:stoppingcriteria}) erreicht wird. Die insgesamt zu berechnende Mapping-Funktion ist nun das letzte erzeugte Mapping $F_e$. Er lässt sich wie folgt als vereinfachter Python-Code darstellen. Es ist zwischen zwei Datentypen für die Speicherung von Clustern zu unterscheiden:
 
 \begin{itemize}
-	\item{\lstinline[columns=fixed]{tags}:} Eine $2\times2$-Matrix mit den Dimensionen des Eingabebildes, bei welcher jeder Pixel durch die entsprechende Nummer des ihm zugeordneten Clusters ersetzt ist.
+	\item{\lstinline[columns=fixed]{tags}:} Eine zweidimensionale Matrix mit der Höhe und Breite des Eingabebildes, bei welcher jeder Pixel durch die entsprechende Nummer des ihm zugeordneten Clusters ersetzt ist.
 	\item{\lstinline[columns=fixed]{coordinates}:} Eine Liste von Mengen der Koordinaten, welche in einem bestimmten Cluster enthalten sind. Analog zu der Darstellung $P_{F,z}$ aus den vorherigen Paragraphen.
 \end{itemize}
 
