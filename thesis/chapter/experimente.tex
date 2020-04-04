@@ -805,7 +805,7 @@ Damit ein Segment auf einem Krater hindeutet und als solcher markiert wird, gelt
 	\item Wird ein Kraterrand erkannt, so darf dieser aus mehreren unterschiedlichen Segmenten zusammengesetzt sein.
 	\item Alle manuell erzeugten Segmente sind perfekt kreisförmig, es ist irrelevant ob das unterliegende Segment nicht perfekt rund ist. Dies ist eine Limitierung der Ground Truth.
 	\item Es werden keine konkaven Segmente markiert.
-	\item Krater mit einem Durchmesser von unter \SI{20}{\pixel} werden ignoriert, da diese in der Ground Truth auch nicht erscheinen.
+	\item Krater mit einem Durchmesser von unter \SI{20}{\pixel} werden ignoriert, da diese in der Ground Truth auch nicht erscheinen. (Die Ground Truth enthält nur Krater mit einem Durchmesser von \SI{\geq1}{\kilo\meter}.)
 	\item Krater dürfen sich teilweise überlappen.
 	\item Krater müssen nicht vollständig im Bildbereich liegen. Dies hat die Ursache, dass die Eingabedatei aufgrund technischer Limitationen in kleinere Aufnahmen eingeteilt werden musste, bevor sie den vorgestellten Prozess durchlaufen konnte.
 	\item Krater, welche aufgrund der Aufteilung des Eingabebildes abgeschnitten sind werden vervollständigt
@@ -816,6 +816,27 @@ Diese Regeln führen zu einer fairen Segmentierung, da sie unabhängig von der o
 
 \paragraph{F1-Score}
 
+Der $F_1$-Score ist eine Metrik zur Evaluation der Genauigkeit eines binären Klassifikators gegenüber einer Ground Truth. Er ist definiert als: \cite{chinchor_92}
+
+\begin{equation}
+F_1 = 2\frac{P\cdot R}{P+R}
+\end{equation}
+
+Dabei sind $P$ die Genauigkeit und $R$ die Trefferquote:
+
+\begin{eqnarray}
+P = \frac{tp}{tp+fp}\\
+R = \frac{tp}{tp+fn}
+\end{eqnarray}
+
+Es sind:
+
+\begin{itemize}
+	\item{True Positives $tp$:} Die Anzahl der positiv markierten Datenpunkte, welche auch in der Ground Truth positiv sind.
+	\item{False Positives $fp$:} Die Anzahl der positiv markierten Datenpunkte, welche allerdings in der Ground Truth negativ sind.
+	\item{True Negatives $tn$:} Die Anzahl der negativ markierten Datenpunkte, welche auch in der Ground Truth negativ sind.
+	\item{False Negatives $fn$:} Die Anzahl der negativ markierten Datenpunkte, welche allerdings in der Ground Truth positiv sind.
+\end{itemize}
 
 \subsection{Allgemein}
 \label{ssec:eval_general}
@@ -912,11 +933,16 @@ Da bei dem genutzten Datensatz mehrere Ground Truths vorhanden sind, wird der Du
 \subsection{Domänenspezifisch}
 \label{ssec:results_domain}
 
-Nach der Anwendung des in Unterabschnitt~\ref{ssec:evaluation_domain} beschriebenen Verfahrens ergibt sich ein F1-Score von $f_1=0,637$.
+Nach der Anwendung des in Unterabschnitt~\ref{ssec:evaluation_domain} beschriebenen Verfahrens ergibt sich ein F1-Score von $F_1=0,6374$, die dazugehören Aufnahmen und deren Segmentierungen sind in \figurename~\ref{fig:} zu sehen.
+
+% TODO Anzahl Krater
+% TODO Bilder
 
 \subsection{Allgemein}
 \label{ssec:results_general}
 Die Ergebnisse der Anwendung des in dieser Arbeit vorgestellten Algorithmus sind in \tablename~\ref{tab:res_bsds500} zu finden. Alle weiteren Ergebnisse wurden aus \cite{arbelaez_10} übernommen. Nur die Werte die über die dort beschriebene \enquote{optimal dataset scale}-Methode generiert wurden, wurden übernommen, da der vorgestellte Algorithmus ebenfalls die selben Parameter für alle Eingabebilder nutzt. Die Erweiterung des Algorithmus um eine Methode zur Generierung einer \enquote{optimal image scale} wäre in der Theorie machbar (\bspw über eine jeweilige binäre Suche über alle zu optimierenden Parameter). Aufgrund des dazu benötigten enormen Rechen- und Zeitaufwandes wird diese Metrik allerdings an dieser Stelle nicht beachtet.
+
+% TODO Bilder
 
 \begin{table}
 	\begin{tabular}{l c c}
@@ -931,21 +957,41 @@ Die Ergebnisse der Anwendung des in dieser Arbeit vorgestellten Algorithmus sind
 		Canny-owt-ucm \cite{arbelaez_10} & $0,79$ & $2,19$ \\
 		NCuts \cite{cour_05} & $0,78$ & $2,23$ \\
 		Quad-Tree & $0,73$ & $2,46$ \\
-		Unüberwachtes tiefes Clustering & $0,73$ & $2,88$ \\
+		\textbf{Unüberwachtes tiefes Clustering} & $0,73$ & $2,88$ \\
 		\bottomrule
 	\end{tabular}
 	\caption{Metriken der Anwendung mehrerer Algorithmen auf den BSDS-500 Datensatz \cite{bsd500}. Die Werte wurden aus \cite{arbelaez_10} übernommen und sind anhand des PRIs absteigend geordnet.}
 	\label{tab:res_bsds500}
 \end{table}
 
-\section{Vergleich}
-\label{sec:comparision}
+\section{Mosaik}
+\label{sec:mosaic}
+
+\section{Vergleich und Diskussion}
+\label{sec:discussion}
 
 \subsection{Domänenspezifisch}
+
+Der in dieser Arbeit erzielte F1-Score von $F_1=63,74\%$ lässt sich nur schwer mit alternativen Algorithmen zur Kratererkennung vergleichen. Dies liegt einerseits daran, dass nicht alle Algorithmen auf dem hier genutzten Robbins-Datensatz \cite{robbins_12} angewandt wurden, sondern auch auf weiteren Datensätzen wie \cite{bandeira_10}. Auf diesem Datensatz wurden bereits folgende $F_1$-Scores erreicht:
+
+\begin{table}[H]
+	\begin{tabular}{l c}
+		\toprule
+		\textbf{Algorithmus} & \textbf{$F_1$-Score} \\
+		\midrule
+		Urbach '09 \cite{urbach_stepinski_2009} & $72,427\%$ \\
+		Bandeira '10 \cite{bandeira_10} & $83,59\%$ \\
+		Ding '11 \cite{ding_11} & $85,50\%$ \\
+		Cohen '16 \cite{cohen_16} & $89,29\%$ \\
+		\textbf{Unüberwachtes tiefes Clustering} & $63,74\%$\\
+		\bottomrule
+	\end{tabular}
+	\caption{Vergleich der $F_1$-Scores unterschiedlicher Algorithmen zur Kratererkennung (\vgl Abschnitt~\ref{sec:crater_detection}). Die Daten wurden aus \cite{cohen_16} übernommen.}
+	\label{tab:f1_comparision}
+\end{table}
+
+Eine weitere Ursache für den vergleichsweise schlechten $F_1$-Score ist, dass die direkte Kratererkennung nicht das Ziel des vorgestellten Algorithmus ist. D ist ieser eher auf die Erkennung und Segmentierung von unterschiedlichen Oberflächenmerkmalen spezialisiert. Aus diesem Grund wurde auch eine weitere Fehlerquelle eingeführt, die menschliche Analyse, die genutzt wurde, um aus der Segmentierung Krater zu erhalten.
 
 \subsection{Allgemein}
 Aus dem Vergleich mit weiteren Segmentierungsmethoden in dem vorherigen Abschnitt wird deutlich, dass sich der hier vorgestellte Algorithmus durchaus zur Segmentierung von alltäglichen Aufnahmen eignet. Die Metriken deuten darauf hin, dass die Qualität der Ergebnisse zwar nicht ganz auf dem Niveau der führenden Alternativen sind, allerdings wurde gezeigt, dass der vorgestellte Algorithmus auf eine Großzahl an unterschiedlichen Eingaben angewandt werden kann.
 
-
-\section{Mosaik}
-\label{sec:mosaic}
