@@ -1,7 +1,7 @@
 \chapter{Experimente}
 \label{chap:experiments}
 
-\section{Datens"atze}
+\section{Datensätze}
 \label{sec:datasets}
 
 Der vorgestellte Algorithmus wird auf zwei Datensätzen evaluiert: Einerseits wird ein allgemeiner Datensatz zur Überprüfung der Ergebnisse genutzt, aber auch ein domänenspezifischer Datensatz, über den die Analyse der Marsoberfläche evaluiert wird. 
@@ -9,12 +9,10 @@ Der vorgestellte Algorithmus wird auf zwei Datensätzen evaluiert: Einerseits wi
 \subsection{Domänenspezifisch}
 \label{ssec:dataset_domain}
 
-% TODO Add new dataset
-
 Die in diesem Kapitel zur Optimierung der Parameter genutzten, domänenspezifischen Datensätze stammen größtenteils von der Website des \textit{Planetary Data System} der NASA \cite{pds}. Die dort gehosteten Aufnahmen der jeweiligen Instumente sind größtenteils unverarbeitet und befinden sich in einem speziell für diesen Zweck erstellten Dateiformat, sodass diese erst konvertiert und anschließend so verarbeitet werden müssen, dass für diesen Zweck besser geeignete Bilddateien entstehen.
 Diese Verarbeitung besteht bei den Aufnahmen der CTX der Konvertierung der Pixelfarbwerte, der Entfernung der Even/Odd Detector Stripes, und der Ausgabe in ein adäquates Bildformat. Dieses kann von dem eigentlichen Analyse-Algorithmus eingelesen und weiter verarbeitet werden.
 
-Es existieren allerdings keine segmentierten Aufnahmen der Marsoberfläche. Aus diesem Grund wird zur eigentlichen Evaluation einer der größten Datensätze an Mars-Kratern, der \textit{Mars Crater Catalog v1 Robbins} \cite{robbins_12} genutzt, welcher Krater \textit{THEMIS Daytime IR Global Mosaic} markiert. Insbesondere wird ein Teil der Aufnahme \texttt{thm\_dir\_N-30\_210} betrachtet, da auf dieser weniger nicht-fotografierte Stellen vorhanden sind als auf den meisten weiteren Aufnahmen. Des Weiteren wird zur Evaluierung nur ein Teil dieser Aufnahme betrachtet, da zur Segmentierung manuelle Arbeit erforderlich ist:
+Es existieren allerdings keine segmentierten Aufnahmen der Marsoberfläche. Aus diesem Grund wird zur eigentlichen Evaluation einer der größten Datensätze an Mars-Kratern, der \textit{Mars Crater Catalog v1 Robbins} \cite{robbins_12} genutzt, welcher Krater auf dem \textit{THEMIS Daytime IR Global Mosaic} markiert. Insbesondere wird ein Teil der Aufnahme \texttt{thm\_dir\_N-30\_210} betrachtet, da auf dieser weniger nicht-fotografierte Stellen vorhanden sind als auf den meisten weiteren Aufnahmen. Des Weiteren wird zur Evaluierung nur ein Teil dieser Aufnahme betrachtet, da zur Segmentierung manuelle Arbeit erforderlich ist:
 
 Da dieser allerdings nur Informationen über die Positionen der Krater auf der Marsoberfläche zur Verfügung stellt, wird die durch den hier vorgestellten Algorithmus erzeugte Segmentieren manuell in zwei Klassen eingeordnet: Krater und Nicht-Krater. Weitere Details zu diesem Vorgang sind in Abschnitt~\ref{sec:evaluation} zu finden.
 
@@ -938,6 +936,8 @@ Nach der Anwendung des in Unterabschnitt~\ref{ssec:evaluation_domain} beschriebe
 % TODO Anzahl Krater
 % TODO Bilder
 
+
+
 \subsection{Allgemein}
 \label{ssec:results_general}
 Die Ergebnisse der Anwendung des in dieser Arbeit vorgestellten Algorithmus sind in \tablename~\ref{tab:res_bsds500} zu finden. Alle weiteren Ergebnisse wurden aus \cite{arbelaez_10} übernommen. Nur die Werte die über die dort beschriebene \enquote{optimal dataset scale}-Methode generiert wurden, wurden übernommen, da der vorgestellte Algorithmus ebenfalls die selben Parameter für alle Eingabebilder nutzt. Die Erweiterung des Algorithmus um eine Methode zur Generierung einer \enquote{optimal image scale} wäre in der Theorie machbar (\bspw über eine jeweilige binäre Suche über alle zu optimierenden Parameter). Aufgrund des dazu benötigten enormen Rechen- und Zeitaufwandes wird diese Metrik allerdings an dieser Stelle nicht beachtet.
@@ -945,7 +945,7 @@ Die Ergebnisse der Anwendung des in dieser Arbeit vorgestellten Algorithmus sind
 % TODO Bilder
 
 \begin{table}
-	\begin{tabular}{l c c}
+	\begin{tabularx}{\textwidth}{p{0.40\textwidth} >{\centering} p{0.29\textwidth} >{\centering\arraybackslash} p{0.29\textwidth}}
 		\toprule
 		\textbf{Segmentierungsmethode} & \textbf{Probabilistic Rand Index} & \textbf{Variation of Information} \\
 		\midrule
@@ -959,13 +959,13 @@ Die Ergebnisse der Anwendung des in dieser Arbeit vorgestellten Algorithmus sind
 		Quad-Tree & $0,73$ & $2,46$ \\
 		\textbf{Unüberwachtes tiefes Clustering} & $0,73$ & $2,88$ \\
 		\bottomrule
-	\end{tabular}
+	\end{tabularx}
 	\caption{Metriken der Anwendung mehrerer Algorithmen auf den BSDS-500 Datensatz \cite{bsd500}. Die Werte wurden aus \cite{arbelaez_10} übernommen und sind anhand des PRIs absteigend geordnet.}
 	\label{tab:res_bsds500}
 \end{table}
 
-\section{Mosaik}
-\label{sec:mosaic}
+%\section{Mosaik}
+%\label{sec:mosaic}
 
 \section{Vergleich und Diskussion}
 \label{sec:discussion}
@@ -975,18 +975,18 @@ Die Ergebnisse der Anwendung des in dieser Arbeit vorgestellten Algorithmus sind
 Der in dieser Arbeit erzielte F1-Score von $F_1=63,74\%$ lässt sich nur schwer mit alternativen Algorithmen zur Kratererkennung vergleichen. Dies liegt einerseits daran, dass nicht alle Algorithmen auf dem hier genutzten Robbins-Datensatz \cite{robbins_12} angewandt wurden, sondern auch auf weiteren Datensätzen wie \cite{bandeira_10}. Auf diesem Datensatz wurden bereits folgende $F_1$-Scores erreicht:
 
 \begin{table}[H]
-	\begin{tabular}{l c}
+	\begin{tabularx}{\textwidth}{p{0.49\textwidth} >{\centering\arraybackslash}p{0.49\textwidth}}
 		\toprule
 		\textbf{Algorithmus} & \textbf{$F_1$-Score} \\
 		\midrule
-		Urbach '09 \cite{urbach_stepinski_2009} & $72,427\%$ \\
+		Urbach '09 \cite{urbach_stepinski_2009} & $72,43\%$ \\
 		Bandeira '10 \cite{bandeira_10} & $83,59\%$ \\
 		Ding '11 \cite{ding_11} & $85,50\%$ \\
 		Cohen '16 \cite{cohen_16} & $89,29\%$ \\
 		\textbf{Unüberwachtes tiefes Clustering} & $63,74\%$\\
 		\bottomrule
-	\end{tabular}
-	\caption{Vergleich der $F_1$-Scores unterschiedlicher Algorithmen zur Kratererkennung (\vgl Abschnitt~\ref{sec:crater_detection}). Die Daten wurden aus \cite{cohen_16} übernommen.}
+	\end{tabularx}
+	\caption{Vergleich der durchschnittlichen $F_1$-Scores unterschiedlicher Algorithmen zur Kratererkennung (\vgl Abschnitt~\ref{sec:crater_detection}). Die Daten wurden aus \cite{cohen_16} übernommen.}
 	\label{tab:f1_comparision}
 \end{table}
 

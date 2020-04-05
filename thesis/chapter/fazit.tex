@@ -1,2 +1,15 @@
 \chapter{Fazit}
 \label{chap:fazit}
+In dieser Arbeit wurde auf einen Algorithmus zur Bildsegmentierung aus \cite{kanezaki_18} aufgebaut, um diesen so zu optimieren, dass dieser ein domänenspezifisches Problem löst. Dieses Problem besteht daraus, fotografische Aufnahmen der Marsoberfläche anhand ihrer Merkmale in unterschiedliche Segmente aufzuteilen.
+
+Wie bei vielen aktuellen Segmentierungsproblemen wird zur Lösung ein konventionelles neuronales Netzwerk zur Hilfe gezogen. Diese zeigten zwar in vielen Anwendungsbereichen großen Erfolg, ihre Anwendung benötigt aber meistens einen Trainingsdatensatz -- dieser ist für die Marsoberfläche nicht vorhanden. Es existieren zwar einige Datensätze und neuronale Netze zur Analyse der Marsoberfläche \cite{cohen_16}, diese konzentrieren sich allerdings fast ausschließlich auf die Kratererkennung. Stattdessen soll das Netzwerk anhand einer weiteren Clusteringmethode lernen, nach welchen Kriterien es das Eingabebild segmentieren soll.
+
+\paragraph{Initialisierung} Diese Clusteringmethode war im originalen Algorithmus nach \cite{kanezaki_18} noch der SLIC-Algorithmus \cite{achanta_10}, dieser eignet sich nicht zur Anwendung in der hier beschriebenen Domäne, da er ausschließlich anhand der Koordinaten und Farbwerte eines Pixels entscheidet, mit welchen weiteren Pixeln dieser in ein Cluster zusammengefügt wird. In dieser Arbeit wurde die Nutzung eines alternativen Clusterings zur Initialisierung untersucht, welches sich besser zur Erstellung von texturbasierten Clusterings eignet. Dabei wurde auf das texturbasierte Clustering mithilfe von Gabor-Filtern \cite{jain_91} eingegangen, und für dieses eine geeignete Filterbank und weitere elementare Parameter ausgewählt.
+
+\paragraph{Netzwerk} Obwohl die Netzwerkarchitektur aus der ursprünglichen Ausarbeitung \cite{kanezaki_18} bereits gute Ergebnisse erzielt hat, wurde versucht, diese weiter zu optimieren. Aus diesem Grund wurden Pooling-Schichten, Fully-Connected-Layers, alternative Abbruchkriterien und weitere Aktivierungsfunktionen daraufhin überprüft, ob sie diese Ergebnisse noch weiter verbessern können. Schlussendlich wurde neben kleineren Hyperparameter-Änderungen nur das Abbruchkriterium ersetzt. Für dieses kamen unterschiedlichste Metriken in Frage, zu den besten Resultaten führt allerdings die Ableitung einer Annäherung an die Verlustfunktion.
+
+\paragraph{Anwendungsgebiete}
+
+\paragraph{Probleme}
+
+\paragraph{Aussichten}
