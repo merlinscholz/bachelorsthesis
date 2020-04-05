@@ -29,59 +29,65 @@ Im Folgenden ist eine Anwendung der in Kapitel~\ref{chap:methodik} genannten Mod
 \subsection{Filterbänke}
 \label{ssec:exp_filterbanks}
 
-In \figurename~\ref{fig:filterbank_comparision} ist die Anwendung der in Unterabschnitt~\ref{ssec:tsugf} vorgestellten Filterbänke auf vier Beispielbilder (\vgl Abschnitt~\ref{ssec:mars_surface_features}) sichtbar. Diese sind nach deren Bezeichnungen in dem genanntem Abschnitt benannt (Krater, Vulkan, Vulkan mit strahlenförmigen Merkmalen, Gletscher), welche wiederum aus \cite[Kap.~7]{greeley_13} stammen. Jedes Bild wurde in vier Cluster aufgeteilt und alle Optimierungen des Verfahrens (\vgl Unterabschnitt~\ref{ssec:tsugf}) wurden angewandt.
+In \tablename~\ref{tab:filterbank_comparision} ist die Anwendung der in Unterabschnitt~\ref{ssec:tsugf} vorgestellten Filterbänke auf vier Beispielbilder (\vgl Abschnitt~\ref{ssec:mars_surface_features}) sichtbar. Diese sind nach deren Bezeichnungen in dem genanntem Abschnitt benannt (Krater, Vulkan, Vulkan mit strahlenförmigen Merkmalen, Gletscher), welche wiederum aus \cite[Kap.~7]{greeley_13} stammen. Jedes Bild wurde in vier Cluster aufgeteilt und alle Optimierungen des Verfahrens (\vgl Unterabschnitt~\ref{ssec:tsugf}) wurden angewandt.
 
-\begin{figure}[h!]
-	\setlength\tabcolsep{1pt}
-	\def\arraystretch{0.5}
-	\begin{tabular}{m{0.166\textwidth}m{0.166\textwidth}m{0.166\textwidth}m{0.166\textwidth}m{0.166\textwidth}m{0.166\textwidth}}
+\begin{table}[h!]
+	\setlength\tabcolsep{0pt}
+	\begin{tabularx}{\textwidth}{m{0.1666\textwidth}
+			>{\centering}m{0.1666\textwidth}
+			>{\centering}m{0.1666\textwidth}
+			>{\centering}m{0.1666\textwidth}
+			>{\centering}m{0.1666\textwidth}
+			>{\centering\arraybackslash}m{0.1666\textwidth}}
+		\toprule
+		
+		Bezeichnung &
+		Eingabe, aus \cite{greeley_13} &
+		Filterbank nach \cite{jain_91} &
+		LM-Filterbank \cite{leung_01} &
+		S-Filterbank \cite{schmid_01} &
+		MR-Filterbank \cite{visgeo} \\
+		
+		\midrule
 		Krater &
-		\includegraphics[width=0.166\textwidth]{images/Gre13/Gre13_01.jpg} &
-		\includegraphics[width=0.166\textwidth]{images/gen/filterbanks/Gre13_01.jpg_TSUGF.png} &
-		\includegraphics[width=0.166\textwidth]{images/gen/filterbanks/Gre13_01.jpg_LM.png} &
-		\includegraphics[width=0.166\textwidth]{images/gen/filterbanks/Gre13_01.jpg_S.png} &
-		\includegraphics[width=0.166\textwidth]{images/gen/filterbanks/Gre13_01.jpg_MR.png} \\
+		\includegraphics[width=.9\linewidth]{images/Gre13/Gre13_01.jpg} &
+		\includegraphics[width=.9\linewidth]{images/gen/filterbanks/Gre13_01.jpg_TSUGF.png} &
+		\includegraphics[width=.9\linewidth]{images/gen/filterbanks/Gre13_01.jpg_LM.png} &
+		\includegraphics[width=.9\linewidth]{images/gen/filterbanks/Gre13_01.jpg_S.png} &
+		\includegraphics[width=.9\linewidth]{images/gen/filterbanks/Gre13_01.jpg_MR.png} \\
 		
 		Vulkan &
-		\includegraphics[width=0.166\textwidth]{images/Gre13/Gre13_02.jpg} &
-		\includegraphics[width=0.166\textwidth]{images/gen/filterbanks/Gre13_02.jpg_TSUGF.png} &
-		\includegraphics[width=0.166\textwidth]{images/gen/filterbanks/Gre13_02.jpg_LM.png} &
-		\includegraphics[width=0.166\textwidth]{images/gen/filterbanks/Gre13_02.jpg_S.png} &
-		\includegraphics[width=0.166\textwidth]{images/gen/filterbanks/Gre13_02.jpg_MR.png} \\
+		\includegraphics[width=.9\linewidth]{images/Gre13/Gre13_02.jpg} &
+		\includegraphics[width=.9\linewidth]{images/gen/filterbanks/Gre13_02.jpg_TSUGF.png} &
+		\includegraphics[width=.9\linewidth]{images/gen/filterbanks/Gre13_02.jpg_LM.png} &
+		\includegraphics[width=.9\linewidth]{images/gen/filterbanks/Gre13_02.jpg_S.png} &
+		\includegraphics[width=.9\linewidth]{images/gen/filterbanks/Gre13_02.jpg_MR.png} \\
 		
 		Vulkan mit\newline strahlen-\newline förmigen Merkmalen &
-		\includegraphics[width=0.166\textwidth]{images/Gre13/Gre13_03.jpg} &
-		\includegraphics[width=0.166\textwidth]{images/gen/filterbanks/Gre13_03.jpg_TSUGF.png} &
-		\includegraphics[width=0.166\textwidth]{images/gen/filterbanks/Gre13_03.jpg_LM.png} &
-		\includegraphics[width=0.166\textwidth]{images/gen/filterbanks/Gre13_03.jpg_S.png} &
-		\includegraphics[width=0.166\textwidth]{images/gen/filterbanks/Gre13_03.jpg_MR.png} \\
+		\includegraphics[width=.9\linewidth]{images/Gre13/Gre13_03.jpg} &
+		\includegraphics[width=.9\linewidth]{images/gen/filterbanks/Gre13_03.jpg_TSUGF.png} &
+		\includegraphics[width=.9\linewidth]{images/gen/filterbanks/Gre13_03.jpg_LM.png} &
+		\includegraphics[width=.9\linewidth]{images/gen/filterbanks/Gre13_03.jpg_S.png} &
+		\includegraphics[width=.9\linewidth]{images/gen/filterbanks/Gre13_03.jpg_MR.png} \\
 		
 		Gletscher &
-		\includegraphics[width=0.166\textwidth]{images/Gre13/Gre13_05.jpg} &
-		\includegraphics[width=0.166\textwidth]{images/gen/filterbanks/Gre13_05.jpg_TSUGF.png} &
-		\includegraphics[width=0.166\textwidth]{images/gen/filterbanks/Gre13_05.jpg_LM.png} &
-		\includegraphics[width=0.166\textwidth]{images/gen/filterbanks/Gre13_05.jpg_S.png} &
-		\includegraphics[width=0.166\textwidth]{images/gen/filterbanks/Gre13_05.jpg_MR.png} \\
-		
-		&
-		\vspace*{2pt}\centering Eingabe, aus \cite{greeley_13} &
-		\vspace*{2pt}\centering Filterbank nach \cite{jain_91} &
-		\vspace*{2pt}\centering LM-Filterbank \cite{leung_01} &
-		\vspace*{2pt}\centering S-Filterbank \cite{schmid_01} &
-		\vspace*{2pt}\centering MR-Filterbank \cite{visgeo} \\
-	\end{tabular}
+		\includegraphics[width=.9\linewidth]{images/Gre13/Gre13_05.jpg} &
+		\includegraphics[width=.9\linewidth]{images/gen/filterbanks/Gre13_05.jpg_TSUGF.png} &
+		\includegraphics[width=.9\linewidth]{images/gen/filterbanks/Gre13_05.jpg_LM.png} &
+		\includegraphics[width=.9\linewidth]{images/gen/filterbanks/Gre13_05.jpg_S.png} &
+		\includegraphics[width=.9\linewidth]{images/gen/filterbanks/Gre13_05.jpg_MR.png} \\
+		\bottomrule
+	\end{tabularx}
 	\caption{Vergleich verschiedener Filterbänke auf Bildern der Marsoberfläche. Die Farben der jeweiligen Cluster wurden zufällig gewählt und sagen nichts über deren Inhalt aus. Alle Bilder wurden in vier Cluster eingeteilt.}
-	\label{fig:filterbank_comparision}
-\end{figure}
+	\label{tab:filterbank_comparision}
+\end{table}
 
 \paragraph{Krater}
 Neben dem eigentlichen Krater ist auf dieser Aufnahme der Ring aus gröberem Gestein ein wichtiges Merkmal. Dieser wird von allen Filterbänken zuverlässig erkannt, wenn auch mit einer unterschiedlichen Dicke: Die LM- und S-Filterbank selektieren dieses Gestein eher großzügig, die MR-Filterbank hingegen zeigt sehr enge Markierungen dieser Region.
 
 Alle Filterbänke formen einen Ring (oder dessen Ansatz) auf dem Kraterrand, die Maximum Response-Filterbank erzeugt zwei konzentrische Ringe
 
-Der Krater selbst wird von den Filterkombinationen nach \cite{jain_91} und der LM-Filterbank leider nur in Hell- und Dunkel-Regionen aufgeteilt, die S-Filterbank zeigt innerhalb des Kraters kein brauchbares Ergebnis. Eine Ausnahme stellt die Maximum-Response-Filterbank dar, welche neben den zwei erwähnten konzentrischen Clustern den Bereich innerhalb des Kraters als ein einziges Cluster erkennt. Die Maximum Response-Bank erzeugt in diesem Bereich das Resultat, welches sich wohl als bestes zur Weiterverarbeitung eignet.
-
-% TODO Weil...
+Der Krater selbst wird von den Filterkombinationen nach \cite{jain_91} und der LM-Filterbank leider nur in Hell- und Dunkel-Regionen aufgeteilt, die S-Filterbank zeigt innerhalb des Kraters kein brauchbares Ergebnis. Eine Ausnahme stellt die Maximum-Response-Filterbank dar, welche neben den zwei erwähnten konzentrischen Clustern den Bereich innerhalb des Kraters als ein einziges Cluster erkennt. Dies zeugt von einer Invarianz gegenüber den Helligkeitswerten, da alle weiteren Filterbänke in diesem Bereich zwischen Licht- und Schattenregionen unterschieden haben. Die Maximum Response-Bank erzeugt in diesem Bereich das Resultat, welches sich wohl als bestes zur Weiterverarbeitung eignet, da sie unanfälliger für Helligkeitsveränderungen innerhalb eines Clusters ist und die Kraterränder am genauesten erfasst.
 
 \paragraph{Vulkan}
 Der Vulkanberg wird leider von keiner Filterbank optimal erkannt. Der äußere Rand wird nur von der S-Filterbank als ein Cluster erkannt, dies allerdings nicht sehr genau. Der rauere Bereich der Oberfläche, was kleinere Krater miteinbeschließt, wird vom MR-Filter am ehesten und genausten erkannt, auf dem zweiten Platz folgt die Filterbank nach \cite{jain_91}, welche zwar alle Krater in ein Cluster fügt (violett), allerdings eher gröber.
@@ -114,57 +120,67 @@ Zusammengefasst erzeugt aus dieser Auswahl an Filterbänden die Maximum Response
 
 Es wird nun versucht, die Ergebnisse der Maximum Response-Filterbank zu verbessern, da diese in vorherigen Versuchen die besten Ergebnisse erzielt hat.
 
-Bis jetzt wurden die Marsaufnahmen aus \cite[Kap.~7]{greeley_13} genutzt, da diese möglichst diverse Oberflächenstrukturen- und Merkmale abdecken. Von dieser Stelle an müssen allerdings Marsaufnahmen genutzt werden, bei denen die Auflösung bekannt ist, somit scheiden die genutzten leider aus. Stattdessen werden Ausschnitte aus der Aufnahme \texttt{P03\_002147\_1865\_XI\_06N208W} der Context Camera des Mars Reconnaissance Orbiters genutzt. Auch diese wurden so ausgewählt, dass sie möglichst diverse Strukturen und Texturen aufweisen. Ein weiterer Vorteil der Nutzung dieser Bilder besteht daraus, dass die Clusteringalgorithmen nun an realitätsnähreren Daten getestet werden können, statt an isolierten Aufnahmen einzelner Besonderheiten der Oberfläche. Die Ergebnisse sind in \figurename~\ref{fig:filterbank_sizes} zu sehen. Als Startwert wurde ein Skalierungsfaktor $s=1$ betrachtet, angewandt auf die vorgestellten, quadratischen Filter mit einer originalen Kantenlänge von \SI{49}{\pixel}.  Dieser wurde nach oben und unten hin in Schritten von $\Delta s=0.25$ verändert, und mit der skalierten MR-Filterbank ein neues Clustering der vier Ausschnitte erstellt. Die Eingabebilder sind quadratisch und besitzen eine Seitenlänge von \SI{650}{\pixel} bei einer Auflösung von \SI{6,17}{\meter\per\pixel}. Jedes der Eingabebilder wurde erneut in vier Bereiche eingeteilt, die Farben sind zur Veranschaulichung zufällig gewählt, da der Algorithmus zwar in Segmente unterteilen kann, allerdings nicht bestimmen kann, was diese Segmente enthalten.
+Bis jetzt wurden die Marsaufnahmen aus \cite[Kap.~7]{greeley_13} genutzt, da diese möglichst diverse Oberflächenstrukturen- und Merkmale abdecken. Von dieser Stelle an müssen allerdings Marsaufnahmen genutzt werden, bei denen die Auflösung bekannt ist, somit scheiden die genutzten leider aus. Stattdessen werden Ausschnitte aus der Aufnahme \texttt{P03\_002147\_1865\_XI\_06N208W} der Context Camera des Mars Reconnaissance Orbiters genutzt. Auch diese wurden so ausgewählt, dass sie möglichst diverse Strukturen und Texturen aufweisen. Ein weiterer Vorteil der Nutzung dieser Bilder besteht daraus, dass die Clusteringalgorithmen nun an realitätsnähreren Daten getestet werden können, statt an isolierten Aufnahmen einzelner Besonderheiten der Oberfläche. Die Ergebnisse sind in \tablename~\ref{tab:filterbank_sizes} zu sehen. Als Startwert wurde ein Skalierungsfaktor $s=1$ betrachtet, angewandt auf die vorgestellten, quadratischen Filter mit einer originalen Kantenlänge von \SI{49}{\pixel}.  Dieser wurde nach oben und unten hin in Schritten von $\Delta s=0.25$ verändert, und mit der skalierten MR-Filterbank ein neues Clustering der vier Ausschnitte erstellt. Die Eingabebilder sind quadratisch und besitzen eine Seitenlänge von \SI{650}{\pixel} bei einer Auflösung von \SI{6,17}{\meter\per\pixel}. Jedes der Eingabebilder wurde erneut in vier Bereiche eingeteilt, die Farben sind zur Veranschaulichung zufällig gewählt, da der Algorithmus zwar in Segmente unterteilen kann, allerdings nicht bestimmen kann, was diese Segmente enthalten.
 
-\begin{figure}[h!]
-	\setlength\tabcolsep{1pt}
-	\def\arraystretch{0.5}
-	\begin{tabular}{m{15pt}m{0.13\textwidth}m{0.13\textwidth}m{0.13\textwidth}m{0.13\textwidth}m{0.13\textwidth}m{0.13\textwidth}m{0.13\textwidth}}
-		\texttt{a)} &
-		\includegraphics[width=0.13\textwidth]{images/p03/p03_01.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/filter_size/p03_01.png_0.25.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/filter_size/p03_01.png_0.50.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/filter_size/p03_01.png_0.75.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/filter_size/p03_01.png_1.00.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/filter_size/p03_01.png_1.25.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/filter_size/p03_01.png_1.50.png} \\
-		\texttt{b)} &
-		\includegraphics[width=0.13\textwidth]{images/p03/p03_02.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/filter_size/p03_02.png_0.25.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/filter_size/p03_02.png_0.50.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/filter_size/p03_02.png_0.75.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/filter_size/p03_02.png_1.00.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/filter_size/p03_02.png_1.25.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/filter_size/p03_02.png_1.50.png} \\
-		\texttt{c)} &
-		\includegraphics[width=0.13\textwidth]{images/p03/p03_03.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/filter_size/p03_03.png_0.25.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/filter_size/p03_03.png_0.50.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/filter_size/p03_03.png_0.75.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/filter_size/p03_03.png_1.00.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/filter_size/p03_03.png_1.25.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/filter_size/p03_03.png_1.50.png} \\
-		\texttt{d)} &
-		\includegraphics[width=0.13\textwidth]{images/p03/p03_04.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/filter_size/p03_04.png_0.25.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/filter_size/p03_04.png_0.50.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/filter_size/p03_04.png_0.75.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/filter_size/p03_04.png_1.00.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/filter_size/p03_04.png_1.25.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/filter_size/p03_04.png_1.50.png} \\
+\begin{table}[h!]
+	\setlength\tabcolsep{0pt}
+	\begin{tabularx}{\textwidth}{>{\centering}m{0.05\textwidth}
+			>{\centering}m{0.136\textwidth}
+			>{\centering}m{0.136\textwidth}
+			>{\centering}m{0.136\textwidth}
+			>{\centering}m{0.136\textwidth}
+			>{\centering}m{0.136\textwidth}
+			>{\centering}m{0.136\textwidth}
+			>{\centering\arraybackslash}m{0.136\textwidth}}
+		\toprule
+		Bez. &
+		Eingabe & 
+		$s=0,25$ &
+		$s=0,50$ &
+		$s=0,75$ &
+		$s=1,00$ &
+		$s=1,25$ &
+		$s=1,50$ \\
+		\midrule
 		
-		&
-		\vspace*{2pt}\centering Eingabe & 
-		\vspace*{2pt}\centering $s=0,25$ &
-		\vspace*{2pt}\centering $s=0,50$ &
-		\vspace*{2pt}\centering $s=0,75$ &
-		\vspace*{2pt}\centering $s=1,00$ &
-		\vspace*{2pt}\centering $s=1,25$ &
-		\vspace*{2pt}\centering $s=1,50$
-	\end{tabular}
+		\texttt{a)} &
+		\includegraphics[width=0.9\linewidth]{images/p03/p03_01.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/filter_size/p03_01.png_0.25.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/filter_size/p03_01.png_0.50.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/filter_size/p03_01.png_0.75.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/filter_size/p03_01.png_1.00.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/filter_size/p03_01.png_1.25.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/filter_size/p03_01.png_1.50.png} \\
+		\texttt{b)} &
+		\includegraphics[width=0.9\linewidth]{images/p03/p03_02.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/filter_size/p03_02.png_0.25.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/filter_size/p03_02.png_0.50.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/filter_size/p03_02.png_0.75.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/filter_size/p03_02.png_1.00.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/filter_size/p03_02.png_1.25.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/filter_size/p03_02.png_1.50.png} \\
+		\texttt{c)} &
+		\includegraphics[width=0.9\linewidth]{images/p03/p03_03.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/filter_size/p03_03.png_0.25.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/filter_size/p03_03.png_0.50.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/filter_size/p03_03.png_0.75.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/filter_size/p03_03.png_1.00.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/filter_size/p03_03.png_1.25.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/filter_size/p03_03.png_1.50.png} \\
+		\texttt{d)} &
+		\includegraphics[width=0.9\linewidth]{images/p03/p03_04.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/filter_size/p03_04.png_0.25.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/filter_size/p03_04.png_0.50.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/filter_size/p03_04.png_0.75.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/filter_size/p03_04.png_1.00.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/filter_size/p03_04.png_1.25.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/filter_size/p03_04.png_1.50.png} \\
+		\bottomrule
+	\end{tabularx}
 	\caption{Vergleich verschiedener Skalierungen der MR-Filterbank auf Bildern der Marsoberfläche. Die Farben der jeweiligen Cluster wurden zufällig gewählt und sagen nichts über deren Inhalt aus. Alle Bilder wurden in vier Cluster eingeteilt.}
-	\label{fig:filterbank_sizes}
-\end{figure}
+	\label{tab:filterbank_sizes}
+\end{table}
+
 
 Von hier an gilt in allen Vergleichen von Segmentierungen: Die erste Zeile der Tabelle entspricht der ersten Aufnahme, die zweile Zeile entspricht der zweiten Aufnahme, \etc.
 
@@ -234,118 +250,136 @@ Aus diesen Ergebnissen lässt sich schlussfolgern, dass sich die Skalierungsfakt
 
 Wie in Unterabschnitt~\ref{ssec:initialization_filterweight} erläutert, spielt die Gewichtung der Komponenten des Datenwürfels, welcher zum Clustering durch k-Means genutzt wird eine wichtige Rolle. In den Abbildungen~\ref{fig:filterbank_weights_pos} und \ref{fig:filterbank_weights_col} die Resultate des Clusterings mit unterschiedlichen Werten für diese jeweiligen Gewichtungen zu sehen. Die Skalierung der Filter beträgt $s=0,5$, da im vorherigen Unterabschnitt festgestellt wurde, dass dieser Wert relativ gute Ergebnisse liefert.
 
-\begin{figure}[h!]
-	\setlength\tabcolsep{1pt}
-	\def\arraystretch{0.5}
-	\begin{tabular}{m{15pt}m{0.13\textwidth}m{0.13\textwidth}m{0.13\textwidth}m{0.13\textwidth}m{0.13\textwidth}m{0.13\textwidth}m{0.13\textwidth}}
+\begin{table}[h!]
+	\setlength\tabcolsep{0pt}
+	\begin{tabularx}{\textwidth}{>{\centering}m{0.05\textwidth}
+		>{\centering}m{0.136\textwidth}
+		>{\centering}m{0.136\textwidth}
+		>{\centering}m{0.136\textwidth}
+		>{\centering}m{0.136\textwidth}
+		>{\centering}m{0.136\textwidth}
+		>{\centering}m{0.136\textwidth}
+		>{\centering\arraybackslash}m{0.136\textwidth}}
+	
+		\toprule
+		Bez. &
+		Eingabe & 
+		$w_p=0,00$ &
+		$w_p=0,33$ &
+		$w_p=0,66$ &
+		$w_p=1,00$ &
+		$w_p=1,33$ &
+		$w_p=1,66$ \\
+		\midrule
 		\texttt{a)} &
-		\includegraphics[width=0.13\textwidth]{images/p03/p03_01.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/spatial_weight/p03_01.png_0.00.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/spatial_weight/p03_01.png_0.33.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/spatial_weight/p03_01.png_0.66.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/spatial_weight/p03_01.png_1.00.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/spatial_weight/p03_01.png_1.33.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/spatial_weight/p03_01.png_1.66.png} \\
+		\includegraphics[width=0.9\linewidth]{images/p03/p03_01.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/spatial_weight/p03_01.png_0.00.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/spatial_weight/p03_01.png_0.33.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/spatial_weight/p03_01.png_0.66.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/spatial_weight/p03_01.png_1.00.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/spatial_weight/p03_01.png_1.33.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/spatial_weight/p03_01.png_1.66.png} \\
 		\texttt{b)} &
-		\includegraphics[width=0.13\textwidth]{images/p03/p03_02.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/spatial_weight/p03_02.png_0.00.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/spatial_weight/p03_02.png_0.33.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/spatial_weight/p03_02.png_0.66.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/spatial_weight/p03_02.png_1.00.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/spatial_weight/p03_02.png_1.33.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/spatial_weight/p03_02.png_1.66.png} \\
+		\includegraphics[width=0.9\linewidth]{images/p03/p03_02.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/spatial_weight/p03_02.png_0.00.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/spatial_weight/p03_02.png_0.33.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/spatial_weight/p03_02.png_0.66.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/spatial_weight/p03_02.png_1.00.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/spatial_weight/p03_02.png_1.33.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/spatial_weight/p03_02.png_1.66.png} \\
 		\texttt{c)} &
-		\includegraphics[width=0.13\textwidth]{images/p03/p03_03.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/spatial_weight/p03_03.png_0.00.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/spatial_weight/p03_03.png_0.33.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/spatial_weight/p03_03.png_0.66.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/spatial_weight/p03_03.png_1.00.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/spatial_weight/p03_03.png_1.33.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/spatial_weight/p03_03.png_1.66.png} \\
+		\includegraphics[width=0.9\linewidth]{images/p03/p03_03.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/spatial_weight/p03_03.png_0.00.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/spatial_weight/p03_03.png_0.33.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/spatial_weight/p03_03.png_0.66.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/spatial_weight/p03_03.png_1.00.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/spatial_weight/p03_03.png_1.33.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/spatial_weight/p03_03.png_1.66.png} \\
 		\texttt{d)} &
-		\includegraphics[width=0.13\textwidth]{images/p03/p03_04.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/spatial_weight/p03_04.png_0.00.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/spatial_weight/p03_04.png_0.33.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/spatial_weight/p03_04.png_0.66.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/spatial_weight/p03_04.png_1.00.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/spatial_weight/p03_04.png_1.33.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/spatial_weight/p03_04.png_1.66.png} \\
-		
-		&
-		\vspace*{2pt}\centering Eingabe & 
-		\vspace*{2pt}\centering $w_p=0,00$ &
-		\vspace*{2pt}\centering $w_p=0,33$ &
-		\vspace*{2pt}\centering $w_p=0,66$ &
-		\vspace*{2pt}\centering $w_p=1,00$ &
-		\vspace*{2pt}\centering $w_p=1,33$ &
-		\vspace*{2pt}\centering $w_p=1,66$
-	\end{tabular}
+		\includegraphics[width=0.9\linewidth]{images/p03/p03_04.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/spatial_weight/p03_04.png_0.00.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/spatial_weight/p03_04.png_0.33.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/spatial_weight/p03_04.png_0.66.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/spatial_weight/p03_04.png_1.00.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/spatial_weight/p03_04.png_1.33.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/spatial_weight/p03_04.png_1.66.png} \\
+		\bottomrule
+	\end{tabularx}
 	\caption{Vergleich verschiedener Gewichtungen der Koordinaten beim Clustering der jeweiligen Eingabedateien. Die Farben der jeweilgen Cluster wurden zufällig gewählt. Alle Bilder wurden in vier Cluster eingeteilt.}
-	\label{fig:filterbank_weights_pos}
-\end{figure}
+	\label{tab:filterbank_weights_pos}
+\end{table}
 
 \paragraph{Gewichtung der Koordinaten}
-Das Hinzufügen der X- und Y-Koordinaten zu dem Datenwürfel ist ursprünglich aus dem Grund geschehen, dass ein gegebener räumlicher Bezug zwischen unterschiedlichen Pixeln beim Clustering berücksichtigt werden kann (\vgl Unterabschnitt~\ref{ssec:tsugf}; \cite{jain_91}). Aus den Clusteringergebnissen in \figurename~\ref{fig:filterbank_weights_pos} allerdings lässt sich erkennen, dass dieser räumliche Bezug in diesem Anwendungsfall nicht außerordentlich hilfreich ist: Bei einer Gewichtung von $w_p\geq1,33$ lässt sich eindeutig erkennen, dass der allgemeine Bodenbereich auf allen Aufnahmen zu stark anhand seiner Positionen eingeteilt wird, es entstehen Cluster in den Ecken der Aufnahmen, welche sich ins Zentrum erstrecken. Unter diesem starken Einfluss nimmt zusätzlich die relative Wichtigkeit der ähnlichen Textur ab.
+Das Hinzufügen der X- und Y-Koordinaten zu dem Datenwürfel ist ursprünglich aus dem Grund geschehen, dass ein gegebener räumlicher Bezug zwischen unterschiedlichen Pixeln beim Clustering berücksichtigt werden kann (\vgl Unterabschnitt~\ref{ssec:tsugf}; \cite{jain_91}). Aus den Clusteringergebnissen in \tablename~\ref{tab:filterbank_weights_pos} allerdings lässt sich erkennen, dass dieser räumliche Bezug in diesem Anwendungsfall nicht außerordentlich hilfreich ist: Bei einer Gewichtung von $w_p\geq1,33$ lässt sich eindeutig erkennen, dass der allgemeine Bodenbereich auf allen Aufnahmen zu stark anhand seiner Positionen eingeteilt wird, es entstehen Cluster in den Ecken der Aufnahmen, welche sich ins Zentrum erstrecken. Unter diesem starken Einfluss nimmt zusätzlich die relative Wichtigkeit der ähnlichen Textur ab.
 
 Wird nun ein geringerer Wert für $w_p$ betrachtet, so erkennt man für Werte mit $w_p\leq0,66$ keinen Starken Unterschied bei wechselnden Gewichtungen. Dies ist insbesondere bei $w_p=0$ signifikant, da dort der räumliche Bezug der einzelnen Pixel zueinander bei der Berechnung des Clusterings zwar komplett ignoriert wird, das eigentliche Ergebnis sich, bis auf etwas kleinere Cluster in den merkmalsarmen Bereichen, aber kaum verändert. Dies lässt sich darauf zurückführen, dass das Hinzufügen des räumlichen Bezuges ursprünglich den Grund hatte, dass auf \enquote{normalen} Fotografien die vorkommenden Cluster meistens nur ein einziges mal an einem räumlich begrenzten Ort vorhanden sind, so sind \zB bei der Aufnahme aus \figurename~\ref{fig:tsugf_optim} aus Unterabschnitt~\ref{ssec:tsugf} die kleineren Korallen im linken Hintergrund nur an dieser Stelle vorhanden und ließen sich durch ein weit ausgedehntes Cluster zusammenfassen. Bei den aktuell genutzten Aufnahmen hingegen ist dies nicht der Fall, eine auftretende Oberflächenstruktur, wie \zB ein Krater kann an verschieden Stellen ohne räumlichen Bezug zueinander auftreten.
 Die Nutzung der Positionwerte hat allerdings einen Vorteil: Sie sorgt dafür die Clustergrößen nicht zu klein und fragmentiert werden zu lassen, indem sie eine Relation mit benachbarten Pixeln erzeugt, welche der k-Means Algorithmus berücksichtigt.
 
-Aus diesem Grund macht es Sinn, die Koordinatenbeträge der Pixel relativ gering zu gewichten, um dafür zu sorgen, dass das texturbasierte Clustering möglicht positionsinvariant operiert, aber auch nicht so gering, dass viele fragmentierte Cluster entstehen. Anhand von \figurename~\ref{fig:filterbank_weights_pos} ist erkennbar, dass ein Wert von  $w_p=0,66$ sich in diesem Fall sehr gut eignet, ein brauchbares Clusterergebnis zu erstellen.
+Aus diesem Grund macht es Sinn, die Koordinatenbeträge der Pixel relativ gering zu gewichten, um dafür zu sorgen, dass das texturbasierte Clustering möglicht positionsinvariant operiert, aber auch nicht so gering, dass viele fragmentierte Cluster entstehen. Anhand von \tablename~\ref{tab:filterbank_weights_pos} ist erkennbar, dass ein Wert von  $w_p=0,66$ sich in diesem Fall sehr gut eignet, ein brauchbares Clusterergebnis zu erstellen.
 
 \paragraph{Gewichtungen der Farb-/Helligkeitswerte}
 Die hier folgenden Clusteringergebnisse wurden mit den zuvor bestimmten optimalen Parametern erstellt.
 
-In der originalen Ausarbeitung des texturbasierten Clusterings \cite{jain_91} werden nur zwei Ebenen für die jeweiligen X- und Y-Koordinaten hinzugefügt. Es steht also an dieser Stelle offen, ob das Hinzufügen der Farb- \bzw Helligkeitsdimension zum Datenwürfel zu besseren Ergebnissen führt. Dazu wurde der vorgestellte Algorithmus mit unterschiedlichen Werten für die Gewichtung der Helligkeitswerte $w_c$ auf den bekannten Beispielbildern ausgeführt. Die Resultate dieses Experimentes sind in \figurename~\ref{fig:filterbank_weights_col} dargestellt.
+In der originalen Ausarbeitung des texturbasierten Clusterings \cite{jain_91} werden nur zwei Ebenen für die jeweiligen X- und Y-Koordinaten hinzugefügt. Es steht also an dieser Stelle offen, ob das Hinzufügen der Farb- \bzw Helligkeitsdimension zum Datenwürfel zu besseren Ergebnissen führt. Dazu wurde der vorgestellte Algorithmus mit unterschiedlichen Werten für die Gewichtung der Helligkeitswerte $w_c$ auf den bekannten Beispielbildern ausgeführt. Die Resultate dieses Experimentes sind in \tablename~\ref{tab:filterbank_weights_col} dargestellt.
 
-\begin{figure}[h!]
-	\setlength\tabcolsep{1pt}
-	\def\arraystretch{0.5}
-	\begin{tabular}{m{15pt}m{0.13\textwidth}m{0.13\textwidth}m{0.13\textwidth}m{0.13\textwidth}m{0.13\textwidth}m{0.13\textwidth}m{0.13\textwidth}}
-		\texttt{a)} &
-		\includegraphics[width=0.13\textwidth]{images/p03/p03_01.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/color_weight/p03_01.png_0.00.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/color_weight/p03_01.png_0.33.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/color_weight/p03_01.png_0.66.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/color_weight/p03_01.png_1.00.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/color_weight/p03_01.png_1.33.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/color_weight/p03_01.png_1.66.png} \\
-		\texttt{b)} &
-		\includegraphics[width=0.13\textwidth]{images/p03/p03_02.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/color_weight/p03_02.png_0.00.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/color_weight/p03_02.png_0.33.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/color_weight/p03_02.png_0.66.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/color_weight/p03_02.png_1.00.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/color_weight/p03_02.png_1.33.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/color_weight/p03_02.png_1.66.png} \\
-		\texttt{c)} &
-		\includegraphics[width=0.13\textwidth]{images/p03/p03_03.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/color_weight/p03_03.png_0.00.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/color_weight/p03_03.png_0.33.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/color_weight/p03_03.png_0.66.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/color_weight/p03_03.png_1.00.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/color_weight/p03_03.png_1.33.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/color_weight/p03_03.png_1.66.png} \\
-		\texttt{d)} &
-		\includegraphics[width=0.13\textwidth]{images/p03/p03_04.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/color_weight/p03_04.png_0.00.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/color_weight/p03_04.png_0.33.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/color_weight/p03_04.png_0.66.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/color_weight/p03_04.png_1.00.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/color_weight/p03_04.png_1.33.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/color_weight/p03_04.png_1.66.png} \\
+\begin{table}[h!]
+	\setlength\tabcolsep{0pt}
+	\begin{tabularx}{\textwidth}{>{\centering}m{0.05\textwidth}
+			>{\centering}m{0.136\textwidth}
+			>{\centering}m{0.136\textwidth}
+			>{\centering}m{0.136\textwidth}
+			>{\centering}m{0.136\textwidth}
+			>{\centering}m{0.136\textwidth}
+			>{\centering}m{0.136\textwidth}
+			>{\centering\arraybackslash}m{0.136\textwidth}}
+		\toprule
+		Bez. &
+		Eingabe & 
+		$w_c=0,00$ &
+		$w_c=0,33$ &
+		$w_c=0,66$ &
+		$w_c=1,00$ &
+		$w_c=1,33$ &
+		$w_c=1,66$ \\
 		
-		&
-		\vspace*{2pt}\centering Eingabe & 
-		\vspace*{2pt}\centering $w_c=0,00$ &
-		\vspace*{2pt}\centering $w_c=0,33$ &
-		\vspace*{2pt}\centering $w_c=0,66$ &
-		\vspace*{2pt}\centering $w_c=1,00$ &
-		\vspace*{2pt}\centering $w_c=1,33$ &
-		\vspace*{2pt}\centering $w_c=1,66$
-	\end{tabular}
+		\midrule
+		\texttt{a)} &
+		\includegraphics[width=0.9\linewidth]{images/p03/p03_01.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/color_weight/p03_01.png_0.00.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/color_weight/p03_01.png_0.33.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/color_weight/p03_01.png_0.66.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/color_weight/p03_01.png_1.00.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/color_weight/p03_01.png_1.33.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/color_weight/p03_01.png_1.66.png} \\
+		\texttt{b)} &
+		\includegraphics[width=0.9\linewidth]{images/p03/p03_02.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/color_weight/p03_02.png_0.00.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/color_weight/p03_02.png_0.33.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/color_weight/p03_02.png_0.66.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/color_weight/p03_02.png_1.00.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/color_weight/p03_02.png_1.33.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/color_weight/p03_02.png_1.66.png} \\
+		\texttt{c)} &
+		\includegraphics[width=0.9\linewidth]{images/p03/p03_03.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/color_weight/p03_03.png_0.00.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/color_weight/p03_03.png_0.33.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/color_weight/p03_03.png_0.66.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/color_weight/p03_03.png_1.00.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/color_weight/p03_03.png_1.33.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/color_weight/p03_03.png_1.66.png} \\
+		\texttt{d)} &
+		\includegraphics[width=0.9\linewidth]{images/p03/p03_04.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/color_weight/p03_04.png_0.00.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/color_weight/p03_04.png_0.33.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/color_weight/p03_04.png_0.66.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/color_weight/p03_04.png_1.00.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/color_weight/p03_04.png_1.33.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/color_weight/p03_04.png_1.66.png} \\
+		\bottomrule
+	\end{tabularx}
 	\caption{Vergleich verschiedener Gewichtungen der Farb- \bzw Helligkeitswerte beim Clustering der jeweiligen Eingabedateien. Die Farben der jeweilgen Cluster wurden zufällig gewählt. Alle Bilder wurden in vier Cluster eingeteilt.}
-	\label{fig:filterbank_weights_col}
-\end{figure}
+	\label{tab:filterbank_weights_col}
+\end{table}
 
 Auf diesen Clusterings wird schnell ersichtlich, dass eine Veränderung der Gewichtung relativ geringe Auswirkungen hat. Eine stärkere Gewichtung von $w_c=1,66$ besitzt auf der vierten Aufnahme den wohl größten Einfluss, da dort anhand der Über- und Unterbelichtung die beiden Bergseiten getrennt voneinander erkannt werden. Obwohl dieses Phänomen hier gute Auswirkungen hat, ist es im Allgemeinen ungewollt: Mit diesem starken Einfluss der Helligkeitswerte lernt das neuronale Netzwerk stärker mithilfe der Helligkeit statt über die Textur dieser Cluster zu lernen, was eines der größten Probleme beim Trainieren dieses Netzes ist.
 
@@ -356,57 +390,65 @@ Da sich durch die zusätzlichen Helligkeitswerte keine Verbesserungen der Cluste
 
 Im vorherigen Kapitel wurde erklärt, warum sich der bis an diese Stelle genutzte Wert von vier Clustern nicht für die erfolgreiche Anwendung des vorgestellten Algorithmus eignet. Aus diesem Grund folgt nun eine Analyse, welche einen geeigneten Wert bestimmen soll.
 
-\begin{figure}[h!]
-	\setlength\tabcolsep{1pt}
-	\def\arraystretch{0.5}
-	\begin{tabular}{m{15pt}m{0.13\textwidth}m{0.13\textwidth}m{0.13\textwidth}m{0.13\textwidth}m{0.13\textwidth}m{0.13\textwidth}m{0.13\textwidth}}
+\begin{table}[h!]
+	\setlength\tabcolsep{0pt}
+	\begin{tabularx}{\textwidth}{>{\centering}m{0.05\textwidth}
+			>{\centering}m{0.136\textwidth}
+			>{\centering}m{0.136\textwidth}
+			>{\centering}m{0.136\textwidth}
+			>{\centering}m{0.136\textwidth}
+			>{\centering}m{0.136\textwidth}
+			>{\centering}m{0.136\textwidth}
+			>{\centering\arraybackslash}m{0.136\textwidth}}
+		\toprule
+		Bez. &
+		Eingabe & 
+		$n=5$ &
+		$n=10$ &
+		$n=20$ &
+		$n=50$ &
+		$n=75$ &
+		$n=100$ \\
+		\midrule
 		\texttt{a)} &
-		\includegraphics[width=0.13\textwidth]{images/p03/p03_01.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/number_of_segments/p03_01.png_5.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/number_of_segments/p03_01.png_10.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/number_of_segments/p03_01.png_20.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/number_of_segments/p03_01.png_50.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/number_of_segments/p03_01.png_75.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/number_of_segments/p03_01.png_100.png} \\
+		\includegraphics[width=0.9\linewidth]{images/p03/p03_01.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/number_of_segments/p03_01.png_5.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/number_of_segments/p03_01.png_10.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/number_of_segments/p03_01.png_20.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/number_of_segments/p03_01.png_50.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/number_of_segments/p03_01.png_75.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/number_of_segments/p03_01.png_100.png} \\
 		\texttt{b)} &
-		\includegraphics[width=0.13\textwidth]{images/p03/p03_02.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/number_of_segments/p03_02.png_5.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/number_of_segments/p03_02.png_10.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/number_of_segments/p03_02.png_20.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/number_of_segments/p03_02.png_50.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/number_of_segments/p03_02.png_75.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/number_of_segments/p03_02.png_100.png} \\
+		\includegraphics[width=0.9\linewidth]{images/p03/p03_02.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/number_of_segments/p03_02.png_5.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/number_of_segments/p03_02.png_10.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/number_of_segments/p03_02.png_20.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/number_of_segments/p03_02.png_50.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/number_of_segments/p03_02.png_75.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/number_of_segments/p03_02.png_100.png} \\
 		\texttt{c)} &
-		\includegraphics[width=0.13\textwidth]{images/p03/p03_03.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/number_of_segments/p03_03.png_5.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/number_of_segments/p03_03.png_10.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/number_of_segments/p03_03.png_20.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/number_of_segments/p03_03.png_50.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/number_of_segments/p03_03.png_75.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/number_of_segments/p03_03.png_100.png} \\
+		\includegraphics[width=0.9\linewidth]{images/p03/p03_03.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/number_of_segments/p03_03.png_5.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/number_of_segments/p03_03.png_10.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/number_of_segments/p03_03.png_20.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/number_of_segments/p03_03.png_50.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/number_of_segments/p03_03.png_75.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/number_of_segments/p03_03.png_100.png} \\
 		\texttt{d)} &
-		\includegraphics[width=0.13\textwidth]{images/p03/p03_04.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/number_of_segments/p03_04.png_5.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/number_of_segments/p03_04.png_10.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/number_of_segments/p03_04.png_20.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/number_of_segments/p03_04.png_50.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/number_of_segments/p03_04.png_75.png} &
-		\includegraphics[width=0.13\textwidth]{images/gen/number_of_segments/p03_04.png_100.png} \\
-		
-		&
-		\vspace*{2pt}\centering Eingabe & 
-		\vspace*{2pt}\centering $n=5$ &
-		\vspace*{2pt}\centering $n=10$ &
-		\vspace*{2pt}\centering $n=20$ &
-		\vspace*{2pt}\centering $n=50$ &
-		\vspace*{2pt}\centering $n=75$ &
-		\vspace*{2pt}\centering $n=100$
-	\end{tabular}
+		\includegraphics[width=0.9\linewidth]{images/p03/p03_04.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/number_of_segments/p03_04.png_5.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/number_of_segments/p03_04.png_10.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/number_of_segments/p03_04.png_20.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/number_of_segments/p03_04.png_50.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/number_of_segments/p03_04.png_75.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/number_of_segments/p03_04.png_100.png} \\
+		\bottomrule
+	\end{tabularx}
 	\caption{Vergleich verschiedener Werte für die Anzahl der Cluster bei der Initialisierung. Die Farben der jeweilgen Cluster wurden zufällig gewählt.}
-	\label{fig:n_segments}
-\end{figure}
+	\label{tab:n_segments}
+\end{table}
 
-In \figurename~\ref{fig:n_segments} ist zu erkennen, dass eine geringe Anzahl an initialen Clustern zu sehr groben Resultaten führt. Dies ist darauf zurückzuführen, dass diese wenigen, großen Cluster unterschiedliche Merkmale enthalten (können), welche zwar vom neuronalen Netz erkannt werden, anschließend allerdings mit dem Clusterlabel des am häufigsten erkannten Wertes überschrieben werden. Folglich gehen sehr schnell wichtige Oberflächenmerkmale verloren, was im Extremfall (\vgl Aufnahme 3) dazu führen kann, dass die gesamte Aufnahme durch nur ein großes Segment markiert wird. An dieser Stelle hilft das Abbruchkriterium der Anzahl der Cluster auch kaum, da in diesen Aufnahmen noch zwei weitere, kleinere Cluster mit einer Größe von wenigen Pixeln enthalten sind (hier nicht sichtbar).
+In \tablename~\ref{tab:n_segments} ist zu erkennen, dass eine geringe Anzahl an initialen Clustern zu sehr groben Resultaten führt. Dies ist darauf zurückzuführen, dass diese wenigen, großen Cluster unterschiedliche Merkmale enthalten (können), welche zwar vom neuronalen Netz erkannt werden, anschließend allerdings mit dem Clusterlabel des am häufigsten erkannten Wertes überschrieben werden. Folglich gehen sehr schnell wichtige Oberflächenmerkmale verloren, was im Extremfall (\vgl Aufnahme 3) dazu führen kann, dass die gesamte Aufnahme durch nur ein großes Segment markiert wird. An dieser Stelle hilft das Abbruchkriterium der Anzahl der Cluster auch kaum, da in diesen Aufnahmen noch zwei weitere, kleinere Cluster mit einer Größe von wenigen Pixeln enthalten sind (hier nicht sichtbar).
 
 Ein zu großer Wert für diese Initialisierung hingegen führt, wie oben beschrieben, zu Segmentzuweisungen, welche auf einer zu geringen Menge an Informationen basiert. Dieser Effekt ist auf den genutzten Aufnahmen nicht sichtbar, da diese meist relativ feine Texturen enthalten. Er wäre erst erkennbar, wenn die Länge eines Clusters geringer wäre als die Distanz, in welcher sich die zu analysierende Textur wiederholt. Außerdem führt eine höherer Anzahl von Clustern zu einer erhöhten Laufzeit der Initialisierung, da der dort genutzte k-Means-Algorithmus eine Laufzeit besitzt, welche proportional zur Anzahl der zu erstellenden Cluster ist.
 
@@ -417,7 +459,7 @@ Anhand der Grafik lässt sich feststellen, dass ein Wert von $n=50$ für eine er
 \subsection{Abbruchkriterium}
 \label{ssec:exp_stoppingcriteria}
 
-Eine graphische Darstellung der Änderungsrate in Abhängigkeit der Epochen des Netzwerkes ist für die vier verschiedenen Aufnahmen des letzten Abschnittes in \figurename~\ref{fig:exp_stoppingcriteria} sichtbar.
+Eine graphische Darstellung der Änderungsrate in Abhängigkeit der Epochen des Netzwerkes ist für die vier verschiedenen Aufnahmen des letzten Abschnittes in \tablename~\ref{tab:exp_stoppingcriteria} sichtbar.
 
 Die in \cite{kanezaki_18} genutzte Anzahl der Segmente eignet sich zwar als grundlegendes Abbruchkriterium, es ist allerdings sichtbar, dass dieses pro Epoche stark schwankt und gegen unterschiedliche Werte konvergiert. Ein ähnliches Verhalten ist auch bei der Betrachtung des Loss pro Epoche sichtbar.
 
@@ -517,7 +559,7 @@ Die Nutzung der Ableitung der Lossfunktion hingegen scheint zu vergleichsweise g
 		\end{groupplot}
 	\end{tikzpicture}
 	\caption{Vergleich unterschiedlicher möglicher Abbruchkriterien, jeweils bis 300 Epochen. Die Graphen sind in höherer Auflösung in Appendix~\ref{app:exp_stoppingcriteria} zu finden. Die Legenden geben die zugehörige Marsaufnahme aus den vorherigen Abschnitten an.}
-	\label{fig:exp_stoppingcriteria}
+	\label{tab:exp_stoppingcriteria}
 \end{figure}
 
 Es ist auch ersichtlich, dass die Verlustfunktion alleine nicht als Abbruchkriterium funktionieren würde, da diese für verschiedene Eingabedateien sich an unterschiedliche Werte annähert -- es ist also nicht möglich einen gemeinsamen Wert festzulegen, ab welchem das neuronale Netzwerk abgebrochen werden sollte.
@@ -527,46 +569,54 @@ Diese beiden Probleme bedeuten, dass wenn eins der beiden, der Wert der Verlustf
 \subsection{Aktivierungsfunktionen}
 \label{ssec:exp_architecture_activation}
 
-Im Folgenden wird überprüft, welche Aktivierungsfunktion sich am ehesten dazu eignet, mithilfe des vorgestellten Algorithmus eine gute Segmentierung zu erstellen. Dazu werden sowohl die ReLU-Funktion, die Sigmoid-Funktion, die tanh-Funktion, als auch das Entfernen jeglicher Aktivierungsfunktionen untersucht. Genutzt werden die bereits verbesserten weiteren Hyperparameter. Die Ergebnisse befinden sich in \figurename~\ref{fig:activation_comparision}.
+Im Folgenden wird überprüft, welche Aktivierungsfunktion sich am ehesten dazu eignet, mithilfe des vorgestellten Algorithmus eine gute Segmentierung zu erstellen. Dazu werden sowohl die ReLU-Funktion, die Sigmoid-Funktion, die tanh-Funktion, als auch das Entfernen jeglicher Aktivierungsfunktionen untersucht. Genutzt werden die bereits verbesserten weiteren Hyperparameter. Die Ergebnisse befinden sich in \tablename~\ref{tab:activation_comparision}.
 
-\begin{figure}[h!]
-	\begin{tabular}{m{15pt}m{0.15\textwidth}m{0.15\textwidth}m{0.15\textwidth}m{0.15\textwidth}m{0.15\textwidth}}
+\begin{table}[h!]
+	\setlength\tabcolsep{0pt}
+	\begin{tabularx}{\textwidth}{>{\centering}m{0.05\textwidth}
+			>{\centering}m{0.19\textwidth}
+			>{\centering}m{0.19\textwidth}
+			>{\centering}m{0.19\textwidth}
+			>{\centering}m{0.19\textwidth}
+			>{\centering\arraybackslash}m{0.19\textwidth}}
+		\toprule
+		Bez. &
+		Eingabe & 
+		Ohne Aktivierungsfunktion &
+		ReLU-Aktivierung &
+		Sigmoid-Aktivierung &
+		tanh-Aktivierung \\
+		\midrule
 		\texttt{a)} &
-		\includegraphics[width=0.15\textwidth]{images/p03/p03_01.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/activation_functions/p03_01.png_None.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/activation_functions/p03_01.png_relu.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/activation_functions/p03_01.png_sigmoid.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/activation_functions/p03_01.png_tanh.png} \\
+		\includegraphics[width=0.9\linewidth]{images/p03/p03_01.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/activation_functions/p03_01.png_None.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/activation_functions/p03_01.png_relu.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/activation_functions/p03_01.png_sigmoid.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/activation_functions/p03_01.png_tanh.png} \\
 		\texttt{b)} &
-		\includegraphics[width=0.15\textwidth]{images/p03/p03_02.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/activation_functions/p03_02.png_None.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/activation_functions/p03_02.png_relu.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/activation_functions/p03_02.png_sigmoid.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/activation_functions/p03_02.png_tanh.png} \\
+		\includegraphics[width=0.9\linewidth]{images/p03/p03_02.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/activation_functions/p03_02.png_None.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/activation_functions/p03_02.png_relu.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/activation_functions/p03_02.png_sigmoid.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/activation_functions/p03_02.png_tanh.png} \\
 		\texttt{c)} &
-		\includegraphics[width=0.15\textwidth]{images/p03/p03_03.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/activation_functions/p03_03.png_None.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/activation_functions/p03_03.png_relu.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/activation_functions/p03_03.png_sigmoid.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/activation_functions/p03_03.png_tanh.png} \\
+		\includegraphics[width=0.9\linewidth]{images/p03/p03_03.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/activation_functions/p03_03.png_None.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/activation_functions/p03_03.png_relu.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/activation_functions/p03_03.png_sigmoid.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/activation_functions/p03_03.png_tanh.png} \\
 		\texttt{d)} &
-		\includegraphics[width=0.15\textwidth]{images/p03/p03_04.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/activation_functions/p03_04.png_None.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/activation_functions/p03_04.png_relu.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/activation_functions/p03_04.png_sigmoid.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/activation_functions/p03_04.png_tanh.png} \\
-		
-		&
-		\vspace*{2pt}\centering Eingabe & 
-		\vspace*{2pt}\centering Ohne Aktivierungsfunktion &
-		\vspace*{2pt}\centering ReLU-Aktivierung &
-		\vspace*{2pt}\centering Sigmoid-Aktivierung &
-		\vspace*{2pt}\centering tanh-Aktivierung 
-	\end{tabular}
+		\includegraphics[width=0.9\linewidth]{images/p03/p03_04.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/activation_functions/p03_04.png_None.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/activation_functions/p03_04.png_relu.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/activation_functions/p03_04.png_sigmoid.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/activation_functions/p03_04.png_tanh.png} \\
+		\bottomrule
+	\end{tabularx}
 	\caption{Vergleich der Auswirkungen der Nutzung verschiedener Aktivierungsfunktionen. Die Farben der jeweilgen Cluster wurden zufällig gewählt.\\
 		Hinweis: In der dritten Aufnahme von oben ist das helle Segment in der Mitte mit dem gleichen Label markiert wie der jeweils rechte Rand. Durch die Darstellung ist dies nicht eindeutig zu erkennen.}
-	\label{fig:activation_comparision}
-\end{figure}
+	\label{tab:activation_comparision}
+\end{table}
 
 Aus diesen lässt sich relativ schnell erkennen, dass sowohl die Sigmoid-, als auch die tanh-Funktion als Aktivierungsfunktion keinen merklichen Einfluss auf die entstehende Segmentierung haben. Lediglich bei der ReLU-Aktivierung werden deutliche Verbesserungen gegenüber der Segmentierung ohne Aktivierungsfunktion sichtbar.
 
@@ -579,13 +629,13 @@ An dieser Stelle existieren nun zwei unterschiedliche Theorien, warum die Nutzun
 	\item Die Verbesserung ist darauf zurückzuführen, dass die ReLU-Aktivierung negative Eingaben als Nullwert weitergibt. Lernt also \bspw eine konvolutionelle Schicht statt den gewünschten Parametern zur texturbasierten Segmentierung Parameter, welche die Textur ignorieren (also \bspw nur die Helligkeitsinformationen betrachten), so werden diese nicht negativ gewichtet. Stattdessen würden die Konvolutionsfilter, welche zu diesem Punkt führen mit $0$ multipliziert, und somit im Bezug auf das Endergebnis verworfen, statt mit einem negativen Faktor darauf einzuwirken. Dieses Phänomen wird im Allgemeinen als \textit{dying ReLU} oder \textit{dead ReLU} bezeichnet.% Reagiert hingegen ein Konvolutionsfilter besonders stark auf eine Textur, so ist dieser nicht wie nach den anderen Aktivierungsfunktionen auf das Intervall $\left[0, 1\right]$ \bzw $\left[-1, 1\right]$ beschränkt, sondern behält seinen vergleichsweise starken Einfluss auf die nächste Schicht.
 \end{enumerate}
 
-Um nun herauszufinden, welche Erklärung die Ursache für die auftretenden Ergebnisse liefert, wird der Algorithmus mit der Leaky ReLU-Aktivierungsfunktion getestet. Diese Aktivierungsfunktion verhält sich wie die ReLU-Aktivierung, hat im Bereich $x<0$ allerdings eine sehr geringe Steigung (hier $0.01$), eben um das \textit{dying ReLU}-Problem zu bekämpfen:
+Um nun herauszufinden, welche Erklärung die Ursache für die auftretenden Ergebnisse liefert, wird der Algorithmus mit der Leaky ReLU-Aktivierungsfunktion getestet. Diese Aktivierungsfunktion verhält sich wie die ReLU-Aktivierung, hat im Bereich $x<0$ allerdings eine sehr geringe Steigung (hier $0.01$), eben um das \textit{dying ReLU}-Problem zu bekämpfen: \cite{he_15}
 
 \begin{equation}
 f(x)=\begin{cases}x&\text{wenn } x>0\\0.01x&\text{andernfalls}\end{cases}
 \end{equation}
 
-\cite{he_15} Diese Aktivierungsfunktion ist in \figurename~\ref{fig:leaky_relu} dargestellt.
+Diese Aktivierungsfunktion ist in \figurename~\ref{fig:leaky_relu} dargestellt.
 
 \begin{figure}[h!]
 	\centering
@@ -604,61 +654,77 @@ f(x)=\begin{cases}x&\text{wenn } x>0\\0.01x&\text{andernfalls}\end{cases}
 	\label{fig:leaky_relu}
 \end{figure}
 
-\begin{figure}[h!]
-	\begin{tabular}{m{0.24\textwidth}m{0.24\textwidth}m{0.24\textwidth}m{0.24\textwidth}}
-		\includegraphics[width=0.24\textwidth]{images/gen/activation_functions/p03_01.png_leakyrelu.png} &
-		\includegraphics[width=0.24\textwidth]{images/gen/activation_functions/p03_02.png_leakyrelu.png} &
-		\includegraphics[width=0.24\textwidth]{images/gen/activation_functions/p03_03.png_leakyrelu.png} &
-		\includegraphics[width=0.24\textwidth]{images/gen/activation_functions/p03_04.png_leakyrelu.png} \\
+\begin{table}[h!]
+	\setlength\tabcolsep{0pt}
+	\begin{tabularx}{\textwidth}{>{\centering}m{0.25\textwidth}
+			>{\centering}m{0.25\textwidth}
+			>{\centering}m{0.25\textwidth}
+			>{\centering\arraybackslash}m{0.25\textwidth}}
+		\toprule
 		
-		\vspace*{2pt}\centering \texttt{a)} & 
-		\vspace*{2pt}\centering \texttt{b)} &
-		\vspace*{2pt}\centering \texttt{c)} &
-		\vspace*{2pt}\centering \texttt{d)} 
-	\end{tabular}
+		\texttt{a)} & 
+		\texttt{b)} &
+		\texttt{c)} &
+		\texttt{d)} \\
+		\midrule
+		\includegraphics[width=0.9\linewidth]{images/gen/activation_functions/p03_01.png_leakyrelu.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/activation_functions/p03_02.png_leakyrelu.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/activation_functions/p03_03.png_leakyrelu.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/activation_functions/p03_04.png_leakyrelu.png} \\
+		\bottomrule
+	\end{tabularx}
 	\caption{Nutzung der Leaky ReLU-Aktivierungsfunktion. Die Farben der jeweilgen Cluster wurden zufällig gewählt.\\}
-	\label{fig:leaky_relu_application}
-\end{figure}
+	\label{tab:leaky_relu_application}
+\end{table}
 
-Anhand der Ergebnisse der Anwendung des Algorithmus mithilfe der Leaky ReLU-Funktion in \figurename~\ref{fig:leaky_relu_application} lässt sich erkennen, dass sich die Segmentierung praktisch nicht von der Segmentierung mithilfe der Sigmoid- oder der tanh-Funktion unterscheidet. Daraus lässt sich nun schließen, dass die erste Theorie für die Ursache der besseren Ergebnisse falsch ist, da auch die nun genutzt Aktivierung in etwa die selbe Geschwindigkeit besitzt wie die normale ReLU-Aktivierung. Selbst wenn diese Aktivierung langsamer sein sollte, so müssen zumindest Ergebnisse produziert werden, welche unterschiedlich zu den bisher erstellten Segmentierungen sind. Somit ist die zweite Theorie für die Verbessrung durch ReLU korrekt, da diese darauf basiert, dass sich das \textit{dying ReLU}-Problem zunutze gemacht wird.
+Anhand der Ergebnisse der Anwendung des Algorithmus mithilfe der Leaky ReLU-Funktion in \tablename~\ref{tab:leaky_relu_application} lässt sich erkennen, dass sich die Segmentierung praktisch nicht von der Segmentierung mithilfe der Sigmoid- oder der tanh-Funktion unterscheidet. Daraus lässt sich nun schließen, dass die erste Theorie für die Ursache der besseren Ergebnisse falsch ist, da auch die nun genutzt Aktivierung in etwa die selbe Geschwindigkeit besitzt wie die normale ReLU-Aktivierung. Selbst wenn diese Aktivierung langsamer sein sollte, so müssen zumindest Ergebnisse produziert werden, welche unterschiedlich zu den bisher erstellten Segmentierungen sind. Somit ist die zweite Theorie für die Verbessrung durch ReLU korrekt, da diese darauf basiert, dass sich das \textit{dying ReLU}-Problem zunutze gemacht wird.
 
 \subsection{Pooling Layer}
 \label{ssec:exp_architecture_pooling}
 
-Die Resultate nach der Implementierung von nur einer einzigen Max-Pooling Layer mit den Kernel-Größen $F=(2, 2)$ und $F=(4, 4)$ sind in der folgenden \figurename~\ref{fig:maxpool_comparision} aufgeführt. Das Hinzufügen von weiteren Pooling-Schichten und die Nutzung von größeren Kerneln führt zu Ergebnissen, auf welchen keine sinnvolle Segmentierung erkennbar war und ist aus diesem Grund nicht an dieser Stelle aufgeführt.
+Die Resultate nach der Implementierung von nur einer einzigen Max-Pooling Layer mit den Kernel-Größen $F=(2, 2)$ und $F=(4, 4)$ sind in der folgenden \tablename~\ref{tab:maxpool_comparision} aufgeführt. Das Hinzufügen von weiteren Pooling-Schichten und die Nutzung von größeren Kerneln führt zu Ergebnissen, auf welchen keine sinnvolle Segmentierung erkennbar war und ist aus diesem Grund nicht an dieser Stelle aufgeführt.
 
-\begin{figure}[h!]
-	\begin{tabular}{m{15pt}m{0.24\textwidth}m{0.24\textwidth}m{0.24\textwidth}m{0.24\textwidth}}
-		\texttt{a)} &
-		\includegraphics[width=0.2\textwidth]{images/p03/p03_01.png} &
-		\includegraphics[width=0.2\textwidth]{images/gen/pooling_layers/p03_01.png_1.png} &
-		\includegraphics[width=0.2\textwidth]{images/gen/pooling_layers/p03_01.png_2.png} &
-		\includegraphics[width=0.2\textwidth]{images/gen/pooling_layers/p03_01.png_4.png} \\
-		\texttt{b)} &
-		\includegraphics[width=0.2\textwidth]{images/p03/p03_02.png} &
-		\includegraphics[width=0.2\textwidth]{images/gen/pooling_layers/p03_02.png_1.png} &
-		\includegraphics[width=0.2\textwidth]{images/gen/pooling_layers/p03_02.png_2.png} &
-		\includegraphics[width=0.2\textwidth]{images/gen/pooling_layers/p03_02.png_4.png} \\
-		\texttt{c)} &
-		\includegraphics[width=0.2\textwidth]{images/p03/p03_03.png} &
-		\includegraphics[width=0.2\textwidth]{images/gen/pooling_layers/p03_03.png_1.png} &
-		\includegraphics[width=0.2\textwidth]{images/gen/pooling_layers/p03_03.png_2.png} &
-		\includegraphics[width=0.2\textwidth]{images/gen/pooling_layers/p03_03.png_4.png} \\
-		\texttt{d)} &
-		\includegraphics[width=0.2\textwidth]{images/p03/p03_04.png} &
-		\includegraphics[width=0.2\textwidth]{images/gen/pooling_layers/p03_04.png_1.png} &
-		\includegraphics[width=0.2\textwidth]{images/gen/pooling_layers/p03_04.png_2.png} &
-		\includegraphics[width=0.2\textwidth]{images/gen/pooling_layers/p03_04.png_4.png} \\
+\begin{table}[h!]
+	\setlength\tabcolsep{0pt}
+	\begin{tabularx}{\textwidth}{>{\centering}m{0.05\textwidth}
+			>{\centering}m{0.2375\textwidth}
+			>{\centering}m{0.2375\textwidth}
+			>{\centering}m{0.2375\textwidth}
+			>{\centering\arraybackslash}m{0.2375\textwidth}}
+		\toprule
 		
-		&
-		\vspace*{2pt}\centering Eingabe & 
-		\vspace*{2pt}\centering $F=(1, 1)$ &
-		\vspace*{2pt}\centering $F=(2, 2)$ &
-		\vspace*{2pt}\centering $F=(4, 4)$ 
-	\end{tabular}
+		Bez. &
+		Eingabe & 
+		$F=(1, 1)$ &
+		$F=(2, 2)$ &
+		$F=(4, 4)$ \\
+		\midrule
+		
+		\texttt{a)} &
+		\includegraphics[width=0.9\linewidth]{images/p03/p03_01.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/pooling_layers/p03_01.png_1.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/pooling_layers/p03_01.png_2.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/pooling_layers/p03_01.png_4.png} \\
+		\texttt{b)} &
+		\includegraphics[width=0.9\linewidth]{images/p03/p03_02.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/pooling_layers/p03_02.png_1.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/pooling_layers/p03_02.png_2.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/pooling_layers/p03_02.png_4.png} \\
+		\texttt{c)} &
+		\includegraphics[width=0.9\linewidth]{images/p03/p03_03.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/pooling_layers/p03_03.png_1.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/pooling_layers/p03_03.png_2.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/pooling_layers/p03_03.png_4.png} \\
+		\texttt{d)} &
+		\includegraphics[width=0.9\linewidth]{images/p03/p03_04.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/pooling_layers/p03_04.png_1.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/pooling_layers/p03_04.png_2.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/pooling_layers/p03_04.png_4.png} \\
+		\bottomrule
+	\end{tabularx}
 	\caption{Vergleich der Auswirkungen der Nutzung von Pooling-Schichten. Die Farben der jeweilgen Cluster wurden zufällig gewählt.}
-	\label{fig:maxpool_comparision}
-\end{figure}
+	\label{tab:maxpool_comparision}
+\end{table}
 
 Auf Aufnahme \texttt{a)} zeigt sich der größte Nachteil der Pooling-Schichten. Die kleinen Krater in den äußeren Bereichen werden bei $F=(2, 2)$ nicht so zuverlässig wie zuvor erkannt, bei einer Kernelgröße von $F=(4, 4)$ werden nur noch sehr wenige kleinere Krater in separate Segmente eingeteilt. Auch auf den weiteren Eingabedateien ist keine Optimierung der Resultate durch die Nutzung der Max-Pooling-Schichten sichtbar. Nach mehreren Testdurchläufen stellt sich heraus dass die meisten der dortigen Unterschiede zwischen den einzelnen Kernelgrößen auf die zufälligen Initialisierungen des Clusterings und des Neuronalen Netzes zurückzuführen sind. Ansonsten fällt erneut auf, dass kleinere Regionen nicht mehr sicher erkannt werden. Diese Nachteile sind auch durch den Vorteil von Pooling-Schichten, die erhöhte Performance des Netzes, nicht auszugleichen. Ein weiteres Argument gegen die Nutzung von Pooling Layern ist, dass diese die Auflösung verringern. Sie werden meistens zur Objekterkennung genutzt, bei welcher es meistens irrelevant ist, bei welchen Koordinaten genau ein Gegenstand beginnt oder endet. Hier allerdings ist die Problemstellung ein Segmentierungsproblem, die Marsoberfläche soll möglichst genau segmentiert werden.
 
@@ -669,40 +735,47 @@ Wie zu erkennen ist, bringt die Nutzung einer Pooling-Schicht bei diesem Anwendu
 \subsection{Fully Connected Layers}
 \label{ssec:exp_fully_connected}
 
-Anhand der Segmentierungen in \figurename~\ref{fig:fc_comparision} ist erkennbar, dass die Nutzung von $n_{fc}$ Fully Connected Layer bei diesem Anwendungsfall keine Vorteile mit sich bringt: Sie führt eher dazu, dass die Eingabedateien nach ihrer Helligkeit segmentiert werden, da innerhalb dieser Fully Connected Layers kein Konzept der Oberflächenstruktur entsteht.
+Anhand der Segmentierungen in \tablename~\ref{tab:fc_comparision} ist erkennbar, dass die Nutzung von $n_{fc}$ Fully Connected Layer bei diesem Anwendungsfall keine Vorteile mit sich bringt: Sie führt eher dazu, dass die Eingabedateien nach ihrer Helligkeit segmentiert werden, da innerhalb dieser Fully Connected Layers kein Konzept der Oberflächenstruktur entsteht.
 
-\begin{figure}[h!]
-	\begin{tabular}{m{15pt}m{0.24\textwidth}m{0.24\textwidth}m{0.24\textwidth}m{0.24\textwidth}}
+\begin{table}[h!]
+	\setlength\tabcolsep{0pt}
+	\begin{tabularx}{\textwidth}{>{\centering}m{0.05\textwidth}
+			>{\centering}m{0.2375\textwidth}
+			>{\centering}m{0.2375\textwidth}
+			>{\centering}m{0.2375\textwidth}
+			>{\centering\arraybackslash}m{0.2375\textwidth}}
+		\toprule
+		Bez. &
+		Eingabe & 
+		$n_{fc}=0$ &
+		$n_{fc}=1$ &
+		$n_{fc}=2$ \\
+		\midrule
 		\texttt{a)} &
-		\includegraphics[width=0.2\textwidth]{images/p03/p03_01.png} &
-		\includegraphics[width=0.2\textwidth]{images/gen/fully_connected/p03_01.png_0.png} &
-		\includegraphics[width=0.2\textwidth]{images/gen/fully_connected/p03_01.png_1.png} &
-		\includegraphics[width=0.2\textwidth]{images/gen/fully_connected/p03_01.png_2.png} \\
+		\includegraphics[width=0.9\linewidth]{images/p03/p03_01.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/fully_connected/p03_01.png_0.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/fully_connected/p03_01.png_1.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/fully_connected/p03_01.png_2.png} \\
 		\texttt{b)} &
-		\includegraphics[width=0.2\textwidth]{images/p03/p03_02.png} &
-		\includegraphics[width=0.2\textwidth]{images/gen/fully_connected/p03_02.png_0.png} &
-		\includegraphics[width=0.2\textwidth]{images/gen/fully_connected/p03_02.png_1.png} &
-		\includegraphics[width=0.2\textwidth]{images/gen/fully_connected/p03_02.png_2.png} \\
+		\includegraphics[width=0.9\linewidth]{images/p03/p03_02.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/fully_connected/p03_02.png_0.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/fully_connected/p03_02.png_1.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/fully_connected/p03_02.png_2.png} \\
 		\texttt{c)} &
-		\includegraphics[width=0.2\textwidth]{images/p03/p03_03.png} &
-		\includegraphics[width=0.2\textwidth]{images/gen/fully_connected/p03_03.png_0.png} &
-		\includegraphics[width=0.2\textwidth]{images/gen/fully_connected/p03_03.png_1.png} &
-		\includegraphics[width=0.2\textwidth]{images/gen/fully_connected/p03_03.png_2.png} \\
+		\includegraphics[width=0.9\linewidth]{images/p03/p03_03.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/fully_connected/p03_03.png_0.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/fully_connected/p03_03.png_1.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/fully_connected/p03_03.png_2.png} \\
 		\texttt{d)} &
-		\includegraphics[width=0.2\textwidth]{images/p03/p03_04.png} &
-		\includegraphics[width=0.2\textwidth]{images/gen/fully_connected/p03_04.png_0.png} &
-		\includegraphics[width=0.2\textwidth]{images/gen/fully_connected/p03_04.png_1.png} &
-		\includegraphics[width=0.2\textwidth]{images/gen/fully_connected/p03_04.png_2.png} \\
-		
-		&
-		\vspace*{2pt}\centering Eingabe & 
-		\vspace*{2pt}\centering $n_{fc}=0$ &
-		\vspace*{2pt}\centering $n_{fc}=1$ &
-		\vspace*{2pt}\centering $n_{fc}=2$ 
-	\end{tabular}
+		\includegraphics[width=0.9\linewidth]{images/p03/p03_04.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/fully_connected/p03_04.png_0.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/fully_connected/p03_04.png_1.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/fully_connected/p03_04.png_2.png} \\
+		\bottomrule
+	\end{tabularx}
 	\caption{Vergleich der Auswirkungen der Nutzung von Fully-Connected-Layers. Die Farben der jeweiligen Cluster wurden zufällig gewählt.}
-	\label{fig:fc_comparision}
-\end{figure}
+	\label{tab:fc_comparision}
+\end{table}
 
 Dies ist insbesondere auf Aufnahme \texttt{d)} offensichtlich, da dort die vorherige Segmentierung in die zwei Berghänge ersetzt wird durch eine Segmentierung, welche die stark belichteten und wenig belichteten Regionen separat von ihrem Umfeld einordnet. Ein weiteres Beispiel für diese Funktionsweise ist auch in Abbildung \texttt{a)} sichtbar. Während die Segmentierung ohne die Nutzung von Fully Connected Layers die Ränder der beiden größeren Krater in ein helligkeitsunabhängiges Segment einteilt, wird diese bereits bei der Nutzung von nur einer FC-Schicht durch zwei Cluster ersetzt: Eins, welches helle Regionen, und eins, welches dunkle Regionen kennzeichnet. Des Weiteren gehen durch die Nutzung dieser Fully Connected Layers Informationen über einen Großteil der kleineren Krater in dieser Aufnahme verloren.
 
@@ -713,52 +786,59 @@ Aus diesen Umständen lässt sich schließen, dass die Nutzung dieser Fully Conn
 \subsection{Anzahl der Konvolutionsschichten}
 \label{ssec:exp_n_convolutions}
 
-In der originalen Implementierung war die Anzahl der Konvolutionsschichten (gefolgt von den Aktivierungs- und Batch-Normalisierungs-Schichten) dynamisch, mit einem Standardwert von 1+2 Schichten. Nun wird über die Resultate in \figurename~\ref{fig:n_layers_comparision} überprüft, welchen Einfluss eine Veränderung dieses Parameters auf die entstehende Segmentierung hat.
+In der originalen Implementierung war die Anzahl der Konvolutionsschichten (gefolgt von den Aktivierungs- und Batch-Normalisierungs-Schichten) dynamisch, mit einem Standardwert von 1+2 Schichten. Nun wird über die Resultate in \tablename~\ref{tab:n_layers_comparision} überprüft, welchen Einfluss eine Veränderung dieses Parameters auf die entstehende Segmentierung hat.
 
-\begin{figure}[h!]
-	\setlength\tabcolsep{1pt}
-	\def\arraystretch{0.5}
-	\begin{tabular}{m{15pt}m{0.166\textwidth}m{0.166\textwidth}m{0.166\textwidth}m{0.166\textwidth}m{0.166\textwidth}m{0.166\textwidth}}
+\begin{table}[h!]
+	\setlength\tabcolsep{0pt}
+	\begin{tabularx}{\textwidth}{>{\centering}m{0.05\textwidth}
+			>{\centering}m{0.1666\textwidth}
+			>{\centering}m{0.1666\textwidth}
+			>{\centering}m{0.1666\textwidth}
+			>{\centering}m{0.1666\textwidth}
+			>{\centering}m{0.1666\textwidth}
+			>{\centering\arraybackslash}m{0.1666\textwidth}}
+		\toprule
+		Bez. &
+		Eingabe & 
+		$n_{conv}=2$ &
+		$n_{conv}=3$ &
+		$n_{conv}=4$ &
+		$n_{conv}=5$ &
+		$n_{conv}=6$ \\
+		\midrule
 		\texttt{a)} &
-		\includegraphics[width=0.15\textwidth]{images/p03/p03_01.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_01.png_2.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_01.png_3.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_01.png_4.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_01.png_5.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_01.png_6.png} \\
+		\includegraphics[width=0.9\linewidth]{images/p03/p03_01.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/convolution_number/p03_01.png_2.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/convolution_number/p03_01.png_3.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/convolution_number/p03_01.png_4.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/convolution_number/p03_01.png_5.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/convolution_number/p03_01.png_6.png} \\
 		\texttt{b)} &
-		\includegraphics[width=0.15\textwidth]{images/p03/p03_02.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_02.png_2.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_02.png_3.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_02.png_4.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_02.png_5.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_02.png_6.png} \\
+		\includegraphics[width=0.9\linewidth]{images/p03/p03_02.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/convolution_number/p03_02.png_2.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/convolution_number/p03_02.png_3.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/convolution_number/p03_02.png_4.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/convolution_number/p03_02.png_5.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/convolution_number/p03_02.png_6.png} \\
 		\texttt{c)} &
-		\includegraphics[width=0.15\textwidth]{images/p03/p03_03.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_03.png_2.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_03.png_3.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_03.png_4.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_03.png_5.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_03.png_6.png} \\
+		\includegraphics[width=0.9\linewidth]{images/p03/p03_03.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/convolution_number/p03_03.png_2.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/convolution_number/p03_03.png_3.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/convolution_number/p03_03.png_4.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/convolution_number/p03_03.png_5.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/convolution_number/p03_03.png_6.png} \\
 		\texttt{d)} &
-		\includegraphics[width=0.15\textwidth]{images/p03/p03_04.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_04.png_2.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_04.png_3.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_04.png_4.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_04.png_5.png} &
-		\includegraphics[width=0.15\textwidth]{images/gen/convolution_number/p03_04.png_6.png} \\
-		
-		&
-		\vspace*{2pt}\centering Eingabe & 
-		\vspace*{2pt}\centering $n_{conv}=2$ &
-		\vspace*{2pt}\centering $n_{conv}=3$ &
-		\vspace*{2pt}\centering $n_{conv}=4$ &
-		\vspace*{2pt}\centering $n_{conv}=5$ &
-		\vspace*{2pt}\centering $n_{conv}=6$ 
-	\end{tabular}
+		\includegraphics[width=0.9\linewidth]{images/p03/p03_04.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/convolution_number/p03_04.png_2.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/convolution_number/p03_04.png_3.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/convolution_number/p03_04.png_4.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/convolution_number/p03_04.png_5.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/convolution_number/p03_04.png_6.png} \\
+		\bottomrule
+	\end{tabularx}
 	\caption{Vergleich der Auswirkungen der Änderung der Anzahl an Konvolutionsschichten. Die Farben der jeweiligen Cluster wurden zufällig gewählt.}
-	\label{fig:n_layers_comparision}
-\end{figure}
+	\label{tab:n_layers_comparision}
+\end{table}
 
 Insgesamt fällt hier kein signifikanter Unterschied zwischen den einzelnen Aufnahmen auf: Ein Großteil der Verbesserungen und Verschlechterungen bei der Modifikation der Anzahl der Konvolutionsschichten ist schlichtweg auf die unterschiedliche Initialisierung des texturbasierten Clusterings und des Netzwerkes selbst zurückzuführen. Erkennbar ist dies daran, dass in der zweiten Aufnahme, bei fünf Konvolutionsschichten eine vergleichbar schlechte Segmentierung generiert wird, diese wird allerdings wieder besser, egal ob eine Konvolutionsschicht hinzugefügt oder entfernt wird.
 
