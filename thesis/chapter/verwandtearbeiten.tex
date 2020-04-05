@@ -4,7 +4,6 @@
 Da in dieser Arbeit verschiedene Forschungsbereiche miteinander kombiniert werden, ist dieses Kapitel in zwei Abschnitte eingeteilt: Es wird mit einigen verwandten Arbeiten im Bereich der Bildsegmentierung begonnen, dabei wird insbesondere auf die Nutzung von neuronalen Netzen eingegangen. Anschließend werden Clusteringprozesse betrachtet, welche zur Initialisierung der Segmentierungsalgorithmen genutzt werden. 
 
 Zuletzt folgt die Analyse der Marsoberfläche, insbesondere der Kratererkennung.
-% TODO Remove mars?
 
 \section{Bildsegmentierung}
 \label{sec:image_segmentation}
@@ -52,7 +51,6 @@ Der DEC-Algorithmus besteht aus zwei Phasen:
 
 Zusammengefasst lernt der Algorithmus in der ersten Phase seiner Ausführung, wie er nach der Anwendung von Dropout-Schichten die ursprüngliche Eingabe bestmöglich wiederherstellen kann, er lernt also wie signifikant bestimmte Merkmale zur Wiederherstellung sind. Diese Initialisierung wird im zweiten Schritt weiter optimiert.
 Der Vorteil dieser und ähnlicher Methoden besteht daraus, dass das Netzwerk nicht trainiert werden muss und somit also auch keine Ground Truth benötigt. Dies ermöglicht dessen Einsatz in Bereichen in denen es zu aufwändig ist, Ground Truths manuell zu erstellen. Eine weitere Eigenschaft besteht daraus, dass diese Methode sich für den Einsatz auf unterschiedlichsten Eingabedaten eignet, da sie dynamisch zur Laufzeit lernt, nach welchen Kriterien sie clustern sollte.
-% TODO Initialisierung Abbruchkriterium
 
 \subsection{Bildsegmentierung auf Basis eines Bildclusterings}
 \label{ssec:kanezaki}
@@ -231,7 +229,6 @@ Diese drei Filterbänke besitzen im Gegensatz zu der in \cite{mathworks_15} vorg
 
 Die Besonderheit der Maximum Response-Filterbank besteht daraus, dass sie zwar 38 Filtern besitzt, nach der Anwendung der Konvolution aber alle bis auf die 6 Filter mit der stärksten Reaktion auf die Eingabe an den k-Means-Algorithmus weitergegeben werden. Zusätzlich werden immer die rotationsinvarianten Filter genutzt.
 
-% TODO Remove?
 \section{Kratererkennung}
 \label{sec:crater_detection}
 

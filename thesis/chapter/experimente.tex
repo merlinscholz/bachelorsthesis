@@ -1054,7 +1054,48 @@ Dort ist zu erkennen, dass die Kraterränder auf den segmentierten Aufnahmen lei
 \label{ssec:results_general}
 Die Ergebnisse der Anwendung des in dieser Arbeit vorgestellten Algorithmus sind in \tablename~\ref{tab:res_bsds500} zu finden. Alle weiteren Ergebnisse wurden aus \cite{arbelaez_10} übernommen. Nur die Werte die über die dort beschriebene \enquote{optimal dataset scale}-Methode generiert wurden, wurden übernommen, da der vorgestellte Algorithmus ebenfalls die selben Parameter für alle Eingabebilder nutzt. Die Erweiterung des Algorithmus um eine Methode zur Generierung einer \enquote{optimal image scale} wäre in der Theorie machbar (\bspw über eine jeweilige binäre Suche über alle zu optimierenden Parameter). Aufgrund des dazu benötigten enormen Rechen- und Zeitaufwandes wird diese Metrik allerdings an dieser Stelle nicht beachtet.
 
-% TODO Bilder
+\begin{table}[h!]
+	\setlength\tabcolsep{0pt}
+	\begin{tabularx}{\textwidth}{>{\centering}m{0.05\textwidth}
+			>{\centering}m{0.3166\textwidth}
+			>{\centering}m{0.3166\textwidth}
+			>{\centering}m{0.3166\textwidth}
+			>{\centering\arraybackslash}m{0.3166\textwidth}}
+		\toprule
+		Bez. &
+		Eingabe & 
+		Segmentierung &
+		Ground Truth \\
+		\midrule
+		\texttt{a)} &
+		\includegraphics[width=0.9\linewidth]{images/bsd/37073.jpg} &
+		\includegraphics[width=0.9\linewidth]{images/gen/bsd_results/37073.jpg_seg.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/bsd_results/37073.jpg_gt_1.png} \\
+		
+		\texttt{b)} &
+		\includegraphics[width=0.9\linewidth]{images/bsd/62096.jpg} &
+		\includegraphics[width=0.9\linewidth]{images/gen/bsd_results/62096.jpg_seg.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/bsd_results/62096.jpg_gt_0.png} \\
+		
+		\texttt{c)} &
+		\includegraphics[width=0.4\linewidth]{images/bsd/167083.jpg} &
+		\includegraphics[width=0.4\linewidth]{images/gen/bsd_results/167083.jpg_seg.png} &
+		\includegraphics[width=0.4\linewidth]{images/gen/bsd_results/167083.jpg_gt_5.png} \\
+		
+		\texttt{d)} &
+		\includegraphics[width=0.4\linewidth]{images/bsd/302008.jpg} &
+		\includegraphics[width=0.4\linewidth]{images/gen/bsd_results/302008.jpg_seg.png} &
+		\includegraphics[width=0.4\linewidth]{images/gen/bsd_results/302008.jpg_gt_2.png} \\
+		
+		\texttt{e)} &
+		\includegraphics[width=0.9\linewidth]{images/bsd/134035.jpg} &
+		\includegraphics[width=0.9\linewidth]{images/gen/bsd_results/134035.jpg_seg.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/bsd_results/134035.jpg_gt_1.png} \\
+		\bottomrule
+	\end{tabularx}
+	\caption{Eine Auswahl der Segmentierungsergebnisse. Die Farben der jeweiligen Cluster wurden zufällig gewählt.}
+	\label{tab:results_mars}
+\end{table}
 
 \begin{table}
 	\begin{tabularx}{\textwidth}{p{0.40\textwidth} >{\centering} p{0.29\textwidth} >{\centering\arraybackslash} p{0.29\textwidth}}
@@ -1102,8 +1143,10 @@ Der in dieser Arbeit erzielte F1-Score von $F_1=63,74\%$ lässt sich nur schwer 
 	\label{tab:f1_comparision}
 \end{table}
 
-Eine weitere Ursache für den vergleichsweise schlechten $F_1$-Score ist, dass die direkte Kratererkennung nicht das Ziel des vorgestellten Algorithmus ist. D ist ieser eher auf die Erkennung und Segmentierung von unterschiedlichen Oberflächenmerkmalen spezialisiert. Aus diesem Grund wurde auch eine weitere Fehlerquelle eingeführt, die menschliche Analyse, die genutzt wurde, um aus der Segmentierung Krater zu erhalten.
+Eine weitere Ursache für den vergleichsweise schlechten $F_1$-Score ist, dass die direkte Kratererkennung nicht das Ziel des vorgestellten Algorithmus ist. Dieser ist eher auf die Erkennung und Segmentierung von unterschiedlichen Oberflächenmerkmalen spezialisiert. Aus diesem Grund wurde auch eine weitere Fehlerquelle eingeführt, die menschliche Analyse, die genutzt wurde, um aus der Segmentierung Krater zu erhalten.
 
 \subsection{Allgemein}
 Aus dem Vergleich mit weiteren Segmentierungsmethoden in dem vorherigen Abschnitt wird deutlich, dass sich der hier vorgestellte Algorithmus durchaus zur Segmentierung von alltäglichen Aufnahmen eignet. Die Metriken deuten darauf hin, dass die Qualität der Ergebnisse zwar nicht ganz auf dem Niveau der führenden Alternativen sind, allerdings wurde gezeigt, dass der vorgestellte Algorithmus auf eine Großzahl an unterschiedlichen Eingaben angewandt werden kann.
+
+Außerdem fällt in \tablename~\ref{tab:res_bsds500} auf, dass \bspw auf den \figurename~\texttt{d)} und \texttt{e)} sogar zu sehr anhand der Textur segmentiert wird. Auf \figurename~\texttt{d)} unterscheidet das Netzwerk zwischen den horizontalen und vertikalen Streifen auf dem Kleidungsstück, während auf \figurename~\texttt{e)} zwischen den größeren und kleineren Punkten des Leoparden differenziert wird. Dieses Phänomen ließe sich zwar über unterschiedliche Skalierungsgrößen innerhalb der Initialisierung lösen (\vgl Unterabschnitt~\ref{ssec:exp_filtersize}), es kann allerdings an anderen Stellen auch von Vorteil sein.
 

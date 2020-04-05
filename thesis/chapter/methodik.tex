@@ -13,6 +13,7 @@ Nachdem kurz auf die gesamte Funktionsweise des Algorithmus eingegangen wird fol
 Die grundsätzliche Funktionsweise des Algorithmus aus \cite{kanezaki_18} findet sich in Abschnitt~\ref{ssec:kanezaki}, eine gröbere Übersicht ist in \figurename~\ref{fig:howitworks} zu finden.
 
 \begin{figure}[h!]
+	\centering
 	\begin{tikzpicture}
 		\draw  [draw, text width=7cm, align=center] (0,0) rectangle  node{Eingabebild} (7,-1);
 		\path [->,>=stealth] (1.5,-1) edge (1.5,-1.5);
@@ -38,9 +39,10 @@ Die grundsätzliche Funktionsweise des Algorithmus aus \cite{kanezaki_18} findet
 		\node [text width=6.5cm, align=center,rotate=90] at (-1.25,-6.5) {Optimiert durch Backpropagation};
 		\path [->,>=stealth] (-1,-2.75) edge (0,-2.75);
 	\end{tikzpicture}
-	\caption{Übersicht über die Funktionsweise des Algorithmus}
+	\caption{Übersicht über die Funktionsweise. Während der Ausführung des Algorithmus wird im Vorwärts-Durchlauf das Bild segmentiert, während im Rückwärts-Durchlauf die Parameter des neuronalen Netzes optimiert werden.}
 	\label{fig:howitworks}
 \end{figure}
+
 
 Das Ziel des Algorithmus besteht darin, eine Mapping-Funktion zu generieren, welche jedem der $N$ $p$-dimensionalen Pixel der Eingabedatei genau ein Clusterlabel $c$ zuordnet.
 
@@ -71,8 +73,6 @@ Nun wird für jedes Cluster in $Z_i$ bestimmt, welcher Wert aus $F_{e}$ am häuf
 %\begin{equation}
 %\forall z\in Z_I\;\forall p\in P_{F'_e, z}\;p = %\{mod_{F_e(x_{ij})}\mid\langle i,j\rangle\in P_{I, z}\}
 %\end{equation}
-
-% TODO Loss??
 
 Anschließend wird der Loss zwischen dem ursprünglichen Ergebnis des Netzes $F_e$ und des neu generierten Ziels $F'_e$ berechnet, und eine Backpropagation über das Netzwerk ausgeführt. Dieser Prozess wird wiederholt, bis ein Abbruchkriterium (\vgl Unterabschnitt~\ref{ssec:stoppingcriteria}) erreicht wird. Die insgesamt zu berechnende Mapping-Funktion ist nun das letzte erzeugte Mapping $F_e$. Er lässt sich wie folgt als vereinfachter Python-Code darstellen. Es ist zwischen zwei Datentypen für die Speicherung von Clustern zu unterscheiden:
 
@@ -116,7 +116,7 @@ Hierbei sind:
 \end{itemize}
 
 Durch die Tatsache, dass in jeder Iteration ein Cluster mit dem am häufigsten in ihm enthaltenen Wert gefüllt wird, verringert sich in der jeweils neu generierten Zielsegmentierung die Anzahl der Segmente. Da das neuronale Netz sich diesem Ziel dynamisch anpasst, folgt daraus, dass ein Netzwerk welches in der ersten Epoche \bspw 100 Segmente generiert nach einigen Epochen wesentlich weniger Segmente erzeugt. In diesem Prozess lernt das Netzwerk auch, die Clusteringkriterien der Initialisierung zu lernen und anhand derer seine eigene Segmentierung anzupassen. Dies ist dadurch begründet, dass die Zielsegmentierung zwar oft unterschiedliche Cluster enthält, die Begrenzungen dieser allerdings immer gleich der Begrenzungen des initialen Clusterings sind.
-Grafisch ist der Prozess der Verringerung der Segmentanzahl in \figurename~\ref{fig:n_segments} zu sehen: Die Anzahl der Segmente steigt ab und konvergiert gegen $1$. Da ein einziges Segment allerdings eine schlechte Segmentierung bedeutet, muss das neuronale Netzwerk an der richtigen Stelle abgebrochen werden. Unterabschnitt~\ref{ssec:stoppingcriteria} beschäftigt sich mit diesem Prozess.
+Grafisch ist der Prozess der Verringerung der Segmentanzahl in \tablename~\ref{tab:n_segments} zu sehen: Die Anzahl der Segmente steigt ab und konvergiert gegen $1$. Da ein einziges Segment allerdings eine schlechte Segmentierung bedeutet, muss das neuronale Netzwerk an der richtigen Stelle abgebrochen werden. Unterabschnitt~\ref{ssec:stoppingcriteria} beschäftigt sich mit diesem Prozess.
 
 Es ist zu beachten, dass für jeder Iteration die selbe Initialisierung $I$ benutzt wird.
 
@@ -163,11 +163,9 @@ Statt des SLIC-Clusterings wird nun die in Unterabschnitt~\ref{ssec:tsugf} vorge
 
 Das Resultat eines Clusterings durch die genutzte, texturbasierte Methode\footnote{Kombiniert mit der Filterbank aus \cite{jain_91}} ist in \figurename~\ref{fig:slic_vs_tsugf_tsugf} sichtbar: Man erkennt, dass der \enquote{Ring} um den eigentlichen Einschlagskrater eine eigenständige Textur besitzt, welche unterschiedlich zu dem Rest der Oberfläche ist. Eine ähnliche Oberflächenstruktur ist direkt um den Krater herum vorhanden. Beide Vorkommnisse dieser ähnlichen Struktur werden vom texturbasierten Clustering erfasst, in ein Segment aufgeteilt und (hier durch eine rote Färbung) markiert.
 
-% TODO Reread
-
 \subsection{Filterbänke}
 \label{ssec:initialization_filterbanks}
-An dieser Stelle stellt sich die Frage, welche der vorgestellten Filterbänke sich gut eignet, die Eingabedatei zu clustern. Die größten Unterschiede zwischen den einzelnen Filterbänken besteht darin, dass einige von ihnen rotationsinvariante Filter enthalten, und andere in mehreren Größen vorhanden sind. Die Größendifferenz lässt sich in der Anwendung des Algorithmus dadurch ausgleichen, dass jeder Filter zusätzlich in weitere Größen skaliert wird, und in jeder Skalierungsstufe angewandt wird. Die Rotationsinvarianz würde sich höchstens durch die Rotation der Filter approximieren lassen, da so allerdings nicht jeder Winkel abgedeckt werden kann, ist diese Methode ungeeignet. Ein Vergleich verschiedener Filterbänke ist in Unterabschnitt~\ref{ssec:exp_filterbanks} zu finden.
+Hier stellt sich nun die Frage, welche der vorgestellten Filterbänke sich gut eignet, die Eingabedatei zu clustern. Die größten Unterschiede zwischen den einzelnen Filterbänken bestehen darin, dass einige von ihnen rotationsinvariante Filter enthalten, und andere in mehreren Größen vorhanden sind. Die Größendifferenz lässt sich in der Anwendung des Algorithmus dadurch ausgleichen, dass jeder Filter zusätzlich in weitere Größen skaliert wird, und in jeder Skalierungsstufe angewandt wird. Die Rotationsinvarianz würde sich höchstens durch die Rotation der Filter approximieren lassen, da so allerdings nicht jeder Winkel abgedeckt werden kann, ist diese Methode ungeeignet. Ein Vergleich verschiedener Filterbänke ist in Unterabschnitt~\ref{ssec:exp_filterbanks} zu finden.
 
 \subsection{Größe der Filter}
 \label{ssec:initialization_filtersize}

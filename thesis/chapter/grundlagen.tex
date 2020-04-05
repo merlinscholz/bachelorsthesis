@@ -81,8 +81,6 @@ Diese Faktoren sorgen für eine große Varietät an optisch unterschiedlichen Ob
 \subsection{Remote Sensing Instruments}
 \label{ssec:mars_images}
 
-% TODO Add new dataset
-
 Von der Marsoberfläche existieren verschiedenste Arten von Aufnahmen für unterschiedliche Analysen. Dabei sind gewisse Parameter, wie \zB die aufgenommene Wellenlänge, den Winkel zur Oberfläche, die Auflösung, Brennweite, Ort der Aufnahme und viele weitere wichtig, damit ein Bild zur Analyse einer gewissen Eigenschaft geeignet ist.
 
 Für die hier genutzten Anwendungsfälle eignen sich Instrumente gut, die sichtbares Licht aufnehmen. Obwohl Farbaufnahmen in vielerlei Hinsicht von Vorteil zur Analyse wären, sind diese nicht großflächig vorhanden, daher werden Graustufenaufnahmen als Kompromiss benutzt. Diese besitzen den Vorteil, dass nur ein drittel des Speichers bei den Berechnungen benötigt wird, da statt separaten Rot-, Grün- und Blauwerten nur ein Helligkeitswert gespeichert und verarbeitet werden muss.
@@ -92,7 +90,7 @@ Des Weiteren sollten die Bilder eine vergleichsweise hohe Auflösung haben, dami
 Außerdem eignen sich Aufnahmen gut, die senkrecht zur Oberfläche entstanden sind, so dass Objekte auf dieser möglichst denselben Maßstab besitzen.
 
 Unter Berücksichtigung dieser Faktoren ergeben sich \ua zwei geeignete Instrumente:
-Die \textit{Context Camera (CTX)} des \textit{Mars Reconnaissance Orbiters} der NASA \cite{malin_07} und die \textit{High Resolution Stereo Camera (HRSC)} des \textit{Mars Express Orbiters} der ESA \cite{hrsc}. Für die eigentlichen Analysen werden Aufnahmen der CTX genutzt, da sie einen Großteil der Oberfläche abdecken, während die panchromatischen Bilder der HRSC zur Evaluierung genutzt wurden, da mit ihnen schon mehrere andere Algorithmen getestet wurden.
+Die \textit{Context Camera (CTX)} des \textit{Mars Reconnaissance Orbiters} der NASA \cite{malin_07} und das \textit{Thermal Emission Imaging System (THEMIS)} der \textit{Mars Odyssey} \cite{saunders_04}. Letzteres fertigt zwar Infrarot-Aufnahmen an, für diese Aufnahmen existiert allerdings eine Kraterdatenbank, welche zur Evaluation dieses Algorithmus genutzt werden kann.
 
 \section{Convolutional Neural Networks}
 \label{sec:cnn}
@@ -101,7 +99,7 @@ Neuronale Netze werden oftmals als eine Weiterentwicklung oder Optimierung des m
 
 Eine der einfachsten Formen eines neuronalen Netzes besteht aus dem Multilayer-Perceptron: Dieses besteht aus mehreren der zuvor erwähnten Layers, von denen jede mehrere einzelne Perceptronen enthält. Zwischen einer Eingabe- und einer Ausgabe-Schicht existieren somit auch noch eine beliebige Anzahl an sogenannten Hidden Layers.
 
-In diesem Kontext wird ein Perceptron auch als Neuron bezeichnet. Ein typisches Neuron verarbeitet einen Eingabevektor indem es dies mit einem Gewichtungsvektor elementweise multipliziert und anschließend einen Bias-Vektor aufaddiert. Die Addition dieses Bias ist nötig um die gesamte Aktivierungsfunktion entlang der x-Achse verschieben zu können, da sonst manche gewünschten Ergebnisse nicht erreicht werden können. \cite{bias} Ein typisches Neuron ist in \figurename~\ref{fig:neuron} dargestellt. Nach dessen Durchlaufen werden die Elemente dieses Vektor aufaddiert, und auf diese Summe eine Aktivierungsfunktion (\vgl Unterabschnitt~\ref{ssec:activation_layer}) angewandt. Während das Netzwerk trainiert wird, passen die einzelnen Perceptronen diese zwei Vektoren, also die Gewichtungen und die Bias, so an, dass die Ergebnisse weitgehend optimiert werden (\vgl Unterabschnitte\ref{ssec:gradient_descent} und \ref{ssec:backpropagation}). Diese Gewichtungen sind anfangs zufällig bestimmt. \cite{hardesty_17, cs231n} 
+In diesem Kontext wird ein Perceptron auch als Neuron bezeichnet. Ein typisches Neuron verarbeitet einen Eingabevektor indem es dies mit einem Gewichtungsvektor elementweise multipliziert und anschließend einen Bias-Vektor aufaddiert. Die Addition dieses Bias ist nötig um die gesamte Aktivierungsfunktion entlang der x-Achse verschieben zu können, da sonst manche gewünschten Ergebnisse nicht erreicht werden können. \cite{bias} Ein typisches Neuron ist in \figurename~\ref{fig:neuron} dargestellt. Nach dessen Durchlaufen werden die Elemente dieses Vektor aufaddiert, und auf diese Summe eine Aktivierungsfunktion (\vgl Unterabschnitt~\ref{ssec:activation_layer}) angewandt. Während das Netzwerk trainiert wird, passen die einzelnen Perceptronen diese zwei Vektoren, also die Gewichtungen und die Bias, so an, dass die Ergebnisse weitgehend optimiert werden (\vgl Unterabschnitte~\ref{ssec:gradient_descent} und \ref{ssec:backpropagation}). Diese Gewichtungen sind anfangs zufällig bestimmt. \cite{hardesty_17, cs231n} 
 
 \begin{figure}[h!]
 	\centering
@@ -114,14 +112,14 @@ Die Aneinanderkettung dieser Schichten führt dazu, dass zwischen ihnen eine imm
 
 Convolutional Neural Networks beschreiben eine Teilmenge der neuronalen Netze, in der die jeweilige Netzwerkarchitektur mindestens eine Convolutional Layer (auch Faltungsschicht genannt, \vgl Unterabschnitt~\ref{ssec:convolution}) enthält. Die Nutzung dieser Convolutional Layer zieht oft die Nutzung einer Pooling Layer (Unterabschnitt~\ref{ssec:pooling_layer}) mit sich. \cite{deeplearning_16}
 
-Obwohl Convolutional Neural Networks theoretisch dazu geeignet sind die meisten Daten mit einer gitterähnlichen Struktur zu verarbeiten, erfreuen sie sich im Bereich der Bilddatenanalyse der größten Beliebtheit. \cite[Kap.~9]{deeplearning_16} Eine wichtige Ursache für diese Beliebtheit liegt \bspw in dem Erfolg bei dem Bild-Klassifizierungs-Wettbewerb ImageNet. Während dort im Jahr 2011 die Gewinnergruppe mit klassischen Klassifizierungsalgorithmen einen Top-5-Score von $74,3\%$ erzielt hat, wurden im Jahr 2012 mit einem CNN (AlexNet, \cite{alexnet}) erstmals ein Wert von $83,6\%$ erreicht. Von diesem Punkt an wurde die Bestenliste der darauffolgenden Jahre durch Convolutional Neural Networks dominiert. \cite[Kap.~1]{deeplearning_18}
+Obwohl Convolutional Neural Networks theoretisch dazu geeignet sind die meisten Daten mit einer gitterähnlichen Struktur zu verarbeiten, erfreuen sie sich im Bereich der Bilddatenanalyse der größten Beliebtheit. \cite[Kap.~9]{deeplearning_16} Eine wichtige Ursache für diese Beliebtheit liegt \bspw in dem Erfolg bei dem Bild-Klassifizierungs-Wettbewerb ImageNet. Während dort im Jahr 2011 die Gewinnergruppe mit klassischen Klassifizierungsalgorithmen einen Top-5-Score von \SI{74,3}{\%} erzielt hat, wurden im Jahr 2012 mit einem CNN (AlexNet, \cite{alexnet}) erstmals ein Wert von \SI{83,6}{\%} erreicht. Von diesem Punkt an wurde die Bestenliste der darauffolgenden Jahre durch Convolutional Neural Networks dominiert. \cite[Kap.~1]{deeplearning_18}
 
 Neben der genannten Objekterkennung eigenen sie sich auch zur Bildsegmentierung. So werden sie \bspw erfolgreich in der Entwicklung von selbstfahrenden Autos eingesetzt. \cite{kaymak_19}
 
 Die Architektur eines typischen, einfachen Convolutional Neural Networks ist wie folgt \cite{cs231n}:
 
 \begin{multline*}
-\mathrm{INPUT}\rightarrow\mathrm{CONVOLUTIONAL}\rightarrow\mathrm{ACTIVATION}\\\rightarrow\mathrm{POOLING}\rightarrow\mathrm{FULLYCONNECTED}
+\mathrm{INPUT}\rightarrow\left(\mathrm{CONVOLUTIONAL}\rightarrow\mathrm{ACTIVATION}\rightarrow\mathrm{POOLING}\right)^n\\\rightarrow\mathrm{FULLYCONNECTED}
 \end{multline*}
 
 Da CNNs primär auf Bilddateien angewandt werden, wird von diesem Punkt an von einer Bilddatei als Eingabe ($\mathrm{INPUT}$) ausgegangen. Hier beschreiben die ersten beiden Dimensionen die Breite und Höhe, während die dritte Dimension die Farbwerte für den jeweiligen Pixel angibt. Die Konvolutions-, Aktivierungs-, Pooling- und Fully-Connected-Layers werden in den folgenden Unterabschnitten erläutert.
@@ -129,7 +127,7 @@ Da CNNs primär auf Bilddateien angewandt werden, wird von diesem Punkt an von e
 \subsection{Konvolution}
 \label{ssec:convolution}
 
-Die Konvolution, auch Faltung genannt, ist eine mathematische Operation auf zwei beliebigen Funktionen $f(x)$ und $g(y)$, die eine dritte Funktion, die Konvolution $s(x) = f(x)*g(y)$ ergibt, welche beschreibt, wie sich die Verläufe der beiden Funktionen beeinflussen:
+Die Konvolution, auch Faltung genannt, ist eine mathematische Operation auf zwei beliebigen Funktionen $f(x)$ und $g(y)$, die eine dritte Funktion, die Konvolution $s(x) = f(x)*g(y)$ ergibt, welche beschreibt, wie sich die Verläufe der beiden Funktionen gegenseitig beeinflussen:
 
 \begin{equation}
 s(x) = (f*g)(x) = \int_{-\infty}^{\infty} f(y)g(x-y)dy
@@ -156,7 +154,11 @@ S(i,j) = (I*K)(i,j) = \sum_{m}\sum_{n}I(m,n)K(i-m,j-n)
 Eine alternative Betrachtungsweise dieser Formel basiert auf dem Hadamard-Produkt. Angenommen, es existieren eine Matrix $I\in\mathbb{R}^{2}$ und eine Matrix $K\in\mathbb{R}^{m\times n}$.
 
 Sei Matrix $H = K\odot I'$ definiert als Hadamard-Produkt aus $K$ und $I'=I_{x, y}$ mit $x\in[i-m,i]$ und $y\in[j-n,j]$.\\
-Dann gilt: $S(i,j)=(I*K)(i,j) = \sum_{m}\sum_{n}I(m,n)K(i-m,j-n)=\sum_{h\in H}h$
+Dann gilt:
+
+\begin{equation}
+S(i,j)=(I*K)(i,j) = \sum_{m}\sum_{n}I(m,n)K(i-m,j-n)=\sum_{h\in H}h
+\end{equation}
 
 Diese Formel ist allerdings nur für Eingabebilder mit nur einem Farbwert pro Pixel gültig, also Graustufenbilder. Für ein Bild mit beliebig vielen Farbwertsdimensionen gilt:
 
@@ -164,12 +166,12 @@ Diese Formel ist allerdings nur für Eingabebilder mit nur einem Farbwert pro Pi
 S(i,j) = (I*K)(i,j) = \sum_{m}\sum_{n}\sum_{o}I(m,n,o)K(i-m,j-n,o)
 \end{equation}
 
-Es ist zu beachten, dass der Farbvektor immer komplett verarbeitet wird, und nicht nur ein Teilausschnitt wie es mit Höhe und Breite geschieht.
+Es ist zu beachten, dass der Farbvektor immer komplett verarbeitet wird, statt einem Teilausschnitt wie es mit Höhe und Breite geschieht.
 
 \subsection{Convolutional Layer}
 \label{ssec:convolutional_layer}
 
-Klassische Schichten von neuronalen Netzen nutzen Matrixmultiplikationen der kompletten Eingabe mit einer Parametermatrix um ihre Ausgaben zu berechnen, \dahe jeder einzelne Ausgabewert entsteht aus einer Berechnung basierend auf jedem einzelnen Eingabewert. Obwohl diese Taktik in vielen Einsatzbereichen gut funktioniert, stößt sie insbesondere bei der Bilddatenanalyse an ihre Grenzen, da sie nicht gut skaliert. \cite{cs231n} So benötigt eine Convolutional Layer zum Erkennen eines Merkmals nur einen Kernel mit einer Anzahl von meistens unter $\SI{100}{\pixel}$. \cite{deeplearning_16} Ein weiterer Pluspunkt besteht daraus, dass durch Convolutional Layers bestimmte Merkmale von unterschiedlichen Stellen der Eingabe extrahiert werden können, wie später beschrieben.
+Klassische Schichten von neuronalen Netzen nutzen Matrixmultiplikationen der kompletten Eingabe mit einer Parametermatrix um ihre Ausgaben zu berechnen, \dahe jeder einzelne Ausgabewert entsteht aus einer Berechnung basierend auf jedem einzelnen Eingabewert. Obwohl diese Taktik in vielen Einsatzbereichen gut funktioniert, stößt sie insbesondere bei der Bilddatenanalyse an ihre Grenzen, da sie nicht gut skaliert. \cite{cs231n} So benötigt eine Convolutional Layer zum Erkennen eines Merkmals nur einen Kernel mit einer Anzahl von meistens unter $\SI{100}{\pixel}$. \cite{deeplearning_16} Ein weiterer Pluspunkt besteht daraus, dass durch Convolutional Layers bestimmte Merkmale von unterschiedlichen Stellen der Eingabe extrahiert werden können, wie später beschrieben wird.
 
 \begin{figure}[H]
 	\centering
@@ -257,7 +259,7 @@ In \figurename~\ref{fig:activations} sind drei der am meisten Verbreiteten Aktiv
 
 Die intuitivste Aktivierungsfunktion, die Einheitssprungfunktion, wird in neuronalen Netzen nur für Binärklassifizierungsprobleme in der letzten Schicht genutzt. Dies rührt daher, dass sie keine Ableitung besitzt und daher nicht zum Lernen über Backpropagation (\vgl Unterabschnitt~\ref{ssec:backpropagation}) geeignet ist.
 
-Die ReLU-Aktivierungsfunktion (\vgl \figurename~\ref{fig:relu}) ist die wohl einfachste (nicht-lineare) Funktion, die als Aktivierungsfunktion geeignet ist. Diese Einfachheit führt zu einer vergleichsweise guten Performance, und deshalb großer Beliebtheit in neuronalen Netzen mit vielen Schichten. Ihr Nachteil besteht darin, dass für Bereich $x<0$, praktisch gesehen kein Lernprozess stattfindet, da sie dort immer $0$ beträgt. \cite{kizrak_19} Zur Lösung dieses Problemes wurden Alternativen, wie \zB die Leaky-ReLU-Funktion entwickelt.
+Die ReLU-Aktivierungsfunktion (\vgl \figurename~\ref{fig:relu}) ist die wohl einfachste (nicht-lineare) Funktion, die als Aktivierungsfunktion geeignet ist. Diese Einfachheit führt zu einer vergleichsweise guten Performance, und deshalb großer Beliebtheit in neuronalen Netzen mit vielen Schichten. Ihr Nachteil besteht darin, dass für Bereich $x<0$, praktisch gesehen kein Lernprozess stattfindet, da sie dort immer $0$ beträgt. \cite{kizrak_19} Zur Lösung dieses Problemes wurden Alternativen, wie \zB die Leaky-ReLU-Funktion entwickelt (\vgl auch Unterabschnitt~\ref{ssec:exp_architecture_activation}).
 
 Die Sigmoid-Funktion eignet sich gut als Aktivierungsfunktion, da sie im Bereich nahe der y-Achse eine hohe Steigung aufweist, während die Veränderungen in anderen Bereichen relativ klein ausfallen. Damit eignet sie sich insbesondere gut zur Klassifizierung. \cite{kizrak_19}
 
@@ -313,7 +315,7 @@ In \cite{santurkar_18} wurde zusätzlich gezeigt, dass durch die Nutzung von Bat
 \subsection{Loss Function}
 \label{ssec:loss_function}
 
-Wie gut ein neuronales Netz eine Zielfunktion approximiert wird über den Loss gemessen, \dahe das Ziel eines neuronalen Netzes besteht daraus, den Loss in jeder Iteration weiter zu minimieren. DIe Lossfunktion, auch Verlustfunktion genannt, beschreibt, wie stark sich die vom Netz berechneten Werte von den zu erzielenden Werten (beim überwachten Lernen meistens die Ground Truth) unterscheiden.
+Wie gut ein neuronales Netz eine Zielfunktion approximiert wird über den Loss gemessen, \dahe das Ziel eines neuronalen Netzes besteht daraus, den Loss in jeder Iteration weiter zu minimieren. Die Lossfunktion, auch Verlustfunktion genannt, beschreibt, wie stark sich die vom Netz berechneten Werte von den zu erzielenden Werten (beim überwachten Lernen meistens die Ground Truth) unterscheiden.
 
 Auch hier existieren verschiedenste Loss-Funktionen. Im Folgenden wird genauer auf den Cross-Entropy-Loss eingegangen. Dieser ist besonders für Klassifizierungsprobleme geeignet. Er ist definiert als \cite{cs231n}:
 
@@ -333,18 +335,19 @@ $q$ hingegen gibt die berechnete Wahrscheinlichkeit an, dass eine jeweilige Klas
 S_i=\frac{e^{f_i}}{\sum_j e^{f_j}}
 \end{equation}
 
-Kombiniert ergibt sich so also für den Cross-Entropy-Loss \cite{cs231n}:
+Kombiniert ergibt sich so also für den Cross-Entropy-Loss \cite{cs231n} eines Elementes $i$:
 
 \begin{equation}
-L_i = -\sum_x p(x)\log\left(\frac{e^{f_{y_i}}}{\sum_j e^{f_i}}\right)
+L_i = -\sum_x p(x)\log\left(\frac{e^{f_{i}}}{\sum_j e^{f_j}}\right)
 \end{equation}
 
+\iffalse
 Da für alle außer eine Klasse gilt $p=0$, lässt sich die Summe entfernen:
 
 \begin{equation}
-L_i = -\log\left(\frac{e^{f_{y_i}}}{\sum_j e^{f_i}}\right)
+L_i = -\log\left(\frac{e^{f_{i}}}{\sum_j e^{f_j}}\right)
 \end{equation}
-
+\fi
 
 Für den durchschnittlichen Loss über alle Klassifizierungen ergibt sich so:
 
@@ -368,7 +371,7 @@ R(W) = \sum_k\sum_l W^2_{k,l}
 \subsection{Gradientenverfahren}
 \label{ssec:gradient_descent}
 
-Das Ziel eines neuronalen Netzes besteht daraus, die Werte der Lossfunktionen weitgehend zu minimieren. Dies wäre rein theoretisch durch klassische Analysis möglich, indem man die Ableitungen der Funktionen Netzes berechnet und aus diesen anschließend die Extrempunkte. In der Praxis allerdings, besitzt so ein Netzwerk viel zu viele Variablen, als dass die Extremalstellen in einem Annehmbaren Zeitraum berechnet werden könnten. \cite[Kap.~1]{nielsen_15} AlexNet, der Gewinner der ImageNet-Challenge 2012 besitzt \bspw etwa 60 Millionen trainierbare Parameter. (\Vgl Abschnitt~\ref{sec:cnn})
+Das Ziel eines neuronalen Netzes besteht daraus, die Werte der Lossfunktionen weitgehend zu minimieren. Dies wäre rein theoretisch durch klassische Analysis möglich, indem man die Ableitungen der Funktionen des Netzes berechnet und aus diesen anschließend die Extrempunkte. In der Praxis besitzt solch ein Netzwerk allerdings zu viele Variablen, als dass die Extremalstellen in einem annehmbaren Zeitraum berechnet werden könnten. \cite[Kap.~1]{nielsen_15} AlexNet, der Gewinner der ImageNet-Challenge 2012 besitzt \bspw etwa 60 Millionen trainierbare Parameter (\vgl Abschnitt~\ref{sec:cnn}).
 
 Die Funktion $C(w, b)$ sei die zu minimierende Lossfunktion in Abhängigkeit von den Gewichtungen und Bias des neuronalen Netzes. Zur einfacheren Erklärung gilt, \oBdA, dass im Netzwerk nur zwei trainierbare Parameter existieren. Somit ist das Ziel, die Parameter der Funktion $C(v_1, v_2)$ so zu optimieren, dass das Funktionsergebnis minimiert wird. Grafisch ist eine Beispielfunktion $C$ in \figurename~\ref{fig:valley} dargestellt.
 
@@ -416,13 +419,13 @@ Es sei nun:
 \Delta v = -\eta\nabla C
 \end{equation}
 
-wobei $\eta$ ein beliebiger, positiver Wert sei. Dieser wird auch \textit{learning rate} --~Lernrate~-- genannt. $\eta$ sollte so klein gewählt werden, als dass Gleichung~\ref{eqn:def_deltaC} eine gute Annäherung bleibt \cite[Kap.~1]{nielsen_15}, aber groß genug, als dass die Anzahl der nötigen Iterationen gering gehalten wird. Daraus folgt:
+Wobei $\eta$ ein beliebiger, positiver Wert sei. Dieser wird auch \textit{learning rate} --~Lernrate~-- genannt. $\eta$ sollte so klein gewählt werden, als dass Gleichung~\ref{eqn:def_deltaC} eine gute Annäherung bleibt \cite[Kap.~1]{nielsen_15}, aber groß genug, als dass die Anzahl der nötigen Iterationen gering gehalten wird. Daraus folgt:
 
 \begin{equation}
 \Delta C\approx -\eta\nabla C\cdot\nabla C= -\eta\left|\left|\nabla C\right| \right|^2
 \end{equation}
 
-Da $\left|\left|\nabla C\right| \right|^2$ immer größer/gleich 0 ist, verringert sich der Wert $C$ solange die Annahme in Gleichung~\ref{eqn:let_deltav} gilt. 
+Da $\left|\left|\nabla C\right| \right|^2$ immer größer/gleich $0$ ist, verringert sich der Wert $C$ solange die Annahme in Gleichung~\ref{eqn:let_deltav} gilt. 
 
 Es werden also $\Delta v_1$ und $\Delta v_2$ nun in jeder Iteration nach dieser Annahme gewählt, um den Wert von $C$ in jedem Durchlauf des Prozesses weiter zu verringern. Nach ausreichend vielen Iterationen erhält man die Koordinaten eines lokalen Minimums.
 
