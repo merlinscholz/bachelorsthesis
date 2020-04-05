@@ -869,7 +869,6 @@ Auf eine genaue Analyse der Auswirkungen der Anpassung der einzelnen Parameter w
 \label{ssec:evaluation_domain}
 
 \paragraph{Post-Processing der Resultate}
-\label{ssec:postprocessing}
 
 Wie in Unterabschnitt~\ref{ssec:dataset_domain} beschrieben, tritt an der Stelle der Evaluation der domänenspezifischen Resultate das Problem der fehlenden Ground Truth auf. Der genutzte Mars Krater Katalog \cite{robbins_12} enthält lediglich Informationen, ob ein gewisser Pixel der jeweiligen Aufnahme einem Krater angehört oder nicht, während der vorgestellte Algorithmus das Eingabebild in unterschiedliche Segmente aufteilt. Da dieser Algorithmus unüberwacht Lernt, existieren zu den jeweiligen Segmenten keine Klassenzuweisungen. Aus diesem Grund müssen die produzierten Ergebnisse manuell konvertiert werden, um mit der vorhandenen Ground Truth verglichen werden zu können.
 
@@ -879,7 +878,7 @@ Damit ein Segment auf einem Krater hindeutet und als solcher markiert wird, gelt
 
 \begin{enumerate}
 	\item Das Segment muss kreisförmig oder ellipsenförmig sein.
-	\item Es ist irrelevant, ob das Segment gefüllt ist, oder lediglich die Ränder eines Kreises markiert wurden.
+	\item Es ist irrelevant, ob das Segment gefüllt ist, oder lediglich die Ränder eines Kreises markiert wurden, solange diese zu mehr als 50\% abgebildet sind.
 	\item Wird ein Kraterrand erkannt, so darf dieser aus mehreren unterschiedlichen Segmenten zusammengesetzt sein.
 	\item Alle manuell erzeugten Segmente sind perfekt kreisförmig, es ist irrelevant ob das unterliegende Segment nicht perfekt rund ist. Dies ist eine Limitierung der Ground Truth.
 	\item Es werden keine konkaven Segmente markiert.
@@ -1012,7 +1011,8 @@ Da bei dem genutzten Datensatz mehrere Ground Truths vorhanden sind, wird der Du
 \label{ssec:results_domain}
 
 Nach der Anwendung des in Unterabschnitt~\ref{ssec:evaluation_domain} beschriebenen Verfahrens ergibt sich ein F1-Score von $F_1=0,6374$, ein Teil der dazugehören Aufnahmen und deren Segmentierungen sind in \figurename~\ref{fig:} zu sehen.
-% TODO Wrong dataset Dort ist zu erkennen, dass die Kraterränder auf den segmentierten Aufnahmen leicht zu erkennen sind, außerdem fällt auf, dass auch die Ground Truth nicht unbedingt fehlerfrei ist: Insbesondere in Aufnahme \texttt{a)}
+Dort ist zu erkennen, dass die Kraterränder auf den segmentierten Aufnahmen leicht zu erkennen sind, da der allgemeine Hintergrund erfolgreich als solcher erkannt wird und wie erwünscht einfarbig markiert wird. Außerdem fällt auf, dass sich die Kriterien eines Krater der Ground Truth von denen in Unterabschnitt~\ref{ssec:evaluation_domain} unterscheiden: Insbesondere auf auf Aufnahme \texttt{c)} fällt auf, dass \bspw die kurvige Region im rechten Teil es Bildes zwar in der Ground Turth als Krater gekennzeichnet ist, dies allerdings den aufgestellten Regeln widerspricht, nach welchen mindestens 50\% eines Kraterrandes ersichtlich sein müssen.
+
 \begin{table}[h!]
 	\setlength\tabcolsep{0pt}
 	\begin{tabularx}{\textwidth}{>{\centering}m{0.05\textwidth}
@@ -1049,9 +1049,6 @@ Nach der Anwendung des in Unterabschnitt~\ref{ssec:evaluation_domain} beschriebe
 	\caption{Eine Auswahl der Segmentierungsergebnisse. Die Farben der jeweiligen Cluster wurden zufällig gewählt.}
 	\label{tab:results_mars}
 \end{table}
-
-
-
 
 \subsection{Allgemein}
 \label{ssec:results_general}

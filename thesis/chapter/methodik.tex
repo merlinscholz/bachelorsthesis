@@ -10,7 +10,37 @@ Nachdem kurz auf die gesamte Funktionsweise des Algorithmus eingegangen wird fol
 \section{Funktionsweise des Algorithmus}
 \label{sec:howitworks}
 
-Die grundsätzliche Funktionsweise des Algorithmus aus \cite{kanezaki_18} findet sich in Abschnitt~\ref{ssec:kanezaki}. 
+Die grundsätzliche Funktionsweise des Algorithmus aus \cite{kanezaki_18} findet sich in Abschnitt~\ref{ssec:kanezaki}, eine gröbere Übersicht ist in \figurename~\ref{fig:howitworks} zu finden.
+
+\begin{figure}[h!]
+	\begin{tikzpicture}
+		\draw  [draw, text width=7cm, align=center] (0,0) rectangle  node{Eingabebild} (7,-1);
+		\path [->,>=stealth] (1.5,-1) edge (1.5,-1.5);
+		\path [->,>=stealth] (5.5,-1) edge (5.5,-1.5);
+		\draw  [draw, text width = 2.5cm, align=center] (0,-1.5) rectangle node{Neuronales Netzwerk mit Argmax Klassifizierung und Feature Extraction} (3,-5.5);
+		\path [->,>=stealth] (1.5,-5.5) edge (1.5,-6);
+		\draw  [draw, text width = 2.5cm, align=center] (4,-1.5) rectangle node{Clustering-algorithmus (bspw. SLIC)} (7,-5.5);
+		\path [->,>=stealth] (5.5,-5.5) edge (5.5,-6);
+		\draw  [dashed, text width = 3.5cm, align=center] (0,-6) rectangle node{Klasse jedes Pixels} (3.5,-6.5);
+		\draw  [dashed, text width = 3.5cm, align=center] (3.5,-6) rectangle node{Pixelcluster} (7,-6.5);
+		\draw (0,-6.5) -- (0,-8) -- (7,-8) -- (7,-6.5);
+		\node [text width=6.5cm, align=center] at (3.5,-7.25) {Jedem Pixelcluster die in ihm häufigste Klasse zuweisen};
+		\path [->,>=stealth] (3.5,-8) edge (3.5,-8.5);
+		\draw  [draw, text width = 6.5cm, align=center] (0,-8.5) rectangle node{Softmax-Loss berechnen} (7,-9.5);
+		
+		\path [-] (0,-5) edge (-0.5,-5);
+		\path [-] (-0.5,-5) edge (-0.5,-9);
+		\path [->,>=stealth] (-0.5,-9) edge (0,-9);
+		
+		\path [-] (3.5,-9.5) edge (3.5,-10);
+		\path [-] (3.5,-10) edge (-1,-10);
+		\path [-] (-1,-10) edge (-1,-2.75);
+		\node [text width=6.5cm, align=center,rotate=90] at (-1.25,-6.5) {Optimiert durch Backpropagation};
+		\path [->,>=stealth] (-1,-2.75) edge (0,-2.75);
+	\end{tikzpicture}
+	\caption{Übersicht über die Funktionsweise des Algorithmus}
+	\label{fig:howitworks}
+\end{figure}
 
 Das Ziel des Algorithmus besteht darin, eine Mapping-Funktion zu generieren, welche jedem der $N$ $p$-dimensionalen Pixel der Eingabedatei genau ein Clusterlabel $c$ zuordnet.
 
