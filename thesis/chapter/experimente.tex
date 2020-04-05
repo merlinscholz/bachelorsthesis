@@ -1011,10 +1011,45 @@ Da bei dem genutzten Datensatz mehrere Ground Truths vorhanden sind, wird der Du
 \subsection{Domänenspezifisch}
 \label{ssec:results_domain}
 
-Nach der Anwendung des in Unterabschnitt~\ref{ssec:evaluation_domain} beschriebenen Verfahrens ergibt sich ein F1-Score von $F_1=0,6374$, die dazugehören Aufnahmen und deren Segmentierungen sind in \figurename~\ref{fig:} zu sehen.
+Nach der Anwendung des in Unterabschnitt~\ref{ssec:evaluation_domain} beschriebenen Verfahrens ergibt sich ein F1-Score von $F_1=0,6374$, ein Teil der dazugehören Aufnahmen und deren Segmentierungen sind in \figurename~\ref{fig:} zu sehen.
+% TODO Wrong dataset Dort ist zu erkennen, dass die Kraterränder auf den segmentierten Aufnahmen leicht zu erkennen sind, außerdem fällt auf, dass auch die Ground Truth nicht unbedingt fehlerfrei ist: Insbesondere in Aufnahme \texttt{a)}
+\begin{table}[h!]
+	\setlength\tabcolsep{0pt}
+	\begin{tabularx}{\textwidth}{>{\centering}m{0.05\textwidth}
+			>{\centering}m{0.2375\textwidth}
+			>{\centering}m{0.2375\textwidth}
+			>{\centering}m{0.2375\textwidth}
+			>{\centering\arraybackslash}m{0.2375\textwidth}}
+		\toprule
+		Bez. &
+		Eingabe & 
+		Segmentierung &
+		Menschlich annotierte Segmentierung &
+		Ground Truth \\
+		\midrule
+		\texttt{a)} &
+		\includegraphics[width=0.9\linewidth]{images/gen/results_robbins/input/thm_dir_N-30_210.png_sourcetile_60.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/results_robbins/result/thm_dir_N-30_210.png_tile_60.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/results_robbins/postprocessing/thm_dir_N-30_210.png_tile_60.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/results_robbins/gt/thm_dir_N-30_210.png_tile_60.png} \\
+		
+		\texttt{b)} &
+		\includegraphics[width=0.9\linewidth]{images/gen/results_robbins/input/thm_dir_N-30_210.png_sourcetile_100.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/results_robbins/result/thm_dir_N-30_210.png_tile_100.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/results_robbins/postprocessing/thm_dir_N-30_210.png_tile_100.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/results_robbins/gt/thm_dir_N-30_210.png_tile_100.png} \\
+		
+		\texttt{c)} &
+		\includegraphics[width=0.9\linewidth]{images/gen/results_robbins/input/thm_dir_N-30_210.png_sourcetile_160.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/results_robbins/result/thm_dir_N-30_210.png_tile_160.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/results_robbins/postprocessing/thm_dir_N-30_210.png_tile_160.png} &
+		\includegraphics[width=0.9\linewidth]{images/gen/results_robbins/gt/thm_dir_N-30_210.png_tile_160.png} \\
+		\bottomrule
+	\end{tabularx}
+	\caption{Eine Auswahl der Segmentierungsergebnisse. Die Farben der jeweiligen Cluster wurden zufällig gewählt.}
+	\label{tab:results_mars}
+\end{table}
 
-% TODO Anzahl Krater
-% TODO Bilder
 
 
 
