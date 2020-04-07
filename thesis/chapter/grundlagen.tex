@@ -6,7 +6,7 @@
 
 \subsection{Merkmale der Marsöberfläche}
 \label{ssec:mars_surface_features}
-Auf dem Mars ist eine Vielzahl an unterschiedlichen Oberflächenmerkmalen vorhanden. Diese wurden erstmals im Jahre 1964 fotografisch während der Mariner 4-Mission der NASA aufgenommen. \cite{mariner4} Seitdem wurden durch den Fortschritt der Technik innerhalb verschiedener Mars-Missionen Aufnahmen mit immer höheren Auflösungen erfasst. Heutzutage kann die Marsoberfläche sogar ohne explizite Mars-Mission erfasst werden, \zB durch das Hubble-Weltraumteleskop.
+Auf dem Mars ist eine Vielzahl an unterschiedlichen Oberflächenmerkmalen vorhanden. Diese wurden erstmals im Jahre 1964 fotografisch während der Mariner 4-Mission der NASA aufgenommen. \cite{siddiqi_18} Seitdem wurden durch den Fortschritt der Technik innerhalb verschiedener Mars-Missionen Aufnahmen mit immer höheren Auflösungen erfasst. Heutzutage kann die Marsoberfläche sogar ohne explizite Mars-Mission erfasst werden, \zB durch das Hubble-Weltraumteleskop.
 
 \begin{figure}[H]
 	\centering
@@ -99,7 +99,7 @@ Neuronale Netze werden oftmals als eine Weiterentwicklung oder Optimierung des m
 
 Eine der einfachsten Formen eines neuronalen Netzes besteht aus dem Multilayer-Perceptron: Dieses besteht aus mehreren der zuvor erwähnten Layers, von denen jede mehrere einzelne Perceptronen enthält. Zwischen einer Eingabe- und einer Ausgabe-Schicht existieren somit auch noch eine beliebige Anzahl an sogenannten Hidden Layers.
 
-In diesem Kontext wird ein Perceptron auch als Neuron bezeichnet. Ein typisches Neuron verarbeitet einen Eingabevektor indem es dies mit einem Gewichtungsvektor elementweise multipliziert und anschließend einen Bias-Vektor aufaddiert. Die Addition dieses Bias ist nötig um die gesamte Aktivierungsfunktion entlang der x-Achse verschieben zu können, da sonst manche gewünschten Ergebnisse nicht erreicht werden können. \cite{bias} Ein typisches Neuron ist in \figurename~\ref{fig:neuron} dargestellt. Nach dessen Durchlaufen werden die Elemente dieses Vektor aufaddiert, und auf diese Summe eine Aktivierungsfunktion (\vgl Unterabschnitt~\ref{ssec:activation_layer}) angewandt. Während das Netzwerk trainiert wird, passen die einzelnen Perceptronen diese zwei Vektoren, also die Gewichtungen und die Bias, so an, dass die Ergebnisse weitgehend optimiert werden (\vgl Unterabschnitte~\ref{ssec:gradient_descent} und \ref{ssec:backpropagation}). Diese Gewichtungen sind anfangs zufällig bestimmt. \cite{hardesty_17, cs231n} 
+In diesem Kontext wird ein Perceptron auch als Neuron bezeichnet. Ein typisches Neuron verarbeitet einen Eingabevektor indem es dies mit einem Gewichtungsvektor elementweise multipliziert und anschließend einen Bias-Vektor aufaddiert. Die Addition dieses Bias ist nötig um die gesamte Aktivierungsfunktion entlang der x-Achse verschieben zu können, da sonst manche gewünschten Ergebnisse nicht erreicht werden können. \cite[Kap.~2]{gibson_17} Ein typisches Neuron ist in \figurename~\ref{fig:neuron} dargestellt. Nach dessen Durchlaufen werden die Elemente dieses Vektor aufaddiert, und auf diese Summe eine Aktivierungsfunktion (\vgl Unterabschnitt~\ref{ssec:activation_layer}) angewandt. Während das Netzwerk trainiert wird, passen die einzelnen Perceptronen diese zwei Vektoren, also die Gewichtungen und die Bias, so an, dass die Ergebnisse weitgehend optimiert werden (\vgl Unterabschnitte~\ref{ssec:gradient_descent} und \ref{ssec:backpropagation}). Diese Gewichtungen sind anfangs zufällig bestimmt. \cite{hardesty_17, cs231n} 
 
 \begin{figure}[h!]
 	\centering
@@ -212,10 +212,12 @@ In \figurename~\ref{fig:activations} sind drei der am meisten Verbreiteten Aktiv
 				axis lines = middle,
 				xlabel = {$x$},
 				ylabel = {$f(x)$},
-				domain=-5:5,
+				xmin=-5,
+				xmax=5,
+				ymin=-5,
+				ymax=5,
 				]
 				\addplot[draw=blue,samples=100,domain=-5:5,line width=1.5]{max(0,x)};
-				\addplot[draw opacity=0,domain=-5:5]{1.2*x};
 			\end{axis}
 		\end{tikzpicture}
 		\subcaption{ReLU:\\$f(x)=\mathrm{max}\{0,x\}$}
@@ -228,10 +230,12 @@ In \figurename~\ref{fig:activations} sind drei der am meisten Verbreiteten Aktiv
 				axis lines = middle,
 				xlabel = {$x$},
 				ylabel = {$f(x)$},
-				domain=-5:5,
+				xmin=-5,
+				xmax=5,
+				ymin=-1.2,
+				ymax=1.2,
 				]
 				\addplot[draw=blue,samples=100,domain=-5:5,line width=1.5]{1/(1+e^(-x))};
-				\addplot[draw opacity=0,domain=-5:5]{0.3*x};
 			\end{axis}
 		\end{tikzpicture}
 		\subcaption{Sigmoid:\\$f(x)={1}/{(1+e^{-x})}$}
@@ -244,10 +248,12 @@ In \figurename~\ref{fig:activations} sind drei der am meisten Verbreiteten Aktiv
 				axis lines = middle,
 				xlabel = {$x$},
 				ylabel = {$f(x)$},
-				domain=-5:5,
+				xmin=-5,
+				xmax=5,
+				ymin=-1.2,
+				ymax=1.2,
 				]
 				\addplot[draw=blue,samples=100,domain=-5:5,line width=1.5]{tanh(x)};
-				\addplot[draw opacity=0,domain=-5:5]{0.3*x};
 			\end{axis}
 		\end{tikzpicture}
 		\subcaption{tanh:\\$f(x)=tanh(x)$}
@@ -259,18 +265,18 @@ In \figurename~\ref{fig:activations} sind drei der am meisten Verbreiteten Aktiv
 
 Die intuitivste Aktivierungsfunktion, die Einheitssprungfunktion, wird in neuronalen Netzen nur für Binärklassifizierungsprobleme in der letzten Schicht genutzt. Dies rührt daher, dass sie keine Ableitung besitzt und daher nicht zum Lernen über Backpropagation (\vgl Unterabschnitt~\ref{ssec:backpropagation}) geeignet ist.
 
-Die ReLU-Aktivierungsfunktion (\vgl \figurename~\ref{fig:relu}) ist die wohl einfachste (nicht-lineare) Funktion, die als Aktivierungsfunktion geeignet ist. Diese Einfachheit führt zu einer vergleichsweise guten Performance, und deshalb großer Beliebtheit in neuronalen Netzen mit vielen Schichten. Ihr Nachteil besteht darin, dass für Bereich $x<0$, praktisch gesehen kein Lernprozess stattfindet, da sie dort immer $0$ beträgt. \cite{kizrak_19} Zur Lösung dieses Problemes wurden Alternativen, wie \zB die Leaky-ReLU-Funktion entwickelt (\vgl auch Unterabschnitt~\ref{ssec:exp_architecture_activation}).
+Die ReLU-Aktivierungsfunktion (\vgl \figurename~\ref{fig:relu}) ist die wohl einfachste (nicht-lineare) Funktion, die als Aktivierungsfunktion geeignet ist. Diese Einfachheit führt zu einer vergleichsweise guten Performance, und deshalb großer Beliebtheit in neuronalen Netzen mit vielen Schichten. Ihr Nachteil besteht darin, dass für Bereich $x<0$, praktisch gesehen kein Lernprozess stattfindet, da sie dort immer $0$ beträgt. \cite{nwankpa_18} Zur Lösung dieses Problemes wurden Alternativen, wie \zB die Leaky-ReLU-Funktion entwickelt (\vgl auch Unterabschnitt~\ref{ssec:exp_architecture_activation}).
 
-Die Sigmoid-Funktion eignet sich gut als Aktivierungsfunktion, da sie im Bereich nahe der y-Achse eine hohe Steigung aufweist, während die Veränderungen in anderen Bereichen relativ klein ausfallen. Damit eignet sie sich insbesondere gut zur Klassifizierung. \cite{kizrak_19}
+Die Sigmoid-Funktion eignet sich gut als Aktivierungsfunktion, da sie im Bereich nahe der y-Achse eine hohe Steigung aufweist, während die Veränderungen in anderen Bereichen relativ klein ausfallen. Damit eignet sie sich insbesondere gut zur Klassifizierung. \cite{nwankpa_18}
 
-Die $tanh(x)$-Funktion ist in ihrer Rolle als Aktivierungsfunktion relativ ähnlich zur Sigmoid-Funktion, mit dem Unterschied dass sie im negativen x-Bereich auch ins Negative geht, statt sich an $0$ anzunähern. Wie die Sigmoid-Funktion eignet sie sich gut zur Klassifizierung, je nach Anwendungsfall sogar besser, da ihre Ableitung nahe der y-Achse steiler ist. \cite{kizrak_19}
+Die $tanh(x)$-Funktion ist in ihrer Rolle als Aktivierungsfunktion relativ ähnlich zur Sigmoid-Funktion, mit dem Unterschied dass sie im negativen x-Bereich auch ins Negative verläuft, statt sich an $0$ anzunähern. Wie die Sigmoid-Funktion eignet sie sich gut zur Klassifizierung, je nach Anwendungsfall sogar besser, da ihre Ableitung nahe der y-Achse steiler ist. \cite{nwankpa_18}
 
 Es existieren noch weitere Aktivierungsfunktionen, diese zu Analysieren ist allerdings außerhalb des Rahmens dieser Arbeit.
 
 \subsection{Pooling Layer}
 \label{ssec:pooling_layer}
 
-Konvolutionelle Schichten in neuronalen Netzen können die selben Merkmale von unterschiedlichen Stellen extrahieren. Die Position, an der diese Merkmale erkannt wurden, werden auch an die nächste Schicht weitergegeben, \dahe kleine Veränderungen an der Position eines Merkmals führen zu einer veränderten Merkmalsdimension. \cite{brownlee_19} Dies kann insbesondere beim Einsatz von mehreren konsekutiven Convolutional Layers zu einer erhöhten Störanfälligkeit führen, deshalb wird oftmals eine Pooling-Layer dazu eingesetzt, das resultierende Netzwerk invariant zu einzelnen Merkmalspositionen zu machen. Des Weiteren dient eine Pooling-Layer dazu, Informationen aus verschiedenen Bildbereichen zu abstrahieren und langsam global zu aggregieren. \cite{deeplearning_16}
+Konvolutionelle Schichten in neuronalen Netzen können die selben Merkmale von unterschiedlichen Stellen extrahieren. Die Position, an der diese Merkmale erkannt wurden, werden auch an die nächste Schicht weitergegeben, \dahe kleine Veränderungen an der Position eines Merkmals führen zu einer veränderten Merkmalsdimension. \cite[Kap.~9]{deeplearning_16} Dies kann insbesondere beim Einsatz von mehreren konsekutiven Convolutional Layers zu einer erhöhten Störanfälligkeit führen, deshalb wird oftmals eine Pooling-Layer dazu eingesetzt, das resultierende Netzwerk invariant zu einzelnen Merkmalspositionen zu machen. Des Weiteren dient eine Pooling-Layer dazu, Informationen aus verschiedenen Bildbereichen zu abstrahieren und langsam global zu aggregieren. \cite{deeplearning_16}
 
 \begin{figure}[h!]
 	\centering
@@ -299,7 +305,7 @@ Beim Max-Pooling übernimmt die Poolingoperation den maximalen Wert des von ihr 
 
 \subsection{Fully Connected Layer}
 \label{ssec:fully_connected_layer}
-Viele Convolutional Neural Networks besitzen (mindestens) eine Fully Connected Layer. Das Ziel dieser besteht daraus, die Resultate der konvolutionellen und Pooling-Schichten zu klassifizieren, da diese nur die Wahrscheinlichkeiten zurückgeben, mit der ein gewisses Merkmal an einer gewissen Position erkannt wird. Aus diesem Grund werden oft eine oder mehrere Fully Connected Layers am Ende eines ansonsten fertigen neuronalen Netzes eingesetzt. \cite{geva}
+Viele Convolutional Neural Networks besitzen (mindestens) eine Fully Connected Layer. Das Ziel dieser besteht daraus, die Resultate der konvolutionellen und Pooling-Schichten zu klassifizieren, da diese nur die Wahrscheinlichkeiten zurückgeben, mit der ein gewisses Merkmal an einer gewissen Position erkannt wird. Aus diesem Grund werden oft eine oder mehrere Fully Connected Layers am Ende eines ansonsten fertigen neuronalen Netzes eingesetzt. \cite[Kap.~4]{gibson_17}
 
 Die Funktionsweise einer Fully Connected Layer ist identisch zu einer Schicht eines Multilayer-Perceptrons, welches in Abschnitt~\ref{sec:cnn} beschrieben ist.
 
@@ -431,13 +437,13 @@ Es werden also $\Delta v_1$ und $\Delta v_2$ nun in jeder Iteration nach dieser 
 
 Der Prozess des Gradientenverfahrens stößt allerdings in diesem Anwendungsfall an seine Grenzen, da hier globale statt lokale Extrempunkte gesucht werden. Ein weiteres Problem besteht daraus, dass die Verlustfunktion $C$ vergleichsweise komplex ist, da sie aus dem Durchschnitt der Verlustfunktionen aller Klassen besteht (\vgl Gleichung~\ref{eqn:def_loss}).
 
-Beide Probleme lassen sich durch die Nutzung des stochastischen Gradientenverfahrens lösen: Dabei wird, pro Iteration, statt der Durchschnitt aller Lossfunktionen, nur eine einzigen, zufällig ausgewählten Verlustfunktion betrachtet. \cite{kathuria_18}
+Beide Probleme lassen sich durch die Nutzung des stochastischen Gradientenverfahrens lösen: Dabei wird, pro Iteration, statt der Durchschnitt aller Lossfunktionen, nur eine einzigen, zufällig ausgewählten Verlustfunktion betrachtet. \cite[Kap.~14.1]{sgd_14}
 
 Sollte man nun an einem lokalen Minimum einer Verlustfunktion angelangt sein, so wird in der nächsten Iteration eine andere Funktion betrachtet, welche an dieser Stelle möglicherweise kein Minimum besitzt.
 
 Des Weiteren wird der Rechenaufwand drastisch reduziert, da die Startkoordinaten des jeweils nächsten Durchlaufs anhand nur einer Funktion, statt anhand des Durchschnitts aller Verlustfunktionen berechnet wird.
 
-Ein praktischer Nachteil des stochastischen Gradientenverfahrens besteht allerdings daraus, dass bei dem klassischen Gradientenverfahren die Ergebnisse der unterschiedlichen Verlustfunktionen parallel berechnet werden können, dies beim stochastischen Gradientenverfahren nicht möglich ist, da das Ergebnis einer Iteration auf dem der vorherigen Iteration basiert. Es wird also ein Kompromiss beschlossen, in dem in jedem Durchgang eine Teilmenge der Verlustfunktionen genutzt wird. \cite{kathuria_18} Dies vereint die Vorteile beider Gradientenverfahren (die Meidung der lokalen Minima des stochastischen Gradientenverfahrens und den möglichen Parallellismus des klassischen Gradientenverfahrens).
+Ein praktischer Nachteil des stochastischen Gradientenverfahrens besteht allerdings daraus, dass bei dem klassischen Gradientenverfahren die Ergebnisse der unterschiedlichen Verlustfunktionen parallel berechnet werden können, dies beim stochastischen Gradientenverfahren nicht möglich ist, da das Ergebnis einer Iteration auf dem der vorherigen Iteration basiert. Es wird also ein Kompromiss beschlossen, in dem in jedem Durchgang eine Teilmenge der Verlustfunktionen genutzt wird. \cite[Kap.~19.5.1]{bottou_12} Dies vereint die Vorteile beider Gradientenverfahren (die Meidung der lokalen Minima des stochastischen Gradientenverfahrens und den möglichen Parallelismus des klassischen Gradientenverfahrens).
 
 Alle in diesem Unterabschnitt erklärten Verfahren lassen sich analog auf eine größere Anzahl an Parametern anwenden.
 
@@ -491,7 +497,7 @@ Dies lässt sich auch in vektorisierter Form schreiben: (nach \cite[Kap.~2]{niel
 
 Wie in Unterabschnitt~\ref{ssec:convolution} beschreibt der $\odot$-Operator das Hadamard-Produkt der jeweiligen Matrizen und $\nabla_{a^l} C$ ist der Vektor aller partiellen Ableitungen $\frac{\partial C}{\partial a_j^l}$ einer Schicht $l$.
 
-Um den Fehler $\delta^l$  anhand des Fehlers der nächsten Schicht $\delta^{l+1}$ wird Gleichung~\ref{eqn:bp1} so umgeformt, dass sie die Veränderung von $C$ in Abhängigkeit von $z^{l+1}$ statt in Abhängigkeit von $z^{l}$ darstellt. Die vollständige Herleitung ist in \cite[Kap.~2]{kathuria_18} zu finden. Aus ihr ergibt sich:
+Um den Fehler $\delta^l$  anhand des Fehlers der nächsten Schicht $\delta^{l+1}$ wird Gleichung~\ref{eqn:bp1} so umgeformt, dass sie die Veränderung von $C$ in Abhängigkeit von $z^{l+1}$ statt in Abhängigkeit von $z^{l}$ darstellt. Die vollständige Herleitung ist in \cite[Kap.~2]{nielsen_15} zu finden. Aus ihr ergibt sich:
 
 \begin{equation}
 \label{eqn:bp2}
@@ -500,7 +506,7 @@ Um den Fehler $\delta^l$  anhand des Fehlers der nächsten Schicht $\delta^{l+1}
 
 Durch die Kombination der Gleichungen~\ref{eqn:bp1} und \ref{eqn:bp2} lässt sich der Fehler in einer belibigen Schicht berechnen.
 
-Um nun anhand der Fehler die jeweiligen Gradienten der Verlustfunktion in Bezug auf die Gewichtungen und Biase zu berechnen gilt nun nach der Herleitung in \cite[Kap.~2]{kathuria_18}:
+Um nun anhand der Fehler die jeweiligen Gradienten der Verlustfunktion in Bezug auf die Gewichtungen und Biase zu berechnen gilt nun nach der Herleitung in \cite[Kap.~2]{nielsen_15}:
 
 \begin{eqnarray}
 \label{eqn:bp3}

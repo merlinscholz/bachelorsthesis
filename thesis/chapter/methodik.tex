@@ -7,7 +7,7 @@ In den folgenden Abschnitten wird beschrieben, welche Veränderungen vorgenommen
 
 Nachdem kurz auf die gesamte Funktionsweise des Algorithmus eingegangen wird folgt eine Übersicht über den Initialisierungsalgorithmus und Wege diesen zu Optimieren. Dazu zählen \bspw unterschiedliche Filterbänke, deren Größen, Gewichtungen der Merkmale und Anzahl der zu generierenden Cluster. Anschließend wird der eigentliche Algorithmus versucht zu verbessern, gefolgt von einzelnen Anpassungen der Architektur des neuronalen Netzes und einiger weiterer Hyperparameter.
 
-\section{Funktionsweise des Algorithmus}
+\section{Funktionsweise der Segmentierung}
 \label{sec:howitworks}
 
 Die grundsätzliche Funktionsweise des Algorithmus aus \cite{kanezaki_18} findet sich in Abschnitt~\ref{ssec:kanezaki}, eine gröbere Übersicht ist in \figurename~\ref{fig:howitworks} zu finden.
@@ -120,7 +120,7 @@ Grafisch ist der Prozess der Verringerung der Segmentanzahl in \tablename~\ref{t
 
 Es ist zu beachten, dass für jeder Iteration die selbe Initialisierung $I$ benutzt wird.
 
-\section{Initialisierung}
+\section{Eigenschaften der Initialisierung}
 \label{sec:initialization}
 
 Eine Veränderung mit starkem Einfluss des ursprünglichen Algorithmus besteht aus der Modifizierung des Initialisierungsalgorithmus.
@@ -184,7 +184,7 @@ Da in dem Prozess des Clusterings alle Optimierungen aus Unterabschnitt~\ref{sse
 
 Bis zu dieser Stelle haben sich vier Cluster sehr gut zur Visualisierung der unterschiedlichen Ergebnisse nutzen lassen, dies ändert sich allerdings wenn die jeweiligen Clusterings an das darauf folgende neuronale Netz weitergegeben werden. Die Anzahl der Cluster mit denen begonnen werden soll ist ein entscheidender Wert bei dem Prozess der Segmentierung: Ist diese Zahl zu gering, kann das Netzwerk dieses Clustering nicht weiter verfeinern, ist sie jedoch zu groß, so sind innerhalb eines Clusters nicht genug Informationen vorhanden, als dass das Netzwerk erlernen kann, nach welchen Kriterien das Bild ursprünglich aufgeteilt wurde. Ein Vergleich unterschiedlicher Werte für diese Anzahl der Startcluster ist in Unterabschnitt~\ref{ssec:exp_number_of_segments} sichtbar.
 
-\section{Algorithmus}
+\section{Eigenschaften des Segmentierungsalgorithmus}
 \label{sec:algorithm}
 
 Der Algorithmus aus \cite{kanezaki_18}, also das Füllen der Cluster der dynamisch erstellen Zielsegmentierung mit den derzeitigen Werten, wird größtenteils unverändert gelassen. Eine Modifikation die sich allerdings doch als hilfreich erwiesen hat, ist dass dieser genannte Vorgang nicht in jeder Iteration des Netzes geschieht, sondern nur alle $n$ Iterationen. Dies ermöglicht dem Netzwerk mehr Epochen zum Lernen der Methodik jeweiligen Segmentierung, bevor diese wieder verändert wird.

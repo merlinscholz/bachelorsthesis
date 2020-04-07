@@ -9,12 +9,12 @@ Der vorgestellte Algorithmus wird auf zwei Datensätzen evaluiert: Einerseits wi
 \subsection{Domänenspezifisch}
 \label{ssec:dataset_domain}
 
-Die in diesem Kapitel zur Optimierung der Parameter genutzten, domänenspezifischen Datensätze stammen größtenteils von der Website des \textit{Planetary Data System} der NASA \cite{pds}. Die dort gehosteten Aufnahmen der jeweiligen Instumente sind größtenteils unverarbeitet und befinden sich in einem speziell für diesen Zweck erstellten Dateiformat, sodass diese erst konvertiert und anschließend so verarbeitet werden müssen, dass für diesen Zweck besser geeignete Bilddateien entstehen.
+Die in diesem Kapitel zur Optimierung der Parameter genutzten, domänenspezifischen Datensätze stammen größtenteils von der Website des \textit{Planetary Data System} der NASA\footnote{\url{https://pds-imaging.jpl.nasa.gov/portal/mro\_mission.html}}. Die dort gehosteten Aufnahmen der jeweiligen Instumente sind größtenteils unverarbeitet und befinden sich in einem speziell für diesen Zweck erstellten Dateiformat, sodass diese erst konvertiert und anschließend so verarbeitet werden müssen, dass für diesen Zweck besser geeignete Bilddateien entstehen.
 Diese Verarbeitung besteht bei den Aufnahmen der CTX der Konvertierung der Pixelfarbwerte, der Entfernung der Even/Odd Detector Stripes, und der Ausgabe in ein adäquates Bildformat. Dieses kann von dem eigentlichen Analyse-Algorithmus eingelesen und weiter verarbeitet werden.
 
 Es existieren allerdings keine segmentierten Aufnahmen der Marsoberfläche. Aus diesem Grund wird zur eigentlichen Evaluation einer der größten Datensätze an Mars-Kratern, der \textit{Mars Crater Catalog v1 Robbins} \cite{robbins_12} genutzt, welcher Krater auf dem \textit{THEMIS Daytime IR Global Mosaic} markiert. Insbesondere wird ein Teil der Aufnahme \texttt{thm\_dir\_N-30\_210} betrachtet, da auf dieser weniger nicht-fotografierte Stellen vorhanden sind als auf den meisten weiteren Aufnahmen. Des Weiteren wird zur Evaluierung nur ein Teil dieser Aufnahme betrachtet, da zur Segmentierung manuelle Arbeit erforderlich ist:
 
-Da dieser allerdings nur Informationen über die Positionen der Krater auf der Marsoberfläche zur Verfügung stellt, wird die durch den hier vorgestellten Algorithmus erzeugte Segmentieren manuell in zwei Klassen eingeordnet: Krater und Nicht-Krater. Weitere Details zu diesem Vorgang sind in Abschnitt~\ref{sec:evaluation} zu finden.
+Da dieser allerdings nur Informationen über die Positionen der Krater auf der Marsoberfläche zur Verfügung stellt, wird die durch den hier vorgestellten Algorithmus erzeugte Segmentieren manuell in zwei Klassen eingeordnet: Krater und Nicht-Krater. Weitere Details zu diesem Vorgang sind in Abschnitt~\ref{sec:metriken} zu finden.
 
 \subsection{Allgemein}
 \label{ssec:bsds500}
@@ -455,6 +455,7 @@ Ein zu großer Wert für diese Initialisierung hingegen führt, wie oben beschri
 Anhand der Grafik lässt sich feststellen, dass ein Wert von $n=50$ für eine erfolgreiche Segmentierung ausreichend ist, da größere Werte keine sichtbare Verbesserung der Ergebnisse hervorbringen.
 
 \section{Modifizierungen der Netzwerkarchitektur}
+\label{sec:modifications_arch}
 
 \subsection{Abbruchkriterium}
 \label{ssec:exp_stoppingcriteria}
@@ -644,10 +645,13 @@ Diese Aktivierungsfunktion ist in \figurename~\ref{fig:leaky_relu} dargestellt.
 	axis lines = middle,
 	xlabel = {$x$},
 	ylabel = {$f(x)$},
-	domain=-5:5,
+	xmin=-5,
+	xmax=5,
+	ymin=-1,
+	ymax=1,
 	]
-	\addplot[draw=blue,samples=100,domain=-5:5,line width=1.5]{max(0,x)};
-	\addplot[draw opacity=0,domain=-5:5]{1.2*x};
+	\addplot[draw=blue,samples=100,domain=-5:0,line width=1.5]{0.01*x};
+	\addplot[draw=blue,samples=100,domain=0:5,line width=1.5]{x};
 	\end{axis}
 	\end{tikzpicture}
 	\caption{Leaky ReLU}
@@ -862,24 +866,29 @@ Alle nicht aufgeführten Parameter entsprechen den bisher bestimmten Optimalwert
 
 Auf eine genaue Analyse der Auswirkungen der Anpassung der einzelnen Parameter wird an dieser Stelle bewusst verzichtet, da dies außerhalb des Rahmens dieser Arbeit liegt.
 
-\section{Evaluation}
-\label{sec:evaluation}
+\section{Metriken}
+\label{sec:metriken}
+
+Im Folgenden wird beschrieben, wie der vorgestellte Algorithmus evaluiert werden kann. Dabei kommt es darauf an, dass Metriken genutzt werden, welche auch von anderen, ähnlichen Algorithmen genutzt werden, damit ein entsprechender Vergleich möglich ist. Dies beinhaltet, dass die Resultate der Segmentierung der Marsoberfläche von Hand weiter verarbeitet werden müssen, dies wird im Paragraph \enquote{Post-Processing der Resultate} genauer erläutert.
+
+Die Evaluation (wie die folgenden Resultate, der Vergleich und die Diskussion) ist aufgeteilt in jeweils zwei Unterabschnitt: Zum einen wird auf das ursprüngliche, domänenspezifische Ziel eingegangen, die Segmentierung von Aufnahmen der Marsoberfläche. Anschließend folgt je ein Unterabschnitt, in welchem der Algorithmus bei der Anwendung auf einen allgemeineren Datensatz genauer betrachtet wird.
 
 \subsection{Domänenspezifisch}
 \label{ssec:evaluation_domain}
 
 \paragraph{Post-Processing der Resultate}
 
-Wie in Unterabschnitt~\ref{ssec:dataset_domain} beschrieben, tritt an der Stelle der Evaluation der domänenspezifischen Resultate das Problem der fehlenden Ground Truth auf. Der genutzte Mars Krater Katalog \cite{robbins_12} enthält lediglich Informationen, ob ein gewisser Pixel der jeweiligen Aufnahme einem Krater angehört oder nicht, während der vorgestellte Algorithmus das Eingabebild in unterschiedliche Segmente aufteilt. Da dieser Algorithmus unüberwacht Lernt, existieren zu den jeweiligen Segmenten keine Klassenzuweisungen. Aus diesem Grund müssen die produzierten Ergebnisse manuell konvertiert werden, um mit der vorhandenen Ground Truth verglichen werden zu können.
+Wie in Unterabschnitt~\ref{ssec:dataset_domain} beschrieben, tritt an der Stelle der Evaluation der domänenspezifischen Resultate das Problem der fehlenden Ground Truth auf. Der genutzte Mars Krater Katalog \cite{robbins_12} enthält lediglich Informationen, ob ein gewisser Pixel der jeweiligen Aufnahme einem Krater angehört oder nicht, während der vorgestellte Algorithmus das Eingabebild in unterschiedliche Segmente aufteilt. Da dieser Algorithmus unüberwacht lernt, existieren zu den jeweiligen Segmenten keine Klassenzuweisungen. Aus diesem Grund müssen die produzierten Ergebnisse manuell konvertiert werden, um mit der vorhandenen Ground Truth verglichen werden zu können.
 
-Um möglichst neutrale Konvertierungsergebnisse zu erhalten, wird zu diesem Zweck lediglich die Ausgabe des Algorithmus betrachtet, die Eingabedatei und die Ground Truth werden nicht beachtet, damit die Person, welche die Ergebnisse umwandelt, nicht beeinflusst wird. Zur eigentlichen Konvertierung wird die erzeugte Segmentierung an jenen Stellen mit kreisförmige Labeln überlagert, an welchen sie auf das Vorhandensein eines Kraters hindeutet. Da in (fast) allen Aufnahmen die allgemeine Marsoberfläche separat von den speziellen Merkmalen erkannt wurde, verlief dieser Prozess vergleichsweise einfach und ordentlich.
+Um möglichst neutrale Konvertierungsergebnisse zu erhalten, wird zu diesem Zweck lediglich die Ausgabe des Algorithmus betrachtet. Andernfalls könnte es passieren, dass die Person, welche die Segmentierungen weiterverarbeitet, unterbewusst nach Stellen Ausschau hält, an welcher in der originalen Aufnahme oder in der Ground Truth Krater vorhanden sind.
+Zur eigentlichen Konvertierung wird die erzeugte Segmentierung an jenen Stellen mit kreisförmige Labeln überlagert, an welchen sie auf das Vorhandensein eines Kraters hindeutet. Die Tatsache, dass in (fast) allen Aufnahmen die allgemeine Marsoberfläche separat von den speziellen Merkmalen erkannt wurde, vereinfachte dieser Prozess.
 
 Damit ein Segment auf einem Krater hindeutet und als solcher markiert wird, gelten folgende Regeln:
 
 \begin{enumerate}
 	\item Das Segment muss kreisförmig oder ellipsenförmig sein.
 	\item Es ist irrelevant, ob das Segment gefüllt ist, oder lediglich die Ränder eines Kreises markiert wurden, solange diese zu mehr als 50\% abgebildet sind.
-	\item Wird ein Kraterrand erkannt, so darf dieser aus mehreren unterschiedlichen Segmenten zusammengesetzt sein.
+	\item Wird ein Kraterrand erkannt, so darf dieser aus mehreren unterschiedlichen Segmenten zusammengesetzt sein.  Dies ist damit begründet, dass ein gewisser Teil der Krater an unterschiedlichen Teilen der Ränder unterschiedliche Strukturen aufweist. Mit dieser Regel wird dem entgegengewirkt.
 	\item Alle manuell erzeugten Segmente sind perfekt kreisförmig, es ist irrelevant ob das unterliegende Segment nicht perfekt rund ist. Dies ist eine Limitierung der Ground Truth.
 	\item Es werden keine konkaven Segmente markiert.
 	\item Krater mit einem Durchmesser von unter \SI{20}{\pixel} werden ignoriert, da diese in der Ground Truth auch nicht erscheinen. (Die Ground Truth enthält nur Krater mit einem Durchmesser von \SI{\geq1}{\kilo\meter}.)
@@ -889,7 +898,7 @@ Damit ein Segment auf einem Krater hindeutet und als solcher markiert wird, gelt
 	\item Ein kreisförmiges Segment wird nicht markiert, wenn es offensichtlich ist, dass dies ein Teil einer größeren Struktur wie einer Hügelkette ist.
 \end{enumerate}
 
-Diese Regeln führen zu einer fairen Segmentierung, da sie unabhängig von der originalen Eingabedatei operieren und auch maschinell umsetzbar sind, \dahe sie beruhen nicht auf menschlicher Subjektivität.
+Diese Regeln führen zu einer möglichst neutralen Segmentierung, da sie unabhängig von der originalen Eingabedatei operieren und auch maschinell umsetzbar sind, \dahe sie beruhen nicht auf menschlicher Subjektivität, sie stellen allerdings eben durch diese menschliche Interaktion eine weitere Fehlerquelle dar.
 
 \paragraph{F1-Score}
 
@@ -906,13 +915,13 @@ P = \frac{tp}{tp+fp}\\
 R = \frac{tp}{tp+fn}
 \end{eqnarray}
 
-Es sind:
+Es sind in diesem Anwendungsfall:
 
 \begin{itemize}
-	\item{True Positives $tp$:} Die Anzahl der positiv markierten Datenpunkte, welche auch in der Ground Truth positiv sind.
-	\item{False Positives $fp$:} Die Anzahl der positiv markierten Datenpunkte, welche allerdings in der Ground Truth negativ sind.
-	\item{True Negatives $tn$:} Die Anzahl der negativ markierten Datenpunkte, welche auch in der Ground Truth negativ sind.
-	\item{False Negatives $fn$:} Die Anzahl der negativ markierten Datenpunkte, welche allerdings in der Ground Truth positiv sind.
+	\item{True Positives $tp$:} Die Anzahl der Pixel, welche als einem Krater zugehörig erkannt wurden, welche auch in der Ground Truth einem Krater angehören.
+	\item{False Positives $fp$:} Die Anzahl der Pixel, welche als einem Krater zugehörig erkannt wurden, welche allerdings in der Ground Truth keinem Krater angehören.
+	\item{True Negatives $tn$:} Die Anzahl der Pixel, welche als keinem Krater zugehörig erkannt wurden, welche auch in der Ground Truth keinem Krater angehören.
+	\item{False Negatives $fn$:} Die Anzahl der Pixel, welche als keinem Krater zugehörig erkannt wurden, welche allerdings in der Ground Truth einem Krater angehören.
 \end{itemize}
 
 \subsection{Allgemein}
@@ -1004,14 +1013,14 @@ Da bei dem genutzten Datensatz mehrere Ground Truths vorhanden sind, wird der Du
 
 %\subsection{Allgemein}
 
-\section{Resultate}
-\label{sec:results}
+\section{Evaluation}
+\label{sec:evaluation}
 
 \subsection{Domänenspezifisch}
 \label{ssec:results_domain}
 
-Nach der Anwendung des in Unterabschnitt~\ref{ssec:evaluation_domain} beschriebenen Verfahrens ergibt sich ein F1-Score von $F_1=0,6374$, ein Teil der dazugehören Aufnahmen und deren Segmentierungen sind in \figurename~\ref{fig:} zu sehen.
-Dort ist zu erkennen, dass die Kraterränder auf den segmentierten Aufnahmen leicht zu erkennen sind, da der allgemeine Hintergrund erfolgreich als solcher erkannt wird und wie erwünscht einfarbig markiert wird. Außerdem fällt auf, dass sich die Kriterien eines Krater der Ground Truth von denen in Unterabschnitt~\ref{ssec:evaluation_domain} unterscheiden: Insbesondere auf auf Aufnahme \texttt{c)} fällt auf, dass \bspw die kurvige Region im rechten Teil es Bildes zwar in der Ground Turth als Krater gekennzeichnet ist, dies allerdings den aufgestellten Regeln widerspricht, nach welchen mindestens 50\% eines Kraterrandes ersichtlich sein müssen.
+Nach der Anwendung des in Unterabschnitt~\ref{ssec:evaluation_domain} beschriebenen Verfahrens ergibt sich ein F1-Score von $F_1=0,6374$, ein Teil der dazugehören Aufnahmen und deren Segmentierungen sind in \tablename~\ref{tab:results_mars} zu sehen.
+Dort ist zu erkennen, dass die Kraterränder auf den segmentierten Aufnahmen leicht zu erkennen sind, da der allgemeine Hintergrund erfolgreich als solcher erkannt wird und wie erwünscht einfarbig markiert wird. Außerdem fällt auf, dass sich die Kriterien eines Krater der Ground Truth von denen in Unterabschnitt~\ref{ssec:evaluation_domain} unterscheiden: Insbesondere auf Aufnahme \texttt{c)} fällt auf, dass \bspw die kurvige, in der erstellten Segmentierung als größere blau markierte Fläche sichtbare Region im rechten Teil es Bildes zwar in der Ground Turth als Krater gekennzeichnet ist, dies allerdings den aufgestellten Regeln widerspricht, nach welchen mindestens 50\% eines Kraterrandes ersichtlich sein müssen.
 
 \begin{table}[h!]
 	\setlength\tabcolsep{0pt}
@@ -1023,7 +1032,7 @@ Dort ist zu erkennen, dass die Kraterränder auf den segmentierten Aufnahmen lei
 		\toprule
 		Bez. &
 		Eingabe & 
-		Segmentierung &
+		Segmentierung durch \textbf{unüberwachtes tiefes Clustering} &
 		Menschlich annotierte Segmentierung &
 		Ground Truth \\
 		\midrule
@@ -1046,13 +1055,13 @@ Dort ist zu erkennen, dass die Kraterränder auf den segmentierten Aufnahmen lei
 		\includegraphics[width=0.9\linewidth]{images/gen/results_robbins/gt/thm_dir_N-30_210.png_tile_160.png} \\
 		\bottomrule
 	\end{tabularx}
-	\caption{Eine Auswahl der Segmentierungsergebnisse. Die Farben der jeweiligen Cluster wurden zufällig gewählt.}
+	\caption{Eine Auswahl der Segmentierungsergebnisse. Die Farben der jeweiligen Cluster wurden zufällig gewählt. Die \enquote{menschlich annotierte Segmentierung} wurde nach den Regeln aus Unterkapitel~\ref{ssec:evaluation_domain} erzeugt, die Ground Truth stammt aus \cite{robbins_12}.}
 	\label{tab:results_mars}
 \end{table}
 
 \subsection{Allgemein}
 \label{ssec:results_general}
-Die Ergebnisse der Anwendung des in dieser Arbeit vorgestellten Algorithmus sind in \tablename~\ref{tab:res_bsds500} zu finden. Alle weiteren Ergebnisse wurden aus \cite{arbelaez_10} übernommen. Nur die Werte die über die dort beschriebene \enquote{optimal dataset scale}-Methode generiert wurden, wurden übernommen, da der vorgestellte Algorithmus ebenfalls die selben Parameter für alle Eingabebilder nutzt. Die Erweiterung des Algorithmus um eine Methode zur Generierung einer \enquote{optimal image scale} wäre in der Theorie machbar (\bspw über eine jeweilige binäre Suche über alle zu optimierenden Parameter). Aufgrund des dazu benötigten enormen Rechen- und Zeitaufwandes wird diese Metrik allerdings an dieser Stelle nicht beachtet.
+Die Ergebnisse der Anwendung des in dieser Arbeit vorgestellten Algorithmus sind in \tablename~\ref{tab:res_bsds500} zu finden, außerdem befindet sich eine Auswahl der resultierten Segmentierungen in \tablename~\ref{tab:images_bsds500} Alle weiteren Ergebnisse wurden aus \cite{arbelaez_10} übernommen. Nur die Werte die über die dort beschriebene \enquote{optimal dataset scale}-Methode generiert wurden, wurden übernommen, da der vorgestellte Algorithmus ebenfalls die selben Parameter für alle Eingabebilder nutzt. Die Erweiterung des Algorithmus um eine Methode zur Generierung einer \enquote{optimal image scale} wäre in der Theorie machbar (\bspw über eine jeweilige binäre Suche über alle zu optimierenden Parameter). Aufgrund des dazu benötigten enormen Rechen- und Zeitaufwandes wird diese Metrik allerdings an dieser Stelle nicht beachtet.
 
 \begin{table}[h!]
 	\setlength\tabcolsep{0pt}
@@ -1094,10 +1103,10 @@ Die Ergebnisse der Anwendung des in dieser Arbeit vorgestellten Algorithmus sind
 		\bottomrule
 	\end{tabularx}
 	\caption{Eine Auswahl der Segmentierungsergebnisse. Die Farben der jeweiligen Cluster wurden zufällig gewählt.}
-	\label{tab:results_mars}
+	\label{tab:images_bsds500}
 \end{table}
 
-\begin{table}
+\begin{table}[h!]
 	\begin{tabularx}{\textwidth}{p{0.40\textwidth} >{\centering} p{0.29\textwidth} >{\centering\arraybackslash} p{0.29\textwidth}}
 		\toprule
 		\textbf{Segmentierungsmethode} & \textbf{Probabilistic Rand Index} & \textbf{Variation of Information} \\
@@ -1120,33 +1129,56 @@ Die Ergebnisse der Anwendung des in dieser Arbeit vorgestellten Algorithmus sind
 %\section{Mosaik}
 %\label{sec:mosaic}
 
-\section{Vergleich und Diskussion}
-\label{sec:discussion}
+\section{Vergleich}
+\label{sec:comparision}
 
 \subsection{Domänenspezifisch}
 
-Der in dieser Arbeit erzielte F1-Score von $F_1=63,74\%$ lässt sich nur schwer mit alternativen Algorithmen zur Kratererkennung vergleichen. Dies liegt einerseits daran, dass nicht alle Algorithmen auf dem hier genutzten Robbins-Datensatz \cite{robbins_12} angewandt wurden, sondern auch auf weiteren Datensätzen wie \cite{bandeira_10}. Auf diesem Datensatz wurden bereits folgende $F_1$-Scores erreicht:
+Der in dieser Arbeit erzielte F1-Score von $F_1=0,6374$ lässt sich nur schwer mit alternativen Algorithmen zur Kratererkennung vergleichen. Dies liegt einerseits daran, dass nicht alle Algorithmen auf dem hier genutzten Robbins-Datensatz \cite{robbins_12} angewandt wurden, sondern auch auf weiteren Datensätzen wie \cite{bandeira_10}. Auf diesem Datensatz wurden bereits folgende $F_1$-Scores erreicht:
 
 \begin{table}[H]
 	\begin{tabularx}{\textwidth}{p{0.49\textwidth} >{\centering\arraybackslash}p{0.49\textwidth}}
 		\toprule
 		\textbf{Algorithmus} & \textbf{$F_1$-Score} \\
 		\midrule
-		Urbach '09 \cite{urbach_stepinski_2009} & $72,43\%$ \\
-		Bandeira '10 \cite{bandeira_10} & $83,59\%$ \\
-		Ding '11 \cite{ding_11} & $85,50\%$ \\
-		Cohen '16 \cite{cohen_16} & $89,29\%$ \\
-		\textbf{Unüberwachtes tiefes Clustering} & $63,74\%$\\
+		Urbach '09 \cite{urbach_stepinski_2009} (Unüberwacht) & $0,7243$ \\
+		Bandeira '10 \cite{bandeira_10} (Unüberwacht) & $0,8359$ \\
+		Ding '11 \cite{ding_11} (Unüberwacht) & $0,8550$ \\
+		Cohen '16 \cite{cohen_16} (Überwacht) & $0,8929$ \\
+		\textbf{Unüberwachtes tiefes Clustering} & $0,63´74$\\
 		\bottomrule
 	\end{tabularx}
 	\caption{Vergleich der durchschnittlichen $F_1$-Scores unterschiedlicher Algorithmen zur Kratererkennung (\vgl Abschnitt~\ref{sec:crater_detection}). Die Daten wurden aus \cite{cohen_16} übernommen.}
 	\label{tab:f1_comparision}
 \end{table}
 
-Eine weitere Ursache für den vergleichsweise schlechten $F_1$-Score ist, dass die direkte Kratererkennung nicht das Ziel des vorgestellten Algorithmus ist. Dieser ist eher auf die Erkennung und Segmentierung von unterschiedlichen Oberflächenmerkmalen spezialisiert. Aus diesem Grund wurde auch eine weitere Fehlerquelle eingeführt, die menschliche Analyse, die genutzt wurde, um aus der Segmentierung Krater zu erhalten.
+Eine weitere Ursache für den vergleichsweise niedrigen $F_1$-Score ist, dass die direkte Kratererkennung nicht das Ziel des vorgestellten Algorithmus ist. Dieser ist eher auf die Erkennung und Segmentierung von unterschiedlichen Oberflächenmerkmalen spezialisiert. Dies hat, wie bereits erläutert zur folge, dass durch die menschliche Analyse eine weitere Fehlerquelle eingeführt wird.
 
 \subsection{Allgemein}
 Aus dem Vergleich mit weiteren Segmentierungsmethoden in dem vorherigen Abschnitt wird deutlich, dass sich der hier vorgestellte Algorithmus durchaus zur Segmentierung von alltäglichen Aufnahmen eignet. Die Metriken deuten darauf hin, dass die Qualität der Ergebnisse zwar nicht ganz auf dem Niveau der führenden Alternativen sind, allerdings wurde gezeigt, dass der vorgestellte Algorithmus auf eine Großzahl an unterschiedlichen Eingaben angewandt werden kann.
 
-Außerdem fällt in \tablename~\ref{tab:res_bsds500} auf, dass \bspw auf den \figurename~\texttt{d)} und \texttt{e)} sogar zu sehr anhand der Textur segmentiert wird. Auf \figurename~\texttt{d)} unterscheidet das Netzwerk zwischen den horizontalen und vertikalen Streifen auf dem Kleidungsstück, während auf \figurename~\texttt{e)} zwischen den größeren und kleineren Punkten des Leoparden differenziert wird. Dieses Phänomen ließe sich zwar über unterschiedliche Skalierungsgrößen innerhalb der Initialisierung lösen (\vgl Unterabschnitt~\ref{ssec:exp_filtersize}), es kann allerdings an anderen Stellen auch von Vorteil sein.
+\section{Diskussion}
+\label{sec:discussion}
 
+\subsection{Domänenspezisch}
+
+Insgesamt scheint der erarbeitete Algorithmus gute Ergebnisse zur Kratererkennung zu liefern, unter der Voraussetzung, dass er mit einer Post-Processing-Schicht kombiniert wird, welche die entstandene Segmentierung zu einem Kraterdatensatz weiter verarbeitet. Alternativ würde sich der Algorithmus auch zur Erstellung einer Datenbank von Kraterkandidaten eignen, welche anschließend maschinell oder manuell weiter verfeinert werden kann (\vgl Abschnitt~\ref{sec:crater_detection}). Dieser Schluss folgt aus der genaueren Betrachtung der Aufnahmen und dazugehörigen Segmentierungen in \tablename~\ref{tab:results_mars}: Dort ist erkenntlich, dass ein Großteil der Krater erkannt werden. Dies schließt auch jene Krater mit ein, deren Durchmesser zu gering waren, um in \textit{Robbins Crater Dataset} aufgelistet zu werden, diese sind an den kleineren verstreuten, kreisförmigen Segmenten zu erkennen.
+
+Zu dem eigentliche Ziel dieser Arbeit, der Segmentierung der Marsoberfläche, wurden allerdings keine adäquaten Ergebnisse erzielt: In den genannten Aufnahmen sind zwar viele Krater deutlich gekennzeichnet, andere Oberflächenstrukturen wurden allerdings außer acht gelassen. Dies ist insbesondere verwunderlich, da diese in Abschnitt~\ref{sec:modifications} und \ref{sec:modifications_arch} vergleichsweise zuverlässig klassifiziert wurden, und alle Parameter so angepasst wurden, dass diese auf eine komplette Segmentierung hinarbeiten statt auf eine Kratererkennung.
+
+\subsection{Allgemein}
+\label{ssec:discussion_allgemein}
+
+Obwohl dieser Ansatz ursprünglich nicht zur Segmentierungen von allgemeinen Fotografien erstellt wurde, liefert dieser unerwartet gute Ergebnisse. Dies ist insbesondere auffällig, da nur sehr wenige Parameter angepasst werden mussten (\vgl Unterabschnitt~\ref{ssec:exp_colorpicture_optimization}) um diese Resultate zu erreichen.
+
+Eines der größten Probleme bei der Anwendung auf den BSDS-500-Datensatz besteht allerdings daraus, dass die Aufnahmen zu sehr Anhand ihrer Textut analysiert werden: So fällt in \tablename~\ref{tab:images_bsds500} auf, dass \bspw auf den \figurename~\texttt{d)} und \texttt{e)} fast ausschließlich anhand der Textur segmentiert wird. Auf \figurename~\texttt{d)} unterscheidet das Netzwerk zwischen den horizontalen und vertikalen Streifen auf dem Kleidungsstück, während auf \figurename~\texttt{e)} zwischen den größeren und kleineren Punkten des Leoparden differenziert wird. Ein geänderter Skalierungsfaktor für die Filterbank, welche in der Initialisierung genutzt wird, führt auf diesen wenigen Aufnahmen zwar zu einer besseren Segmentierung, der $F_1$-Score, welcher über den kompletten Datensatz berechnet wird, wird dadurch allerdings gesenkt.
+
+Dieses Phänomen ließe sich über unterschiedliche Skalierungsgrößen innerhalb der Initialisierung lösen (\vgl Unterabschnitt~\ref{ssec:exp_filtersize}), dafür wäre allerdings ein Algorithmus von Nöten, welcher geeignete Skalierungen berechnet. Diese Tatsache wird auch in \cite{arbelaez_10} erwähnt: Dort wird zwischen einer \enquote{optimal dataset scale} und einer \enquote{optimal image scale} unterschieden, letztere wird durch ein Orakel bestimmt.
+
+\subsection{Weitere Anwendungsgebiete}
+
+Durch die vorgestellten Resultate wurde gezeigt, dass tiefes unüberwachtes Clustering sich sehr gut dazu eignet, eine Aufnahme anhand ihrer Textur in Segmente einzuteilen. Obwohl dies auf Fotografien nicht immer zu wünschenswerten Ergebnissen führt, lässt sich dieser Ansatz in weiteren Anwendungsgebieten einsetzen: So besteht eine mögliche Einsatzdomäne aus dem medizinischen Bereich, in welchem auch oft zwischen einzelnen Strukturen in einer Aufnahme unterschieden werden muss.
+
+Insbesondere die Tatsache, dass keine Ground Truth benötigt wird, und der Algorithmus mithilfe der vielen Parameter (\vgl Abschnitt~\ref{sec:modifications} und \ref{sec:modifications_arch}) angepasst werden kann, eignet er sich in vielen Anwendungsbereichen zur Klassifizierung von Aufnahmen anhand ihrer Textur.
+
+Zur Nutzung im Anwendungsgebiet des autonomen Fahrens wäre tiefes unüberwachtes Clustering zwar auch anwendbar, da es \bspw die Textur einer Straße gut von anderen Objekten wie Straßenmarkierungen unterschieden könnte. Zur praktischen Anwendung eignet es sich allerdings ohne Modifizierungen nicht, da die benötigte Rechenzeit zu hoch für ein Echtzeit-Problem ist.
