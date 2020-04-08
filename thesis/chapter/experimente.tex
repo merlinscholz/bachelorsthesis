@@ -1061,7 +1061,10 @@ Dort ist zu erkennen, dass die Kraterränder auf den segmentierten Aufnahmen lei
 
 \subsection{Allgemein}
 \label{ssec:results_general}
-Die Ergebnisse der Anwendung des in dieser Arbeit vorgestellten Algorithmus sind in \tablename~\ref{tab:res_bsds500} zu finden, außerdem befindet sich eine Auswahl der resultierten Segmentierungen in \tablename~\ref{tab:images_bsds500} Alle weiteren Ergebnisse wurden aus \cite{arbelaez_10} übernommen. Nur die Werte die über die dort beschriebene \enquote{optimal dataset scale}-Methode generiert wurden, wurden übernommen, da der vorgestellte Algorithmus ebenfalls die selben Parameter für alle Eingabebilder nutzt. Die Erweiterung des Algorithmus um eine Methode zur Generierung einer \enquote{optimal image scale} wäre in der Theorie machbar (\bspw über eine jeweilige binäre Suche über alle zu optimierenden Parameter). Aufgrund des dazu benötigten enormen Rechen- und Zeitaufwandes wird diese Metrik allerdings an dieser Stelle nicht beachtet.
+
+Durch die in Unterabschnitt~\ref{ssec:eval_general} beschriebenen Methoden würden als resultierende Metriken für die Anwendung des erarbeiteten Algorithmus auf den gesamten Validierungsdatensatz des BSDS-500 ein Probabilistic Rand Index von $PRI=0,73$ und eine Variation of Interest von $VOI=2,88$ erreicht. Diese Werte geben das durchschnittliche Resultat aus fünf Testläufen an, da diese Ergebnisse abhängig von der zufälligen Initialisierung des k-Means-Algorithmus und des neuronalen Netzes sind.
+
+Eine Auswahl der resultierten Segmentierungen befindet sich in \tablename~\ref{tab:images_bsds500}.
 
 \begin{table}[h!]
 	\setlength\tabcolsep{0pt}
@@ -1106,6 +1109,38 @@ Die Ergebnisse der Anwendung des in dieser Arbeit vorgestellten Algorithmus sind
 	\label{tab:images_bsds500}
 \end{table}
 
+%\section{Mosaik}
+%\label{sec:mosaic}
+
+\section{Vergleich}
+\label{sec:comparision}
+
+\subsection{Domänenspezifisch}
+
+Der in dieser Arbeit erzielte F1-Score von $F_1=0,6374$ lässt sich nur schwer mit alternativen Algorithmen zur Kratererkennung vergleichen. Dies liegt einerseits daran, dass nicht alle Algorithmen auf dem hier genutzten Robbins-Datensatz \cite{robbins_12} angewandt wurden, sondern auch auf weiteren Datensätzen wie \cite{bandeira_10}. Auf diesem Datensatz wurden bereits die in \tablename~\ref{tab:f1_comparision} aufgezeigten $F_1$-Scores erreicht.
+
+\begin{table}[h!]
+	\begin{tabularx}{\textwidth}{p{0.49\textwidth} >{\centering\arraybackslash}p{0.49\textwidth}}
+		\toprule
+		\textbf{Algorithmus} & \textbf{$F_1$-Score} \\
+		\midrule
+		Urbach '09 \cite{urbach_stepinski_2009} (Unüberwacht) & $0,7243$ \\
+		Bandeira '10 \cite{bandeira_10} (Unüberwacht) & $0,8359$ \\
+		Ding '11 \cite{ding_11} (Unüberwacht) & $0,8550$ \\
+		Cohen '16 \cite{cohen_16} (Überwacht) & $0,8929$ \\
+		\textbf{Unüberwachtes tiefes Clustering} & $0,63´74$\\
+		\bottomrule
+	\end{tabularx}
+	\caption{Vergleich der durchschnittlichen $F_1$-Scores unterschiedlicher Algorithmen zur Kratererkennung (\vgl Abschnitt~\ref{sec:crater_detection}). Die Daten wurden aus \cite{cohen_16} übernommen.}
+	\label{tab:f1_comparision}
+\end{table}
+
+Eine weitere Ursache für den vergleichsweise niedrigen $F_1$-Score ist, dass die direkte Kratererkennung nicht das Ziel des vorgestellten Algorithmus ist. Dieser ist eher auf die Erkennung und Segmentierung von unterschiedlichen Oberflächenmerkmalen spezialisiert. Dies hat, wie bereits erläutert, zur Folge, dass durch die menschliche Analyse eine weitere Fehlerquelle eingeführt wird.
+
+\subsection{Allgemein}
+
+Die Ergebnisse der Anwendung des in dieser Arbeit vorgestellten Algorithmus sind in \tablename~\ref{tab:res_bsds500} zu finden. Alle weiteren Ergebnisse wurden aus \cite{arbelaez_10} übernommen. Nur die Werte, welche über die dort beschriebene \enquote{optimal dataset scale}-Methode generiert wurden, wurden übernommen, da der vorgestellte Algorithmus ebenfalls die selben Parameter für alle Eingabebilder nutzt. Die Erweiterung des Algorithmus um eine Methode zur Generierung einer \enquote{optimal image scale} wäre in der Theorie machbar (\bspw über eine jeweilige binäre Suche über alle zu optimierenden Parameter). Aufgrund des dazu benötigten enormen Rechen- und Zeitaufwandes wird diese Metrik allerdings an dieser Stelle nicht beachtet.
+
 \begin{table}[h!]
 	\begin{tabularx}{\textwidth}{p{0.40\textwidth} >{\centering} p{0.29\textwidth} >{\centering\arraybackslash} p{0.29\textwidth}}
 		\toprule
@@ -1126,41 +1161,13 @@ Die Ergebnisse der Anwendung des in dieser Arbeit vorgestellten Algorithmus sind
 	\label{tab:res_bsds500}
 \end{table}
 
-%\section{Mosaik}
-%\label{sec:mosaic}
-
-\section{Vergleich}
-\label{sec:comparision}
-
-\subsection{Domänenspezifisch}
-
-Der in dieser Arbeit erzielte F1-Score von $F_1=0,6374$ lässt sich nur schwer mit alternativen Algorithmen zur Kratererkennung vergleichen. Dies liegt einerseits daran, dass nicht alle Algorithmen auf dem hier genutzten Robbins-Datensatz \cite{robbins_12} angewandt wurden, sondern auch auf weiteren Datensätzen wie \cite{bandeira_10}. Auf diesem Datensatz wurden bereits folgende $F_1$-Scores erreicht:
-
-\begin{table}[H]
-	\begin{tabularx}{\textwidth}{p{0.49\textwidth} >{\centering\arraybackslash}p{0.49\textwidth}}
-		\toprule
-		\textbf{Algorithmus} & \textbf{$F_1$-Score} \\
-		\midrule
-		Urbach '09 \cite{urbach_stepinski_2009} (Unüberwacht) & $0,7243$ \\
-		Bandeira '10 \cite{bandeira_10} (Unüberwacht) & $0,8359$ \\
-		Ding '11 \cite{ding_11} (Unüberwacht) & $0,8550$ \\
-		Cohen '16 \cite{cohen_16} (Überwacht) & $0,8929$ \\
-		\textbf{Unüberwachtes tiefes Clustering} & $0,63´74$\\
-		\bottomrule
-	\end{tabularx}
-	\caption{Vergleich der durchschnittlichen $F_1$-Scores unterschiedlicher Algorithmen zur Kratererkennung (\vgl Abschnitt~\ref{sec:crater_detection}). Die Daten wurden aus \cite{cohen_16} übernommen.}
-	\label{tab:f1_comparision}
-\end{table}
-
-Eine weitere Ursache für den vergleichsweise niedrigen $F_1$-Score ist, dass die direkte Kratererkennung nicht das Ziel des vorgestellten Algorithmus ist. Dieser ist eher auf die Erkennung und Segmentierung von unterschiedlichen Oberflächenmerkmalen spezialisiert. Dies hat, wie bereits erläutert zur folge, dass durch die menschliche Analyse eine weitere Fehlerquelle eingeführt wird.
-
-\subsection{Allgemein}
-Aus dem Vergleich mit weiteren Segmentierungsmethoden in dem vorherigen Abschnitt wird deutlich, dass sich der hier vorgestellte Algorithmus durchaus zur Segmentierung von alltäglichen Aufnahmen eignet. Die Metriken deuten darauf hin, dass die Qualität der Ergebnisse zwar nicht ganz auf dem Niveau der führenden Alternativen sind, allerdings wurde gezeigt, dass der vorgestellte Algorithmus auf eine Großzahl an unterschiedlichen Eingaben angewandt werden kann.
+Aus dem Vergleich mit weiteren Segmentierungsmethoden wird deutlich, dass sich der hier vorgestellte Algorithmus durchaus zur Segmentierung von alltäglichen Aufnahmen eignet. Die Metriken deuten darauf hin, dass die Qualität der Ergebnisse zwar nicht ganz auf dem Niveau der führenden Alternativen sind, allerdings wurde gezeigt, dass der vorgestellte Algorithmus auf eine Großzahl an unterschiedlichen Eingaben angewandt werden kann.
 
 \section{Diskussion}
 \label{sec:discussion}
 
 \subsection{Domänenspezisch}
+\label{ssec:discussion_domain}
 
 Insgesamt scheint der erarbeitete Algorithmus gute Ergebnisse zur Kratererkennung zu liefern, unter der Voraussetzung, dass er mit einer Post-Processing-Schicht kombiniert wird, welche die entstandene Segmentierung zu einem Kraterdatensatz weiter verarbeitet. Alternativ würde sich der Algorithmus auch zur Erstellung einer Datenbank von Kraterkandidaten eignen, welche anschließend maschinell oder manuell weiter verfeinert werden kann (\vgl Abschnitt~\ref{sec:crater_detection}). Dieser Schluss folgt aus der genaueren Betrachtung der Aufnahmen und dazugehörigen Segmentierungen in \tablename~\ref{tab:results_mars}: Dort ist erkenntlich, dass ein Großteil der Krater erkannt werden. Dies schließt auch jene Krater mit ein, deren Durchmesser zu gering waren, um in \textit{Robbins Crater Dataset} aufgelistet zu werden, diese sind an den kleineren verstreuten, kreisförmigen Segmenten zu erkennen.
 
