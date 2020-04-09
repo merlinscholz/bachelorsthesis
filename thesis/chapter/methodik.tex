@@ -1,11 +1,11 @@
 \chapter{Methodik}
 \label{chap:methodik}
 
-Für die Segmentierung der Marsoberfläche wird auf dem Ansatz von Kanezaki \etal \cite{kanezaki_18} aus Unterabschnit~\ref{ssec:kanezaki} aufgebaut. Das Ziel besteht daraus, eine Eingabebilddatei durch neuronale Netze zu segmentieren, ohne vorhandene Ground Truth.
+Für die Segmentierung der Marsoberfläche wird auf dem Ansatz von Kanezaki \etal \cite{kanezaki_18} aus Unterabschnit~\ref{ssec:kanezaki} aufgebaut. Das Ziel besteht daraus, eine Eingabebilddatei ohne vorhandene Ground Truth durch neuronale Netze zu segmentieren.
 
 In den folgenden Abschnitten wird beschrieben, welche Veränderungen vorgenommen wurden, um den Ansatz für die Segmentierung der Marsoberfläche zu optimieren.
 
-Nachdem kurz auf die gesamte Funktionsweise des Algorithmus eingegangen wird folgt eine Übersicht über den Initialisierungsalgorithmus und Wege diesen zu Optimieren. Dazu zählen \bspw unterschiedliche Filterbänke, deren Größen, Gewichtungen der Merkmale und Anzahl der zu generierenden Cluster. Anschließend wird der eigentliche Algorithmus versucht zu verbessern, gefolgt von einzelnen Anpassungen der Architektur des neuronalen Netzes und einiger weiterer Hyperparameter.
+Nachdem kurz auf die gesamte Funktionsweise des Algorithmus eingegangen wird, folgt eine Übersicht über den Initialisierungsalgorithmus und Wege diesen zu optimieren. Dazu zählen \bspw die Nutzung alternativer Filterbänke, deren Größen, Gewichtungen der Merkmale und Anzahl der zu generierenden Cluster. Anschließend wird der eigentliche Algorithmus versucht zu verbessern, gefolgt von einzelnen Anpassungen der Architektur des neuronalen Netzes und einiger weiterer Hyperparameter.
 
 \section{Funktionsweise der Segmentierung}
 \label{sec:howitworks}
@@ -39,7 +39,7 @@ Die grundsätzliche Funktionsweise des Algorithmus aus \cite{kanezaki_18} findet
 		\node [text width=6.5cm, align=center,rotate=90] at (-1.25,-6.5) {Optimiert durch Backpropagation};
 		\path [->,>=stealth] (-1,-2.75) edge (0,-2.75);
 	\end{tikzpicture}
-	\caption{Übersicht über die Funktionsweise. Während der Ausführung des Algorithmus wird im Vorwärts-Durchlauf das Bild segmentiert, während im Rückwärts-Durchlauf die Parameter des neuronalen Netzes optimiert werden.}
+	\caption{Übersicht über die Funktionsweise des Algorithmus. Während der Ausführung wird im Vorwärts-Durchlauf das Bild segmentiert, im Rückwärts-Durchlauf werden die Parameter des neuronalen Netzes optimiert.}
 	\label{fig:howitworks}
 \end{figure}
 
@@ -57,7 +57,7 @@ Im Folgenden gilt für eine beliebige Mapping-Funktion $F$ die Konvention:
 Der erste Schritt bei der Erstellung der Segmentierung ist die Initialisierung. Bei dieser wird ein übermäßig feines Clustering der Eingabedatei $x$ erstellt, dies geschieht über klassische Clusteringalgorithmen wie SLIC \cite{achanta_10}. Die Initialisierung besteht also folglich aus einer Mapping-Funktion, $I(x_{ij}), I: \mathbb{R}^p\rightarrow\mathbb{Z}$, die jedem $p$-dimensionalen Pixel $x_{ij}$ mit den Koordinaten $i$ und $j$ des Eingabebildes ein Cluster zuordnet. Mithilfe des initialen Clusterings kann das neuronale Netzwerk erlernen, nach welchen Kriterien es bei der Segmentierung verfahren soll.
 Der wesentliche Unterschied zu \cite{junyuan_16} besteht folglich daraus, dass das Netzwerk bei dem dortigen Ansatz anhand der Autoencoder selbst erlernt, welche Merkmale relevant für die Segmentierung sind. Dies geschieht dadurch, dass durch den Autoencoder Merkmale extrahiert werden, welche anschließend über den k-Means Algorithmus geclustert werden. In \cite{kanezaki_18} hingegen wird ausschließlich ein externer Clusteringalgorithmus dazu genutzt, die wichtigen Merkmale zu bestimmen. An dieser Stelle ist erwähnenswert, dass viele externe Clusteringalgorithmen, die bei diesem Zweck Anwendung finden können, intern auch ein k-Means Clustering berechnen. So wird auch bei dem SLIC-Algorithmus, welcher in der originalen Implementierung nach \cite{kanezaki_18} genutzt wird, eine abgewandelte Version des k-Means Algorithmus angewandt. \cite{achanta_10}
 
-In \cite{kanezaki_18} beginnt der eigentliche Lernprozess damit, dass die Eingabedatei das neuronale Netzwerk durchläuft. Durch diesem Prozess entsteht eine weitere Mapping-Funktion $F_e(x_{ij}), F: \mathbb{R}^p\rightarrow\mathbb{Z}$, wobei $e$ die Anzahl der bisherigen Epochen die das Netzwerk durchlaufen hat angibt. Anschließend werden für jedes Cluster in $Z_{F_e}$  die Koordinaten der in ihm enthaltenen Pixel bestimmt. $\langle i, j\rangle$ wird hier und im Folgenden zur Beschreibung eines Tupels bestehend aus X- und Y-Koordinaten genutzt.
+In \cite{kanezaki_18} beginnt der eigentliche Lernprozess damit, dass die Eingabedatei das neuronale Netzwerk durchläuft. Durch diesem Prozess entsteht eine weitere Mapping-Funktion $F_e(x_{ij}), F_e: \mathbb{R}^p\rightarrow\mathbb{Z}$, wobei $e$ die Anzahl der bisherigen Epochen, die das Netzwerk durchlaufen hat, angibt. Anschließend werden für jedes Cluster in $Z_{F_e}$  die Koordinaten der in ihm enthaltenen Pixel bestimmt. $\langle i, j\rangle$ wird hier und im Folgenden zur Beschreibung eines Tupels bestehend aus X- und Y-Koordinaten genutzt.
 
 \begin{equation}
 P_{F_e,{z\in Z_{F_e}}} = \{\langle i, j\rangle\mid F_e(x_{ij}) = z\}
@@ -68,7 +68,7 @@ Selbiges geschieht für die Initialisierung:
 P_{I, z\in Z_I} = \{\langle i, j\rangle\mid I(x_{ij}) = z\}
 \end{equation}
 
-Nun wird für jedes Cluster in $Z_i$ bestimmt, welcher Wert aus $F_{e}$ am häufigsten in dem jeweiligen Cluster vorkommt, und das Cluster anschließend damit gefüllt. Das dadurch entstehende Clustering sei $F'_e$. Durch diesen Schritt wird dem neuronalen Netzwerk ein Zielclustering zugeführt, welches die Clusterpositionen und -größen des ursprünglichen Clusterings berücksichtigt, dieser Prozess wäre also äquivalent zur wahrscheinlichkeitsbasierten Zuweisung der Datenpunkte des Merkmalsraumes zu den einzelnen Clusterzentren im DEC-Algorithmus (\vgl Unterabschnitt~\ref{ssec:dec}, \enquote{Parameteroptimierung}).
+Nun wird für jedes Cluster in $Z_I$ bestimmt, welcher Wert aus $F_{e}$ am häufigsten in dem jeweiligen Cluster vorkommt, und das Cluster anschließend damit gefüllt. Das dadurch entstehende Clustering sei $F'_e$. Durch diesen Schritt wird dem neuronalen Netzwerk ein Zielclustering zugeführt, welches die Clusterpositionen und -größen des ursprünglichen Clusterings berücksichtigt, dieser Prozess wäre also äquivalent zur wahrscheinlichkeitsbasierten Zuweisung der Datenpunkte des Merkmalsraumes zu den einzelnen Clusterzentren im DEC-Algorithmus (\vgl Unterabschnitt~\ref{ssec:dec}, \enquote{Parameteroptimierung}).
 
 %\begin{equation}
 %\forall z\in Z_I\;\forall p\in P_{F'_e, z}\;p = %\{mod_{F_e(x_{ij})}\mid\langle i,j\rangle\in P_{I, z}\}
@@ -78,7 +78,7 @@ Anschließend wird der Loss zwischen dem ursprünglichen Ergebnis des Netzes $F_
 
 \begin{itemize}
 	\item{\lstinline[columns=fixed]{tags}:} Eine zweidimensionale Matrix mit der Höhe und Breite des Eingabebildes, bei welcher jeder Pixel durch die entsprechende Nummer des ihm zugeordneten Clusters ersetzt ist.
-	\item{\lstinline[columns=fixed]{coordinates}:} Eine Liste von Mengen der Koordinaten, welche in einem bestimmten Cluster enthalten sind. Analog zu der Darstellung $P_{F,z}$ aus den vorherigen Paragraphen.
+	\item{\lstinline[columns=fixed]{coordinates}:} Eine Liste von Mengen der Koordinatentupel, welche in einem bestimmten Cluster enthalten sind. Analog zu der Darstellung $P_{F,z}$ aus den vorherigen Paragraphen.
 \end{itemize}
 
 \begin{algorithm}[H]
@@ -115,17 +115,17 @@ Hierbei sind:
 	\item{\lstinline[columns=fixed]{step, CrossEntropyLoss, backpropagate, optimize}:} Die üblichen Methoden zur Evolution eines neuronalen Netzes aus PyTorch\footnote{\url{https://pytorch.org/}}.
 \end{itemize}
 
-Durch die Tatsache, dass in jeder Iteration ein Cluster mit dem am häufigsten in ihm enthaltenen Wert gefüllt wird, verringert sich in der jeweils neu generierten Zielsegmentierung die Anzahl der Segmente. Da das neuronale Netz sich diesem Ziel dynamisch anpasst, folgt daraus, dass ein Netzwerk welches in der ersten Epoche \bspw 100 Segmente generiert nach einigen Epochen wesentlich weniger Segmente erzeugt. In diesem Prozess lernt das Netzwerk auch, die Clusteringkriterien der Initialisierung zu lernen und anhand derer seine eigene Segmentierung anzupassen. Dies ist dadurch begründet, dass die Zielsegmentierung zwar oft unterschiedliche Cluster enthält, die Begrenzungen dieser allerdings immer gleich der Begrenzungen des initialen Clusterings sind.
-Grafisch ist der Prozess der Verringerung der Segmentanzahl in \tablename~\ref{tab:n_segments} zu sehen: Die Anzahl der Segmente steigt ab und konvergiert gegen $1$. Da ein einziges Segment allerdings eine schlechte Segmentierung bedeutet, muss das neuronale Netzwerk an der richtigen Stelle abgebrochen werden. Unterabschnitt~\ref{ssec:stoppingcriteria} beschäftigt sich mit diesem Prozess.
+Durch die Tatsache, dass in jeder Iteration ein Cluster mit dem am häufigsten in ihm enthaltenen Wert gefüllt wird, verringert sich in der jeweils neu generierten Zielsegmentierung $F'_e$ die Anzahl der Segmente. Da das neuronale Netz sich diesem Ziel dynamisch anpasst, folgt daraus, dass ein Netzwerk welches in der ersten Epoche \bspw 100 Segmente generiert, nach einigen Epochen wesentlich weniger Segmente erzeugt. In diesem Prozess lernt das Netzwerk auch, die Clusteringkriterien der Initialisierung zu lernen und anhand derer seine eigene Segmentierung anzupassen. Dies ist dadurch begründet, dass die Zielsegmentierung zwar oft unterschiedliche Cluster enthält, die Begrenzungen dieser allerdings immer gleich der Begrenzungen des initialen Clusterings sind.
+Grafisch ist der Prozess der Verringerung der Segmentanzahl in \figurename~\ref{fig:exp_stoppingcriteria} zu sehen: Die Anzahl der Segmente steigt ab und konvergiert gegen einen Wert, welcher pro Eingabeaufnahme unterschiedlich ist. Da ein einzelnes oder sehr wenige Segmente allerdings meistens eine schlechte Segmentierung bedeutet, muss das neuronale Netzwerk an der richtigen Stelle abgebrochen werden. Unterabschnitt~\ref{ssec:stoppingcriteria} beschäftigt sich mit diesem Prozess.
 
-Es ist zu beachten, dass für jeder Iteration die selbe Initialisierung $I$ benutzt wird.
+Es ist zu beachten, dass für jede Iteration die selbe Initialisierung $I$ benutzt wird.
 
 \section{Eigenschaften der Initialisierung}
 \label{sec:initialization}
 
-Eine Veränderung mit starkem Einfluss des ursprünglichen Algorithmus besteht aus der Modifizierung des Initialisierungsalgorithmus.
+Eine Veränderung des ursprünglichen Algorithmus, welche starken Einfluss besitzt, besteht aus der Modifizierung des Initialisierungsalgorithmus.
 
-Der von Kanezaki \etal genutzte SLIC-Algorithmus eignet sich zwar gut für die meisten mehrfarbigen Fotografien, da die Aufnahmen der Marsoberfläche allerdings nur in Graustufen vorhanden sind, würden so hier keine guten Resultate produziert werden.
+Der in \cite{kanezaki_18} genutzte SLIC-Algorithmus eignet sich zwar gut für die meisten mehrfarbigen Fotografien, da die Aufnahmen der Marsoberfläche allerdings nur in Graustufen vorhanden sind, würden so hier keine guten Resultate produziert werden.
 
 \begin{figure}[h!]
 	\centering
@@ -155,44 +155,46 @@ Der von Kanezaki \etal genutzte SLIC-Algorithmus eignet sich zwar gut für die m
 	\caption{Clustering eines Graustufenbildes eines Kraters der Marsoberfläche}
 \end{figure}
 
-So ergibt ein Clustering des Kraters aus Unterabschnitt~\ref{ssec:mars_surface_features} durch den SLIC-Algorithmus \cite{achanta_10} das in \figurename~\ref{fig:slic_vs_tsugf_slic} sichtbare Ergebnis.\footnote{SLIC-Implementierung: \texttt{scikit-image}\\Parameter: \texttt{compactness=5, n\_segments=10, enforce\_connectivity=False}} Dort ist erkennbar, dass der Krater in jeweilige Licht- und Schattenregionen (bedingt durch den Lichteinfall im flachen Winkel) unterteilt wird. Außerdem wird die raue Struktur ringförmig um den Krater herum schlecht erfasst: An dieser Stelle wird jeder Hügel separat als einerseits helle, andererseits dunkle Stelle markiert. Das Phänomen, dass ein Krater durch eine starke Differenz an Licht- und Schattenregionen erkannt wird wird sich im Großen und Ganzen zwar in Abschnitt~\ref{sec:crater_detection} zu nutze gemacht, ist hier allerdings ungewollt.
+So ergibt ein Clustering des Kraters aus Unterabschnitt~\ref{ssec:mars_surface_features} durch den SLIC-Algorithmus \cite{achanta_10} das in \figurename~\ref{fig:slic_vs_tsugf_slic} sichtbare Ergebnis.\footnote{SLIC-Implementierung: \texttt{scikit-image}\\Parameter: \texttt{compactness=5, n\_segments=10, enforce\_connectivity=False}} Dort ist erkennbar, dass der Krater in jeweilige Licht- und Schattenregionen (bedingt durch den Lichteinfall im flachen Winkel) unterteilt wird. Außerdem wird die raue Struktur ringförmig um den Krater herum schlecht erfasst: An dieser Stelle wird jeder Hügel separat als einerseits helle, andererseits dunkle Stelle markiert. Das Phänomen, dass ein Krater durch eine starke Differenz an Licht- und Schattenregionen erkannt wird wird sich im Großen und Ganzen zwar in Abschnitt~\ref{sec:crater_detection} zunutze gemacht, ist hier allerdings ungewollt.
 
 Wenn nun der in Unterabschnitt~\ref{ssec:kanezaki} beschriebene Ansatz verfolgt wird, wird das neuronale Netz daraufhin trainiert, eine Aufnahme anhand ihrer Helligkeitsinformationen hin zu trainieren. Da dies nicht gewollt ist, wird statt einem farb-/helligkeitsbasierten Clusteringalgorithmus wie SLIC ein texturbasiertes Clustering genutzt.
 
-Statt des SLIC-Clusterings wird nun die in Unterabschnitt~\ref{ssec:tsugf} vorgestellte Methode des texturbasierten Clusterings genutzt. Von dieser Stelle an sind, wenn nicht anders benannt, die Gewichtungen der verschiedenen Werte für die Farbwerte, X-/Y-Positionen und Reaktion auf Gaborfilter alle gleich $1$. Diese Parameter werden in Unterabschnitt~\ref{ssec:initialization_filterweight} genauer erläutert.
+Anstelle des SLIC-Clusterings wird nun die in Unterabschnitt~\ref{ssec:tsugf} vorgestellte Methode des texturbasierten Clusterings verwendet. Von dieser Stelle an sind, wenn nicht anders benannt, die Gewichtungen der verschiedenen Werte für die Farbwerte, X-/Y-Positionen und Reaktion auf Gaborfilter alle gleich $1$. Diese Parameter werden in Unterabschnitt~\ref{ssec:initialization_filterweight} genauer erläutert und verbessert.
 
 Das Resultat eines Clusterings durch die genutzte, texturbasierte Methode\footnote{Kombiniert mit der Filterbank aus \cite{jain_91}} ist in \figurename~\ref{fig:slic_vs_tsugf_tsugf} sichtbar: Man erkennt, dass der \enquote{Ring} um den eigentlichen Einschlagskrater eine eigenständige Textur besitzt, welche unterschiedlich zu dem Rest der Oberfläche ist. Eine ähnliche Oberflächenstruktur ist direkt um den Krater herum vorhanden. Beide Vorkommnisse dieser ähnlichen Struktur werden vom texturbasierten Clustering erfasst, in ein Segment aufgeteilt und (hier durch eine rote Färbung) markiert.
 
 \subsection{Filterbänke}
 \label{ssec:initialization_filterbanks}
-Hier stellt sich nun die Frage, welche der vorgestellten Filterbänke sich gut eignet, die Eingabedatei zu clustern. Die größten Unterschiede zwischen den einzelnen Filterbänken bestehen darin, dass einige von ihnen rotationsinvariante Filter enthalten, und andere in mehreren Größen vorhanden sind. Die Größendifferenz lässt sich in der Anwendung des Algorithmus dadurch ausgleichen, dass jeder Filter zusätzlich in weitere Größen skaliert wird, und in jeder Skalierungsstufe angewandt wird. Die Rotationsinvarianz würde sich höchstens durch die Rotation der Filter approximieren lassen, da so allerdings nicht jeder Winkel abgedeckt werden kann, ist diese Methode ungeeignet. Ein Vergleich verschiedener Filterbänke ist in Unterabschnitt~\ref{ssec:exp_filterbanks} zu finden.
+Hier stellt sich nun die Frage, welche der vorgestellten Filterbänke sich gut dazu eignet, die Eingabedatei zu clustern. Die größten Unterschiede zwischen den einzelnen Filterbänken bestehen darin, dass einige von ihnen rotationsinvariante Filter enthalten, und andere in mehreren Größen vorhanden sind. Die Größendifferenz lässt sich in der Anwendung des Algorithmus dadurch ausgleichen, dass jeder Filter zusätzlich in weitere Größen skaliert wird, und in jeder Skalierungsstufe angewandt wird. Die Rotationsinvarianz würde sich höchstens durch die Rotation der Filter approximieren lassen, da so allerdings nicht jeder Winkel abgedeckt werden kann, ist diese Methode ungeeignet. Ein Vergleich verschiedener Filterbänke ist in Unterabschnitt~\ref{ssec:exp_filterbanks} zu finden.
+
+Neben der Auswahl einer geeigneten Filterbank lassen sich innerhalb dieser noch die einzelnen Gewichtungen anpassen: So könnten \zB die Gewichtung der Koordinaten der Pixel zueinander oder die Relevanz von ähnlichen Farbwerten modifiziert werden, zusätzlich spielt die Skalierung der Filter eine wichtige Rolle.
 
 \subsection{Größe der Filter}
 \label{ssec:initialization_filtersize}
 
-Neben der Auswahl einer geeigneten Filterbank lassen sich in dieser noch die einzelnen Gewichtungen anpassen: So könnten \zB die Gewichtung der Koordinaten der Pixel zueinander oder die Relevanz von ähnlichen Farbwerten modifiziert werden. Außerdem ist die Größe der einzelnen Filter in den jeweiligen Filterbänken auch Variabel und muss dementsprechend an die Dimensionen des jeweiligen Eingabebildes angepasst werden. Da alle Filterbänke (bis auf die nach \cite{jain_91}) jeweils gleiche Filter in unterschiedlichen Größen enthalten, muss nur ein Gesamtwert angepasst werden, statt der Größe jeder einzelnen Skalierung. 
+Die Skalierung der einzelnen Filter in den jeweiligen Filterbänken ist Variabel und muss dementsprechend an die Dimensionen des jeweiligen Eingabebildes angepasst werden. Da alle Filterbänke (bis auf die nach \cite{jain_91}) jeweils gleiche Filter in unterschiedlichen Größen enthalten, muss nur ein Gesamtwert angepasst werden, statt der Größe jeder einzelnen Skalierung. 
 
 Der Skalierungsfaktor $s$ gibt an, mit welchem Faktor die ursprüngliche Seitenlänge des Filters multipliziert wird, $s=1$ bedeutet somit, dass der Filter eine Seitenlänge von \SI{49}{\pixel} beibehält. In Unterabschnitt~\ref{ssec:exp_filtersize} werden unterschiedliche Skalierungsfaktoren verglichen.
 
 \subsection{Gewichtungen der Parameter}
 \label{ssec:initialization_filterweight}
 
-Da in dem Prozess des Clusterings alle Optimierungen aus Unterabschnitt~\ref{ssec:tsugf} miteingeschlossen sind, verarbeitet k-Means einen Datenwürfel, welcher auch die Koordinaten und Farbwerte der jeweiligen Pixel miteinbeschließt. Nun stellt sich die Frage, wie stark diese jeweils gewichtet werden sollten, um ein akzeptables Ergebnis zu erhalten. Aus diesem Grund sind in Unterabschnitt~\ref{ssec:exp_filterweight} ie Resultate des Clusterings mit unterschiedlichen Werten für die jeweiligen Gewichtungen zu sehen. Die jeweiligen Gewichtungen sind dabei relativ zu der Gewichtung eines einzigen Merkmals, welche durch die Gabor-Filter erstellt wurden.
+Da in dem Prozess des Clusterings alle Optimierungen aus Unterabschnitt~\ref{ssec:tsugf} miteingeschlossen sind, verarbeitet k-Means einen Datenwürfel, welcher auch die Koordinaten und Farbwerte der jeweiligen Pixel miteinbeschließt. Nun stellt sich die Frage, wie stark diese jeweils gewichtet werden sollten, um ein akzeptables Ergebnis zu erhalten. Aus diesem Grund sind in Unterabschnitt~\ref{ssec:exp_filterweight} ie Resultate des Clusterings mit unterschiedlichen Werten für die jeweiligen Gewichtungen zu sehen. Diese Gewichtungen sind dabei relativ zu der Gewichtung eines einzigen Merkmals, welche durch die Gabor-Filter erstellt wurden.
 
 \subsection{Anzahl der Cluster}
 \label{ssec:initialization_number_of_segments}
 
-Bis zu dieser Stelle haben sich vier Cluster sehr gut zur Visualisierung der unterschiedlichen Ergebnisse nutzen lassen, dies ändert sich allerdings wenn die jeweiligen Clusterings an das darauf folgende neuronale Netz weitergegeben werden. Die Anzahl der Cluster mit denen begonnen werden soll ist ein entscheidender Wert bei dem Prozess der Segmentierung: Ist diese Zahl zu gering, kann das Netzwerk dieses Clustering nicht weiter verfeinern, ist sie jedoch zu groß, so sind innerhalb eines Clusters nicht genug Informationen vorhanden, als dass das Netzwerk erlernen kann, nach welchen Kriterien das Bild ursprünglich aufgeteilt wurde. Ein Vergleich unterschiedlicher Werte für diese Anzahl der Startcluster ist in Unterabschnitt~\ref{ssec:exp_number_of_segments} sichtbar.
+Bis an diese Stelle haben sich vier Cluster sehr gut zur Visualisierung der unterschiedlichen Ergebnisse nutzen lassen, dies ändert sich allerdings wenn die jeweiligen Clusterings an das darauf folgende neuronale Netz weitergegeben werden. Die Anzahl der Cluster mit denen begonnen werden soll ist ein entscheidender Wert bei dem Prozess der Segmentierung: Ist diese Zahl zu gering, kann das Netzwerk dieses Clustering nicht weiter verfeinern, ist sie jedoch zu groß, so sind innerhalb eines Clusters nicht genug Informationen vorhanden, als dass das Netzwerk erlernen kann, nach welchen Kriterien das Bild ursprünglich aufgeteilt wurde. Ein Vergleich unterschiedlicher Werte für diese Anzahl der Startcluster ist in Unterabschnitt~\ref{ssec:exp_number_of_segments} sichtbar.
 
 \section{Eigenschaften des Segmentierungsalgorithmus}
 \label{sec:algorithm}
 
-Der Algorithmus aus \cite{kanezaki_18}, also das Füllen der Cluster der dynamisch erstellen Zielsegmentierung mit den derzeitigen Werten, wird größtenteils unverändert gelassen. Eine Modifikation die sich allerdings doch als hilfreich erwiesen hat, ist dass dieser genannte Vorgang nicht in jeder Iteration des Netzes geschieht, sondern nur alle $n$ Iterationen. Dies ermöglicht dem Netzwerk mehr Epochen zum Lernen der Methodik jeweiligen Segmentierung, bevor diese wieder verändert wird.
+Der Algorithmus aus \cite{kanezaki_18}, also das Füllen der Cluster der dynamisch erstellen Zielsegmentierung mit den derzeitigen Werten, wird größtenteils unverändert gelassen. Eine kleinere Modifikation, die sich allerdings doch als hilfreich erwiesen hat, ist, dass dieser genannte Vorgang nicht in jeder Iteration des Netzes geschieht, sondern nur alle $n$ Iterationen. Dies ermöglicht dem Netzwerk mehrere Epochen zum Lernen der Methodik jeweiligen Segmentierung, bevor diese wieder verändert wird.
 
 \section{Netzwerkarchitektur}
 \label{sec:network_architecture}
 
-Die Netzwerkarchitektur im originalen Paper stellt ein einfaches Netzwerk zur Objekterkennung oder Bildsegmentierung dar: Es durchläuft iterativ drei mal eine Reihe mit je einer Convolutional Layer, gefolgt von einer Batch Normalization. Im Folgenden wird geprüft, ob eine Modifikation dieser Architektur in diesem domänenspezifischen Anwendungsfall zu Verbesserungen der Ergebnisse führen kann. Für die Initialisierung werden die im letzten Kapitel erläuterten Parameter genutzt.
+Die Netzwerkarchitektur im originalen Paper stellt ein einfaches Netzwerk zur Objekterkennung oder Bildsegmentierung dar: Es durchläuft iterativ drei mal eine Reihe mit je einer Convolutional Layer, gefolgt von einer Batch Normalization. Im Folgenden wird geprüft, ob eine Modifikation dieser Architektur in diesem domänenspezifischen Anwendungsfall zu Verbesserungen der Ergebnisse führen kann.% Für die Initialisierung werden die im letzten Kapitel erläuterten Parameter genutzt.
 
 \subsection{Abbruchkriterium}
 \label{ssec:stoppingcriteria}
@@ -208,7 +210,7 @@ Der Vergleich dieser Abbruchkriterien ist in Unterabschnitt~\ref{ssec:exp_stoppi
 \subsection{Aktivierungsfunktionen}
 \label{ssec:network_architecture_activation}
 
-In der originalen Implementierung nach \cite{kanezaki_18} enthält das neuronale Netz die ReLU-Funktion als Aktivierungsfunktion vor der Batch Normalization-Layer.Es wird nun untersucht, ob das Entfernen oder Ersetzen einer solchen Aktivierungsfunktionen die Clusteringergebnisse verbessern kann.
+In der originalen Implementierung nach \cite{kanezaki_18} enthält das neuronale Netz die ReLU-Funktion als Aktivierungsfunktion vor der Batch Normalization-Layer. Es wird nun untersucht, ob das Entfernen oder Ersetzen einer solchen Aktivierungsfunktionen die Clusteringergebnisse verbessern kann.
 
 In Unterabschnitt~\ref{ssec:exp_architecture_activation} werden die am weitesten verbreiteten Aktivierungsfunktionen verglichen: Die ReLU-, die Sigmoid- und die tanh-Funktion (\vgl Unterabschnitt~\ref{ssec:activation_layer}). Außerdem wird geprüft, ob das Entfernen der vorhandenen ReLU-Funktion zu einer Verbesserung der Ergebnisse führen kann.
 
@@ -220,11 +222,11 @@ Auch auf Pooling Layers wurde im ursprünglichen Paper verzichtet. Pooling Layer
 \subsection{Fully Connected Layers}
 \label{ssec:network_architecture_fully_connected}
 
-Wie in Unterabschnitt~\ref{ssec:fully_connected_layer} werden Fully Connected Layers in Convolutional Neural Networks dazu eingesetzt, die Resultate der ihr vorhergehenden Schichten zu klassifizieren. Angewandt auf das hier genutzte Netzwerk könnte ihre Nutzung zur Folge haben, dass verschiedene lokale Oberflächenmerkmale besser im globalen Kontext erkannt werden können und \ggf in die selben Cluster wie ihnen ähnliche Regionen eingeteilt werden. Ob dies auch in der praktischen Anwendung der Fall ist, wird in Unterabschnitt~\ref{ssec:exp_fully_connected} erläutert.
+Wie in Unterabschnitt~\ref{ssec:fully_connected_layer} werden Fully Connected Layers in Convolutional Neural Networks dazu eingesetzt, die Resultate der ihr vorhergehenden Schichten zu klassifizieren. Angewandt auf das hier genutzte Netzwerk könnte ihre Nutzung zur Folge haben, dass verschiedene lokale Oberflächenmerkmale besser im globalen Kontext erkannt werden können und \ggf in die selben Cluster wie ihnen ähnliche Regionen eingeteilt werden. Ob dies auch in der praktischen Anwendung der Fall ist, wird in Unterabschnitt~\ref{ssec:exp_fully_connected} untersucht.
 
 \subsection{Anzahl der Konvolutionsschichten}
 
-Die Anzahl der Konvolutionsschichten stellt einen weiteren Hyperparameter dar, welcher Einfluss auf die Qualität der Resultate des Netzes hat. Die originale Implementierung des Algorithmus aus \cite{kanezaki_18} setzt diese Anzahl als dynamisch und vom Nutzer bestimmbar fest, mit einem Standardwert von einer Eingabeschicht, welche die drei Merkmalsdimensionen auf einen Datenwürfel mit 100 Merkmalsdimensionen abbildet, gefolgt von standardmäßg zwei weiteren Konvolutionsschichten. Ob dies ein geeigneter Wert für den hier genutzten Anwendungsfall darstellt wird in Unterabschnitt~\ref{ssec:exp_n_convolutions} untersucht.
+Die Anzahl der Konvolutionsschichten stellt einen weiteren Hyperparameter dar, welcher Einfluss auf die Qualität der Resultate des Netzes hat. Die originale Implementierung des Algorithmus aus \cite{kanezaki_18} setzt diese Anzahl als dynamisch und vom Nutzer bestimmbar fest, mit einem Standardwert von einer Eingabeschicht, welche die drei Merkmalsdimensionen auf einen Datenwürfel mit 100 Merkmalsdimensionen abbildet, gefolgt von standardmäßg zwei weiteren Konvolutionsschichten. Ob dies ein geeigneter Wert für den hier genutzten Anwendungsfall darstellt wird in Unterabschnitt~\ref{ssec:exp_n_convolutions} überprüft.
 
 \iffalse
 
