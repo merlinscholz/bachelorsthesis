@@ -11,6 +11,11 @@
 \setbeamerfont{bibliography entry location}{size=\tiny}
 \setbeamerfont{bibliography entry note}{size=\tiny}
 
+\usepackage{grffile}
+\usepackage{caption}
+\captionsetup[figure]{font=tiny,labelfont=tiny}
+\renewcommand{\figurename}{Abb.}
+\usepackage{subcaption}
 \makeatletter
 \newcommand*{\currentname}{\@currentlabelname}
 \setbeamertemplate{footline}[frame number]{}
@@ -39,7 +44,7 @@
 
 \title{Segmentierung der Marsoberfläche mit Hilfe von unüberwachtem tiefen Clustering}
 \subtitle{Bachelorarbeit Abschlusspräsentation}
-\author{Max Mustermann}
+\author{Merlin Scholz}
 \date{\today}
 \institute[TU Dortmund]{Mustererkennung,\\ Informatik XII, Technische Universität Dortmund}
 
@@ -60,6 +65,7 @@
 \end{frame}
 
 \begin{frame}{Motivation: (Fehlende) Ground Truths}
+	\begin{minipage}{0.68\textwidth}
 \begin{itemize}
 	\item Ground Truths sind nicht immer vorhanden
 	\item Beispiel: Marsoberfläche
@@ -72,6 +78,23 @@
 		\item Anfangs zufällige Klassifizierung durch Segmentierungsalgorithmus weiter optimieren
 	\end{itemize}
 \end{itemize}
+
+\end{minipage}
+\hfill
+\begin{minipage}{0.2\textwidth}
+	\begin{figure}[h!]
+		\begin{subfigure}{\textwidth}
+			\includegraphics[width=\textwidth,keepaspectratio]{gfx/Gre13_01.jpg}
+		\end{subfigure}
+		\begin{subfigure}{\textwidth}
+			\includegraphics[width=\textwidth,keepaspectratio]{gfx/p03_02.png}
+		\end{subfigure}
+		\begin{subfigure}{\textwidth}
+			\includegraphics[width=\textwidth,keepaspectratio]{gfx/p03_03.png}
+		\end{subfigure}
+		\caption{Beispielaufnahmen, teilweise aus \cite{greeley_13}}
+	\end{figure}
+\end{minipage}
 \end{frame}
 
 %\section{Grundlagen}
@@ -80,25 +103,43 @@
 
 
 
-\begin{frame}{Verwandte Arbeiten: Unsupervised Deep Embedding for Clustering Analysis \cite{junyuan_16}}
+\begin{frame}[allowframebreaks]{Verwandte Arbeiten: Unsupervised Deep Embedding for Clustering Analysis \cite{junyuan_16}}
 \begin{itemize}
-	\item Unüberwachtes Lernen der Segmentierung
+	\item Unüberwachtes Lernen der Segmentierung in $k$ Segmente
+	\item Geschieht durch Zuteilen von Punkten in Cluster mit den Clusterzentren $\mu_j, j\in \left[1, k\right]$
 	\item Farbwerte werden zuerst durch $f_\theta:X\rightarrow Z$ (nichtlinear) in Merkmalsraum abgebildet
 	\begin{itemize}
 		\item $\theta$ ist lernbar
-		\item Das NN optimiert $theta$ und Positionen der Clustermitten $\mu_j$¸
+		\item Das NN optimiert $\theta$ und Positionen der Clustermitten $\mu_j$¸
 	\end{itemize}
 \end{itemize}
+\newpage
+Segmentierungsprozess:
+\begin{enumerate}
+	\item Parameter-Initialisierung
+	\begin{itemize}
+		\item Ein Stacked Autoencoder wird schichtenweise aufgebaut
+		\item Ziel: Das Eingangssignal nach Durchlaufen von Drpoout-Schichten wiederherstellen
+		\item $\theta$ besteht aus Gewichtungen und Bias des SAE
+		\item Clustermitten $\mu_j$ werden über k-Means initialisiert
+	\end{itemize}
+\item Parameter-Optimierung
+\begin{itemize}
+	\item Zuweisung der Datenpunkte zu Clustern (über Wahrscheinlichkeitsverteilung)
+	\item $\mu_j$ und $\theta$ wird durch die Verringerung der Kullback-Leibler-Divergenz optimiert.
+\end{itemize}
+\end{enumerate}
 \end{frame}
 
 \begin{frame}[allowframebreaks]{Verwandte Arbeiten: Segmentierung nach Kanezaki \cite{kanezaki_18}}
 	\begin{itemize}
 		\item Unüberwachtes Lernen der Segmentierung
 		\item Vergleichbar mit, aber einfacher als DEC
-		\item Anfangs zufällige Ergebnisse werden mit Clusteringalgorithmus (hier SLIC \cite{achanta_10} vereint)
+		\item Anfangs zufällige Ergebnisse werden mit Clusteringalgorithmus (hier SLIC \cite{achanta_10}) vereint
 		\item Verlustfunktion: Cross-Entropy-Loss zwischen Ergebnis des NN und des verfeinerten Ergebnisses
 		\item NN wird durch Backpropagation auf diese Zielfunktion hin optimiert
 	\end{itemize}
+	\newpage
 	\begin{figure}
 		\includegraphics[height=20ex,keepaspectratio]{gfx/Kan18_01.png}
 	\end{figure}
@@ -106,6 +147,83 @@
 
 \section{Methodik}
 
+\begin{frame}{Funktionsweise}
+\begin{minipage}{0.6\textwidth}
+	\begin{itemize}
+		\item Initialisierung durch klassischen Clusteringalgorithmus
+		\item Iterative Segmentierung der Eingabe durch ein NN
+		\begin{itemize}
+			\item Vereinen der beiden Clusteringergebnisse
+			\item Loss zwischen der Vereinigung und der NN-Ausgabe berechnen
+			\item Das NN durch Backpropagation optimieren
+		\end{itemize}
+	\item Abbruchkriterium
+	\end{itemize}
+\end{minipage}
+\hfill
+\begin{minipage}{0.38\textwidth}
+	\begin{figure}[h!]
+		\centering
+		\begin{tikzpicture}[scale=.5,every node/.style={scale=0.5}]
+		\draw  [draw, text width=7cm, align=center] (0,0) rectangle  node{Eingabebild} (7,-1);
+		\path [->,>=stealth] (1.5,-1) edge (1.5,-1.5);
+		\path [->,>=stealth] (5.5,-1) edge (5.5,-1.5);
+		\draw  [draw, text width = 2.5cm, align=center] (0,-1.5) rectangle node{Neuronales Netzwerk mit Argmax Klassifizierung und Feature Extraction} (3,-5.5);
+		\path [->,>=stealth] (1.5,-5.5) edge (1.5,-6);
+		\draw  [draw, text width = 2.5cm, align=center] (4,-1.5) rectangle node{Clustering-algorithmus (bspw. SLIC)} (7,-5.5);
+		\path [->,>=stealth] (5.5,-5.5) edge (5.5,-6);
+		\draw  [dashed, text width = 3.5cm, align=center] (0,-6) rectangle node{Klasse jedes Pixels} (3.5,-6.5);
+		\draw  [dashed, text width = 3.5cm, align=center] (3.5,-6) rectangle node{Pixelcluster} (7,-6.5);
+		\draw (0,-6.5) -- (0,-8) -- (7,-8) -- (7,-6.5);
+		\node [text width=6.5cm, align=center] at (3.5,-7.25) {Jedem Pixelcluster die in ihm häufigste Klasse zuweisen};
+		\path [->,>=stealth] (3.5,-8) edge (3.5,-8.5);
+		\draw  [draw, text width = 6.5cm, align=center] (0,-8.5) rectangle node{Loss berechnen} (7,-9.5);
+		
+		\path [-] (0,-5) edge (-0.5,-5);
+		\path [-] (-0.5,-5) edge (-0.5,-9);
+		\path [->,>=stealth] (-0.5,-9) edge (0,-9);
+		
+		\path [-] (3.5,-9.5) edge (3.5,-10);
+		\path [-] (3.5,-10) edge (-1,-10);
+		\path [-] (-1,-10) edge (-1,-2.75);
+		\node [text width=6.5cm, align=center,rotate=90] at (-1.25,-6.5) {Optimiert durch Backpropagation};
+		\path [->,>=stealth] (-1,-2.75) edge (0,-2.75);
+		\end{tikzpicture}
+		\caption{Übersicht über die Funktionsweise des Algorithmus}
+	\end{figure}
+\end{minipage}
+\end{frame}
+\begin{frame}{Initialisierung}
+	\begin{minipage}{0.65\textwidth}
+		\begin{itemize}
+			\item Im Ansatz nach Kanezaki wird SLIC genutzt
+			\begin{itemize}
+				\item Nur Farb- und Positionsbasiert
+				\item Schlechte Resultate bei S/W-Marsaufnahmen
+				\item NN würde lernen, anhand der Helligkeit zu segmentieren
+			\end{itemize}
+			\item Stattdessen texturbasiertes Clustering
+			\begin{itemize}
+				\item NN erlernt, nach den Texturen zu segmentieren
+				\item Besser, da Oberflächenmerkmale meist anhand ihrer Texturen unterschieden werden
+			\end{itemize}
+		\end{itemize}
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.20\textwidth}
+		\begin{figure}[h!]
+			\begin{subfigure}{\textwidth}
+				\includegraphics[width=\textwidth,keepaspectratio]{gfx/Gre13_01.jpg}
+			\end{subfigure}
+			\begin{subfigure}{\textwidth}
+				\includegraphics[width=\textwidth,keepaspectratio]{gfx/Gre13_01.jpg_slic.png}
+			\end{subfigure}
+			\begin{subfigure}{\textwidth}
+				\includegraphics[width=\textwidth,keepaspectratio]{gfx/Gre13_01.jpg_tsugf.png}
+			\end{subfigure}
+		\end{figure}
+	\end{minipage}
+\end{frame}
 
 
 \section{Resultate}
