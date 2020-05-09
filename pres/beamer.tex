@@ -56,7 +56,7 @@
 \begin{itemize}
 	\item Neuronale Netzwerke werden oft zur Bildsegmentierung genutzt
 	\item Gewöhnlich als Voraussetzung: Vorhandene Ground Truth
-\end{itemize}
+\end{itemize}% TODO Bild
 \end{frame}
 
 \begin{frame}{Motivation: (Fehlende) Ground Truths}
@@ -78,33 +78,43 @@
 
 \section{Verwandte Arbeiten}
 
-\begin{frame}{Verwandte Arbeiten: Segmentierung nach Kanezaki \cite{kanezaki_18}}
+
+
+\begin{frame}{Verwandte Arbeiten: Unsupervised Deep Embedding for Clustering Analysis \cite{junyuan_16}}
 \begin{itemize}
 	\item Unüberwachtes Lernen der Segmentierung
-	\item Anfangs zufällige Ergebnisse werden mit Clusteringalgorithmus (hier SLIC \cite{achanta_10} vereint)
-	\item Verlustfunktion: Cross-Entropy-Loss zwischen Ergebnis des NN und des verfeinerten Ergebnisses
-	\item NN wird durch Backpropagation auf diese Zielfunktion hin optimiert
+	\item Farbwerte werden zuerst durch $f_\theta:X\rightarrow Z$ (nichtlinear) in Merkmalsraum abgebildet
+	\begin{itemize}
+		\item $\theta$ ist lernbar
+		\item Das NN optimiert $theta$ und Positionen der Clustermitten $\mu_j$¸
+	\end{itemize}
 \end{itemize}
-\begin{figure}
-	\includegraphics[height=20ex,keepaspectratio]{gfx/Kan18_01.png}
-\end{figure}
 \end{frame}
 
-\begin{frame}{Verwandte Arbeiten: Segmentierung nach Kanezaki \cite{kanezaki_18}}
-\begin{itemize}
-	\item
-\end{itemize}
+\begin{frame}[allowframebreaks]{Verwandte Arbeiten: Segmentierung nach Kanezaki \cite{kanezaki_18}}
+	\begin{itemize}
+		\item Unüberwachtes Lernen der Segmentierung
+		\item Vergleichbar mit, aber einfacher als DEC
+		\item Anfangs zufällige Ergebnisse werden mit Clusteringalgorithmus (hier SLIC \cite{achanta_10} vereint)
+		\item Verlustfunktion: Cross-Entropy-Loss zwischen Ergebnis des NN und des verfeinerten Ergebnisses
+		\item NN wird durch Backpropagation auf diese Zielfunktion hin optimiert
+	\end{itemize}
+	\begin{figure}
+		\includegraphics[height=20ex,keepaspectratio]{gfx/Kan18_01.png}
+	\end{figure}
 \end{frame}
 
 \section{Methodik}
+
+
 
 \section{Resultate}
 
 
 
 \begin{frame}[allowframebreaks]{Referenzen}
-	\bibliographystyle{alpha}
 	\setbeamertemplate{bibliography item}[text]
-	\bibliography{literatur.bib}
+	\bibliographystyle{alpha}
+	\bibliography{literatur}
 \end{frame}
 \end{document}
