@@ -150,14 +150,14 @@ Segmentierungsprozess:
 \begin{frame}{Funktionsweise}
 \begin{minipage}{0.6\textwidth}
 	\begin{itemize}
-		\item Initialisierung durch klassischen Clusteringalgorithmus
-		\item Iterative Segmentierung der Eingabe durch ein NN
+		\item \alert{Initialisierung} durch klassischen Clusteringalgorithmus
+		\item \alert{Iterative Segmentierung} der Eingabe durch ein NN
 		\begin{itemize}
 			\item Vereinen der beiden Clusteringergebnisse
 			\item Loss zwischen der Vereinigung und der NN-Ausgabe berechnen
 			\item Das NN durch Backpropagation optimieren
 		\end{itemize}
-	\item Abbruchkriterium
+	\item \alert{Abbruchkriterium}
 	\end{itemize}
 \end{minipage}
 \hfill
@@ -225,6 +225,71 @@ Segmentierungsprozess:
 	\end{minipage}
 \end{frame}
 
+\begin{frame}{Texturbasiertes Clustering}
+Vergleich von Textur in benachbarten Bereichen:
+	\begin{itemize}
+		\item Anwendung von unterschiedlichen Gabor-Filtern:
+		\begin{figure}
+			\includegraphics[width=.5\textwidth,keepaspectratio]{gfx/vis_01.jpg}
+		\end{figure}
+		\item Optimierung der Filter-Ergebnisse (Weichnzeichnen)
+		\item Erweiterung des Datenwürfels um Positions- und Farb-Merkmale\footnote{Anpassbare Gewichtungen}
+		\item Anschließend eigentliches Clustering über k-Means
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Texturbasiertes Clustering - Abbildungen}
+	\begin{figure}
+		\begin{subfigure}[t]{.3\textwidth}
+			\includegraphics[width=\textwidth,keepaspectratio]{gfx/101027.jpg}
+			\caption{Eingabedatei, aus \cite{bsd500}}
+		\end{subfigure}
+		\hfill
+			\begin{subfigure}[t]{.3\textwidth}
+			\includegraphics[width=\textwidth,keepaspectratio]{gfx/101027.jpg_0.png}
+			\caption{Resultat der Anwendung \emph{eines} Gabor-Filters}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}[t]{.3\textwidth}
+			\includegraphics[width=\textwidth,keepaspectratio]{gfx/101027.jpg_raw.png}
+			\caption{Clusteringergebnis ohne Optimierungen}
+		\end{subfigure}\\
+		\begin{subfigure}[t]{.3\textwidth}
+			\includegraphics[width=\textwidth,keepaspectratio]{gfx/101027.jpg_blur.png}
+			\caption{Clusteringergebnis mit Weichzeichnung}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}[t]{.3\textwidth}
+			\includegraphics[width=\textwidth,keepaspectratio]{gfx/101027.jpg_blur_norm_spatial.png}
+			\caption{Clusteringergebnis mit Weichzeichnung und Positionswerten}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}[t]{.3\textwidth}
+			\includegraphics[width=\textwidth,keepaspectratio]{gfx/101027.jpg_blur_norm_spatial_color.png}
+			\caption{Clusteringergebnis mit Weichzeichnung, Normalisierung, Farbwerten und Positionswerten}
+		\end{subfigure}
+		\caption{Texturbasiertes Clustering}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Iterative Segmentierung}
+	
+\end{frame}
+
+\begin{frame}{Abbruchkriterium}
+	\begin{itemize}
+		\item Ursprünglicher Algorithmus nach Kanezaki:
+		\begin{itemize}
+			\item Anzahl der Segmente
+		\end{itemize}
+		\item Alternativen:
+		\begin{itemize}
+			\item Wert der Verlustfunktion
+			\item Median der relativen Änderung in den letzten $n$ Epochen
+			\item Ableitung einer Annäherung an die Verlustfunktion
+		\end{itemize}
+	\end{itemize}
+\end{frame}
 
 \section{Resultate}
 
