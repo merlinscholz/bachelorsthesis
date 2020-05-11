@@ -11,6 +11,10 @@
 \setbeamerfont{bibliography entry location}{size=\tiny}
 \setbeamerfont{bibliography entry note}{size=\tiny}
 
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.16}
+\usepgfplotslibrary{groupplots}
 \usepackage{grffile}
 \usepackage{caption}
 \captionsetup[figure]{font=tiny,labelfont=tiny}
@@ -273,7 +277,22 @@ Vergleich von Textur in benachbarten Bereichen:
 \end{frame}
 
 \begin{frame}{Iterative Segmentierung}
-	
+	\begin{itemize}
+		\item Iteratives durchlaufen eines NN schichtweise bestehend aus:
+		\begin{itemize}
+			\item Convolutional Layer
+			\item Batch Normalization
+			\item ReLU $\rightarrow$ Von den getesteten Aktivierungsfunktionen am besten geeignet
+		\end{itemize}
+		\item Keine Verbesserungen wurden erreicht durch:
+		\begin{itemize}
+			\item Pooling Layer
+			\item Fully Connected Layer
+		\end{itemize}
+		\medskip
+		\item Anschließend wird das NN-Ergebnis mit dem des klassischen Clusterings optimiert
+		\item Loss zwischen NN-Ergebnis unnd klassischem Ergebnis als Qualitätsmaß für folgende Backpropagation
+	\end{itemize}
 \end{frame}
 
 \begin{frame}{Abbruchkriterium}
@@ -289,11 +308,125 @@ Vergleich von Textur in benachbarten Bereichen:
 			\item Ableitung einer Annäherung an die Verlustfunktion
 		\end{itemize}
 	\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Abbruchkriterium - Abbildungen}
+	\vspace*{-0.8cm}
+	\begin{figure}[h!]
+		\footnotesize
+		\hspace*{-0.8cm}
+		\begin{tikzpicture}
+		\begin{groupplot}[
+		group style={
+			group size=2 by 2,
+			vertical sep=1.25cm,
+			horizontal sep=1.8cm
+		},
+		width=0.55\textwidth,
+		height=4.5cm]
+		\nextgroupplot[major grid style={line width=.1pt, draw=gray!30},
+		minor grid style={line width=.1pt, draw=gray!10},
+		minor tick num=3,
+		grid=both,
+		xmin=0,
+		xmax=300,
+		ymin=0,
+		ymax=30,
+		xlabel style={text width=3cm,align=center},
+		xlabel=Epoche,
+		ylabel=Segmente]
+		\addplot +[mark=none,blue,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585332321.2379851_p03_01.png-tag-labels_.csv};
+		\addplot +[mark=none,red,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585332321.2379851_p03_02.png-tag-labels_.csv};
+		\addplot +[mark=none,green,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585332321.2379851_p03_03.png-tag-labels_.csv};
+		\addplot +[mark=none,black,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585332321.2379851_p03_04.png-tag-labels_.csv};
+		
+		\nextgroupplot[major grid style={line width=.1pt, draw=gray!30},
+		minor grid style={line width=.1pt, draw=gray!10},
+		minor tick num=3,
+		grid=both,
+		xmin=0,
+		xmax=300,
+		ymin=0,
+		ymax=2.5,
+		xlabel style={text width=6cm,align=center},
+		xlabel=Epoche,
+		ylabel=Loss]
+		\addplot +[mark=none,blue,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585332321.2379851_p03_01.png-tag-loss_loss.csv};
+		\addplot +[mark=none,red,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585332321.2379851_p03_02.png-tag-loss_loss.csv};
+		\addplot +[mark=none,green,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585332321.2379851_p03_03.png-tag-loss_loss.csv};
+		\addplot +[mark=none,black,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585332321.2379851_p03_04.png-tag-loss_loss.csv};
+		\nextgroupplot[major grid style={line width=.1pt, draw=gray!30},
+		minor grid style={line width=.1pt, draw=gray!10},
+		minor tick num=3,
+		grid=both,
+		xmin=0,
+		xmax=300,
+		ymin=-0.03,
+		ymax=0.01,
+		xlabel style={text width=5cm,align=center},
+		xlabel=Epoche,
+		ylabel=Median der Verlustfunktionin den letzten 20 Epochen,
+		ylabel style={text width=4cm,align=center},
+		legend style={at={(0.02,0.98)}, anchor=north west}]
+		\addplot +[mark=none,blue,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585332321.2379851_p03_01.png-tag-loss_delta_over_20.csv};
+		\addplot +[mark=none,red,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585332321.2379851_p03_02.png-tag-loss_delta_over_20.csv};
+		\addplot +[mark=none,green,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585332321.2379851_p03_03.png-tag-loss_delta_over_20.csv};
+		\addplot +[mark=none,black,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585332321.2379851_p03_04.png-tag-loss_delta_over_20.csv};
+		
+		\nextgroupplot[major grid style={line width=.1pt, draw=gray!30},
+		minor grid style={line width=.1pt, draw=gray!10},
+		minor tick num=3,
+		grid=both,
+		xmin=0,
+		xmax=300,
+		ymin=-0.03,
+		ymax=0.01,
+		xlabel=Epoche,
+		ylabel=Approximierter Gradient der Verlustfunktion,
+		ylabel style={text width=4cm,align=center},
+		legend style={at={(0.02,0.98)}, anchor=north west}]
+		\addplot +[mark=none,blue,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585332321.2379851_p03_01.png-tag-approx_deriv.csv};
+		\addplot +[mark=none,red,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585332321.2379851_p03_02.png-tag-approx_deriv.csv};
+		\addplot +[mark=none,green,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585332321.2379851_p03_03.png-tag-approx_deriv.csv};
+		\addplot +[mark=none,black,smooth] table [x=Step, y=Value, col sep=comma] {data/stoppingcriteria/run-1585332321.2379851_p03_04.png-tag-approx_deriv.csv};
+		
+		\end{groupplot}
+		\end{tikzpicture}
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Zu Optimierende Parameter}
+\begin{itemize}
+	\item Auswahl der Filterbank
+	\item Größe der Filter
+	\item Gewichtung von Farb-/Positions-Werten
+	\item Anzahl der Cluster
+	\item Abbruchkriterium
+	\item Aktivierungsfunktion
+	\item Zusätzliche Schichten wie Pooling oder Fully Connected Layers
+	\item Anzahl, Größe, Stride der Konvolutionsschichten
+\end{itemize}
 \end{frame}
 
 \section{Resultate}
 
+\begin{frame}{Resultate - Domänenspezifisch}
+	\begin{minipage}{0.6\textwidth}
+		
+	\end{minipage}
+	\begin{minipage}{0.4\textwidth}
+		\begin{figure}[h!]
+			\begin{subfigure}{\textwidth}
+				
+			\end{subfigure}
+		\end{figure}
+	\end{minipage}
+\end{frame}
 
+\begin{frame}{Resultate - Allgemein}
+	
+\end{frame}
 
 \begin{frame}[allowframebreaks]{Referenzen}
 	\setbeamertemplate{bibliography item}[text]
