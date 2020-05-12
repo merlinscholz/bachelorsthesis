@@ -11,8 +11,14 @@
 \setbeamerfont{bibliography entry location}{size=\tiny}
 \setbeamerfont{bibliography entry note}{size=\tiny}
 
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,german,ngerman]{babel}
 \usepackage{tikz}
 \usepackage{pgfplots}
+\usepackage{booktabs}
+\usepackage{tabularx}
 \pgfplotsset{compat=1.16}
 \usepgfplotslibrary{groupplots}
 \usepackage{grffile}
@@ -411,20 +417,128 @@ Vergleich von Textur in benachbarten Bereichen:
 
 \section{Resultate}
 
-\begin{frame}{Resultate - Domänenspezifisch}
-	\begin{minipage}{0.6\textwidth}
-		
+\begin{frame}[allowframebreaks]{Resultate - Domänenspezifisch}
+	\begin{figure}[h!]
+		\begin{subfigure}{0.38\textwidth}
+			\includegraphics[width=\linewidth,keepaspectratio]{gfx/p03_01.png_3.png}
+		\end{subfigure}
+		\begin{subfigure}{0.38\textwidth}
+			\includegraphics[width=\linewidth,keepaspectratio]{gfx/p03_02.png_3.png}
+		\end{subfigure}
+		\\
+		\begin{subfigure}{0.38\textwidth}
+			\includegraphics[width=\linewidth,keepaspectratio]{gfx/p03_03.png_3.png}
+		\end{subfigure}
+		\begin{subfigure}{0.38\textwidth}
+			\includegraphics[width=\linewidth,keepaspectratio]{gfx/p03_04.png_3.png}
+		\end{subfigure}
+	\end{figure}
+	\newpage
+	Ausgabe musste menschlich annotiert werden, um auf vorhandenen Datensätzen evaluiert werden zu können.\\\vspace{10pt}
+	\begin{minipage}{0.58\textwidth}
+		\footnotesize
+		\begin{table}[h!]
+			\begin{tabularx}{\textwidth}{p{0.49\textwidth} >{\centering\arraybackslash}p{0.49\textwidth}}
+				\toprule
+				\textbf{Algorithmus} & \textbf{$F_1$-Score\footnotemark} \\
+				\midrule
+				Urbach 09 \cite{urbach_stepinski_2009} & $0,7243$ \\
+				Bandeira 10 \cite{bandeira_10} & $0,8359$ \\
+				Ding 11 \cite{ding_11} & $0,8550$ \\
+				Cohen 16 \cite{cohen_16} \footnotemark[3] & $0,8929$ \\
+				\textbf{Unüberwachtes tiefes Clustering} & $0,6374$\\
+				\bottomrule
+			\end{tabularx}
+			%\caption{Vergleich der durchschnittlichen $F_1$-Scores unterschiedlicher Algorithmen zur Kratererkennung. Die Daten wurden aus \cite{cohen_16} übernommen.}
+		\end{table}
 	\end{minipage}
-	\begin{minipage}{0.4\textwidth}
+	\hfill
+	\begin{minipage}{0.38\textwidth}
 		\begin{figure}[h!]
-			\begin{subfigure}{\textwidth}
-				
+			\begin{subfigure}[t]{0.31\textwidth}
+				\includegraphics[width=\linewidth,keepaspectratio]{gfx/rob_in/thm_dir_N-30_210.png_sourcetile_60.png}
+			\end{subfigure}
+			\begin{subfigure}[t]{0.31\textwidth}
+				\includegraphics[width=\linewidth,keepaspectratio]{gfx/rob_res/thm_dir_N-30_210.png_tile_60.png}
+			\end{subfigure}
+			\begin{subfigure}[t]{0.31\textwidth}
+			\includegraphics[width=\linewidth,keepaspectratio]{gfx/rob_hum/thm_dir_N-30_210.png_tile_60.png}
+			\end{subfigure}\\
+			\begin{subfigure}[t]{0.31\textwidth}
+				\includegraphics[width=\linewidth,keepaspectratio]{gfx/rob_in/thm_dir_N-30_210.png_sourcetile_100.png}
+			\end{subfigure}
+			\begin{subfigure}[t]{0.31\textwidth}
+				\includegraphics[width=\linewidth,keepaspectratio]{gfx/rob_res/thm_dir_N-30_210.png_tile_100.png}
+			\end{subfigure}
+			\begin{subfigure}[t]{0.31\textwidth}
+				\includegraphics[width=\linewidth,keepaspectratio]{gfx/rob_hum/thm_dir_N-30_210.png_tile_100.png}
+			\end{subfigure}\\
+			\begin{subfigure}[t]{0.31\textwidth}
+				\includegraphics[width=\linewidth,keepaspectratio]{gfx/rob_in/thm_dir_N-30_210.png_sourcetile_160.png}
+				\caption{Eingabedatei}
+			\end{subfigure}
+			\begin{subfigure}[t]{0.31\textwidth}
+				\includegraphics[width=\linewidth,keepaspectratio]{gfx/rob_res/thm_dir_N-30_210.png_tile_160.png}
+				\caption{Ausgabe}
+			\end{subfigure}
+			\begin{subfigure}[t]{0.31\textwidth}
+				\includegraphics[width=\linewidth,keepaspectratio]{gfx/rob_hum/thm_dir_N-30_210.png_tile_160.png}
+				\caption{Menschlich annotierte Ausgabe}
 			\end{subfigure}
 		\end{figure}
 	\end{minipage}
+	\footnotetext{Daten aus \cite{cohen_16}}
+	\footnotetext[3]{Überwacht}
 \end{frame}
 
 \begin{frame}{Resultate - Allgemein}
+	\begin{minipage}{0.6\textwidth}
+		\footnotesize
+		\begin{table}[h!]
+			\begin{tabularx}{\textwidth}{p{0.40\textwidth} >{\centering} p{0.24\textwidth} >{\centering\arraybackslash} p{0.24\textwidth}}
+				\toprule
+				\textbf{Methode} & \textbf{PRI\footnotemark[4]} & \textbf{VoI\footnotemark[4]} \\
+				\midrule
+				Mensch \cite{bsd500} & $0,88$ & $1,17$ \\
+				\midrule
+				gPb-pwt-ucm \cite{arbelaez_10} & $0,83$ & $1,69$ \\
+				Mean Shift \cite{comaniciu_02} & $0,79$ & $1,85$ \\
+				Felz-Hutt \cite{felzenszwalb_04} & $0,80$ & $2,21$ \\
+				Canny-owt-ucm \cite{arbelaez_10} & $0,79$ & $2,19$ \\
+				NCuts \cite{cour_05} & $0,78$ & $2,23$ \\
+				Quad-Tree & $0,73$ & $2,46$ \\
+				\textbf{Unüberwachtes tiefes Clustering} & $0,73$ & $2,88$ \\
+				\bottomrule
+			\end{tabularx}
+		\end{table}
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.28\textwidth}
+		\begin{figure}[h!]
+			\begin{subfigure}{\textwidth}
+				\includegraphics[width=\linewidth,keepaspectratio]{gfx/37073.jpg_seg.png}
+			\end{subfigure}\\
+			\begin{subfigure}{\textwidth}
+				\includegraphics[width=\linewidth,keepaspectratio]{gfx/43074.jpg_seg.png}
+			\end{subfigure}\\
+			\begin{subfigure}{\textwidth}
+				\includegraphics[width=\linewidth,keepaspectratio]{gfx/62096.jpg_seg.png}
+			\end{subfigure}\\
+			%\begin{subfigure}{0.3\textwidth}
+			%	\includegraphics[width=\linewidth,keepaspectratio]{gfx/54082.jpg_seg.png}
+			%\end{subfigure}
+		\end{figure}
+	\end{minipage}
+	\footnotetext[4]{Daten aus \cite{arbelaez_10}}
+\end{frame}
+
+\section{Abschluss}
+
+\begin{frame}{Aussicht}
+	
+\end{frame}
+
+\begin{frame}{Fazit}
 	
 \end{frame}
 
