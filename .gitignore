@@ -1,3 +1,5 @@
+.DS_STORE
+
 .ipynb_checkpoints
 code/tensorboard/
 code/venv/
